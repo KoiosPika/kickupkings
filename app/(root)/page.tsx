@@ -1,8 +1,10 @@
 'use client'
 
+import EarnPage from '@/components/screens/EarnPage';
 import HomePage from '@/components/screens/HomePage';
-import Page1 from '@/components/screens/Page1';
-import Page2 from '@/components/screens/Page2';
+import LineupPage from '@/components/screens/LineupPage';
+import PlayPage from '@/components/screens/PlayPage';
+import ShopPage from '@/components/screens/ShopPage';
 import BottomNavBar from '@/components/shared/BottomNavBar';
 import React, { useState } from 'react'
 
@@ -13,17 +15,21 @@ const Page = () => {
     switch (currentPage) {
       case 'home':
         return <HomePage />;
-      case 'page1':
-        return <Page1 />;
-      case 'page2':
-        return <Page2 />;
+      case 'shop':
+        return <ShopPage />;
+      case 'play':
+        return <PlayPage />;
+      case 'earn':
+        return <EarnPage />;
+      case 'lineup':
+        return <LineupPage />;
       default:
         return <HomePage />;
     }
   };
 
   return (
-    <div className='h-screen w-screen max-w-[500px] flex justify-center items-center'>
+    <div className='h-screen w-screen max-w-[500px] flex justify-center items-center bg-slate-600'>
       {renderPage()}
       <BottomNavBar currentPage={currentPage} setCurrentPage={setCurrentPage} />
     </div>

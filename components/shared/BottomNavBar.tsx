@@ -9,7 +9,7 @@ interface BottomNavBarProps {
 
 const BottomNavBar = ({ currentPage, setCurrentPage }: BottomNavBarProps) => {
     return (
-        <nav className="fixed bottom-0 w-11/12 mb-1 max-w-[480px] bg-slate-600 flex justify-around items-center p-2 shadow-md rounded-lg">
+        <nav className="fixed bottom-0 w-11/12 mb-1 max-w-[480px] bg-slate-700 flex justify-around items-center p-2 shadow-md rounded-lg">
             <button
                 className={`text-sm w-1/6 py-1 flex flex-col justify-center items-center gap-1 ${currentPage === 'home' ? 'bg-yellow-400 rounded-xl text-black' : 'text-white'}`}
                 onClick={() => setCurrentPage('home')}
