@@ -9,7 +9,7 @@ const BallGame = () => {
   const [directionY, setDirectionY] = useState(-1);
   const [isPlaying, setIsPlaying] = useState(false);
   const [gameOver, setGameOver] = useState(false);
-  const [spin, setSpin] = useState<string>('bounce')
+  const [spin, setSpin] = useState<string>('');
 
   const ballRadiusPercent = 8.5; // Radius of the ball as a percentage of the screen width
 
@@ -36,7 +36,7 @@ const BallGame = () => {
           // Check for game over condition
           if (newY <= ballRadiusPercent) {
             setGameOver(true);
-            setSpin('none')
+            setSpin('');
             return { ...prev, y: ballRadiusPercent };
           }
 
@@ -50,7 +50,7 @@ const BallGame = () => {
   const handleBallClick = (e : any) => {
     if (!isPlaying) {
       setIsPlaying(true);
-      setSpin('spin')
+      setSpin('animate-spin')
     } else if (!gameOver) {
       const ball = e.target.getBoundingClientRect();
       const clickX = e.clientX - ball.left;
@@ -73,6 +73,7 @@ const BallGame = () => {
     setDirectionY(-1);
     setIsPlaying(false);
     setGameOver(false);
+    setSpin('');
   };
 
   return (
@@ -82,7 +83,7 @@ const BallGame = () => {
         alt='football'
         height={50}
         width={50}
-        className={`w-[70px] h-[70px] bg-red-500 rounded-full absolute cursor-pointer transition-all duration-100 ease-in-out animate-${spin}`}
+        className={`w-[70px] h-[70px] bg-red-500 rounded-full absolute cursor-pointer transition-all duration-100 ease-in-out ${spin}`}
         style={{ left: `calc(${position.x}% - 35px)`, bottom: `${position.y}%` }}
         onClick={handleBallClick}
       />
