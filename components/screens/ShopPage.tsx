@@ -1,9 +1,21 @@
+import { positions } from '@/constants';
 import Image from 'next/image'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
+import { ScrollArea } from '../ui/scroll-area';
 
 const ShopPage = () => {
 
     const [selectedType, setSelectedType] = useState('Defense')
+    const [height, setHeight] = useState<number>(window.innerHeight)
+
+    const updateDimensions = () => {
+        setHeight(window.innerHeight);
+    }
+
+    useEffect(() => {
+        window.addEventListener("resize", updateDimensions);
+        return () => window.removeEventListener("resize", updateDimensions);
+    }, []);
 
     const handleTypeChange = (type: string) => {
         setSelectedType(type);
@@ -41,7 +53,7 @@ const ShopPage = () => {
                     {['Defense', 'Midfield', 'Forward', 'Staff'].map((type) => (
                         <p
                             key={type}
-                            className={`w-1/4 rounded-md text-center text-[12.5px] md:text-[16px] font-semibold py-[2px] cursor-pointer text-white ${selectedType === type ? 'bg-green-500 text-white' : ''
+                            className={`w-1/4 rounded-md text-center text-[12.5px] md:text-[16px] font-semibold py-[2px] cursor-pointer text-white ${selectedType === type ? 'bg-[#09C609] text-white' : ''
                                 }`}
                             onClick={() => handleTypeChange(type)}
                         >
@@ -49,144 +61,29 @@ const ShopPage = () => {
                         </p>
                     ))}
                 </div>
-                <div className='grid grid-cols-2 w-11/12 gap-2'>
-                    <div className='flex flex-col justify-center items-center w-full bg-slate-500 rounded-xl'>
-                        <div className='flex flex-row items-center w-full p-2 gap-2'>
-                            <div className='bg-green-500 p-2 rounded-md font-bold w-1/3 text-center text-white h-full flex justify-center items-center'>
-                                <p>GK</p>
-                            </div>
-                            <div className='flex flex-col justify-center items-center w-2/3 gap-1'>
-                                <p className='text-[11px] font-semibold text-white'>Goal Keeper</p>
-                                <div className='flex flex-row items-center gap-2 bg-slate-600 px-2 py-[2px] rounded-lg'>
-                                    <Image src={'/icons/coin.svg'} alt='coin' height={20} width={20} />
-                                    <p className='font-semibold text-white'>230</p>
+                <ScrollArea className='w-11/12' style={{height:height - 270}}>
+                    <div className='grid grid-cols-2 w-full gap-2'>
+                        {positions
+                            .filter((position) => position.type === selectedType)
+                            .map((position: any, index: number) => (<div className='flex flex-col justify-center items-center w-full bg-slate-500 rounded-xl'>
+                                <div key={index} className='flex flex-row items-center w-full p-2 gap-1'>
+                                    <div className={`p-2 rounded-md font-bold w-1/4 text-center text-white h-full flex justify-center items-center text-[13.5px]`} style={{ backgroundColor: position.color }}>
+                                        <p>{position.symbol}</p>
+                                    </div>
+                                    <div className='flex flex-col justify-center items-center w-3/4 gap-1'>
+                                        <p className='text-[9.5px] font-semibold text-white'>{position.label}</p>
+                                        <div className='flex flex-row items-center gap-2 bg-slate-600 px-2 py-[2px] rounded-lg'>
+                                            <Image src={'/icons/coin.svg'} alt='coin' height={20} width={20} />
+                                            <p className='font-semibold text-white'>230</p>
+                                        </div>
+                                    </div>
                                 </div>
-                            </div>
-                        </div>
-                        <div className='border-t-2 border-slate-300 w-full py-1'>
-                            <p className='font-semibold text-white text-center'>Level 0 {`->`} Level 1</p>
-                        </div>
-                    </div>
-                    <div className='flex flex-col justify-center items-center w-full bg-slate-500 rounded-xl'>
-                        <div className='flex flex-row items-center w-full p-2 gap-2'>
-                            <div className='bg-blue-500 p-2 rounded-md font-bold w-1/3 text-center text-white h-full flex justify-center items-center'>
-                                <p>LWB</p>
-                            </div>
-                            <div className='flex flex-col justify-center items-center w-2/3 gap-1'>
-                                <p className='text-[11.5px] font-semibold text-white'>Left Wing Back</p>
-                                <div className='flex flex-row items-center gap-2 bg-slate-600 px-2 py-[2px] rounded-lg'>
-                                    <Image src={'/icons/coin.svg'} alt='coin' height={20} width={20} />
-                                    <p className='font-semibold text-white'>230</p>
+                                <div className='border-t-2 border-slate-300 w-full py-1'>
+                                    <p className='font-semibold text-white text-center text-[14px]'>Level 0 {`->`} Level 1</p>
                                 </div>
-                            </div>
-                        </div>
-                        <div className='border-t-2 border-slate-300 w-full py-1'>
-                            <p className='font-semibold text-white text-center'>Level 0 {`->`} Level 1</p>
-                        </div>
+                            </div>))}
                     </div>
-                    <div className='flex flex-col justify-center items-center w-full bg-slate-500 rounded-xl'>
-                        <div className='flex flex-row items-center w-full p-2 gap-2'>
-                            <div className='bg-blue-500 p-2 rounded-md font-bold w-1/3 text-center text-white h-full flex justify-center items-center'>
-                                <p>LB</p>
-                            </div>
-                            <div className='flex flex-col justify-center items-center w-2/3 gap-1'>
-                                <p className='text-[11.5px] font-semibold text-white'>Left Back</p>
-                                <div className='flex flex-row items-center gap-2 bg-slate-600 px-2 py-[2px] rounded-lg'>
-                                    <Image src={'/icons/coin.svg'} alt='coin' height={20} width={20} />
-                                    <p className='font-semibold text-white'>230</p>
-                                </div>
-                            </div>
-                        </div>
-                        <div className='border-t-2 border-slate-300 w-full py-1'>
-                            <p className='font-semibold text-white text-center'>Level 0 {`->`} Level 1</p>
-                        </div>
-                    </div>
-                    <div className='flex flex-col justify-center items-center w-full bg-slate-500 rounded-xl'>
-                        <div className='flex flex-row items-center w-full p-2 gap-2'>
-                            <div className='bg-blue-500 p-2 rounded-md font-bold w-1/3 text-center text-white h-full flex justify-center items-center'>
-                                <p>LCB</p>
-                            </div>
-                            <div className='flex flex-col justify-center items-center w-2/3 gap-1'>
-                                <p className='text-[11.5px] font-semibold text-white'>Left Center Back</p>
-                                <div className='flex flex-row items-center gap-2 bg-slate-600 px-2 py-[2px] rounded-lg'>
-                                    <Image src={'/icons/coin.svg'} alt='coin' height={20} width={20} />
-                                    <p className='font-semibold text-white'>230</p>
-                                </div>
-                            </div>
-                        </div>
-                        <div className='border-t-2 border-slate-300 w-full py-1'>
-                            <p className='font-semibold text-white text-center'>Level 0 {`->`} Level 1</p>
-                        </div>
-                    </div>
-                    <div className='flex flex-col justify-center items-center w-full bg-slate-500 rounded-xl'>
-                        <div className='flex flex-row items-center w-full p-2 gap-2'>
-                            <div className='bg-blue-500 p-2 rounded-md font-bold w-1/3 text-center text-white h-full flex justify-center items-center'>
-                                <p>CB</p>
-                            </div>
-                            <div className='flex flex-col justify-center items-center w-2/3 gap-1'>
-                                <p className='text-[11.5px] font-semibold text-white'>Center Back</p>
-                                <div className='flex flex-row items-center gap-2 bg-slate-600 px-2 py-[2px] rounded-lg'>
-                                    <Image src={'/icons/coin.svg'} alt='coin' height={20} width={20} />
-                                    <p className='font-semibold text-white'>230</p>
-                                </div>
-                            </div>
-                        </div>
-                        <div className='border-t-2 border-slate-300 w-full py-1'>
-                            <p className='font-semibold text-white text-center'>Level 0 {`->`} Level 1</p>
-                        </div>
-                    </div>
-                    <div className='flex flex-col justify-center items-center w-full bg-slate-500 rounded-xl'>
-                        <div className='flex flex-row items-center w-full p-2 gap-2'>
-                            <div className='bg-blue-500 p-2 rounded-md font-bold w-1/3 text-center text-white h-full flex justify-center items-center'>
-                                <p>RCB</p>
-                            </div>
-                            <div className='flex flex-col justify-center items-center w-2/3 gap-1'>
-                                <p className='text-[10.5px] font-semibold text-white'>Right Center Back</p>
-                                <div className='flex flex-row items-center gap-2 bg-slate-600 px-2 py-[2px] rounded-lg'>
-                                    <Image src={'/icons/coin.svg'} alt='coin' height={20} width={20} />
-                                    <p className='font-semibold text-white'>230</p>
-                                </div>
-                            </div>
-                        </div>
-                        <div className='border-t-2 border-slate-300 w-full py-1'>
-                            <p className='font-semibold text-white text-center'>Level 0 {`->`} Level 1</p>
-                        </div>
-                    </div>
-                    <div className='flex flex-col justify-center items-center w-full bg-slate-500 rounded-xl'>
-                        <div className='flex flex-row items-center w-full p-2 gap-2'>
-                            <div className='bg-blue-500 p-2 rounded-md font-bold w-1/3 text-center text-white h-full flex justify-center items-center'>
-                                <p>RB</p>
-                            </div>
-                            <div className='flex flex-col justify-center items-center w-2/3 gap-1'>
-                                <p className='text-[11.5px] font-semibold text-white'>Right Back</p>
-                                <div className='flex flex-row items-center gap-2 bg-slate-600 px-2 py-[2px] rounded-lg'>
-                                    <Image src={'/icons/coin.svg'} alt='coin' height={20} width={20} />
-                                    <p className='font-semibold text-white'>230</p>
-                                </div>
-                            </div>
-                        </div>
-                        <div className='border-t-2 border-slate-300 w-full py-1'>
-                            <p className='font-semibold text-white text-center'>Level 0 {`->`} Level 1</p>
-                        </div>
-                    </div>
-                    <div className='flex flex-col justify-center items-center w-full bg-slate-500 rounded-xl'>
-                        <div className='flex flex-row items-center w-full p-2 gap-2'>
-                            <div className='bg-blue-500 p-2 rounded-md font-bold w-1/3 text-center text-white h-full flex justify-center items-center'>
-                                <p>RWB</p>
-                            </div>
-                            <div className='flex flex-col justify-center items-center w-2/3 gap-1'>
-                                <p className='text-[11.5px] font-semibold text-white'>Right Wing Back</p>
-                                <div className='flex flex-row items-center gap-2 bg-slate-600 px-2 py-[2px] rounded-lg'>
-                                    <Image src={'/icons/coin.svg'} alt='coin' height={20} width={20} />
-                                    <p className='font-semibold text-white'>230</p>
-                                </div>
-                            </div>
-                        </div>
-                        <div className='border-t-2 border-slate-300 w-full py-1'>
-                            <p className='font-semibold text-white text-center'>Level 0 {`->`} Level 1</p>
-                        </div>
-                    </div>
-                </div>
+                </ScrollArea>
             </div>
         </section>
     )
