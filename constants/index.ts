@@ -67,13 +67,13 @@ export const positions = [
     },
     {
         type:'Midfield',
-        label:'Left Center Midfield',
+        label:'Left Cen. Midfield',
         symbol:'LCM',
         color:'#EE9F0C'
     },
     {
         type:'Midfield',
-        label:'Right Center Midfield',
+        label:'Right Cen. Midfield',
         symbol:'RCM',
         color:'#EE9F0C'
     },
@@ -151,13 +151,13 @@ export const positions = [
     },
     {
         type:'Forward',
-        label:'Left Center Forward',
+        label:'Left Forward',
         symbol:'LF',
         color:'#EE2E0C'
     },
     {
         type:'Forward',
-        label:'Right Center Forward',
+        label:'Right Forward',
         symbol:'RF',
         color:'#EE2E0C'
     },

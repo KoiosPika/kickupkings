@@ -72,10 +72,10 @@ const ShopPage = () => {
                                             <p>{position.symbol}</p>
                                         </div>
                                         <div className='flex flex-col justify-center items-center w-3/4 gap-1'>
-                                            <p className='text-[9.5px] font-semibold text-white'>{position.label}</p>
+                                            <p className='text-[11px] font-semibold text-white'>{position.label}</p>
                                             <div className='flex flex-row items-center gap-2 bg-slate-600 px-2 py-[2px] rounded-lg'>
                                                 <Image src={'/icons/coin.svg'} alt='coin' height={20} width={20} />
-                                                <p className='font-semibold text-white'>230</p>
+                                                <p className='font-semibold text-white'>50</p>
                                             </div>
                                         </div>
                                     </div>
