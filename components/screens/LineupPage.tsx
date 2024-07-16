@@ -62,7 +62,7 @@ const LineupPage = () => {
     { 'RWM': 3 },
     { 'LST': 8 },
     { 'RST': 1 },
-    { 'ST': 10 },
+    { 'ST': 7 },
     { 'CF': 5 },
     { 'LF': 7 },
     { 'RF': 0 },
@@ -91,6 +91,17 @@ const LineupPage = () => {
 
   const overallScore = calculateOverallScore(currentFormation);
 
+  const findBestFormation = () => {
+    const formationWithHighestOverall = formations.reduce((highest: any, formation) => {
+      const overallScore = parseFloat(calculateOverallScore(formation));
+      return highest && parseFloat(highest.score) > overallScore
+        ? highest
+        : { formation, score: overallScore };
+    }, null);
+
+    setSelectedFormation(formationWithHighestOverall.formation.id);
+  };
+
   return (
     <section className='w-full h-screen'>
       <div className='w-full ml-auto mb-auto p-2 flex flex-row items-center gap-2'>
@@ -106,6 +117,9 @@ const LineupPage = () => {
                 <p className='text-center'>Overall</p>
                 <p className='text-center'>{overallScore}</p>
               </div>
+              <div className='absolute top-2 right-2 bg-white px-3 rounded-sm font-semibold'>
+                <p className='text-center'>{currentFormation.id}</p>
+              </div>
               {row.positions.map((position, posIndex) => (
                 <div key={posIndex} className='px-2 py-[5px] rounded-lg text-white font-semibold border-white w-[50px] sm:w-[70px] sm:py-[10px]' style={{ backgroundColor: getColor(row.type, row.positions[posIndex]), borderWidth: row.positions[posIndex] ? 2 : 0, boxShadow: position ? `-8px -8px 10px -4px ${getColor(row.type, row.positions[posIndex])},-8px 8px 10px -4px ${getColor(row.type, row.positions[posIndex])},8px -8px 10px -4px ${getColor(row.type, row.positions[posIndex])},8px 8px 10px -4px ${getColor(row.type, row.positions[posIndex])}` : '' }}>
                   {row.positions[posIndex] && <p className='text-[11px] sm:text-[18px] text-center'>{position}</p>}
@@ -119,14 +133,22 @@ const LineupPage = () => {
       </div>
       <ScrollArea style={{ height: height - 790 }} className='py-2 px-2'>
         <div className='flex gap-2'>
-          {formations.map((formation) => (
-            <div key={formation.id} className='flex flex-col h-full justify-center items-center border-[1px] border-white rounded-lg' onClick={() => setSelectedFormation(formation.id)} style={{ height: '100%', width: 80 }}>
+          <>
+            <div className='flex flex-col h-full justify-center items-center border-[1px] border-white rounded-lg' onClick={() => findBestFormation()} style={{ height: '100%', width: 95 }}>
               <div style={{ height: '80%' }} className='p-4'>
                 <Image src={'/icons/Football-white.svg'} alt='football' height={30} width={30} />
               </div>
-              <div className=' text-center w-full rounded-b-md font-semibold' style={{ backgroundColor: currentFormation?.id == formation.id ? '#EE9F0C' : 'white', color: currentFormation?.id == formation.id ? 'white' : 'black' }}>{formation.id}</div>
+              <div className=' text-center w-full rounded-b-md font-semibold bg-white' >Find Best</div>
             </div>
-          ))}
+            {formations.map((formation) => (
+              <div key={formation.id} className='flex flex-col h-full justify-center items-center border-[1px] border-white rounded-lg' onClick={() => setSelectedFormation(formation.id)} style={{ height: '100%', width: 95 }}>
+                <div style={{ height: '80%' }} className='p-4'>
+                  <Image src={'/icons/Football-white.svg'} alt='football' height={30} width={30} />
+                </div>
+                <div className=' text-center w-full rounded-b-md font-semibold' style={{ backgroundColor: currentFormation?.id == formation.id ? '#EE9F0C' : 'white', color: currentFormation?.id == formation.id ? 'white' : 'black' }}>{formation.id}</div>
+              </div>
+            ))}
+          </>
         </div>
         <ScrollBar orientation="horizontal" className='hidden' />
       </ScrollArea>
