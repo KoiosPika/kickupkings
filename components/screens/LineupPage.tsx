@@ -62,7 +62,7 @@ const LineupPage = () => {
               <div style={{height:'80%'}} className='p-4'>
                 <Image src={'/icons/Football-white.svg'} alt='football' height={30} width={30}/>
               </div>
-              <div className='bg-white text-center w-full rounded-md'>{formation.id}</div>
+              <div className=' text-center w-full rounded-b-md font-semibold' style={{backgroundColor:currentFormation?.id == formation.id ? '#EE9F0C':'white', color:currentFormation?.id == formation.id ? 'white':'black'}}>{formation.id}</div>
             </div>
           ))}
         </div>
