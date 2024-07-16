@@ -37,7 +37,7 @@ const LineupPage = () => {
         <p className='font-semibold text-white text-[13px]'>Rami (Amature)</p>
         <p className='font-semibold text-white text-[13px]'>{`->`}</p>
       </div>
-      <div style={{ height: height - 250 }} className='relative'>
+      <div style={{ height: height - 220 }} className='relative'>
         <div className='h-full w-full absolute flex flex-col justify-around'>
           {currentFormation?.data.map((row, rowIndex) => (
             <div key={rowIndex} className='flex justify-around'>
@@ -49,7 +49,7 @@ const LineupPage = () => {
             </div>
           ))}
         </div>
-        <Image src={'/Field.png'} alt='field' height={500} width={500} style={{ height: height - 250 }} />
+        <Image src={'/Field.png'} alt='field' height={500} width={500} style={{ height: height - 220 }} />
       </div>
       <div className='p-4'>
         <label htmlFor='formation-select' className='mr-2'>Select Formation:</label>
