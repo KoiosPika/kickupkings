@@ -33,6 +33,63 @@ const LineupPage = () => {
     return colorObj ? colorObj[type] : '';
   };
 
+  const getUserData = (position: string) => {
+    const user: any = userData.find((data: any) => data[position] !== undefined);
+    return user ? user[position] : '';
+  }
+
+  const userData = [
+    { 'GK': 5 },
+    { 'LWB': 7 },
+    { 'LB': 3 },
+    { 'LCB': 9 },
+    { 'CB': 6 },
+    { 'RCB': 6 },
+    { 'RB': 5 },
+    { 'RWB': 1 },
+    { 'LDM': 7 },
+    { 'RDM': 2 },
+    { 'CDM': 5 },
+    { 'LCM': 1 },
+    { 'CM': 9 },
+    { 'RCM': 7 },
+    { 'LM': 5 },
+    { 'RM': 3 },
+    { 'CAM': 9 },
+    { 'LAM': 6 },
+    { 'RAM': 2 },
+    { 'LWM': 7 },
+    { 'RWM': 3 },
+    { 'LST': 8 },
+    { 'RST': 1 },
+    { 'ST': 10 },
+    { 'CF': 5 },
+    { 'LF': 7 },
+    { 'RF': 0 },
+    { 'LW': 4 },
+    { 'RW': 8 },
+  ]
+
+  const calculateOverallScore = (formation: any) => {
+    let totalScore = 0;
+    let positionCount = 0;
+
+    formation.data.forEach((row: any) => {
+      row.positions.forEach((position: any) => {
+        if (position) {
+          const score = getUserData(position);
+          if (score !== '') {
+            totalScore += score;
+            positionCount++;
+          }
+        }
+      });
+    });
+
+    return positionCount > 0 ? (totalScore / positionCount).toFixed(1) : '0.0';
+  };
+
+  const overallScore = calculateOverallScore(currentFormation);
 
   return (
     <section className='w-full h-screen'>
@@ -42,27 +99,32 @@ const LineupPage = () => {
         <p className='font-semibold text-white text-[13px]'>{`->`}</p>
       </div>
       <div style={{ height: height - 220 }} className='relative'>
-        <div className='h-full w-full absolute flex flex-col justify-evenly'>
+        <div className='h-full w-full absolute flex flex-col justify-around'>
           {currentFormation?.data.map((row, rowIndex) => (
             <div key={rowIndex} className='flex justify-around'>
+              <div className='absolute right-3 bottom-2 bg-white px-2 py-1 rounded-md font-semibold'>
+                <p className='text-center'>Overall</p>
+                <p className='text-center'>{overallScore}</p>
+              </div>
               {row.positions.map((position, posIndex) => (
-                <div key={posIndex} className='p-2 rounded-lg text-white font-semibold h-1/8' style={{ backgroundColor: getColor(row.type, row.positions[posIndex]), height: row.type === 'Spacer' ? '50%' : '100%' }}>
-                  {position}
+                <div key={posIndex} className='px-2 py-[5px] rounded-lg text-white font-semibold border-white w-[45px]' style={{ backgroundColor: getColor(row.type, row.positions[posIndex]), borderWidth: row.positions[posIndex] ? 2 : 0 }}>
+                  {row.positions[posIndex] && <p className='text-[11px] text-center'>{position}</p>}
+                  {position && <p className='text-center'>{getUserData(position)}</p>}
                 </div>
               ))}
             </div>
           ))}
         </div>
-        <Image src={'/Field.png'} alt='field' height={500} width={500} style={{ height: height - 220 }} />
+        <Image src={'/Field.png'} alt='field' height={800} width={1000} style={{ height: height - 220 }} className='w-screen max-w-[700px]' />
       </div>
       <ScrollArea style={{ height: height - 790 }} className='py-2 px-2'>
         <div className='flex gap-2'>
           {formations.map((formation) => (
-            <div key={formation.id} className='flex flex-col h-full justify-center items-center border-[1px] border-white rounded-lg' onClick={() => setSelectedFormation(formation.id)} style={{height:'100%', width: 80}}>
-              <div style={{height:'80%'}} className='p-4'>
-                <Image src={'/icons/Football-white.svg'} alt='football' height={30} width={30}/>
+            <div key={formation.id} className='flex flex-col h-full justify-center items-center border-[1px] border-white rounded-lg' onClick={() => setSelectedFormation(formation.id)} style={{ height: '100%', width: 80 }}>
+              <div style={{ height: '80%' }} className='p-4'>
+                <Image src={'/icons/Football-white.svg'} alt='football' height={30} width={30} />
               </div>
-              <div className=' text-center w-full rounded-b-md font-semibold' style={{backgroundColor:currentFormation?.id == formation.id ? '#EE9F0C':'white', color:currentFormation?.id == formation.id ? 'white':'black'}}>{formation.id}</div>
+              <div className=' text-center w-full rounded-b-md font-semibold' style={{ backgroundColor: currentFormation?.id == formation.id ? '#EE9F0C' : 'white', color: currentFormation?.id == formation.id ? 'white' : 'black' }}>{formation.id}</div>
             </div>
           ))}
         </div>

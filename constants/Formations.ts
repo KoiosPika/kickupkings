@@ -32,7 +32,7 @@ export const formations = [
         data: [
             { positions: ['', 'LST', 'RST', ''], type: 'Forward' },
             { positions: [''], type: 'Forward' },
-            { positions: ['LWM','CAM','LWR'], type: 'Midfield' },
+            { positions: ['LWM','CAM','RWM'], type: 'Midfield' },
             { positions: [''], type: 'Midfield' },
             { positions: ['', 'LDM', 'RDM', ''], type: 'Midfield' },
             { positions: [''], type: 'Defense' },
@@ -46,7 +46,7 @@ export const formations = [
         data: [
             { positions: ['ST'], type: 'Forward' },
             { positions: [''], type: 'Forward' },
-            { positions: ['LWM','LAM','RAM','LWR'], type: 'Midfield' },
+            { positions: ['LWM','LAM','RAM','RWM'], type: 'Midfield' },
             { positions: [''], type: 'Midfield' },
             { positions: ['', 'LDM', 'RDM', ''], type: 'Midfield' },
             { positions: [''], type: 'Defense' },
@@ -340,7 +340,7 @@ export const formations = [
         data: [
             { positions: ['ST'], type: 'Forward' },
             { positions: [''], type: 'Forward' },
-            { positions: ['LWF','CAM','RWF'], type: 'Midfield' },
+            { positions: ['LWM','CAM','RWM'], type: 'Midfield' },
             { positions: [''], type: 'Midfield' },
             { positions: ['CDM'], type: 'Midfield' },
             { positions: ['LWB', '', '', '', 'RWB'], type: 'Defense' },
