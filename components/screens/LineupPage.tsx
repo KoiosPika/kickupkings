@@ -107,15 +107,15 @@ const LineupPage = () => {
                 <p className='text-center'>{overallScore}</p>
               </div>
               {row.positions.map((position, posIndex) => (
-                <div key={posIndex} className='px-2 py-[5px] rounded-lg text-white font-semibold border-white w-[45px]' style={{ backgroundColor: getColor(row.type, row.positions[posIndex]), borderWidth: row.positions[posIndex] ? 2 : 0 }}>
-                  {row.positions[posIndex] && <p className='text-[11px] text-center'>{position}</p>}
-                  {position && <p className='text-center'>{getUserData(position)}</p>}
+                <div key={posIndex} className='px-2 py-[5px] rounded-lg text-white font-semibold border-white w-[50px] sm:w-[70px] sm:py-[10px]' style={{ backgroundColor: getColor(row.type, row.positions[posIndex]), borderWidth: row.positions[posIndex] ? 2 : 0, boxShadow: position ? `-8px -8px 10px -4px ${getColor(row.type, row.positions[posIndex])},-8px 8px 10px -4px ${getColor(row.type, row.positions[posIndex])},8px -8px 10px -4px ${getColor(row.type, row.positions[posIndex])},8px 8px 10px -4px ${getColor(row.type, row.positions[posIndex])}` : '' }}>
+                  {row.positions[posIndex] && <p className='text-[11px] sm:text-[18px] text-center'>{position}</p>}
+                  {position && <p className='text-center text-[13px] sm:text-[23px]'>{getUserData(position)}</p>}
                 </div>
               ))}
             </div>
           ))}
         </div>
-        <Image src={'/Field.png'} alt='field' height={800} width={1000} style={{ height: height - 220 }} className='w-screen max-w-[700px]' />
+        <Image src={'/Field.png'} alt='field' height={2000} width={2000} style={{ height: height - 220 }} className='w-screen max-w-[700px]' />
       </div>
       <ScrollArea style={{ height: height - 790 }} className='py-2 px-2'>
         <div className='flex gap-2'>

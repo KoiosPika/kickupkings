@@ -68,7 +68,7 @@ const ShopPage = () => {
                             .map((position: any, index: number) => (
                                 <div key={index} className='flex flex-col justify-center items-center w-full bg-slate-500 rounded-xl'>
                                     <div className='flex flex-row items-center w-full p-2 gap-1'>
-                                        <div className={`p-2 rounded-md font-bold w-1/4 text-center text-white h-full flex justify-center items-center text-[13.5px]`} style={{ backgroundColor: position.color }}>
+                                        <div className={`p-2 rounded-md font-bold w-1/4 text-center text-white h-full flex justify-center items-center text-[13.5px] border-2 border-white`} style={{ backgroundColor: position.color, boxShadow: `-8px -8px 10px -6px ${position.color},-8px 8px 10px -6px ${position.color},8px -8px 10px -6px ${position.color},8px 8px 10px -6px ${position.color}` }}>
                                             <p>{position.symbol}</p>
                                         </div>
                                         <div className='flex flex-col justify-center items-center w-3/4 gap-1'>
