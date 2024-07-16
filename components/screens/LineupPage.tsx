@@ -55,20 +55,14 @@ const LineupPage = () => {
         </div>
         <Image src={'/Field.png'} alt='field' height={500} width={500} style={{ height: height - 220 }} />
       </div>
-      <ScrollArea style={{ height: height - 560 }} className='py-2 px-2'>
-        <div className='flex gap-2 overflow-x-auto'>
+      <ScrollArea style={{ height: height - 790 }} className='py-2 px-2'>
+        <div className='flex gap-2'>
           {formations.map((formation) => (
-            <div key={formation.id} className='flex flex-col h-full justify-center items-center border-[1px] border-white rounded-lg' onClick={() => setSelectedFormation(formation.id)}>
-              <div className='bg-slate-600 rounded-t-lg flex flex-col justify-evenly' style={{ height: height - 600, aspectRatio: 5 / 4 }}>
-                {formation?.data.map((row, rowIndex) => (
-                  <div key={rowIndex} className='flex justify-around py-[2px]'>
-                    {row.positions.map((position, posIndex) => (
-                      <div key={posIndex} className='p-[2px] rounded-lg text-white font-semibold' style={{ backgroundColor: getColor(row.type, row.positions[posIndex]), height: row.type === 'Spacer' ? '50%' : '100%' }} />
-                    ))}
-                  </div>
-                ))}
+            <div key={formation.id} className='flex flex-col h-full justify-center items-center border-[1px] border-white rounded-lg' onClick={() => setSelectedFormation(formation.id)} style={{height:'100%', width: 80}}>
+              <div style={{height:'80%'}} className='p-4'>
+                <Image src={'/icons/Football-white.svg'} alt='football' height={30} width={30}/>
               </div>
-              <div className='w-full text-center bg-white rounded-b-md'>{formation.id}</div>
+              <div className='bg-white text-center w-full rounded-md'>{formation.id}</div>
             </div>
           ))}
         </div>
