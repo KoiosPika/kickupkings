@@ -5,7 +5,7 @@ export default function RootLayout({
 }) {
 
     return (
-        <div className="flex flex-col bg-slate-300 text-black h-screen w-full justify-center items-center">
+        <div className="flex flex-col bg-slate-600 text-black h-screen w-full justify-center items-center">
             <main className="flex-1 max-w-[700px] w-full bg-white">{children}</main>
         </div>
     )
