@@ -7,7 +7,7 @@ const colors = [
   { 'Forward': '#EE2E0C' },
   { 'Midfield': '#EE9F0C' },
   { 'Defense': '#0090DE' },
-  { 'Goalkeeper': '#9B28EA' },
+  { 'Goalkeeper': '#41B815' },
 ]
 
 const LineupPage = () => {

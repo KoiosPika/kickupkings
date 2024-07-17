@@ -29,26 +29,26 @@ const ShopPage = () => {
                 <p className='font-semibold text-white text-[13px] sm:text-[20px]'>{`->`}</p>
             </div>
             <div className='w-full ml-auto mb-auto p-2 flex flex-row items-center gap-2'>
-                <div className='w-1/2 bg-slate-800 flex flex-col justify-center items-center rounded-lg h-[53px] sm:h-[75px] gap-[3px]'>
-                    <p className='font-bold text-white text-[16px] sm:text-[22px]'>Points: 2.4k / 5k</p>
-                    <div className='w-11/12 flex flex-row items-center'>
-                        <div className='h-[5px] sm:h-[10px] w-8/12 rounded-l-lg bg-orange-600' />
-                        <div className='h-[5px] sm:h-[10px] w-4/12 rounded-r-lg bg-orange-400' />
+                <div className='w-1/3 bg-slate-800 flex flex-row justify-around items-center rounded-lg h-[53px] sm:h-[75px]'>
+                    <div className='flex flex-row items-center gap-2'>
+                        <Image src={'/icons/coin.svg'} alt='coin' height={100} width={100} className='w-[25px] h-[25px] sm:w-[40px] sm:h-[40px]' />
+                        <p className='font-bold text-white text-[16px] sm:text-[22px]'>2000</p>
                     </div>
                 </div>
-                <div className='w-1/2 bg-slate-800 flex flex-col justify-center items-center rounded-lg h-[53px] sm:h-[75px]'>
-                    <p className='font-bold text-white text-[16px] sm:text-[22px]'>Team Overall: 3.4</p>
-                    <div className='flex flex-row items-center justify-center gap-1 w-full'>
-                        <Image src={'/icons/star-yellow.svg'} alt='star' height={100} width={100} className='h-[20px] sm:h-[30px] w-[20px] sm:w-[30px]'  />
-                        <Image src={'/icons/star-yellow.svg'} alt='star' height={100} width={100} className='h-[20px] sm:h-[30px] w-[20px] sm:w-[30px]'  />
-                        <Image src={'/icons/star-yellow.svg'} alt='star' height={100} width={100} className='h-[20px] sm:h-[30px] w-[20px] sm:w-[30px]'  />
-                        <Image src={'/icons/star-yellow.svg'} alt='star' height={100} width={100} className='h-[20px] sm:h-[30px] w-[20px] sm:w-[30px]'  />
-                        <Image src={'/icons/star-yellow.svg'} alt='star' height={100} width={100} className='h-[20px] sm:h-[30px] w-[20px] sm:w-[30px]'  />
+                <div className='w-1/3 bg-slate-800 flex flex-row justify-around items-center rounded-lg h-[53px] sm:h-[75px]'>
+                    <div className='flex flex-row items-center gap-2'>
+                        <Image src={'/icons/diamond.svg'} alt='coin' height={100} width={100} className='w-[25px] h-[25px] sm:w-[40px] sm:h-[40px]' />
+                        <p className='font-bold text-white text-[16px] sm:text-[22px]'>0</p>
+                    </div>
+                </div>
+                <div className='w-1/3 bg-slate-800 flex flex-row justify-around items-center rounded-lg h-[53px] sm:h-[75px]'>
+                    <div className='flex flex-row items-center gap-1'>
+                        <Image src={'/icons/dice.svg'} alt='coin' height={100} width={100} className='w-[50px] h-[50px] sm:w-[70px] sm:h-[70px]' />
+                        <p className='font-bold text-white text-[16px] sm:text-[22px]'>Spin</p>
                     </div>
                 </div>
             </div>
             <div className='w-full flex flex-col justify-center items-center my-2'>
-                <p className='text-white text-[17px] sm:text-[30px] font-semibold'>Welcome to shop</p>
                 <div className='w-11/12 bg-slate-800 flex flex-row items-center justify-evenly px-1 py-1 rounded-lg my-2'>
                     {['Defense', 'Midfield', 'Forward', 'Staff'].map((type) => (
                         <p
@@ -61,12 +61,12 @@ const ShopPage = () => {
                         </p>
                     ))}
                 </div>
-                <ScrollArea className='w-11/12' style={{ height: height - 275 }}>
+                <ScrollArea className='w-11/12' style={{ height: height - 245 }}>
                     <div className='grid grid-cols-2 w-full gap-2 sm:gap-3'>
                         {positions
                             .filter((position) => position.type === selectedType)
                             .map((position: any, index: number) => (
-                                <div key={index} className='flex flex-col justify-center items-center w-full bg-slate-800 rounded-xl h-[100px] sm:h-[150px] shadow-slate-200 shadow-sm'>
+                                <div key={index} className='flex flex-col justify-center items-center w-full bg-slate-800 rounded-xl h-[100px] sm:h-[150px] shadow-slate-200 shadow-sm border-[1px] border-slate-300'>
                                     <div className='flex flex-row items-center w-full p-2 gap-1'>
                                         <div className={`p-2 rounded-md font-bold w-1/4 sm:w-1/3 text-center text-white h-full flex justify-center items-center text-[13px] sm:text-[25px] border-2 border-white`} style={{ backgroundColor: position.color, boxShadow: `-8px -8px 10px -6px ${position.color},-8px 8px 10px -6px ${position.color},8px -8px 10px -6px ${position.color},8px 8px 10px -6px ${position.color}` }}>
                                             <p>{position.symbol}</p>
