@@ -1,5 +1,8 @@
 import Image from 'next/image'
 import React from 'react'
+import { ScrollArea } from '../ui/scroll-area'
+import { formations } from '@/constants/Formations'
+import { positions } from '@/constants'
 
 const colors = [
   { 'Forward': '#EE2E0C' },
@@ -13,17 +16,17 @@ const PlayPage = () => {
   const formation = {
     id: '4-1-2-1-2',
     data: [
-        { positions: ['', 'LST', 'RST', ''], type: 'Forward' },
-        { positions: [''], type: 'Forward' },
-        { positions: ['CAM'], type: 'Midfield' },
-        { positions: ['LM', '', 'RM'], type: 'Midfield' },
-        { positions: ['CDM'], type: 'Midfield' },
-        { positions: [''], type: 'Midfield' },
-        { positions: ['LB', 'LCB', 'RCB', 'RB'], type: 'Defense' },
-        { positions: [''], type: 'Goalkeeper' },
-        { positions: ['GK'], type: 'Goalkeeper' }
+      { positions: ['', 'LST', 'RST', ''], type: 'Forward' },
+      { positions: [''], type: 'Forward' },
+      { positions: ['CAM'], type: 'Midfield' },
+      { positions: ['LM', '', 'RM'], type: 'Midfield' },
+      { positions: ['CDM'], type: 'Midfield' },
+      { positions: [''], type: 'Midfield' },
+      { positions: ['LB', 'LCB', 'RCB', 'RB'], type: 'Defense' },
+      { positions: [''], type: 'Goalkeeper' },
+      { positions: ['GK'], type: 'Goalkeeper' }
     ]
-}
+  }
 
   const getColor = (type: any, position: any) => {
     if (!position) {
@@ -120,7 +123,7 @@ const PlayPage = () => {
         </div>
       </div>
       <div className='w-full flex flex-col h-full justify-center items-center flex-grow mt-2'>
-        <div className='w-11/12 grid grid-cols-2 h-full'>
+        <div className='w-11/12 flex flex-row items-center h-full gap-1'>
           <div className='h-full w-full flex flex-col justify-around rounded-md' style={{ backgroundImage: `url('/Field-dark.png')`, backgroundSize: 'cover', backgroundPosition: 'center' }}>
             {formation?.data.map((row, rowIndex) => (
               <div key={rowIndex} className='flex justify-around'>
@@ -129,6 +132,21 @@ const PlayPage = () => {
                 ))}
               </div>
             ))}
+          </div>
+          <div className='h-full w-full flex flex-col justify-around rounded-md'>
+            <ScrollArea style={{ height: 195 }}>
+              <div className='flex flex-col gap-1 w-full'>
+                {positions.map((position: any) => (
+                  <div key={position.symbol} className='bg-slate-800 p-2 rounded-lg'>
+                    <div className='flex flex-row items-center'>
+                      <p style={{ backgroundColor: position.color }} className='inline-flex py-1 px-2 text-white font-semibold rounded-md'>{position.symbol}</p>
+                      {/* <p className='ml-auto mr-2 text-green-500 font-bold'>Ready</p> */}
+                      <p className='ml-auto mr-2 text-red-500 font-bold text-[14px]'>Recovering</p>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </ScrollArea>
           </div>
         </div>
       </div>
