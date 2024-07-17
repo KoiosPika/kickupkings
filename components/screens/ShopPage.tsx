@@ -87,7 +87,7 @@ const ShopPage = () => {
                                                     <p className='text-[11px] sm:text-[18.5px] font-bold text-white'>{position.label}</p>
                                                     <div className='flex flex-row items-center gap-2 bg-slate-600 px-2 py-[2px] sm:py-[5px] rounded-lg'>
                                                         <Image src={'/icons/coin.svg'} alt='coin' height={100} width={100} className='w-[20px] h-[20px] sm:w-[35px] sm:h-[35px]' />
-                                                        <p className='font-semibold text-white text-[16px] sm:text-[25px]'>50</p>
+                                                        <p className='font-semibold text-white text-[16px] sm:text-[25px]'>150</p>
                                                     </div>
                                                 </div>
                                             </div>
@@ -96,7 +96,7 @@ const ShopPage = () => {
                                             </div>
                                         </div>
                                     </DrawerTrigger>
-                                    <DrawerContent className=' h-[50%] sm:h-[40%] border-t-8 border-x-0 border-yellow-400 bg-slate-800'>
+                                    <DrawerContent style={{ borderColor: position.color }} className={` h-[55%] sm:h-[40%] border-t-8 border-x-0 bg-slate-800`}>
                                         <DrawerHeader>
                                             <DrawerTitle className='text-white my-3'>Upgrade {position.label} to Level 3?</DrawerTitle>
                                             <div className={`p-2 rounded-md font-bold w-1/5 place-self-center text-center text-white h-[70px] flex justify-center items-center text-[23px] border-2 border-white`} style={{ backgroundColor: position.color, boxShadow: `-8px -8px 10px -6px ${position.color},-8px 8px 10px -6px ${position.color},8px -8px 10px -6px ${position.color},8px 8px 10px -6px ${position.color}` }}>
@@ -105,7 +105,7 @@ const ShopPage = () => {
                                         </DrawerHeader>
                                         <div className='flex flex-row items-center justify-center gap-2 bg-slate-600 px-2 py-[2px] sm:py-[5px] rounded-xl w-2/5 place-self-center'>
                                             <Image src={'/icons/coin.svg'} alt='coin' height={100} width={100} className='w-[30px] h-[30px]' />
-                                            <p className='font-semibold text-white text-[25px]'>50</p>
+                                            <p className='font-semibold text-white text-[25px]'>150</p>
                                         </div>
                                         <DrawerFooter className='mb-5'>
                                             <div style={{ backgroundColor: position.color }} className='w-3/4 py-2 rounded-lg text-white font-bold text-center place-self-center'>Upgrade now</div>
