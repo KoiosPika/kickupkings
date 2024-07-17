@@ -125,19 +125,19 @@ const LineupPage = () => {
             </div>
           ))}
         </div>
-        <Image src={'/Field-green.png'} alt='field' height={2000} width={2000} style={{ height: height - 200 }} className='w-screen max-w-[700px]' />
+        <Image src={'/Field-dark.png'} alt='field' height={2000} width={2000} style={{ height: height - 200 }} className='w-full max-w-[700px]' />
       </div>
       <ScrollArea style={{ height: height - 590 }} className='py-2 px-2'>
         <div className='flex gap-2'>
           <>
-            <div className='flex flex-col h-full justify-center items-center border-[1px] border-white rounded-lg' onClick={() => findBestFormation()} style={{ height: '100%', width: 95 }}>
+            <div className='flex flex-col h-full justify-center items-center border-[1px] border-white bg-slate-800 rounded-lg' onClick={() => findBestFormation()} style={{ height: '100%', width: 95 }}>
               <div style={{ height: '80%' }} className='p-2'>
-                <Image src={'/icons/Football-white.svg'} alt='football' height={20} width={20} />
+                <Image src={'/icons/Football-white.svg'} alt='football' height={20} width={20}/>
               </div>
               <div className=' text-center w-full rounded-b-md font-semibold bg-white' >Find Best</div>
             </div>
             {formations.map((formation) => (
-              <div key={formation.id} className='flex flex-col h-full justify-center items-center border-[1px] border-white rounded-lg' onClick={() => setSelectedFormation(formation.id)} style={{ height: '100%', width: 95 }}>
+              <div key={formation.id} className='flex flex-col h-full justify-center items-center border-[1px] rounded-lg bg-slate-800' onClick={() => setSelectedFormation(formation.id)} style={{ height: '100%', width: 95, borderColor: currentFormation?.id == formation.id ? '#EE9F0C' : 'white' }}>
                 <div style={{ height: '80%' }} className='p-2'>
                   <Image src={'/icons/Football-white.svg'} alt='football' height={20} width={20} />
                 </div>
