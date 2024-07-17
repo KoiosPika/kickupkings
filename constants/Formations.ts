@@ -16,7 +16,7 @@ export const formations = [
     {
         id: '3-1-4-2',
         data: [
-            { positions: ['', 'LST', '', 'RST', ''], type: 'Forward' },
+            { positions: ['','', 'LST','', 'RST','', ''], type: 'Forward' },
             { positions: [''], type: 'Forward' },
             { positions: ['', 'LAM', 'RAM', ''], type: 'Midfield' },
             { positions: ['LM', '', 'RM'], type: 'Midfield' },
@@ -72,7 +72,7 @@ export const formations = [
     {
         id: '3-4-1-2',
         data: [
-            { positions: ['', 'LST', '', 'RST', ''], type: 'Forward' },
+            { positions: ['', 'LST', 'RST', ''], type: 'Forward' },
             { positions: ['CF'], type: 'Forward' },
             { positions: [''], type: 'Midfield' },
             { positions: ['LM', 'LCM', 'RCM', 'RM'], type: 'Midfield' },
@@ -142,7 +142,7 @@ export const formations = [
     {
         id: '4-1-2-1-2',
         data: [
-            { positions: ['', 'LST', '', 'RST', ''], type: 'Forward' },
+            { positions: ['', 'LST', 'RST', ''], type: 'Forward' },
             { positions: [''], type: 'Forward' },
             { positions: ['CAM'], type: 'Midfield' },
             { positions: ['LM', '', 'RM'], type: 'Midfield' },
@@ -198,7 +198,7 @@ export const formations = [
     {
         id: '4-2-2-2',
         data: [
-            { positions: ['', 'LST','', 'RST', ''], type: 'Forward' },
+            { positions: ['', 'LST', 'RST', ''], type: 'Forward' },
             { positions: [''], type: 'Forward' },
             { positions: ['LWM', '', '', 'RWM'], type: 'Midfield' },
             { positions: [''], type: 'Midfield' },
@@ -240,7 +240,7 @@ export const formations = [
     {
         id: '4-3-1-2',
         data: [
-            { positions: ['', 'LST','', 'RST', ''], type: 'Forward' },
+            { positions: ['', 'LST','RST', ''], type: 'Forward' },
             { positions: [''], type: 'Forward' },
             { positions: ['CAM'], type: 'Midfield' },
             { positions: ['', 'LCM','' ,'', 'RCM', ''], type: 'Midfield' },

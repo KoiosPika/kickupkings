@@ -9,41 +9,41 @@ interface BottomNavBarProps {
 
 const BottomNavBar = ({ currentPage, setCurrentPage }: BottomNavBarProps) => {
     return (
-        <nav className="fixed bottom-0 w-11/12 mb-1 max-w-[600px] bg-slate-700 flex justify-around items-center p-2 shadow-md rounded-lg">
+        <nav className="fixed bottom-0 w-11/12 mb-1 max-w-[600px] bg-[#169a26] flex justify-around items-center p-2 rounded-lg">
             <button
                 className={`text-sm w-1/6 py-1 flex flex-col justify-center items-center gap-1 ${currentPage === 'home' ? 'bg-yellow-400 rounded-xl text-black' : 'text-white'}`}
                 onClick={() => setCurrentPage('home')}
             >
-                <Image src={currentPage === 'home' ? '/icons/Home-black.svg' : '/icons/Home-white.svg'} alt='home' height={20} width={20} />
-                <p className='text-xs font-bold'>Home</p>
+                <Image src={currentPage === 'home' ? '/icons/Home-black.svg' : '/icons/Home-white.svg'} alt='home' height={100} width={100} className='h-[20px] w-[20px] sm:h-[30px] sm:w-[30px]' />
+                <p className='text-[12px] sm:text-[16px] font-bold'>Home</p>
             </button>
             <button
                 className={`text-sm w-1/6 py-1 flex flex-col justify-center items-center gap-1 ${currentPage === 'shop' ? 'bg-yellow-400 rounded-xl text-black' : 'text-white'}`}
                 onClick={() => setCurrentPage('shop')}
             >
-                <Image src={currentPage === 'shop' ? '/icons/Shop-black.svg' : '/icons/Shop-white.svg'} alt='shop' height={20} width={20} />
-                <p className='text-xs font-bold'>Shop</p>
+                <Image src={currentPage === 'shop' ? '/icons/Shop-black.svg' : '/icons/Shop-white.svg'} alt='shop' height={100} width={100} className='h-[20px] w-[20px] sm:h-[30px] sm:w-[30px]' />
+                <p className='text-[12px] sm:text-[16px] font-bold'>Shop</p>
             </button>
             <button
                 className={`text-sm w-1/6 py-1 flex flex-col justify-center items-center gap-1 ${currentPage === 'play' ? 'bg-yellow-400 rounded-xl text-black' : 'text-white'}`}
                 onClick={() => setCurrentPage('play')}
             >
-                <Image src={currentPage === 'play' ? '/icons/Football-black.svg' : '/icons/Football-white.svg'} alt='play' height={20} width={20} />
-                <p className='text-xs font-bold'>Play</p>
+                <Image src={currentPage === 'play' ? '/icons/Football-black.svg' : '/icons/Football-white.svg'} alt='play' height={100} width={100} className='h-[20px] w-[20px] sm:h-[30px] sm:w-[30px]' />
+                <p className='text-[12px] sm:text-[16px] font-bold'>Play</p>
             </button>
             <button
                 className={`text-sm w-1/6 py-1 flex flex-col justify-center items-center gap-1 ${currentPage === 'earn' ? 'bg-yellow-400 rounded-xl text-black' : 'text-white'}`}
                 onClick={() => setCurrentPage('earn')}
             >
-                <Image src={currentPage === 'earn' ? '/icons/Money-black.svg' : '/icons/Money-white.svg'} alt='earn' height={20} width={20}/>
-                <p className='text-xs font-bold'>Earn</p>
+                <Image src={currentPage === 'earn' ? '/icons/Money-black.svg' : '/icons/Money-white.svg'} alt='earn' height={100} width={100} className='h-[20px] w-[20px] sm:h-[30px] sm:w-[30px]'/>
+                <p className='text-[12px] sm:text-[16px] font-bold'>Earn</p>
             </button>
             <button
-                className={`text-sm w-1/6 py-1 flex flex-col justify-center items-center gap-1 ${currentPage === 'lineup' ? 'bg-yellow-400 rounded-xl text-black' : 'text-white'}`}
+                className={`text-sm w-1/6 py-1 flex flex-col justify-center items-center gap-1 text-black ${currentPage === 'lineup' ? 'bg-yellow-400 rounded-xl text-black' : 'text-white'}`}
                 onClick={() => setCurrentPage('lineup')}
             >
-                <Image src={currentPage === 'lineup' ? '/icons/Lineup-black.svg' : '/icons/Lineup-white.svg'} alt='lineup' height={20} width={20}/>
-                <p className='text-xs font-bold'>Lineup</p>
+                <Image src={currentPage === 'lineup' ? '/icons/Lineup-black.svg' : '/icons/Lineup-white.svg'} alt='lineup' height={100} width={100} className='h-[20px] w-[20px] sm:h-[30px] sm:w-[30px]'/>
+                <p className='text-[12px] sm:text-[16px] font-bold'>Lineup</p>
             </button>
         </nav>
     );

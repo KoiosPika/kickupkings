@@ -7,7 +7,7 @@ const colors = [
   { 'Forward': '#EE2E0C' },
   { 'Midfield': '#EE9F0C' },
   { 'Defense': '#0090DE' },
-  { 'Goalkeeper': '#09C609' },
+  { 'Goalkeeper': '#9B28EA' },
 ]
 
 const LineupPage = () => {
@@ -109,15 +109,11 @@ const LineupPage = () => {
         <p className='font-semibold text-white text-[13px]'>Rami (Amature)</p>
         <p className='font-semibold text-white text-[13px]'>{`->`}</p>
       </div>
-      <div style={{ height: height - 220 }} className='relative'>
+      <div style={{ height: height - 200 }} className='relative'>
         <div className='h-full w-full absolute flex flex-col justify-around'>
           {currentFormation?.data.map((row, rowIndex) => (
             <div key={rowIndex} className='flex justify-around'>
-              <div className='absolute right-3 bottom-2 bg-white px-2 py-1 rounded-md font-semibold'>
-                <p className='text-center'>Overall</p>
-                <p className='text-center'>{overallScore}</p>
-              </div>
-              <div className='absolute top-2 right-2 bg-white px-3 rounded-sm font-semibold'>
+              <div className='absolute bg-[#DE1848] bottom-2 right-3 border-2 border-white text-white px-3 rounded-sm font-semibold'>
                 <p className='text-center'>{currentFormation.id}</p>
               </div>
               {row.positions.map((position, posIndex) => (
@@ -129,21 +125,21 @@ const LineupPage = () => {
             </div>
           ))}
         </div>
-        <Image src={'/Field.png'} alt='field' height={2000} width={2000} style={{ height: height - 220 }} className='w-screen max-w-[700px]' />
+        <Image src={'/Field-green.png'} alt='field' height={2000} width={2000} style={{ height: height - 200 }} className='w-screen max-w-[700px]' />
       </div>
-      <ScrollArea style={{ height: height - 790 }} className='py-2 px-2'>
+      <ScrollArea style={{ height: height - 590 }} className='py-2 px-2'>
         <div className='flex gap-2'>
           <>
             <div className='flex flex-col h-full justify-center items-center border-[1px] border-white rounded-lg' onClick={() => findBestFormation()} style={{ height: '100%', width: 95 }}>
-              <div style={{ height: '80%' }} className='p-4'>
-                <Image src={'/icons/Football-white.svg'} alt='football' height={30} width={30} />
+              <div style={{ height: '80%' }} className='p-2'>
+                <Image src={'/icons/Football-white.svg'} alt='football' height={20} width={20} />
               </div>
               <div className=' text-center w-full rounded-b-md font-semibold bg-white' >Find Best</div>
             </div>
             {formations.map((formation) => (
               <div key={formation.id} className='flex flex-col h-full justify-center items-center border-[1px] border-white rounded-lg' onClick={() => setSelectedFormation(formation.id)} style={{ height: '100%', width: 95 }}>
-                <div style={{ height: '80%' }} className='p-4'>
-                  <Image src={'/icons/Football-white.svg'} alt='football' height={30} width={30} />
+                <div style={{ height: '80%' }} className='p-2'>
+                  <Image src={'/icons/Football-white.svg'} alt='football' height={20} width={20} />
                 </div>
                 <div className=' text-center w-full rounded-b-md font-semibold' style={{ backgroundColor: currentFormation?.id == formation.id ? '#EE9F0C' : 'white', color: currentFormation?.id == formation.id ? 'white' : 'black' }}>{formation.id}</div>
               </div>
