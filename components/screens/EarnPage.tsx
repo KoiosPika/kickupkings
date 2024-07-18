@@ -59,7 +59,7 @@ const EarnPage = () => {
             <Input type='number' className='text-[16px] w-[40px] font-bold text-center'/>
             <p className='text-white font-bold'>-</p>
             <Input type='number' className='text-[16px] w-[40px] font-bold text-center'/>
-            <Image src={'/Arsenal.png'} alt='arsenal' height={50} width={50}/>
+            <Image src={'/RealMadrid.svg'} alt='arsenal' height={50} width={50}/>
           </div>
           <div className='flex flex-row items-center gap-2 bg-slate-600 px-2 py-[2px] sm:py-[5px] rounded-lg'>
             <Image src={'/icons/coin.svg'} alt='coin' height={100} width={100} className='w-[20px] h-[20px] sm:w-[35px] sm:h-[35px]' />

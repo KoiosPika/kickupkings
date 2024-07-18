@@ -18,7 +18,7 @@ const PlayPage = () => {
   useEffect(() => {
     const updateHeights = () => {
       setHeight(window.innerHeight);
-      document.documentElement.style.setProperty('--dynamic-height', `calc(${window.innerHeight}px - 470px)`);
+      document.documentElement.style.setProperty('--dynamic-height', `calc(${window.innerHeight}px - 420px)`);
       document.documentElement.style.setProperty('--dynamic-height-sm', `calc(${window.innerHeight}px - 630px)`);
     };
 
@@ -127,15 +127,6 @@ const PlayPage = () => {
               </div>
               <p className='bg-purple-700 px-2 text-[14px] sm:text-[24px] py-[2px] rounded-lg ml-auto shadow-md shadow-purple-500 border-b-[3px] sm:border-b-[6px] border-purple-800'>Rematch</p>
             </div>
-            <div className='text-white font-semibold bg-slate-800 p-2 rounded-lg flex flex-row items-center gap-1 sm:gap-5'>
-              <p className='h-[25px] w-[30px] sm:h-[45px] sm:w-[50px] text-[16px] sm:text-[30px] text-center bg-red-600 rounded-sm'>L</p>
-              <p className='ml-2 text-[16px] sm:text-[30px]'>5-3</p>
-              <div className='ml-5 flex flex-row items-center bg-slate-900 px-2 py-1 rounded-lg'>
-                <Image src={'/icons/user.svg'} alt='user' height={50} width={50} className='bg-slate-500 p-1 h-[28px] w-[28px] sm:h-[48px] sm:w-[48px] rounded-lg' />
-                <p className='ml-2 max-w-[80px] sm:max-w-[200px] text-[16px] sm:text-[24px] overflow-hidden'>username</p>
-              </div>
-              <p className='bg-purple-500 px-2 text-[14px] sm:text-[24px] py-[2px] rounded-lg ml-auto shadow-md shadow-purple-500 border-b-[3px] sm:border-b-[6px] border-purple-600'>Rematched</p>
-            </div>
           </div>
         </div>
       </div>
@@ -143,7 +134,7 @@ const PlayPage = () => {
         <div className='bg-blue-500 px-3 py-2 font-semibold text-white rounded-xl shadow-blue-600 shadow-lg border-b-[4px] sm:border-b-[8px] border-blue-800 flex flex-row items-center gap-1'>
           <p className='text-[18px] sm:text-[34px] mx-2'>Find Match</p>
           <Image src={'/icons/coin.svg'} alt='coin' height={100} width={100} className='w-[20px] h-[20px] sm:w-[35px] sm:h-[35px]' />
-          <p className='font-semibold text-white text-[16px] sm:text-[25px]'>20</p>
+          <p className='font-semibold text-white text-[16px] sm:text-[25px]'>10</p>
         </div>
       </div>
       <div className='w-full flex flex-col h-full justify-center items-center flex-grow mt-3'>
