@@ -139,7 +139,7 @@ const PlayPage = () => {
       </div>
       <div className='w-full flex flex-col h-full justify-center items-center flex-grow mt-3'>
         <div className='w-11/12 flex flex-row items-center h-full gap-2'>
-          <div className='h-full w-1/2 flex flex-col justify-around rounded-md bg-slate-800' style={{ backgroundImage: `url('/Field-dark.png')`, backgroundSize: 'cover', backgroundPosition: 'center' }}>
+          <div className='h-full w-1/2 flex flex-col justify-around rounded-md bg-slate-800 border-y-2 sm:border-4 border-white' style={{ backgroundImage: `url('/Field-dark.png')`, backgroundSize: 'cover', backgroundPosition: 'center' }}>
             {formation?.data.map((row, rowIndex) => (
               <div key={rowIndex} className='flex justify-around'>
                 {row.positions.map((position: any, posIndex) => (
