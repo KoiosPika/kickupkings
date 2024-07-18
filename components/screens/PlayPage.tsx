@@ -14,14 +14,14 @@ const colors = [
 const PlayPage = () => {
 
   const formation = {
-    id: '4-3-3',
+    id: '4-1-2-1-2',
     data: [
-        { positions: ['ST'], type: 'Forward' },
-        { positions: ['LW', '','', 'RW'], type: 'Forward' },
-        { positions: [''], type: 'Spacer' },
-        { positions: ['', 'LCM', '', 'CM', '', 'RCM', ''], type: 'Midfield' },
-        { positions: [''], type: 'Spacer' },
-        { positions: [''], type: 'Spacer' },
+        { positions: ['', 'LST', 'RST', ''], type: 'Forward' },
+        { positions: [''], type: 'Forward' },
+        { positions: ['CAM'], type: 'Midfield' },
+        { positions: ['LM', '', 'RM'], type: 'Midfield' },
+        { positions: ['CDM'], type: 'Midfield' },
+        { positions: [''], type: 'Midfield' },
         { positions: ['LB', 'LCB', 'RCB', 'RB'], type: 'Defense' },
         { positions: [''], type: 'Goalkeeper' },
         { positions: ['GK'], type: 'Goalkeeper' }
@@ -136,7 +136,7 @@ const PlayPage = () => {
             ))}
           </div>
           <div className='h-full w-full flex flex-col justify-around rounded-md'>
-            <ScrollArea style={{ height: 525 }}>
+            <ScrollArea className='h-[200px] sm:h-[525px]'>
               <div className='flex flex-col gap-1 w-full'>
                 {positions.map((position: any) => (
                   <div key={position.symbol} className='bg-slate-800 p-2 sm:p-4 rounded-lg'>
