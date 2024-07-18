@@ -23,6 +23,15 @@ const HomePage = () => {
                 </div>
             </div>
             <div className='w-full flex flex-col justify-center items-center'>
+                <p className='mr-auto ml-5 text-white font-semibold my-1'>Football News</p>
+                <div className='w-11/12 bg-slate-800 h-[110px] rounded-lg flex justify-center items-center'>
+                    <p className='font-bold text-white'>AD</p>
+                </div>
+                <p className='mr-auto ml-5 text-white font-semibold mt-3 mb-1'>Football Products</p>
+                <div className='w-11/12 bg-slate-800 h-[110px] rounded-lg flex justify-center items-center'>
+                    <p className='font-bold text-white'>AD</p>
+                </div>
+                <p className='mr-auto ml-5 text-white font-semibold mt-3 mb-1'>Merch</p>
                 <div className='w-11/12 bg-slate-800 h-[110px] rounded-lg flex justify-center items-center'>
                     <p className='font-bold text-white'>AD</p>
                 </div>
