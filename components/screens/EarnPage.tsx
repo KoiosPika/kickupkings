@@ -11,19 +11,30 @@ const EarnPage = () => {
         <p className='font-semibold text-white text-[13px]'>{`->`}</p>
       </div>
       <div className='w-full flex flex-col justify-center items-center'>
-        <p className='font-semibold text-white text-[20px] mt-2'>Daily Quiz</p>
+        <p className='font-semibold text-white text-[20px] mt-2 bg-slate-800 px-2 py-1 rounded-md'>Daily Quizes</p>
         <div className='my-2 flex flex-row items-center gap-2'>
           <p className='font-semibold text-white'>Find the quiz on Telegram Channel</p>
-          <Image src={'/icons/link.svg'} alt='link' height={100} width={100} className='bg-white h-[25px] w-[25px] p-1 rounded-md'/>
+          <Image src={'/icons/telegram.svg'} alt='link' height={100} width={100} className='bg-white h-[30px] w-[30px] p-[2px] rounded-full' />
         </div>
-        <div className='w-11/12 flex flex-row gap-2 items-center justify-center'>
-          <Input className='font-bold text-center text-[16px] bg-slate-800 text-white border-2 border-white' />
-          <Input className='font-bold text-center text-[16px] bg-slate-800 text-white border-2 border-white' />
-          <Input className='font-bold text-center text-[16px] bg-slate-800 text-white border-2 border-white' />
-          <Input className='font-bold text-center text-[16px] bg-slate-800 text-white border-2 border-white' />
-          <Input className='font-bold text-center text-[16px] bg-slate-800 text-white border-2 border-white' />
-          <Input className='font-bold text-center text-[16px] bg-slate-800 text-white border-2 border-white' />
-          <Input className='font-bold text-center text-[16px] bg-slate-800 text-white border-2 border-white' />
+        <div className='w-10/12 flex flex-row gap-2 items-center justify-center my-2 relative'>
+          <Input className='font-bold text-center text-[16px] bg-[#16a34a] text-white border-2 border-white h-[50px]' value={'Ronaldo'} />
+          <Image src={'/icons/send.svg'} alt='send' height={100} width={100} className='bg-white h-[30px] w-[30px] p-[3px] rounded-full rotate-45 absolute right-2' />
+        </div>
+        <div className='flex flex-row items-center gap-2 bg-green-600 px-2 py-[2px] sm:py-[5px] rounded-lg'>
+          <Image src={'/icons/coin.svg'} alt='coin' height={100} width={100} className='w-[20px] h-[20px] sm:w-[35px] sm:h-[35px]' />
+          <p className='font-semibold text-white text-[16px] sm:text-[25px]'>1,500</p>
+        </div>
+        <div className='my-2 flex flex-row items-center gap-2 mt-6'>
+          <p className='font-semibold text-white'>Find the quiz on X</p>
+          <Image src={'/icons/x-twitter.svg'} alt='twitter' height={100} width={100} className='bg-white h-[30px] w-[30px] p-[3px] rounded-md' />
+        </div>
+        <div className='w-10/12 flex flex-row gap-2 items-center justify-center my-2 relative'>
+          <Input className='font-bold text-center text-[16px] bg-slate-800 text-white border-2 border-white h-[50px]' value={'Modric'} />
+          <Image src={'/icons/send.svg'} alt='send' height={100} width={100} className='bg-white h-[30px] w-[30px] p-[3px] rounded-full rotate-45 absolute right-2' />
+        </div>
+        <div className='flex flex-row items-center gap-2 bg-slate-600 px-2 py-[2px] sm:py-[5px] rounded-lg'>
+          <Image src={'/icons/coin.svg'} alt='coin' height={100} width={100} className='w-[20px] h-[20px] sm:w-[35px] sm:h-[35px]' />
+          <p className='font-semibold text-white text-[16px] sm:text-[25px]'>200</p>
         </div>
       </div>
     </section>
