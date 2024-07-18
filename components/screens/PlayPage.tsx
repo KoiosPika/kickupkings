@@ -1,5 +1,5 @@
 import Image from 'next/image'
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { ScrollArea } from '../ui/scroll-area'
 import { formations } from '@/constants/Formations'
 import { positions } from '@/constants'
@@ -13,20 +13,35 @@ const colors = [
 
 const PlayPage = () => {
 
+  const [height, setHeight] = useState<number>(window.innerHeight)
+
+  useEffect(() => {
+    const updateHeights = () => {
+      setHeight(window.innerHeight);
+      document.documentElement.style.setProperty('--dynamic-height', `calc(${window.innerHeight}px - 470px)`);
+      document.documentElement.style.setProperty('--dynamic-height-sm', `calc(${window.innerHeight}px - 630px)`);
+    };
+
+    window.addEventListener('resize', updateHeights);
+    updateHeights();
+
+    return () => window.removeEventListener('resize', updateHeights);
+  }, []);
+
   const formation = {
     id: '4-1-2-1-2',
     data: [
-        { positions: ['', 'LST', 'RST', ''], type: 'Forward' },
-        { positions: [''], type: 'Forward' },
-        { positions: ['CAM'], type: 'Midfield' },
-        { positions: ['LM', '', 'RM'], type: 'Midfield' },
-        { positions: ['CDM'], type: 'Midfield' },
-        { positions: [''], type: 'Midfield' },
-        { positions: ['LB', 'LCB', 'RCB', 'RB'], type: 'Defense' },
-        { positions: [''], type: 'Goalkeeper' },
-        { positions: ['GK'], type: 'Goalkeeper' }
+      { positions: ['', 'LST', 'RST', ''], type: 'Forward' },
+      { positions: [''], type: 'Forward' },
+      { positions: ['CAM'], type: 'Midfield' },
+      { positions: ['LM', '', 'RM'], type: 'Midfield' },
+      { positions: ['CDM'], type: 'Midfield' },
+      { positions: [''], type: 'Midfield' },
+      { positions: ['LB', 'LCB', 'RCB', 'RB'], type: 'Defense' },
+      { positions: [''], type: 'Goalkeeper' },
+      { positions: ['GK'], type: 'Goalkeeper' }
     ]
-}
+  }
 
   const getColor = (type: any, position: any) => {
     if (!position) {
@@ -124,10 +139,10 @@ const PlayPage = () => {
       </div>
       <div className='w-full flex flex-col h-full justify-center items-center flex-grow mt-3'>
         <div className='w-11/12 flex flex-row items-center h-full gap-2'>
-          <div className='h-full w-full flex flex-col justify-around rounded-md bg-slate-800' style={{ backgroundImage: `url('/Field-dark.png')`, backgroundSize: 'cover', backgroundPosition: 'center' }}>
+          <div className='h-full w-1/2 flex flex-col justify-around rounded-md bg-slate-800' style={{ backgroundImage: `url('/Field-dark.png')`, backgroundSize: 'cover', backgroundPosition: 'center' }}>
             {formation?.data.map((row, rowIndex) => (
               <div key={rowIndex} className='flex justify-around'>
-                {row.positions.map((position : any, posIndex) => (
+                {row.positions.map((position: any, posIndex) => (
                   <div key={posIndex} className='p-1 sm:px-3 sm:py-1 rounded-sm text-white font-semibold border-white' style={{ backgroundColor: getColor(row.type, row.positions[posIndex]), borderWidth: row.positions[posIndex] ? 2 : 0, boxShadow: position ? `-8px -8px 10px -4px ${getColor(row.type, row.positions[posIndex])},-8px 8px 10px -4px ${getColor(row.type, row.positions[posIndex])},8px -8px 10px -4px ${getColor(row.type, row.positions[posIndex])},8px 8px 10px -4px ${getColor(row.type, row.positions[posIndex])}` : '' }}>
                     <p className='text-[10px] sm:text-[20px]'>{position}</p>
                   </div>
@@ -135,15 +150,24 @@ const PlayPage = () => {
               </div>
             ))}
           </div>
-          <div className='h-full w-full flex flex-col justify-around rounded-md'>
-            <ScrollArea className='h-[200px] sm:h-[525px]'>
+          <div className='w-1/2 flex flex-col justify-around rounded-md scroll-area'>
+            <ScrollArea>
               <div className='flex flex-col gap-1 w-full'>
+                <div className='bg-slate-800 p-2 sm:p-4 rounded-lg'>
+                  <div className='flex flex-row items-center'>
+                    <p className='inline-flex py-1 px-2 text-white font-semibold rounded-md text-[16px] sm:text-[25px]'>Overall</p>
+                    {/* <p className='ml-auto mr-2 text-green-500 font-bold'>Ready</p> */}
+                    <p className='ml-auto mr-2 text-green-500 font-bold text-[15px] sm:text-[22px]'>2.6</p>
+                  </div>
+                </div>
                 {positions.map((position: any) => (
                   <div key={position.symbol} className='bg-slate-800 p-2 sm:p-4 rounded-lg'>
                     <div className='flex flex-row items-center'>
-                      <p style={{ backgroundColor: position.color }} className='inline-flex py-1 px-2 text-white font-semibold rounded-md text-[16px] sm:text-[25px]'>{position.symbol}</p>
-                      {/* <p className='ml-auto mr-2 text-green-500 font-bold'>Ready</p> */}
-                      <p className='ml-auto mr-2 text-green-500 font-bold text-[14px] sm:text-[22px]'>Ready</p>
+                      <p style={{ backgroundColor: position.color }} className='inline-flex py-1 px-2 text-white font-semibold rounded-md text-[13px] sm:text-[25px]'>{position.symbol}</p>
+                      <div className='ml-auto mr-2 text-yellow-500 font-bold flex flex-col'>
+                        <p className='text-[12px] sm:text-[22px]'>Ready 7/8</p>
+                        <p className='text-[10px] sm:text-[20px] ml-auto'>15m</p>
+                      </div>
                     </div>
                   </div>
                 ))}

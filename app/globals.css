@@ -29,6 +29,8 @@
     --chart-3: 197 37% 24%;
     --chart-4: 43 74% 66%;
     --chart-5: 27 87% 67%;
+    --dynamic-height: calc(100vh - 470px);
+    --dynamic-height-sm: calc(100vh - 630px);
   }
 
   .dark {
@@ -59,11 +61,22 @@
   }
 }
 
+.scroll-area {
+  height: var(--dynamic-height);
+}
+
+
 @layer base {
   * {
     @apply border-border;
   }
   body {
     @apply bg-background text-foreground;
+  }
+}
+
+@media (min-width: 640px) {
+  .scroll-area {
+    height: var(--dynamic-height-sm);
   }
 }
