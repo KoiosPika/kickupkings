@@ -57,6 +57,10 @@ const PlayPage = () => {
         <Image src={'/icons/user.svg'} alt='user' height={50} width={50} className='bg-slate-500 p-1 h-[30px] w-[30px] rounded-lg' />
         <p className='font-semibold text-white text-[13px]'>Rami (Amature)</p>
         <p className='font-semibold text-white text-[13px]'>{`->`}</p>
+        <div className='flex flex-row items-center gap-2 bg-slate-800 px-2 py-[2px] sm:py-[5px] rounded-md ml-auto mr-2'>
+          <Image src={'/icons/coin.svg'} alt='coin' height={100} width={100} className='w-[20px] h-[20px] sm:w-[35px] sm:h-[35px]' />
+          <p className='font-semibold text-white text-[16px] sm:text-[25px]'>1,500</p>
+        </div>
       </div>
       <div className='w-full flex justify-center items-center'>
         <div className='w-11/12 flex items-center gap-1'>
@@ -100,7 +104,10 @@ const PlayPage = () => {
       </div>
       <div className='w-full flex flex-col justify-center items-center mt-2'>
         <div className='w-11/12'>
-          <p className='text-white font-semibold bg-slate-800 px-3 py-1 inline-flex rounded-lg text-[16px] sm:text-[22px]'>History</p>
+          <div className='flex flex-row items-center w-full'>
+            <p className='text-white font-semibold bg-slate-800 px-3 py-1 inline-flex rounded-lg text-[16px] sm:text-[22px]'>History</p>
+            <p className='text-white font-semibold bg-slate-800 px-3 py-1 inline-flex rounded-lg text-[12px] sm:text-[22px] ml-auto mt-auto'>View All {`->`}</p>
+          </div>
           <div className='flex flex-col gap-1 sm:gap-4 my-2'>
             <div className='text-white font-semibold bg-slate-800 p-2 rounded-lg flex flex-row items-center gap-1 sm:gap-5'>
               <p className='h-[25px] w-[30px] sm:h-[45px] sm:w-[50px] text-[16px] sm:text-[30px] text-center bg-red-600 rounded-sm'>L</p>
@@ -133,8 +140,10 @@ const PlayPage = () => {
         </div>
       </div>
       <div className='w-full flex flex-col justify-center items-center mt-2'>
-        <div className='bg-blue-500 px-3 py-2 font-semibold text-white rounded-xl shadow-blue-600 shadow-lg border-b-[4px] sm:border-b-[8px] border-blue-800'>
-          <p className='text-[18px] sm:text-[34px] px-4'>Find Match</p>
+        <div className='bg-blue-500 px-3 py-2 font-semibold text-white rounded-xl shadow-blue-600 shadow-lg border-b-[4px] sm:border-b-[8px] border-blue-800 flex flex-row items-center gap-1'>
+          <p className='text-[18px] sm:text-[34px] mx-2'>Find Match</p>
+          <Image src={'/icons/coin.svg'} alt='coin' height={100} width={100} className='w-[20px] h-[20px] sm:w-[35px] sm:h-[35px]' />
+          <p className='font-semibold text-white text-[16px] sm:text-[25px]'>20</p>
         </div>
       </div>
       <div className='w-full flex flex-col h-full justify-center items-center flex-grow mt-3'>
