@@ -14,19 +14,19 @@ const colors = [
 const PlayPage = () => {
 
   const formation = {
-    id: '4-1-2-1-2',
+    id: '4-3-3',
     data: [
-      { positions: ['', 'LST', 'RST', ''], type: 'Forward' },
-      { positions: [''], type: 'Forward' },
-      { positions: ['CAM'], type: 'Midfield' },
-      { positions: ['LM', '', 'RM'], type: 'Midfield' },
-      { positions: ['CDM'], type: 'Midfield' },
-      { positions: [''], type: 'Midfield' },
-      { positions: ['LB', 'LCB', 'RCB', 'RB'], type: 'Defense' },
-      { positions: [''], type: 'Goalkeeper' },
-      { positions: ['GK'], type: 'Goalkeeper' }
+        { positions: ['ST'], type: 'Forward' },
+        { positions: ['LW', '','', 'RW'], type: 'Forward' },
+        { positions: [''], type: 'Spacer' },
+        { positions: ['', 'LCM', '', 'CM', '', 'RCM', ''], type: 'Midfield' },
+        { positions: [''], type: 'Spacer' },
+        { positions: [''], type: 'Spacer' },
+        { positions: ['LB', 'LCB', 'RCB', 'RB'], type: 'Defense' },
+        { positions: [''], type: 'Goalkeeper' },
+        { positions: ['GK'], type: 'Goalkeeper' }
     ]
-  }
+}
 
   const getColor = (type: any, position: any) => {
     if (!position) {
@@ -87,7 +87,7 @@ const PlayPage = () => {
         <div className='w-11/12'>
           <p className='text-white font-semibold bg-slate-800 px-3 py-1 inline-flex rounded-lg text-[16px] sm:text-[22px]'>History</p>
           <div className='flex flex-col gap-1 sm:gap-4 my-2'>
-            <div className='text-white font-semibold bg-slate-800 p-2 rounded-lg flex flex-row items-center gap-1 sm:gap-5 border-[1px] border-white'>
+            <div className='text-white font-semibold bg-slate-800 p-2 rounded-lg flex flex-row items-center gap-1 sm:gap-5'>
               <p className='h-[25px] w-[30px] sm:h-[45px] sm:w-[50px] text-[16px] sm:text-[30px] text-center bg-red-600 rounded-sm'>L</p>
               <p className='ml-2 text-[16px] sm:text-[30px]'>4-1</p>
               <div className='ml-5 flex flex-row items-center bg-slate-900 px-2 py-1 rounded-lg'>
@@ -96,7 +96,7 @@ const PlayPage = () => {
               </div>
               <p className='bg-purple-700 px-2 text-[14px] sm:text-[24px] py-[2px] rounded-lg ml-auto shadow-md shadow-purple-500 border-b-[3px] sm:border-b-[6px] border-purple-800'>Rematch</p>
             </div>
-            <div className='text-white font-semibold bg-slate-800 p-2 rounded-lg flex flex-row items-center gap-1 sm:gap-5 border-[1px] border-white'>
+            <div className='text-white font-semibold bg-slate-800 p-2 rounded-lg flex flex-row items-center gap-1 sm:gap-5'>
               <p className='h-[25px] w-[30px] sm:h-[45px] sm:w-[50px] text-[16px] sm:text-[30px] text-center bg-green-600 rounded-sm'>W</p>
               <p className='ml-2 text-[16px] sm:text-[30px]'>4-2</p>
               <div className='ml-5 flex flex-row items-center bg-slate-900 px-2 py-1 rounded-lg'>
@@ -105,7 +105,7 @@ const PlayPage = () => {
               </div>
               <p className='bg-purple-700 px-2 text-[14px] sm:text-[24px] py-[2px] rounded-lg ml-auto shadow-md shadow-purple-500 border-b-[3px] sm:border-b-[6px] border-purple-800'>Rematch</p>
             </div>
-            <div className='text-white font-semibold bg-slate-800 p-2 rounded-lg flex flex-row items-center gap-1 sm:gap-5 border-[1px] border-white'>
+            <div className='text-white font-semibold bg-slate-800 p-2 rounded-lg flex flex-row items-center gap-1 sm:gap-5'>
               <p className='h-[25px] w-[30px] sm:h-[45px] sm:w-[50px] text-[16px] sm:text-[30px] text-center bg-red-600 rounded-sm'>L</p>
               <p className='ml-2 text-[16px] sm:text-[30px]'>5-3</p>
               <div className='ml-5 flex flex-row items-center bg-slate-900 px-2 py-1 rounded-lg'>
@@ -122,26 +122,28 @@ const PlayPage = () => {
           <p className='text-[18px] sm:text-[34px] px-4'>Find Match</p>
         </div>
       </div>
-      <div className='w-full flex flex-col h-full justify-center items-center flex-grow mt-2'>
-        <div className='w-11/12 flex flex-row items-center h-full gap-1'>
-          <div className='h-full w-full flex flex-col justify-around rounded-md' style={{ backgroundImage: `url('/Field-dark.png')`, backgroundSize: 'cover', backgroundPosition: 'center' }}>
+      <div className='w-full flex flex-col h-full justify-center items-center flex-grow mt-3'>
+        <div className='w-11/12 flex flex-row items-center h-full gap-2'>
+          <div className='h-full w-full flex flex-col justify-around rounded-md bg-slate-800' style={{ backgroundImage: `url('/Field-dark.png')`, backgroundSize: 'cover', backgroundPosition: 'center' }}>
             {formation?.data.map((row, rowIndex) => (
               <div key={rowIndex} className='flex justify-around'>
-                {row.positions.map((position, posIndex) => (
-                  <div key={posIndex} className='p-[7px] rounded-full text-white font-semibold border-white sm:p-[15px]' style={{ backgroundColor: getColor(row.type, row.positions[posIndex]), borderWidth: row.positions[posIndex] ? 2 : 0, boxShadow: position ? `-8px -8px 10px -4px ${getColor(row.type, row.positions[posIndex])},-8px 8px 10px -4px ${getColor(row.type, row.positions[posIndex])},8px -8px 10px -4px ${getColor(row.type, row.positions[posIndex])},8px 8px 10px -4px ${getColor(row.type, row.positions[posIndex])}` : '' }} />
+                {row.positions.map((position : any, posIndex) => (
+                  <div key={posIndex} className='p-1 sm:px-3 sm:py-1 rounded-sm text-white font-semibold border-white' style={{ backgroundColor: getColor(row.type, row.positions[posIndex]), borderWidth: row.positions[posIndex] ? 2 : 0, boxShadow: position ? `-8px -8px 10px -4px ${getColor(row.type, row.positions[posIndex])},-8px 8px 10px -4px ${getColor(row.type, row.positions[posIndex])},8px -8px 10px -4px ${getColor(row.type, row.positions[posIndex])},8px 8px 10px -4px ${getColor(row.type, row.positions[posIndex])}` : '' }}>
+                    <p className='text-[10px] sm:text-[20px]'>{position}</p>
+                  </div>
                 ))}
               </div>
             ))}
           </div>
           <div className='h-full w-full flex flex-col justify-around rounded-md'>
-            <ScrollArea style={{ height: 195 }}>
+            <ScrollArea style={{ height: 525 }}>
               <div className='flex flex-col gap-1 w-full'>
                 {positions.map((position: any) => (
-                  <div key={position.symbol} className='bg-slate-800 p-2 rounded-lg'>
+                  <div key={position.symbol} className='bg-slate-800 p-2 sm:p-4 rounded-lg'>
                     <div className='flex flex-row items-center'>
-                      <p style={{ backgroundColor: position.color }} className='inline-flex py-1 px-2 text-white font-semibold rounded-md'>{position.symbol}</p>
+                      <p style={{ backgroundColor: position.color }} className='inline-flex py-1 px-2 text-white font-semibold rounded-md text-[16px] sm:text-[25px]'>{position.symbol}</p>
                       {/* <p className='ml-auto mr-2 text-green-500 font-bold'>Ready</p> */}
-                      <p className='ml-auto mr-2 text-red-500 font-bold text-[14px]'>Recovering</p>
+                      <p className='ml-auto mr-2 text-green-500 font-bold text-[14px] sm:text-[22px]'>Ready</p>
                     </div>
                   </div>
                 ))}
