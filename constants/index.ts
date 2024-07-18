@@ -173,4 +173,76 @@ export const positions = [
         symbol:'RW',
         color:'#EE2E0C'
     },
+    {
+        type:'Staff',
+        label:'Medical Team',
+        symbol:'MT',
+        color:'#8710C3'
+    },
+    {
+        type:'Staff',
+        label:'Tactics Team',
+        symbol:'TT',
+        color:'#8710C3'
+    },
+    {
+        type:'Staff',
+        label:'Fitness Team',
+        symbol:'FT',
+        color:'#8710C3'
+    },
+    {
+        type:'Staff',
+        label:'Coaching Staff',
+        symbol:'CS',
+        color:'#8710C3'
+    },
+    {
+        type:'Staff',
+        label:'Scouting Staff',
+        symbol:'SS',
+        color:'#8710C3'
+    },
+    {
+        type:'Staff',
+        label:'Nutritionist',
+        symbol:'NU',
+        color:'#8710C3'
+    },
+    {
+        type:'Staff',
+        label:'Physiotherapist',
+        symbol:'PH',
+        color:'#8710C3'
+    },
+    {
+        type:'Staff',
+        label:'Goalkeeping Coach',
+        symbol:'GC',
+        color:'#8710C3'
+    },
+    {
+        type:'Staff',
+        label:'Strength Coach',
+        symbol:'SC',
+        color:'#8710C3'
+    },
+    {
+        type:'Staff',
+        label:'Team Analyst',
+        symbol:'TA',
+        color:'#8710C3'
+    },
+    {
+        type:'Staff',
+        label:'Video Analyst',
+        symbol:'VA',
+        color:'#8710C3'
+    },
+    {
+        type:'Staff',
+        label:'Equipment Manager',
+        symbol:'EM',
+        color:'#8710C3'
+    },
 ]

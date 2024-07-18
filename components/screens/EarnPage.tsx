@@ -1,9 +1,22 @@
 import Image from 'next/image'
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { Input } from '../ui/input'
 import { ScrollArea } from '../ui/scroll-area'
 
 const EarnPage = () => {
+
+  const [height, setHeight] = useState<number>(window.innerHeight)
+
+    const updateDimensions = () => {
+        setHeight(window.innerHeight);
+    }
+
+    useEffect(() => {
+        window.addEventListener("resize", updateDimensions);
+        return () => window.removeEventListener("resize", updateDimensions);
+    }, []);
+
+
   return (
     <div className='w-full h-screen'>
       <div className='w-full ml-auto mb-auto p-2 flex flex-row items-center gap-2'>
@@ -11,7 +24,7 @@ const EarnPage = () => {
         <p className='font-semibold text-white text-[13px]'>Rami (Amature)</p>
         <p className='font-semibold text-white text-[13px]'>{`->`}</p>
       </div>
-      <ScrollArea style={{height:540}}>
+      <ScrollArea style={{height:height - 130}}>
         <div className='w-full flex flex-col justify-center items-center'>
           <p className='font-semibold text-white text-[20px] mt-2 bg-slate-800 px-2 py-1 rounded-md'>Daily Quizes</p>
           <div className='my-2 flex flex-row items-center gap-2'>
