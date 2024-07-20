@@ -3,6 +3,8 @@ import React, { useEffect, useState } from 'react'
 import { ScrollArea } from '../ui/scroll-area'
 import { formations } from '@/constants/Formations'
 import { positions } from '@/constants'
+import { createUser, getUserByUserID } from '@/lib/actions/user.actions'
+import { IUserData } from '@/lib/database/models/userData.model'
 
 const colors = [
   { 'Forward': '#EE2E0C' },
@@ -14,6 +16,7 @@ const colors = [
 const PlayPage = () => {
 
   const [height, setHeight] = useState<number>(window.innerHeight)
+  const [user, setUser] = useState<IUserData>()
 
   useEffect(() => {
     const updateHeights = () => {
@@ -27,6 +30,15 @@ const PlayPage = () => {
 
     return () => window.removeEventListener('resize', updateHeights);
   }, []);
+
+  useEffect(() => {
+    const getUser = async () => {
+      const userData = await getUserByUserID('6699bfa1ba8348c3228f89ab')
+      setUser(userData)
+    }
+
+    getUser();
+  }, [])
 
   const formation = {
     id: '4-1-2-1-2',
@@ -54,12 +66,12 @@ const PlayPage = () => {
   return (
     <section className='w-full h-screen flex flex-col'>
       <div className='w-full ml-auto mb-auto p-2 flex flex-row items-center gap-2'>
-        <Image src={'/icons/user.svg'} alt='user' height={50} width={50} className='bg-slate-500 p-1 h-[30px] w-[30px] rounded-lg' />
+        <Image src={'/icons/user.svg'} alt='user' height={50} width={50} className='bg-slate-500 p-1 h-[30px] w-[30px] rounded-md' />
         <p className='font-semibold text-white text-[13px]'>Rami (Amature)</p>
         <p className='font-semibold text-white text-[13px]'>{`->`}</p>
         <div className='flex flex-row items-center gap-2 bg-slate-800 px-2 py-[2px] sm:py-[5px] rounded-md ml-auto mr-2'>
           <Image src={'/icons/coin.svg'} alt='coin' height={100} width={100} className='w-[20px] h-[20px] sm:w-[35px] sm:h-[35px]' />
-          <p className='font-semibold text-white text-[16px] sm:text-[25px]'>1,500</p>
+          <p className='font-semibold text-white text-[16px] sm:text-[25px]'>{user && user?.coins}</p>
         </div>
       </div>
       <div className='w-full flex justify-center items-center'>
@@ -81,7 +93,7 @@ const PlayPage = () => {
               <p className='text-[16px] sm:text-[20px]'>Played</p>
             </div>
             <div className='w-full bg-slate-800 text-white text-center font-semibold h-1/2 flex justify-center items-center'>
-              <p className='text-[16px] sm:text-[20px]'>2340</p>
+              <p className='text-[16px] sm:text-[20px]'>{user && user?.played}</p>
             </div>
           </div>
           <div className='w-1/5 flex flex-col h-[60px] sm:h-[80px] gap-[3px]'>
@@ -89,7 +101,7 @@ const PlayPage = () => {
               <p className='text-[16px] sm:text-[20px]'>Won</p>
             </div>
             <div className='w-full bg-slate-800 text-white text-center font-semibold h-1/2 flex justify-center items-center'>
-              <p className='text-[16px] sm:text-[20px]'>2220</p>
+              <p className='text-[16px] sm:text-[20px]'>{user && user?.won}</p>
             </div>
           </div>
           <div className='w-1/5 flex flex-col h-[60px] sm:h-[80px] gap-[3px]'>
@@ -97,7 +109,7 @@ const PlayPage = () => {
               <p className='text-[16px] sm:text-[20px]'>Lost</p>
             </div>
             <div className='w-full bg-slate-800 text-white text-center font-semibold rounded-br-lg h-1/2 flex justify-center items-center'>
-              <p className='text-[16px] sm:text-[20px]'>140</p>
+              <p className='text-[16px] sm:text-[20px]'>{user && user?.lost}</p>
             </div>
           </div>
         </div>
@@ -139,8 +151,8 @@ const PlayPage = () => {
       </div>
       <div className='w-full flex flex-col h-full justify-center items-center flex-grow mt-3'>
         <div className='w-11/12 flex flex-row items-center h-full gap-2'>
-          <div className='h-full w-1/2 flex flex-col justify-around rounded-md bg-slate-800 border-y-2 sm:border-4 border-white' style={{ backgroundImage: `url('/Field-dark.png')`, backgroundSize: 'cover', backgroundPosition: 'center' }}>
-            {formation?.data.map((row, rowIndex) => (
+          <div className='h-full w-1/2 flex flex-col justify-around rounded-md bg-slate-800 border-[1px] sm:border-4 border-white' style={{ backgroundImage: `url('/Field-dark.png')`, backgroundSize: 'cover', backgroundPosition: 'center' }}>
+            {user && formations.find(f => f.id === user?.formation)?.data.map((row, rowIndex) => (
               <div key={rowIndex} className='flex justify-around'>
                 {row.positions.map((position: any, posIndex) => (
                   <div key={posIndex} className='p-1 sm:px-3 sm:py-1 rounded-sm text-white font-semibold border-white' style={{ backgroundColor: getColor(row.type, row.positions[posIndex]), borderWidth: row.positions[posIndex] ? 2 : 0, boxShadow: position ? `-8px -8px 10px -4px ${getColor(row.type, row.positions[posIndex])},-8px 8px 10px -4px ${getColor(row.type, row.positions[posIndex])},8px -8px 10px -4px ${getColor(row.type, row.positions[posIndex])},8px 8px 10px -4px ${getColor(row.type, row.positions[posIndex])}` : '' }}>

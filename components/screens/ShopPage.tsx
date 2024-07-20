@@ -12,11 +12,14 @@ import {
     DrawerTitle,
     DrawerTrigger,
 } from "@/components/ui/drawer"
+import { IUserData } from '@/lib/database/models/userData.model';
+import { getUserByUserID } from '@/lib/actions/user.actions';
 
 const ShopPage = () => {
 
     const [selectedType, setSelectedType] = useState('Defense')
     const [height, setHeight] = useState<number>(window.innerHeight)
+    const [user, setUser] = useState<IUserData>()
 
     const updateDimensions = () => {
         setHeight(window.innerHeight);
@@ -31,6 +34,16 @@ const ShopPage = () => {
         setSelectedType(type);
     };
 
+
+    useEffect(() => {
+        const getUser = async () => {
+            const userData = await getUserByUserID('6699bfa1ba8348c3228f89ab')
+            setUser(userData)
+        }
+
+        getUser();
+    }, [])
+
     return (
         <section className='w-full h-screen'>
             <div className='w-full ml-auto mb-auto p-2 flex flex-row items-center gap-2'>
@@ -42,13 +55,13 @@ const ShopPage = () => {
                 <div className='w-1/3 bg-slate-800 flex flex-row justify-around items-center rounded-lg h-[53px] sm:h-[75px]'>
                     <div className='flex flex-row items-center gap-2'>
                         <Image src={'/icons/coin.svg'} alt='coin' height={100} width={100} className='w-[25px] h-[25px] sm:w-[40px] sm:h-[40px]' />
-                        <p className='font-bold text-white text-[16px] sm:text-[22px]'>2000</p>
+                        <p className='font-bold text-white text-[16px] sm:text-[22px]'>{user && user?.coins}</p>
                     </div>
                 </div>
                 <div className='w-1/3 bg-slate-800 flex flex-row justify-around items-center rounded-lg h-[53px] sm:h-[75px]'>
                     <div className='flex flex-row items-center gap-2'>
                         <Image src={'/icons/diamond.svg'} alt='coin' height={100} width={100} className='w-[25px] h-[25px] sm:w-[40px] sm:h-[40px]' />
-                        <p className='font-bold text-white text-[16px] sm:text-[22px]'>0</p>
+                        <p className='font-bold text-white text-[16px] sm:text-[22px]'>{user && user?.diamonds}</p>
                     </div>
                 </div>
                 <div className='w-1/3 bg-slate-800 flex flex-row justify-around items-center rounded-lg h-[53px] sm:h-[75px]'>
@@ -73,9 +86,9 @@ const ShopPage = () => {
                 </div>
                 <ScrollArea className='w-11/12' style={{ height: height - 245 }}>
                     <div className='grid grid-cols-2 w-full gap-2 sm:gap-3'>
-                        {positions
-                            .filter((position) => position.type === selectedType)
-                            .map((position: any, index: number) => (
+                        {positions.filter((position) => position.type === selectedType).map((position: any, index: number) => {
+                            const userPosition = user?.positions.find((userPos: any) => userPos.position === position.symbol);
+                            return (
                                 <Drawer key={index}>
                                     <DrawerTrigger>
                                         <div className='flex flex-col justify-center items-center w-full bg-slate-800 rounded-xl h-[100px] sm:h-[150px] shadow-slate-200 shadow-sm border-[1px] border-slate-300'>
@@ -87,18 +100,18 @@ const ShopPage = () => {
                                                     <p className='text-[11px] sm:text-[18.5px] font-bold text-white'>{position.label}</p>
                                                     <div className='flex flex-row items-center gap-2 bg-slate-600 px-2 py-[2px] sm:py-[5px] rounded-lg'>
                                                         <Image src={'/icons/coin.svg'} alt='coin' height={100} width={100} className='w-[20px] h-[20px] sm:w-[35px] sm:h-[35px]' />
-                                                        <p className='font-semibold text-white text-[16px] sm:text-[25px]'>150</p>
+                                                        <p className='font-semibold text-white text-[16px] sm:text-[25px]'>1150</p>
                                                     </div>
                                                 </div>
                                             </div>
                                             <div className='border-t-2 border-slate-300 w-full py-1 sm:py-2'>
-                                                <p className='font-semibold text-white text-center text-[14px] sm:text-[25px]'>Level 0 {`->`} Level 1</p>
+                                                <p className='font-semibold text-white text-center text-[14px] sm:text-[25px]'>{userPosition ? `Level ${userPosition.level} -> Level ${userPosition.level + 1}` : 'No Level Data'}</p>
                                             </div>
                                         </div>
                                     </DrawerTrigger>
                                     <DrawerContent style={{ borderColor: position.color }} className={` h-[55%] sm:h-[40%] border-t-8 border-x-0 bg-slate-800`}>
                                         <DrawerHeader>
-                                            <DrawerTitle className='text-white my-3'>Upgrade {position.label} to Level 3?</DrawerTitle>
+                                            <DrawerTitle className='text-white my-3'>Upgrade {position.label} to Level {userPosition && userPosition?.level + 1}?</DrawerTitle>
                                             <div className={`p-2 rounded-md font-bold w-1/5 place-self-center text-center text-white h-[70px] flex justify-center items-center text-[23px] border-2 border-white`} style={{ backgroundColor: position.color, boxShadow: `-8px -8px 10px -6px ${position.color},-8px 8px 10px -6px ${position.color},8px -8px 10px -6px ${position.color},8px 8px 10px -6px ${position.color}` }}>
                                                 <p>{position.symbol}</p>
                                             </div>
@@ -114,7 +127,9 @@ const ShopPage = () => {
                                             </DrawerClose>
                                         </DrawerFooter>
                                     </DrawerContent>
-                                </Drawer>))}
+                                </Drawer>
+                            );
+                        })}
                     </div>
                 </ScrollArea>
             </div>

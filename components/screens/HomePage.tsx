@@ -1,7 +1,22 @@
+import { getUserByUserID } from '@/lib/actions/user.actions'
+import { IUserData } from '@/lib/database/models/userData.model'
 import Image from 'next/image'
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 
 const HomePage = () => {
+
+    const [user, setUser] = useState<IUserData>()
+
+    useEffect(() => {
+        const getUser = async () => {
+            const userData = await getUserByUserID('6699bfa1ba8348c3228f89ab')
+            setUser(userData)
+        }
+
+        getUser();
+    },[])
+
+
     return (
         <section className='w-full h-screen'>
             <div className='w-full ml-auto mb-auto p-2 flex flex-row items-center gap-2'>
@@ -11,7 +26,7 @@ const HomePage = () => {
             </div>
             <div className='w-full ml-auto mb-auto p-2 flex flex-row items-center gap-2'>
                 <div className='w-1/2 bg-slate-800 flex flex-col justify-center items-center rounded-lg h-[53px] sm:h-[75px] gap-[3px]'>
-                    <p className='font-bold text-white text-[13px] sm:text-[22px]'>Points: 88,460 / 10,000</p>
+                    {user && <p className='font-bold text-white text-[13px] sm:text-[22px]'>Points: {user?.points} / 10,000</p>}
                     <div className='w-11/12 flex flex-row items-center'>
                         <div className='h-[5px] sm:h-[10px] w-8/12 rounded-l-lg bg-orange-600' />
                         <div className='h-[5px] sm:h-[10px] w-4/12 rounded-r-lg bg-orange-300' />

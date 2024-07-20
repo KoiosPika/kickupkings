@@ -2,6 +2,7 @@ import { formations } from '@/constants/Formations';
 import Image from 'next/image'
 import React, { useEffect, useState } from 'react'
 import { ScrollArea, ScrollBar } from '../ui/scroll-area';
+import { saveFormation } from '@/lib/actions/user.actions';
 
 const colors = [
   { 'Forward': '#EE2E0C' },
@@ -13,6 +14,7 @@ const colors = [
 const LineupPage = () => {
   const [height, setHeight] = useState<number>(window.innerHeight)
   const [selectedFormation, setSelectedFormation] = useState(formations[0].id);
+  const [saving, setSaving] = useState(false)
 
   const updateDimensions = () => {
     setHeight(window.innerHeight);
@@ -36,6 +38,16 @@ const LineupPage = () => {
   const getUserData = (position: string) => {
     const user: any = userData.find((data: any) => data[position] !== undefined);
     return user ? user[position] : '';
+  }
+
+  const changeFormation = async () => {
+    if (saving) {
+      return;
+    }
+
+    setSaving(true);
+    await saveFormation('6699bfa1ba8348c3228f89ab', selectedFormation);
+    setSaving(false);
   }
 
   const userData = [
@@ -116,6 +128,9 @@ const LineupPage = () => {
               <div className='absolute bg-[#DE1848] bottom-2 right-3 border-2 border-white text-white px-3 rounded-sm font-semibold'>
                 <p className='text-center'>{currentFormation.id}</p>
               </div>
+              <div className='absolute bg-[#DE1848] bottom-2 left-3 border-2 border-white text-white px-3 rounded-sm font-semibold'>
+                <p className='text-center'>{overallScore}</p>
+              </div>
               {row.positions.map((position, posIndex) => (
                 <div key={posIndex} className='px-2 py-[5px] rounded-lg text-white font-semibold border-white w-[50px] sm:w-[70px] sm:py-[10px]' style={{ backgroundColor: getColor(row.type, row.positions[posIndex]), borderWidth: row.positions[posIndex] ? 2 : 0, boxShadow: position ? `-8px -8px 10px -4px ${getColor(row.type, row.positions[posIndex])},-8px 8px 10px -4px ${getColor(row.type, row.positions[posIndex])},8px -8px 10px -4px ${getColor(row.type, row.positions[posIndex])},8px 8px 10px -4px ${getColor(row.type, row.positions[posIndex])}` : '' }}>
                   {row.positions[posIndex] && <p className='text-[11px] sm:text-[18px] text-center'>{position}</p>}
@@ -127,27 +142,25 @@ const LineupPage = () => {
         </div>
         <Image src={'/Field-dark.png'} alt='field' height={2000} width={2000} style={{ height: height - 200 }} className='w-full max-w-[700px]' />
       </div>
-      <ScrollArea style={{ height: height - 590 }} className='py-2 px-2'>
+      <ScrollArea style={{ height: height - 620 }} className='py-2 px-2'>
         <div className='flex gap-2'>
           <>
             <div className='flex flex-col h-full justify-center items-center border-[1px] border-white bg-slate-800 rounded-lg' onClick={() => findBestFormation()} style={{ height: '100%', width: 95 }}>
-              <div style={{ height: '80%' }} className='p-2'>
-                <Image src={'/icons/Football-white.svg'} alt='football' height={20} width={20}/>
-              </div>
-              <div className=' text-center w-full rounded-b-md font-semibold bg-white' >Find Best</div>
+              <div className=' text-center w-full rounded-md font-semibold bg-white' >Find Best</div>
             </div>
             {formations.map((formation) => (
-              <div key={formation.id} className='flex flex-col h-full justify-center items-center border-[1px] rounded-lg bg-slate-800' onClick={() => setSelectedFormation(formation.id)} style={{ height: '100%', width: 95, borderColor: currentFormation?.id == formation.id ? '#EE9F0C' : 'white' }}>
-                <div style={{ height: '80%' }} className='p-2'>
-                  <Image src={'/icons/Football-white.svg'} alt='football' height={20} width={20} />
-                </div>
-                <div className=' text-center w-full rounded-b-md font-semibold' style={{ backgroundColor: currentFormation?.id == formation.id ? '#EE9F0C' : 'white', color: currentFormation?.id == formation.id ? 'white' : 'black' }}>{formation.id}</div>
+              <div key={formation.id} className='flex flex-col h-full justify-center items-center border-[1px] rounded-lg bg-white' onClick={() => setSelectedFormation(formation.id)} style={{ height: '100%', width: 95, borderColor: currentFormation?.id == formation.id ? '#EE9F0C' : 'white' }}>
+
+                <div className=' text-center w-full rounded-md font-semibold' style={{ backgroundColor: currentFormation?.id == formation.id ? '#EE9F0C' : 'white', color: currentFormation?.id == formation.id ? 'white' : 'black' }}>{formation.id}</div>
               </div>
             ))}
           </>
         </div>
         <ScrollBar orientation="horizontal" className='hidden' />
       </ScrollArea>
+      <div className='w-full flex justify-center items-center'>
+        <p className='bg-green-600 text-white font-bold px-3 py-1 rounded-md' onClick={changeFormation}>{saving ? 'Saving...' : 'Save Formation'}</p>
+      </div>
     </section>
   )
 }
