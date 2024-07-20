@@ -5,6 +5,7 @@ import { formations } from '@/constants/Formations'
 import { positions } from '@/constants'
 import { createUser, getUserByUserID } from '@/lib/actions/user.actions'
 import { IUserData } from '@/lib/database/models/userData.model'
+import { useRouter } from 'next/navigation'
 
 const colors = [
   { 'Forward': '#EE2E0C' },
@@ -17,6 +18,7 @@ const PlayPage = () => {
 
   const [height, setHeight] = useState<number>(window.innerHeight)
   const [user, setUser] = useState<IUserData>()
+  const router = useRouter();
 
   useEffect(() => {
     const updateHeights = () => {
@@ -62,7 +64,7 @@ const PlayPage = () => {
     <section className='w-full h-screen flex flex-col'>
       <div className='w-full ml-auto mb-auto p-2 flex flex-row items-center gap-2'>
         <Image src={'/icons/user.svg'} alt='user' height={50} width={50} className='bg-slate-500 p-1 h-[30px] w-[30px] rounded-md' />
-        <p className='font-semibold text-white text-[13px]'>Rami (Amature)</p>
+        <p className='font-semibold text-white text-[13px]'>Rami ({user?.Rank})</p>
         <p className='font-semibold text-white text-[13px]'>{`->`}</p>
         <div className='flex flex-row items-center gap-2 bg-slate-800 px-2 py-[2px] sm:py-[5px] rounded-md ml-auto mr-2'>
           <Image src={'/icons/coin.svg'} alt='coin' height={100} width={100} className='w-[20px] h-[20px] sm:w-[35px] sm:h-[35px]' />
@@ -113,7 +115,7 @@ const PlayPage = () => {
         <div className='w-11/12'>
           <div className='flex flex-row items-center w-full'>
             <p className='text-white font-semibold bg-slate-800 px-3 py-1 inline-flex rounded-lg text-[16px] sm:text-[22px]'>History</p>
-            <p className='text-white font-semibold bg-slate-800 px-3 py-1 inline-flex rounded-lg text-[12px] sm:text-[22px] ml-auto mt-auto'>View All {`->`}</p>
+            <a href='/history' className='text-white font-semibold bg-slate-800 px-3 py-1 inline-flex rounded-lg text-[12px] sm:text-[22px] ml-auto mt-auto'>View All {`->`}</a>
           </div>
           <div className='flex flex-col gap-1 sm:gap-4 my-2'>
             <div className='text-white font-semibold bg-slate-800 p-2 rounded-lg flex flex-row items-center gap-1 sm:gap-5'>
