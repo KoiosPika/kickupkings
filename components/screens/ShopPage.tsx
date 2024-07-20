@@ -13,7 +13,7 @@ import {
     DrawerTrigger,
 } from "@/components/ui/drawer"
 import { IUserData } from '@/lib/database/models/userData.model';
-import { getUserByUserID, upgradePosition } from '@/lib/actions/user.actions';
+import { getUserByUserID, savePrize, upgradePosition } from '@/lib/actions/user.actions';
 import { useRouter } from 'next/navigation';
 
 const ShopPage = () => {
@@ -70,7 +70,7 @@ const ShopPage = () => {
     }
 
     const generateWeightedPrizes = () => {
-        let prizes : any[] = [];
+        let prizes: any[] = [];
         for (let i = 0; i < 3; i++) {
             prizes = prizes.concat(
                 positions.map(pos => ({
@@ -79,55 +79,56 @@ const ShopPage = () => {
                 }))
             );
         }
-        for (let i = 0; i < 1; i++) {
+        for (let i = 0; i < 14; i++) {
             prizes.push({ type: 'coins', amount: Math.floor(Math.random() * (500 - 20 + 1)) + 20 });
         }
         return prizes;
     };
 
-    const getRandomPrize = (prizes : any) => {
+    const getRandomPrize = (prizes: any) => {
         const randomIndex = Math.floor(Math.random() * prizes.length);
         return prizes[randomIndex];
     };
 
 
-    const handleSpinClick = () => {
+    const handleSpinClick = async () => {
         if (isSpinning) return; // Prevent multiple spins at the same time
-    
+
         setIsSpinning(true);
         setFinalPrize(null);
-    
+
         const prizes = generateWeightedPrizes();
         const spinDuration = 5000; // Duration of the spin in milliseconds
         const intervalDuration = 100; // Interval duration in milliseconds
         let elapsedTime = 0;
-    
-        const spinInterval = setInterval(() => {
-          setCurrentPrize(getRandomPrize(prizes));
-          elapsedTime += intervalDuration;
-    
-          if (elapsedTime >= spinDuration) {
-            clearInterval(spinInterval);
-            const prize = getRandomPrize(prizes);
-            setFinalPrize(prize);
-            setCurrentPrize(prize);
-            setIsSpinning(false);
-    
-            // Update user data
-            if (prize.type === 'coins') {
-              setUser((prevUser : any) => ({
-                ...prevUser,
-                coins: prevUser.coins + prize.amount
-              }));
-            } else {
-              setUser((prevUser : any) => ({
-                ...prevUser,
-                [prize.symbol]: (prevUser[prize.symbol] || 0) + prize.increment
-              }));
+
+        const spinInterval = setInterval(async () => {
+            setCurrentPrize(getRandomPrize(prizes));
+            elapsedTime += intervalDuration;
+
+            if (elapsedTime >= spinDuration) {
+                clearInterval(spinInterval);
+                const prize = getRandomPrize(prizes);
+                setFinalPrize(prize);
+                setCurrentPrize(prize);
+                setIsSpinning(false);
+
+                if (prize.type === 'coins') {
+                    const newUser = await savePrize('6699bfa1ba8348c3228f89ab', `coins : coins + ${prize.amount}`);
+                    setUser(newUser)
+                } else {
+                    const newUser = await savePrize('6699bfa1ba8348c3228f89ab', `upgrade : ${prize.symbol} + ${prize.increment}`);
+                    setUser(newUser)
+                }
+
             }
-          }
         }, intervalDuration);
-      };
+    };
+
+    const handleReseting = () => {
+        setCurrentPrize(null),
+            setFinalPrize(null)
+    }
 
     return (
         <section className='w-full h-screen'>
@@ -178,16 +179,19 @@ const ShopPage = () => {
                             <p className='w-10/12 text-center text-white font-semibold'>You can win a level upgrade or coins from every spin</p>
                         </div>
                         <div className='flex justify-center items-center mt-6 relative'>
-                            <div className='h-[200px] w-[200px] rounded-full bg-gradient-to-t from-green-700 to-red-500 flex justify-center items-center animate-spin' style={{ boxShadow: `-8px -8px 10px -6px red,-8px 8px 10px -6px green,8px -8px 10px -6px green,8px 8px 10px -6px red` }} onClick={handleSpinClick} />
+                            <div className='h-[200px] w-[200px] rounded-full bg-gradient-to-t from-green-700 to-red-500 flex justify-center items-center animate-spin' style={{ boxShadow: `-8px -8px 10px -6px red,-8px 8px 10px -6px green,8px -8px 10px -6px green,8px 8px 10px -6px red` }} />
                             {isSpinning || finalPrize ? (
-                                <div className='h-[180px] w-[180px] bg-slate-700 rounded-full flex flex-col gap-2 justify-center items-center absolute'>
+                                <div className='h-[180px] w-[180px] bg-slate-700 rounded-full flex flex-col gap-2 justify-center items-center absolute z-10'>
                                     {currentPrize && (
                                         currentPrize.type === 'coins' ? (
-                                            <p className='text-white text-[24px] font-semibold'>{currentPrize.amount} Coins</p>
+                                            <div className='flex flex-row items-center gap-2'>
+                                                <Image src={'/icons/coin.svg'} alt='coin' height={40} width={40} />
+                                                <p className='text-white text-[26px] font-semibold'>{currentPrize.amount}</p>
+                                            </div>
                                         ) : (
                                             <div
                                                 className={`p-2 rounded-md font-bold w-[60px] h-[60px] text-center text-white flex justify-center items-center text-[18px] sm:text-[25px] border-2 border-white relative`}
-                                                style={{ backgroundColor: currentPrize.color, boxShadow: `-8px -8px 10px -6px green,-8px 8px 10px -6px green,8px -8px 10px -6px green,8px 8px 10px -6px green` }}
+                                                style={{ backgroundColor: currentPrize.color, boxShadow: `-8px -8px 10px -6px ${currentPrize.color},-8px 8px 10px -6px ${currentPrize.color},8px -8px 10px -6px ${currentPrize.color},8px 8px 10px -6px ${currentPrize.color}` }}
                                             >
                                                 <p>{currentPrize.symbol}</p>
                                                 <p className='absolute bottom-0 right-1 text-[14px]'>+{currentPrize.increment}</p>
@@ -196,10 +200,20 @@ const ShopPage = () => {
                                     )}
                                 </div>
                             ) : (
-                                <div className='h-[180px] w-[180px] bg-slate-700 rounded-full flex flex-col gap-2 justify-center items-center absolute'>
+                                <div className='h-[180px] w-[180px] bg-slate-700 rounded-full flex flex-col gap-2 justify-center items-center absolute' onClick={handleSpinClick}>
                                     <p className='rounded-full text-white mr-2 text-[24px] font-semibold'>Click to Spin</p>
+                                    <div className='flex flex-row justify-center items-center gap-2 bg-slate-800 px-2 py-1 rounded-full'>
+                                        <p className='font-bold' style={{ color: user && user.diamonds >= 5 ? 'white' : 'red' }}>5</p>
+                                        <Image src={'/icons/diamond.svg'} alt='coin' height={100} width={100} className='w-[25px] h-[25px] sm:w-[40px] sm:h-[40px]' />
+                                    </div>
                                 </div>
                             )}
+                        </div>
+                        <div className='flex flex-row justify-center items-center gap-2 mt-5'>
+                            <div className='flex flex-row gap-2 justify-center items-center' onClick={handleReseting}>
+                                <Image src={'/icons/refresh.svg'} alt='refresh' height={25} width={25} />
+                                <p className='font-semibold text-[18px] text-white'>Reset</p>
+                            </div>
                         </div>
                         <DrawerClose className='absolute text-white right-4 top-4'>
                             <Image src={'/icons/x.svg'} alt='coin' height={100} width={100} className='w-[25px] h-[25px] sm:w-[40px] sm:h-[40px]' />

@@ -96,3 +96,62 @@ export async function upgradePosition(id: string, position: string) {
         console.log(error)
     }
 }
+
+export async function savePrize(id: string, prize: string) {
+    try {
+        await connectToDatabase();
+
+        // Parse the prize string
+        const [type, value] = prize.split(':');
+
+        // Debug logs
+        console.log(`Prize type: ${type.trim()}`);
+        console.log(`Prize value: ${value.trim()}`);
+
+        // Find the user
+        const user = await UserData.findOne({ User: id });
+
+        if (!user) {
+            throw new Error('User not found');
+        }
+
+        if (type.trim() === 'coins') {
+            // Extract the coin amount
+            const coinAmount = parseInt(value.trim().split(' ')[2], 10);
+            console.log(`Coin amount: ${coinAmount}`);
+
+            if (!isNaN(coinAmount)) {
+                user.coins += coinAmount;
+            } else {
+                throw new Error('Invalid coin amount');
+            }
+        } else if (type.trim() === 'upgrade') {
+            // Extract the position and increment value
+            const [position, increment] = value.trim().split(' +');
+            const incrementValue = parseInt(increment, 10);
+
+            // Debug logs
+            console.log(`Position: ${position.trim()}`);
+            console.log(`Increment value: ${incrementValue}`);
+
+            if (!isNaN(incrementValue)) {
+                // Find the specific position and update its level
+                const userPosition = user.positions.find((pos: any) => pos.position === position.trim());
+
+                if (userPosition) {
+                    userPosition.level += incrementValue;
+                }
+            } else {
+                throw new Error('Invalid increment value');
+            }
+        }
+
+        user.diamonds -= 5;
+
+        const newUser = await user.save();
+
+        return JSON.parse(JSON.stringify(newUser));
+    } catch (error) {
+        console.log(error);
+    }
+}
