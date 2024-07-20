@@ -29,6 +29,16 @@ const LineupPage = () => {
 
   let currentFormation = formations.find(f => f.id === selectedFormation);
 
+  useEffect(() => {
+    const getUser = async () => {
+      const userData = await getUserByUserID('6699bfa1ba8348c3228f89ab')
+      setUser(userData)
+      setSelectedFormation(userData.formation)
+    }
+
+    getUser();
+  }, [])
+
   const getColor = (type: any, position: any) => {
     if (!position) {
       return '';
@@ -45,15 +55,6 @@ const LineupPage = () => {
     return '';
   };
 
-  useEffect(() => {
-    const getUser = async () => {
-      const userData = await getUserByUserID('6699bfa1ba8348c3228f89ab')
-      setUser(userData)
-      setSelectedFormation(userData.formation)
-    }
-
-    getUser();
-  }, [])
 
   const changeFormation = async () => {
     if (saving) {

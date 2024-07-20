@@ -1,6 +1,6 @@
 import { positions } from '@/constants';
 import Image from 'next/image'
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { ScrollArea } from '../ui/scroll-area';
 import {
     Drawer,
@@ -13,13 +13,17 @@ import {
     DrawerTrigger,
 } from "@/components/ui/drawer"
 import { IUserData } from '@/lib/database/models/userData.model';
-import { getUserByUserID } from '@/lib/actions/user.actions';
+import { getUserByUserID, upgradePosition } from '@/lib/actions/user.actions';
+import { useRouter } from 'next/navigation';
 
 const ShopPage = () => {
 
     const [selectedType, setSelectedType] = useState('Defense')
     const [height, setHeight] = useState<number>(window.innerHeight)
     const [user, setUser] = useState<IUserData>()
+    const [upgrading, setUpgrading] = useState<boolean>(false)
+    const router = useRouter();
+    const drawerRefs = useRef<{ [key: string]: HTMLDivElement | null }>({});
 
     const updateDimensions = () => {
         setHeight(window.innerHeight);
@@ -46,7 +50,22 @@ const ShopPage = () => {
 
     const calculatePrice = (initialPrice: number, level: number) => {
         return Math.round(initialPrice * (1.3 ** level));
-      };
+    };
+
+    const handleUpgrade = async (position: string) => {
+
+        if (upgrading) {
+            return;
+        }
+
+        setUpgrading(true);
+        const newUser = await upgradePosition('6699bfa1ba8348c3228f89ab', position);
+        setUser(newUser)
+        if (drawerRefs.current[position]) {
+            drawerRefs.current[position]!.click(); // Close the drawer
+        }
+        setUpgrading(false);
+    }
 
     return (
         <section className='w-full h-screen'>
@@ -96,7 +115,7 @@ const ShopPage = () => {
                             return (
                                 <Drawer key={index}>
                                     <DrawerTrigger>
-                                        <div className='flex flex-col justify-center items-center w-full bg-slate-800 rounded-xl h-[100px] sm:h-[150px] shadow-slate-200 shadow-sm border-[1px] border-slate-300'>
+                                        <div ref={el => { drawerRefs.current[position.symbol] = el; }} className='flex flex-col justify-center items-center w-full bg-slate-800 rounded-xl h-[100px] sm:h-[150px] shadow-slate-200 shadow-sm border-[1px] border-slate-300'>
                                             <div className='flex flex-row items-center w-full p-2 gap-1'>
                                                 <div className={`p-2 rounded-md font-bold w-1/4 sm:w-1/3 text-center text-white h-full flex justify-center items-center text-[13px] sm:text-[25px] border-2 border-white`} style={{ backgroundColor: position.color, boxShadow: `-8px -8px 10px -6px ${position.color},-8px 8px 10px -6px ${position.color},8px -8px 10px -6px ${position.color},8px 8px 10px -6px ${position.color}` }}>
                                                     <p>{position.symbol}</p>
@@ -105,7 +124,7 @@ const ShopPage = () => {
                                                     <p className='text-[11px] sm:text-[18.5px] font-bold text-white'>{position.label}</p>
                                                     <div className='flex flex-row items-center gap-2 bg-slate-600 px-2 py-[2px] sm:py-[5px] rounded-lg'>
                                                         <Image src={'/icons/coin.svg'} alt='coin' height={100} width={100} className='w-[20px] h-[20px] sm:w-[35px] sm:h-[35px]' />
-                                                        <p className='font-semibold text-white text-[16px] sm:text-[25px]'>{price}</p>
+                                                        {user && <p className='font-semibold text-white text-[16px] sm:text-[25px]' style={{color:user?.coins >= price ? 'white' : 'red'}}>{price}</p>}
                                                     </div>
                                                 </div>
                                             </div>
@@ -123,10 +142,10 @@ const ShopPage = () => {
                                         </DrawerHeader>
                                         <div className='flex flex-row items-center justify-center gap-2 bg-slate-600 px-2 py-[2px] sm:py-[5px] rounded-xl w-2/5 place-self-center'>
                                             <Image src={'/icons/coin.svg'} alt='coin' height={100} width={100} className='w-[30px] h-[30px]' />
-                                            <p className='font-semibold text-white text-[25px]'>{price}</p>
+                                            {user && <p className='font-semibold text-white text-[25px]' style={{color:user?.coins >= price ? 'white' : 'red'}}>{price}</p>}
                                         </div>
                                         <DrawerFooter className='mb-5'>
-                                            <div style={{ backgroundColor: position.color }} className='w-3/4 py-2 rounded-lg text-white font-bold text-center place-self-center'>Upgrade now</div>
+                                            <div style={{ backgroundColor: position.color }} className='w-3/4 py-2 rounded-lg text-white font-bold text-center place-self-center' onClick={() => handleUpgrade(position.symbol)}>{upgrading ? 'Upgrading...' : 'Upgrade now'}</div>
                                             <DrawerClose className='flex justify-center items-center'>
                                                 <div className='bg-white text-black font-bold py-2 rounded-lg w-3/4'>Cancel</div>
                                             </DrawerClose>

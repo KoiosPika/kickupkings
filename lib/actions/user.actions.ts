@@ -1,5 +1,6 @@
 'use server'
 
+import { positions } from "@/constants";
 import { connectToDatabase } from "../database"
 import User from "../database/models/user.model";
 import UserData from "../database/models/userData.model";
@@ -46,6 +47,51 @@ export async function saveFormation(id: string, formation: string) {
         )
 
         return;
+    } catch (error) {
+        console.log(error)
+    }
+}
+
+export async function upgradePosition(id: string, position: string) {
+    try {
+        await connectToDatabase();
+
+        const user = await UserData.findOne({ User: id });
+
+        if (!user) {
+            throw new Error('User not found');
+        }
+
+        const userPosition = user.positions.find((pos: any) => pos.position === position);
+
+        if (!userPosition) {
+            throw new Error('Position not found');
+        }
+
+        const positionData = positions.find(pos => pos.symbol === position);
+
+        if (!positionData) {
+            throw new Error('Position data not found');
+        }
+
+        const initialPrice = positionData.initialPrice;
+
+
+        const price = Math.round(initialPrice * (1.5 ** userPosition.level));
+
+
+        if (user.coins < price) {
+            throw new Error('Not enough coins');
+        }
+
+        userPosition.level += 1;
+
+        user.coins -= price;
+
+        await user.save();
+
+        return JSON.parse(JSON.stringify(user));
+
     } catch (error) {
         console.log(error)
     }
