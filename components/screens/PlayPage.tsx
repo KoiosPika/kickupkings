@@ -5,7 +5,18 @@ import { formations } from '@/constants/Formations'
 import { positions } from '@/constants'
 import { createUser, getUserByUserID } from '@/lib/actions/user.actions'
 import { IUserData } from '@/lib/database/models/userData.model'
-import { useRouter } from 'next/navigation'
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogHeader,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "@/components/ui/alert-dialog"
+
 
 const colors = [
   { 'Forward': '#EE2E0C' },
@@ -18,7 +29,6 @@ const PlayPage = () => {
 
   const [height, setHeight] = useState<number>(window.innerHeight)
   const [user, setUser] = useState<IUserData>()
-  const router = useRouter();
 
   useEffect(() => {
     const updateHeights = () => {
@@ -115,7 +125,7 @@ const PlayPage = () => {
         <div className='w-11/12'>
           <div className='flex flex-row items-center w-full'>
             <p className='text-white font-semibold bg-slate-800 px-3 py-1 inline-flex rounded-lg text-[16px] sm:text-[22px]'>History</p>
-            <a href='/history' className='text-white font-semibold bg-slate-800 px-3 py-1 inline-flex rounded-lg text-[12px] sm:text-[22px] ml-auto mt-auto'>View All {`->`}</a>
+            <p className='text-white font-semibold bg-slate-800 px-3 py-1 inline-flex rounded-lg text-[12px] sm:text-[22px] ml-auto mt-auto'>View All {`->`}</p>
           </div>
           <div className='flex flex-col gap-1 sm:gap-4 my-2'>
             <div className='text-white font-semibold bg-slate-800 p-2 rounded-lg flex flex-row items-center gap-1 sm:gap-5'>
@@ -139,11 +149,80 @@ const PlayPage = () => {
           </div>
         </div>
       </div>
-      <div className='w-full flex flex-col justify-center items-center mt-2'>
-        <div className='bg-blue-500 px-3 py-2 font-semibold text-white rounded-xl shadow-blue-600 shadow-lg border-b-[4px] sm:border-b-[8px] border-blue-800 flex flex-row items-center gap-1'>
-          <p className='text-[18px] sm:text-[34px] mx-2'>Find Match</p>
-          <Image src={'/icons/coin.svg'} alt='coin' height={100} width={100} className='w-[20px] h-[20px] sm:w-[35px] sm:h-[35px]' />
-          <p className='font-semibold text-white text-[16px] sm:text-[25px]'>10</p>
+      <div className='w-full flex justify-center items-center mt-2'>
+        <div className='grid grid-cols-2 gap-2 w-11/12'>
+          <AlertDialog>
+            <AlertDialogTrigger>
+              <div className='bg-blue-500 px-3 py-2 font-semibold text-white rounded-xl shadow-blue-600 shadow-lg border-b-[4px] sm:border-b-[8px] border-blue-800 flex flex-row items-center gap-1'>
+                <p className='text-[16px] sm:text-[34px] ml-1'>Find Match</p>
+                <Image src={'/icons/coin.svg'} alt='coin' height={100} width={100} className='w-[20px] h-[20px] sm:w-[35px] sm:h-[35px]' />
+                <p className='font-semibold text-white text-[16px] sm:text-[25px]'>10</p>
+              </div>
+            </AlertDialogTrigger>
+            <AlertDialogContent className='bg-slate-800 px-2'>
+              <AlertDialogHeader>
+                <AlertDialogTitle className='text-white mt-4'>Find Match</AlertDialogTitle>
+                <div className='flex flex-row items-center gap-3'>
+                  <div className='w-1/2'>
+                    <div className='flex flex-row justify-center items gap-3 my-2'>
+                      <Image src={'/icons/user.svg'} alt='user' height={50} width={50} className='bg-slate-500 p-1 h-[28px] w-[28px] sm:h-[48px] sm:w-[48px] rounded-lg' />
+                      <p className='font-bold text-white'>username</p>
+                    </div>
+                    <div className='h-[250px] w-full flex flex-col justify-around rounded-md bg-slate-800 border-[1px] sm:border-4 border-white' style={{ backgroundImage: `url('/Field-dark.png')`, backgroundSize: 'cover', backgroundPosition: 'center' }}>
+                      {formation?.data.map((row, rowIndex) => (
+                        <div key={rowIndex} className='flex justify-around'>
+                          {row.positions.map((position: any, posIndex) => (
+                            <div key={posIndex} className='p-1 sm:px-3 sm:py-1 rounded-sm text-white font-semibold border-white' style={{ backgroundColor: getColor(row.type, row.positions[posIndex]), borderWidth: row.positions[posIndex] ? 2 : 0, boxShadow: position ? `-8px -8px 10px -4px ${getColor(row.type, row.positions[posIndex])},-8px 8px 10px -4px ${getColor(row.type, row.positions[posIndex])},8px -8px 10px -4px ${getColor(row.type, row.positions[posIndex])},8px 8px 10px -4px ${getColor(row.type, row.positions[posIndex])}` : '' }}>
+                              <p className='text-[10px] sm:text-[20px]'>{position}</p>
+                            </div>
+                          ))}
+                        </div>
+                      ))}
+                    </div>
+                    <p className='bg-slate-900 text-white font-semibold my-1 rounded-full'>4-1-4-1</p>
+                    <p className='bg-slate-900 text-white font-semibold my-1 rounded-full'>Overall: 4.3</p>
+                  </div>
+                  <div className='w-1/2'>
+                    <div className='flex flex-row justify-center items gap-3 my-2'>
+                      <Image src={'/icons/user.svg'} alt='user' height={50} width={50} className='bg-slate-500 p-1 h-[28px] w-[28px] sm:h-[48px] sm:w-[48px] rounded-lg' />
+                      <p className='font-bold text-white'>username</p>
+                    </div>
+                    <div className='h-[250px] w-full flex flex-col justify-around rounded-md bg-slate-800 border-[1px] sm:border-4 border-white' style={{ backgroundImage: `url('/Field-dark.png')`, backgroundSize: 'cover', backgroundPosition: 'center' }}>
+                      {formation?.data.map((row, rowIndex) => (
+                        <div key={rowIndex} className='flex justify-around'>
+                          {row.positions.map((position: any, posIndex) => (
+                            <div key={posIndex} className='p-1 sm:px-3 sm:py-1 rounded-sm text-white font-semibold border-white' style={{ backgroundColor: getColor(row.type, row.positions[posIndex]), borderWidth: row.positions[posIndex] ? 2 : 0, boxShadow: position ? `-8px -8px 10px -4px ${getColor(row.type, row.positions[posIndex])},-8px 8px 10px -4px ${getColor(row.type, row.positions[posIndex])},8px -8px 10px -4px ${getColor(row.type, row.positions[posIndex])},8px 8px 10px -4px ${getColor(row.type, row.positions[posIndex])}` : '' }}>
+                              <p className='text-[10px] sm:text-[20px]'>{position}</p>
+                            </div>
+                          ))}
+                        </div>
+                      ))}
+                    </div>
+                    <p className='bg-slate-900 text-white font-semibold my-1 rounded-full'>4-1-4-1</p>
+                    <p className='bg-slate-900 text-white font-semibold my-1 rounded-full'>Overall: 4.3</p>
+                  </div>
+                </div>
+                <div className='flex flex-row items-center gap-3 w-full'>
+                  <div className='w-1/2 bg-green-700 text-white font-semibold rounded-md py-1 flex flex-row items-center justify-center gap-2'>
+                    <p>Play</p>
+                    <Image src={'/icons/coin.svg'} alt='coin' height={100} width={100} className='w-[20px] h-[20px] sm:w-[35px] sm:h-[35px]' />
+                    <p className='font-semibold text-white text-[16px] sm:text-[25px]'>10</p>
+                  </div>
+                  <div className='w-1/2 bg-red-700 text-white font-semibold rounded-md py-1 flex flex-row items-center justify-center gap-2'>
+                    <p>Skip</p>
+                    <Image src={'/icons/coin.svg'} alt='coin' height={100} width={100} className='w-[20px] h-[20px] sm:w-[35px] sm:h-[35px]' />
+                    <p className='font-semibold text-white text-[16px] sm:text-[25px]'>1</p>
+                  </div>
+                </div>
+              </AlertDialogHeader>
+              <AlertDialogCancel className='absolute text-white right-4 top-0 bg-transparent border-0'>
+                <Image src={'/icons/x.svg'} alt='coin' height={100} width={100} className='w-[25px] h-[25px] sm:w-[40px] sm:h-[40px]' />
+              </AlertDialogCancel>
+            </AlertDialogContent>
+          </AlertDialog>
+          <div className='bg-green-700 py-2 font-semibold text-white rounded-xl shadow-blue-600 shadow-lg border-b-[4px] sm:border-b-[8px] border-green-900 flex flex-row justify-center items-center gap-1'>
+            <p className='text-[16px] sm:text-[34px]'>Play with friends</p>
+          </div>
         </div>
       </div>
       <div className='w-full flex flex-col h-full justify-center items-center flex-grow mt-3'>
