@@ -80,3 +80,7 @@
     height: var(--dynamic-height-sm);
   }
 }
+
+.spin-isolation {
+  transform: rotate(0deg) !important;
+}
