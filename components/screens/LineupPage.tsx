@@ -2,7 +2,8 @@ import { formations } from '@/constants/Formations';
 import Image from 'next/image'
 import React, { useEffect, useState } from 'react'
 import { ScrollArea, ScrollBar } from '../ui/scroll-area';
-import { saveFormation } from '@/lib/actions/user.actions';
+import { getUserByUserID, saveFormation } from '@/lib/actions/user.actions';
+import { IUserData } from '@/lib/database/models/userData.model';
 
 const colors = [
   { 'Forward': '#EE2E0C' },
@@ -15,6 +16,7 @@ const LineupPage = () => {
   const [height, setHeight] = useState<number>(window.innerHeight)
   const [selectedFormation, setSelectedFormation] = useState(formations[0].id);
   const [saving, setSaving] = useState(false)
+  const [user, setUser] = useState<IUserData>()
 
   const updateDimensions = () => {
     setHeight(window.innerHeight);
@@ -35,10 +37,23 @@ const LineupPage = () => {
     return colorObj ? colorObj[type] : '';
   };
 
-  const getUserData = (position: string) => {
-    const user: any = userData.find((data: any) => data[position] !== undefined);
-    return user ? user[position] : '';
-  }
+  const getUserData = (positionSymbol: string) => {
+    if (user) {
+      const userData: any = user.positions.find((data: any) => data.position === positionSymbol);
+      return userData ? userData.level : '';
+    }
+    return '';
+  };
+
+  useEffect(() => {
+    const getUser = async () => {
+      const userData = await getUserByUserID('6699bfa1ba8348c3228f89ab')
+      setUser(userData)
+      setSelectedFormation(userData.formation)
+    }
+
+    getUser();
+  }, [])
 
   const changeFormation = async () => {
     if (saving) {
@@ -49,38 +64,6 @@ const LineupPage = () => {
     await saveFormation('6699bfa1ba8348c3228f89ab', selectedFormation);
     setSaving(false);
   }
-
-  const userData = [
-    { 'GK': 5 },
-    { 'LWB': 7 },
-    { 'LB': 3 },
-    { 'LCB': 9 },
-    { 'CB': 6 },
-    { 'RCB': 6 },
-    { 'RB': 5 },
-    { 'RWB': 1 },
-    { 'LDM': 7 },
-    { 'RDM': 2 },
-    { 'CDM': 5 },
-    { 'LCM': 1 },
-    { 'CM': 9 },
-    { 'RCM': 7 },
-    { 'LM': 5 },
-    { 'RM': 3 },
-    { 'CAM': 9 },
-    { 'LAM': 6 },
-    { 'RAM': 2 },
-    { 'LWM': 7 },
-    { 'RWM': 3 },
-    { 'LST': 8 },
-    { 'RST': 1 },
-    { 'ST': 7 },
-    { 'CF': 5 },
-    { 'LF': 7 },
-    { 'RF': 0 },
-    { 'LW': 4 },
-    { 'RW': 8 },
-  ]
 
   const calculateOverallScore = (formation: any) => {
     let totalScore = 0;
