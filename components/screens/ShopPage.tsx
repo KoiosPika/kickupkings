@@ -44,6 +44,10 @@ const ShopPage = () => {
         getUser();
     }, [])
 
+    const calculatePrice = (initialPrice: number, level: number) => {
+        return Math.round(initialPrice * (1.3 ** level));
+      };
+
     return (
         <section className='w-full h-screen'>
             <div className='w-full ml-auto mb-auto p-2 flex flex-row items-center gap-2'>
@@ -88,6 +92,7 @@ const ShopPage = () => {
                     <div className='grid grid-cols-2 w-full gap-2 sm:gap-3'>
                         {positions.filter((position) => position.type === selectedType).map((position: any, index: number) => {
                             const userPosition = user?.positions.find((userPos: any) => userPos.position === position.symbol);
+                            const price = userPosition ? calculatePrice(position.initialPrice, userPosition.level) : position.initialPrice;
                             return (
                                 <Drawer key={index}>
                                     <DrawerTrigger>
@@ -100,7 +105,7 @@ const ShopPage = () => {
                                                     <p className='text-[11px] sm:text-[18.5px] font-bold text-white'>{position.label}</p>
                                                     <div className='flex flex-row items-center gap-2 bg-slate-600 px-2 py-[2px] sm:py-[5px] rounded-lg'>
                                                         <Image src={'/icons/coin.svg'} alt='coin' height={100} width={100} className='w-[20px] h-[20px] sm:w-[35px] sm:h-[35px]' />
-                                                        <p className='font-semibold text-white text-[16px] sm:text-[25px]'>1150</p>
+                                                        <p className='font-semibold text-white text-[16px] sm:text-[25px]'>{price}</p>
                                                     </div>
                                                 </div>
                                             </div>
@@ -118,7 +123,7 @@ const ShopPage = () => {
                                         </DrawerHeader>
                                         <div className='flex flex-row items-center justify-center gap-2 bg-slate-600 px-2 py-[2px] sm:py-[5px] rounded-xl w-2/5 place-self-center'>
                                             <Image src={'/icons/coin.svg'} alt='coin' height={100} width={100} className='w-[30px] h-[30px]' />
-                                            <p className='font-semibold text-white text-[25px]'>150</p>
+                                            <p className='font-semibold text-white text-[25px]'>{price}</p>
                                         </div>
                                         <DrawerFooter className='mb-5'>
                                             <div style={{ backgroundColor: position.color }} className='w-3/4 py-2 rounded-lg text-white font-bold text-center place-self-center'>Upgrade now</div>

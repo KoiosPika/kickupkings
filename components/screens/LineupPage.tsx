@@ -14,7 +14,7 @@ const colors = [
 
 const LineupPage = () => {
   const [height, setHeight] = useState<number>(window.innerHeight)
-  const [selectedFormation, setSelectedFormation] = useState(formations[0].id);
+  const [selectedFormation, setSelectedFormation] = useState('4-3-3');
   const [saving, setSaving] = useState(false)
   const [user, setUser] = useState<IUserData>()
 
@@ -27,7 +27,7 @@ const LineupPage = () => {
     return () => window.removeEventListener("resize", updateDimensions);
   }, []);
 
-  const currentFormation = formations.find(f => f.id === selectedFormation);
+  let currentFormation = formations.find(f => f.id === selectedFormation);
 
   const getColor = (type: any, position: any) => {
     if (!position) {
