@@ -7,11 +7,8 @@ import { createUser, getUserByUserID } from '@/lib/actions/user.actions'
 import { IUserData } from '@/lib/database/models/userData.model'
 import {
   AlertDialog,
-  AlertDialogAction,
   AlertDialogCancel,
   AlertDialogContent,
-  AlertDialogDescription,
-  AlertDialogFooter,
   AlertDialogHeader,
   AlertDialogTitle,
   AlertDialogTrigger,
@@ -159,7 +156,7 @@ const PlayPage = () => {
                 <p className='font-semibold text-white text-[16px] sm:text-[25px]'>10</p>
               </div>
             </AlertDialogTrigger>
-            <AlertDialogContent className='bg-slate-800 px-2'>
+            <AlertDialogContent className='bg-slate-800 px-2 border-0 rounded-lg'>
               <AlertDialogHeader>
                 <AlertDialogTitle className='text-white mt-4'>Find Match</AlertDialogTitle>
                 <div className='flex flex-row items-center gap-3'>
@@ -215,7 +212,7 @@ const PlayPage = () => {
                   </div>
                 </div>
               </AlertDialogHeader>
-              <AlertDialogCancel className='absolute text-white right-4 top-0 bg-transparent border-0'>
+              <AlertDialogCancel className='absolute text-white right-2 top-0 bg-transparent border-0'>
                 <Image src={'/icons/x.svg'} alt='coin' height={100} width={100} className='w-[25px] h-[25px] sm:w-[40px] sm:h-[40px]' />
               </AlertDialogCancel>
             </AlertDialogContent>
