@@ -121,7 +121,7 @@ const LineupPage = () => {
         <p className='font-semibold text-white text-[13px] sm:text-[17px]'>Rami (Amature)</p>
         <p className='font-semibold text-white text-[13px] sm:text-[17px]'>{`->`}</p>
       </div>
-      <div style={{ height: height - 200 }} className='relative'>
+      <div style={{ height: height - 210 }} className='relative'>
         <div className='h-full w-full absolute flex flex-col justify-around'>
           {currentFormation?.data.map((row, rowIndex) => (
             <div key={rowIndex} className='flex justify-around'>
@@ -140,9 +140,9 @@ const LineupPage = () => {
             </div>
           ))}
         </div>
-        <Image src={'/Field-dark.png'} alt='field' height={2000} width={2000} style={{ height: height - 200 }} className='w-full max-w-[700px]' />
+        <Image src={'/Field-dark.png'} alt='field' height={2000} width={2000} style={{ height: height - 210 }} className='w-full max-w-[700px]' />
       </div>
-      <ScrollArea style={{ height: height - 620 }} className='py-2 px-2'>
+      <ScrollArea className='py-2 px-2 h-[50px]'>
         <div className='flex gap-2'>
           <>
             <div className='flex flex-col h-full justify-center items-center border-[1px] border-white bg-slate-800 rounded-lg' onClick={() => findBestFormation()} style={{ height: '100%', width: 95 }}>
