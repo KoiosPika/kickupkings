@@ -122,7 +122,7 @@ const PlayPage = () => {
         <div className='w-11/12'>
           <div className='flex flex-row items-center w-full'>
             <p className='text-white font-semibold bg-slate-800 px-3 py-1 inline-flex rounded-lg text-[16px] sm:text-[22px]'>History</p>
-            <p className='text-white font-semibold bg-slate-800 px-3 py-1 inline-flex rounded-lg text-[12px] sm:text-[22px] ml-auto mt-auto'>View All {`->`}</p>
+            <a href='/history' className='text-white font-semibold bg-slate-800 px-3 py-1 inline-flex rounded-lg text-[12px] sm:text-[22px] ml-auto mt-auto'>View All {`->`}</a>
           </div>
           <div className='flex flex-col gap-1 sm:gap-4 my-2'>
             <div className='text-white font-semibold bg-slate-800 p-2 rounded-lg flex flex-row items-center gap-1 sm:gap-5'>
@@ -197,6 +197,21 @@ const PlayPage = () => {
                     </div>
                     <p className='bg-slate-900 text-white font-semibold my-1 rounded-full'>4-1-4-1</p>
                     <p className='bg-slate-900 text-white font-semibold my-1 rounded-full'>Overall: 4.3</p>
+                  </div>
+                </div>
+                <div className='w-full flex justify-center items-center'>
+                  <div className='w-11/12 bg-slate-700 flex flex-row justify-center items-center py-2 rounded-full gap-6'>
+                    <div className='flex flex-row items-center gap-2'>
+                      <Image src={'/icons/coin.svg'} alt='coin' height={100} width={100} className='w-[20px] h-[20px] sm:w-[35px] sm:h-[35px]' />
+                      <p className='font-semibold text-white'>75</p>
+                    </div>
+                    <div className='flex flex-row items-center gap-2'>
+                      <Image src={'/icons/diamond.svg'} alt='coin' height={100} width={100} className='w-[20px] h-[20px] sm:w-[35px] sm:h-[35px]' />
+                      <p className='font-semibold text-white'>2</p>
+                    </div>
+                    <div className='flex flex-row items-center gap-2'>
+                      <p className='font-semibold text-white'>25 Points</p>
+                    </div>
                   </div>
                 </div>
                 <div className='flex flex-row items-center gap-3 w-full'>
