@@ -130,6 +130,29 @@ const ShopPage = () => {
             setFinalPrize(null)
     }
 
+    const handlePurchaseClick = async () => {
+        // Call your backend to create a payment request
+        const response = await fetch('/api/create-payment', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+                userId: '6699bfa1ba8348c3228f89ab',
+                amount: 100,
+            }),
+        });
+
+        const data = await response.json();
+
+        if (data.ok) {
+            // Redirect to the Telegram payment URL
+            window.location.href = data.paymentUrl;
+        } else {
+            console.error('Error creating payment:', data.error);
+        }
+    };
+
     return (
         <section className='w-full h-screen'>
             <div className='w-full ml-auto mb-auto p-2 flex flex-row items-center gap-2'>
@@ -145,7 +168,7 @@ const ShopPage = () => {
                     </div>
                 </div>
                 <div className='w-1/3 bg-slate-800 flex flex-row justify-around items-center rounded-lg h-[53px] sm:h-[75px]'>
-                    <div className='flex flex-row items-center gap-2'>
+                    <div className='flex flex-row items-center gap-2' onClick={handlePurchaseClick}>
                         <Image src={'/icons/diamond.svg'} alt='coin' height={100} width={100} className='w-[25px] h-[25px] sm:w-[40px] sm:h-[40px]' />
                         <p className='font-bold text-white text-[16px] sm:text-[22px]'>{user && user?.diamonds}</p>
                     </div>

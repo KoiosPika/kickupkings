@@ -150,7 +150,7 @@ const PlayPage = () => {
         <div className='grid grid-cols-2 gap-2 w-11/12'>
           <AlertDialog>
             <AlertDialogTrigger>
-              <div className='bg-blue-500 px-3 py-2 font-semibold text-white rounded-xl shadow-blue-600 shadow-lg border-b-[4px] sm:border-b-[8px] border-blue-800 flex flex-row items-center gap-1'>
+              <div className='bg-blue-500 px-3 py-2 font-semibold text-white rounded-xl shadow-blue-600 shadow-lg border-b-[4px] sm:border-b-[8px] border-blue-800 flex flex-row items-center justify-center gap-1'>
                 <p className='text-[16px] sm:text-[34px] ml-1'>Find Match</p>
                 <Image src={'/icons/coin.svg'} alt='coin' height={100} width={100} className='w-[20px] h-[20px] sm:w-[35px] sm:h-[35px]' />
                 <p className='font-semibold text-white text-[16px] sm:text-[25px]'>10</p>
@@ -217,7 +217,7 @@ const PlayPage = () => {
               </AlertDialogCancel>
             </AlertDialogContent>
           </AlertDialog>
-          <div className='bg-green-700 py-2 font-semibold text-white rounded-xl shadow-blue-600 shadow-lg border-b-[4px] sm:border-b-[8px] border-green-900 flex flex-row justify-center items-center gap-1'>
+          <div className='bg-green-700 py-2 font-semibold text-white rounded-xl shadow-green-600 shadow-lg border-b-[4px] sm:border-b-[8px] border-green-900 flex flex-row justify-center items-center gap-1'>
             <p className='text-[16px] sm:text-[34px]'>Play with friends</p>
           </div>
         </div>
