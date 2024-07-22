@@ -1,9 +1,10 @@
 'use client'
-import React, { useEffect, useState } from 'react'
+import React, { Suspense, useEffect, useState } from 'react'
 import { useSearchParams } from 'next/navigation';
 import { getMatchByID } from '@/lib/actions/match.actions';
 import Image from 'next/image';
 import { ScrollArea } from '../ui/scroll-area';
+import ErrorBoundary from '../shared/ErrorBoundry';
 
 type Attack = {
   minute: number;
@@ -124,46 +125,50 @@ const MatchPage = () => {
   }, [match, currentSteps, stepIndex, currentIndex]);
 
   return (
-    <section className='w-full h-screen flex flex-col bg-slate-800'>
-      <div className='flex flex-row items-center justify-evenly'>
-        <Image src={'/icons/user.svg'} alt='user' height={50} width={50} className='bg-slate-500 p-1 h-[50px] w-[50px] rounded-md' />
-        <p className='place-self-center text-[60px] text-white font-bold'> {playerScore / 2} - {opponentScore / 2} </p>
-        <Image src={'/icons/user.svg'} alt='user' height={50} width={50} className='bg-slate-500 p-1 h-[50px] w-[50px] rounded-md' />
-      </div>
-      <ScrollArea className='h-[75%]'>
-        <div className='flex flex-col justify-center items-center gap-3'>
-          {displayedAttacks.map((attack, index) => (
-            <div className='bg-slate-900 w-5/6 text-center py-2 text-white font-semibold rounded-md' key={index}>
-              {attack.player === 'Player' &&
-                <div className='w-5/6 rounded-md flex flex-row items-center justify-center py-3 px-2'>
-                  <div className='w-1/4 flex flex-col justify-center items-center gap-2'>
-                    <Image className='animate-spin' src={'/icons/Football-white.svg'} alt='ball' height={15} width={15}/>
-                    <p className='text-green-500 font-semibold'>{attack.minute}</p>
-                  </div>
-                  <div className='w-3/4 flex flex-col justify-center items gap-2'>
-                    <p>{attack.outcome}</p>
-                  </div>
-                </div>}
-              {attack.player === 'Opponent' &&
-                <div className='w-5/6 rounded-md flex flex-row items-center justify-center py-3 ml-auto px-2'>
-                  <div className='w-3/4 flex flex-col justify-center items gap-2'>
-                    <p>{attack.outcome}</p>
-                  </div>
-                  <div className='w-1/4 flex flex-col justify-center items-center gap-2'>
-                  <Image className='animate-spin' src={'/icons/Football-white.svg'} alt='ball' height={15} width={15}/>
+    <ErrorBoundary>
+      <Suspense fallback={<div>Loading...</div>}>
+        <section className='w-full h-screen flex flex-col bg-slate-800'>
+          <div className='flex flex-row items-center justify-evenly'>
+            <Image src={'/icons/user.svg'} alt='user' height={50} width={50} className='bg-slate-500 p-1 h-[50px] w-[50px] rounded-md' />
+            <p className='place-self-center text-[60px] text-white font-bold'> {playerScore / 2} - {opponentScore / 2} </p>
+            <Image src={'/icons/user.svg'} alt='user' height={50} width={50} className='bg-slate-500 p-1 h-[50px] w-[50px] rounded-md' />
+          </div>
+          <ScrollArea className='h-[75%]'>
+            <div className='flex flex-col justify-center items-center gap-3'>
+              {displayedAttacks.map((attack, index) => (
+                <div className='bg-slate-900 w-5/6 text-center py-2 text-white font-semibold rounded-md' key={index}>
+                  {attack.player === 'Player' &&
+                    <div className='w-5/6 rounded-md flex flex-row items-center justify-center py-3 px-2'>
+                      <div className='w-1/4 flex flex-col justify-center items-center gap-2'>
+                        <Image className='animate-spin' src={'/icons/Football-white.svg'} alt='ball' height={15} width={15} />
+                        <p className='text-green-500 font-semibold'>{attack.minute}</p>
+                      </div>
+                      <div className='w-3/4 flex flex-col justify-center items gap-2'>
+                        <p>{attack.outcome}</p>
+                      </div>
+                    </div>}
+                  {attack.player === 'Opponent' &&
+                    <div className='w-5/6 rounded-md flex flex-row items-center justify-center py-3 ml-auto px-2'>
+                      <div className='w-3/4 flex flex-col justify-center items gap-2'>
+                        <p>{attack.outcome}</p>
+                      </div>
+                      <div className='w-1/4 flex flex-col justify-center items-center gap-2'>
+                        <Image className='animate-spin' src={'/icons/Football-white.svg'} alt='ball' height={15} width={15} />
 
-                    <p className='text-green-500 font-semibold'>{attack.minute}</p>
-                  </div>
-                </div>}
-              {attack.player === 'Match' &&
-                <div className='text-center'>
-                  {attack.outcome}
-                </div>}
+                        <p className='text-green-500 font-semibold'>{attack.minute}</p>
+                      </div>
+                    </div>}
+                  {attack.player === 'Match' &&
+                    <div className='text-center'>
+                      {attack.outcome}
+                    </div>}
+                </div>
+              ))}
             </div>
-          ))}
-        </div>
-      </ScrollArea>
-    </section>
+          </ScrollArea>
+        </section>
+      </Suspense>
+    </ErrorBoundary>
   );
 };
 export default MatchPage
