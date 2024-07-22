@@ -1,9 +1,9 @@
 import MatchPage from '@/components/screens/MatchPage'
 import React from 'react'
 
-const page = () => {
+const page = ({ params: { id } }: any) => {
   return (
-    <MatchPage />
+    <MatchPage id={id}/>
   )
 }
 
