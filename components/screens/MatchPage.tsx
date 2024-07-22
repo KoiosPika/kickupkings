@@ -125,7 +125,7 @@ const MatchPage = ({ id }: { id: string }) => {
     <section className='w-full h-screen flex flex-col bg-slate-800'>
       <div className='flex flex-row items-center justify-evenly'>
         <Image src={'/icons/user.svg'} alt='user' height={50} width={50} className='bg-slate-500 p-1 h-[50px] w-[50px] rounded-md' />
-        <p className='place-self-center text-[60px] text-white font-bold'> {playerScore / 2} - {opponentScore / 2} </p>
+        <p className='place-self-center text-[50px] text-white font-bold'> {playerScore} - {opponentScore} </p>
         <Image src={'/icons/user.svg'} alt='user' height={50} width={50} className='bg-slate-500 p-1 h-[50px] w-[50px] rounded-md' />
       </div>
       <ScrollArea className='h-[75%]'>
