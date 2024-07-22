@@ -194,8 +194,8 @@ export async function playGame(player1ID: string, player2ID: string) {
 
         const player2 = await UserData.findOne({ User: player2ID })
 
-        const formation1 = formations.find(f => f.id === '4-3-2-1');
-        const formation2 = formations.find(f => f.id === '4-3-3');
+        const formation1 = formations.find(f => f.id === '4-3-3');
+        const formation2 = formations.find(f => f.id === '4-5-1');
 
         const players1 = mapUserDataToPlayers(player1, 0);
         const players2 = mapUserDataToPlayers(player2, 0);
