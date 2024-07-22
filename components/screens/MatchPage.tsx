@@ -138,7 +138,7 @@ const MatchPage = ({ id }: { id: string }) => {
       } else {
         clearInterval(interval);
       }
-    }, 1000);
+    }, 2000);
 
     return () => clearInterval(interval);
   }, [match, currentSteps, stepIndex, currentIndex]);
