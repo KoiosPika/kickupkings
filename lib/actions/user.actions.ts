@@ -246,7 +246,7 @@ export async function playGame(player1ID: string, player2ID: string) {
         const formation2 = formations.find(f => f.id === '3-2-4-1');
 
         const players1 = mapUserDataToPlayers(player1, 4);
-        const players2 = mapUserDataToPlayers(player2, 30);
+        const players2 = mapUserDataToPlayers(player2, 6);
 
         let results = [{ minute: 0, player: 'Match', outcome: 'Match Started' }];
         let score1 = 0;
@@ -319,22 +319,48 @@ export async function playGame(player1ID: string, player2ID: string) {
         }
 
         let penalties = [];
+        let playerPenalties = 0;
+        let opponentPenalties = 0;
+
         if (score1 === score2) {
-            // Penalties
+            // Initial 5 penalties for each team
             for (let i = 0; i < 5; i++) {
                 let penaltyOutcome = simulatePenalty('Player', player1, player2);
                 results.push({ minute: 120, player: 'Player', outcome: penaltyOutcome });
-                penalties.push(penaltyOutcome);
+                penalties.push({ player: 'Player', outcome: penaltyOutcome });
+                if (penaltyOutcome === 'Goal Scored') playerPenalties++;
+
                 penaltyOutcome = simulatePenalty('Opponent', player2, player1);
                 results.push({ minute: 120, player: 'Opponent', outcome: penaltyOutcome });
-                penalties.push(penaltyOutcome);
+                penalties.push({ player: 'Opponent', outcome: penaltyOutcome });
+                if (penaltyOutcome === 'Goal Scored') opponentPenalties++;
+
+                // Check for early win
+                if ((playerPenalties > opponentPenalties + (4 - i)) || (opponentPenalties > playerPenalties + (4 - i))) {
+                    break;
+                }
+            }
+
+            // Sudden death if tied after 5 penalties each
+            let round = 6;
+            while (playerPenalties === opponentPenalties) {
+                let penaltyOutcome = simulatePenalty('Player', player1, player2);
+                results.push({ minute: 120, player: 'Player', outcome: penaltyOutcome });
+                penalties.push({ player: 'Player', outcome: penaltyOutcome });
+                if (penaltyOutcome === 'Goal Scored') playerPenalties++;
+
+                penaltyOutcome = simulatePenalty('Opponent', player2, player1);
+                results.push({ minute: 120, player: 'Opponent', outcome: penaltyOutcome });
+                penalties.push({ player: 'Opponent', outcome: penaltyOutcome });
+                if (penaltyOutcome === 'Goal Scored') opponentPenalties++;
+
+                round++;
             }
         }
 
         const finalOutcomeMinute = score1 === score2 ? 120 : 90;
         const finalOutcome = score1 === score2
-            ? penalties.reduce((a, b) => (b.includes('Player') && b.includes('Scored') ? a + 1 : a), 0) >
-                penalties.reduce((a, b) => (b.includes('Opponent') && b.includes('Scored') ? a + 1 : a), 0)
+            ? playerPenalties > opponentPenalties
                 ? 'Player Wins!'
                 : 'Opponent Wins!'
             : score1 > score2

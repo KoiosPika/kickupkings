@@ -58,7 +58,27 @@ const stepsMap: { [key: string]: string[] } = {
   'Half-time': ['Half-time'],
   'Full-time': ['Full-time'],
   'Awaiting Extra Time': ['Awaiting Extra Time'],
-  'Awaiting Penalties': ['Awaiting Penalties']
+  'Awaiting Penalties': ['Awaiting Penalties'],
+  'Player Penalty Scored': [
+    'Player ready to shoot',
+    'Player comes forward',
+    'Penalty scored!'
+  ],
+  'Player Penalty Missed': [
+    'Player ready to shoot',
+    'Player comes forward',
+    'Penalty Missed'
+  ],
+  'Opponent Penalty Scored': [
+    'Opponent ready to shoot',
+    'Opponent comes forward',
+    'Penalty scored!'
+  ],
+  'Opponent Penalty Missed': [
+    'Opponent ready to shoot',
+    'Opponent comes forward',
+    'Penalty Missed'
+  ]
 };
 
 const MatchPage = ({ id }: { id: string }) => {
@@ -118,7 +138,7 @@ const MatchPage = ({ id }: { id: string }) => {
       } else {
         clearInterval(interval);
       }
-    }, 2000);
+    }, 1000);
 
     return () => clearInterval(interval);
   }, [match, currentSteps, stepIndex, currentIndex]);
@@ -149,6 +169,8 @@ const MatchPage = ({ id }: { id: string }) => {
                           {attack.outcome === 'Midfield fouled by opponent' && <Image src={'/icons/whistle-red.svg'} alt='final' height={35} width={35} />}
                           {attack.outcome === 'Goal scored!' && <Image src={'/icons/Football-green.svg'} alt='final' height={25} width={25} />}
                           {attack.outcome === 'Midfield loses the ball' && <Image src={'/icons/x-red.svg'} alt='final' height={25} width={25} />}
+                          {attack.outcome === 'Penalty scored!' && <Image src={'/icons/penalty-green.svg'} alt='final' height={30} width={30} />}
+                          {attack.outcome === 'Penalty Missed' && <Image src={'/icons/penalty-red.svg'} alt='final' height={30} width={30} />}
                         </>
                       )}
                       <p className='text-yellow-500 font-semibold'>{attack.minute}</p>
@@ -173,7 +195,8 @@ const MatchPage = ({ id }: { id: string }) => {
                           {attack.outcome === 'Midfield fouled by opponent' && <Image src={'/icons/whistle-green.svg'} alt='final' height={35} width={35} />}
                           {attack.outcome === 'Goal scored!' && <Image src={'/icons/Football-red.svg'} alt='final' height={25} width={25} />}
                           {attack.outcome === 'Midfield loses the ball' && <Image src={'/icons/x-green.svg'} alt='final' height={25} width={25} />}
-
+                          {attack.outcome === 'Penalty scored!' && <Image src={'/icons/penalty-green.svg'} alt='final' height={30} width={30} />}
+                          {attack.outcome === 'Penalty Missed' && <Image src={'/icons/penalty-red.svg'} alt='final' height={30} width={30} />}
                         </>
                       )}
                       <p className='text-yellow-500 font-semibold'>{attack.minute}</p>
