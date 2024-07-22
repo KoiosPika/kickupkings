@@ -26,7 +26,7 @@ const HomePage = () => {
             </div>
             <div className='w-full ml-auto mb-auto p-2 flex flex-row items-center gap-2'>
                 <div className='w-1/2 bg-slate-800 flex flex-col justify-center items-center rounded-lg h-[53px] sm:h-[75px] gap-[3px]'>
-                    {user && <p className='font-bold text-white text-[13px] sm:text-[22px]'>Points: {user?.points} / 10,000</p>}
+                    {user && <p className='font-bold text-white text-[13px] sm:text-[22px]'>{user?.points} / 10,000</p>}
                     <div className='w-11/12 flex flex-row items-center'>
                         <div className='h-[5px] sm:h-[10px] w-8/12 rounded-l-lg bg-orange-600' />
                         <div className='h-[5px] sm:h-[10px] w-4/12 rounded-r-lg bg-orange-300' />

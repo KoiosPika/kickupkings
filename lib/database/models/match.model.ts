@@ -6,7 +6,9 @@ export interface IMatch extends Document {
     Player: IUser,
     Opponent: IUser,
     attacks: any,
-    createdAt: Date
+    winner: IUser
+    createdAt: Date,
+    type: string
 }
 
 const MatchSchema = new Schema({
@@ -18,7 +20,8 @@ const MatchSchema = new Schema({
         outcome: String
     }],
     winner: { type: Schema.Types.ObjectId, ref: "User", index: true },
-    createdAt: { type: Date, default: Date.now() }
+    type: { type: String },
+    createdAt: { type: Date, default: Date.now }
 })
 
 const Match = models.Match || model('Match', MatchSchema);

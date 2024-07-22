@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react'
 import { ScrollArea } from '../ui/scroll-area'
 import { formations } from '@/constants/Formations'
 import { positions } from '@/constants'
-import { createUser, getUserByUserID, playGame } from '@/lib/actions/user.actions'
+import { createUser, getUserByUserID, getUserForPlayPage, playGame } from '@/lib/actions/user.actions'
 import { IUserData } from '@/lib/database/models/userData.model'
 import {
   AlertDialog,
@@ -14,6 +14,7 @@ import {
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog"
 import { useRouter } from 'next/navigation'
+import { IMatch } from '@/lib/database/models/match.model'
 
 
 const colors = [
@@ -26,7 +27,7 @@ const colors = [
 const PlayPage = () => {
 
   const [height, setHeight] = useState<number>(window.innerHeight)
-  const [user, setUser] = useState<IUserData>()
+  const [user, setUser] = useState<any>()
   const router = useRouter()
 
   useEffect(() => {
@@ -44,7 +45,9 @@ const PlayPage = () => {
 
   useEffect(() => {
     const getUser = async () => {
-      const userData = await getUserByUserID('6699bfa1ba8348c3228f89ab')
+      const userData = await getUserForPlayPage('6699bfa1ba8348c3228f89ab')
+
+      console.log(userData)
       setUser(userData)
     }
 
@@ -62,11 +65,11 @@ const PlayPage = () => {
   const formation = user && formations.find(f => f.id === user?.formation);
 
   const filteredPositions = formation
-    ? user?.positions.filter(userPos => formation.data.some(row => row.positions.includes(userPos.position)))
+    ? user?.positions.filter((userPos: any) => formation.data.some((row: any) => row.positions.includes(userPos.position)))
     : [];
 
   const overallAverageLevel =
-    filteredPositions.reduce((sum, userPos) => sum + userPos.level, 0) / filteredPositions.length || 0;
+    filteredPositions.reduce((sum: number, userPos: any) => sum + userPos.level, 0) / filteredPositions.length || 0;
 
   const handlePlaying = async () => {
 
@@ -94,11 +97,14 @@ const PlayPage = () => {
               <p className='text-[16px] sm:text-[20px]'>Form</p>
             </div>
             <div className='w-full bg-slate-800 text-white text-center font-semibold rounded-bl-lg flex flex-row items-center justify-center gap-1 h-1/2'>
-              <p className='rounded-sm bg-green-600 w-1/6 text-[13px] sm:text-[18px]'>W</p>
-              <p className='rounded-sm bg-red-600 w-1/6   text-[13px] sm:text-[18px]'>L</p>
-              <p className='rounded-sm bg-green-600 w-1/6 text-[13px] sm:text-[18px]'>W</p>
-              <p className='rounded-sm bg-green-600 w-1/6 text-[13px] sm:text-[18px]'>W</p>
-              <p className='rounded-sm bg-red-600 w-1/6   text-[13px] sm:text-[18px]'>L</p>
+              {user && user.form.split('').map((result: any, index: number) => (
+                <p
+                  key={index}
+                  className={`rounded-sm w-1/6 text-[13px] sm:text-[18px] ${result === 'W' ? 'bg-green-600' : 'bg-red-600'}`}
+                >
+                  {result}
+                </p>
+              ))}
             </div>
           </div>
           <div className='w-1/5 flex flex-col h-[60px] sm:h-[80px] gap-[3px]'>
@@ -134,24 +140,18 @@ const PlayPage = () => {
             <a href='/history' className='text-white font-semibold bg-slate-800 px-3 py-1 inline-flex rounded-lg text-[12px] sm:text-[22px] ml-auto mt-auto'>View All {`->`}</a>
           </div>
           <div className='flex flex-col gap-1 sm:gap-4 my-2'>
-            <div className='text-white font-semibold bg-slate-800 p-2 rounded-lg flex flex-row items-center gap-1 sm:gap-5'>
-              <p className='h-[25px] w-[30px] sm:h-[45px] sm:w-[50px] text-[16px] sm:text-[30px] text-center bg-red-600 rounded-sm'>L</p>
-              <p className='ml-2 text-[16px] sm:text-[30px]'>4-1</p>
-              <div className='ml-5 flex flex-row items-center bg-slate-900 px-2 py-1 rounded-lg'>
-                <Image src={'/icons/user.svg'} alt='user' height={50} width={50} className='bg-slate-500 p-1 h-[28px] w-[28px] sm:h-[48px] sm:w-[48px] rounded-lg' />
-                <p className='ml-2 max-w-[80px] sm:max-w-[200px] text-[16px] sm:text-[24px] overflow-hidden'>username</p>
-              </div>
-              <p className='bg-purple-700 px-2 text-[14px] sm:text-[24px] py-[2px] rounded-lg ml-auto shadow-md shadow-purple-500 border-b-[3px] sm:border-b-[6px] border-purple-800'>Rematch</p>
-            </div>
-            <div className='text-white font-semibold bg-slate-800 p-2 rounded-lg flex flex-row items-center gap-1 sm:gap-5'>
-              <p className='h-[25px] w-[30px] sm:h-[45px] sm:w-[50px] text-[16px] sm:text-[30px] text-center bg-green-600 rounded-sm'>W</p>
-              <p className='ml-2 text-[16px] sm:text-[30px]'>4-2</p>
-              <div className='ml-5 flex flex-row items-center bg-slate-900 px-2 py-1 rounded-lg'>
-                <Image src={'/icons/user.svg'} alt='user' height={50} width={50} className='bg-slate-500 p-1 h-[28px] w-[28px] sm:h-[48px] sm:w-[48px] rounded-lg' />
-                <p className='ml-2 max-w-[80px] sm:max-w-[200px] text-[16px] sm:text-[24px] overflow-hidden'>username</p>
-              </div>
-              <p className='bg-purple-700 px-2 text-[14px] sm:text-[24px] py-[2px] rounded-lg ml-auto shadow-md shadow-purple-500 border-b-[3px] sm:border-b-[6px] border-purple-800'>Rematch</p>
-            </div>
+            {user && user.matches.map((match: IMatch, index: number) => (
+              <div key={index} className='text-white font-semibold bg-slate-800 p-2 rounded-lg flex flex-row items-center gap-1 sm:gap-5'>
+                {match.winner.toString() != '6699bfa1ba8348c3228f89ab' && <p className='h-[25px] w-[30px] sm:h-[45px] sm:w-[50px] text-[16px] sm:text-[30px] text-center bg-red-600 rounded-sm'>L</p>}
+                {match.winner.toString() == '6699bfa1ba8348c3228f89ab' && <p className='h-[25px] w-[30px] sm:h-[45px] sm:w-[50px] text-[16px] sm:text-[30px] text-center bg-green-600 rounded-sm'>W</p>}
+                <p className='ml-2 text-[16px] sm:text-[30px]'>4-1</p>
+                <div className='ml-5 flex flex-row items-center bg-slate-900 px-2 py-1 rounded-lg'>
+                  <Image src={'/icons/user.svg'} alt='user' height={50} width={50} className='bg-slate-500 p-1 h-[28px] w-[28px] sm:h-[48px] sm:w-[48px] rounded-lg' />
+                  <p className='ml-2 max-w-[80px] sm:max-w-[200px] text-[16px] sm:text-[24px] overflow-hidden'>username</p>
+                </div>
+                {match.type === 'Rank' && <p className='bg-orange-600 px-2 text-[14px] sm:text-[24px] py-[2px] rounded-lg ml-auto shadow-md shadow-orange-500 border-b-[3px] sm:border-b-[6px] border-orange-800'>Rank</p>}
+                {match.type === 'Friendly' &&<p className='bg-purple-700 px-2 text-[14px] sm:text-[24px] py-[2px] rounded-lg ml-auto shadow-md shadow-purple-500 border-b-[3px] sm:border-b-[6px] border-purple-800'>Friendly</p>}
+              </div>))}
           </div>
         </div>
       </div>
@@ -175,9 +175,9 @@ const PlayPage = () => {
                       <p className='font-bold text-white'>username</p>
                     </div>
                     <div className='h-[250px] w-full flex flex-col justify-around rounded-md bg-slate-800 border-[1px] sm:border-4 border-white' style={{ backgroundImage: `url('/Field-dark.png')`, backgroundSize: 'cover', backgroundPosition: 'center' }}>
-                      {formation?.data.map((row, rowIndex) => (
+                      {formation?.data.map((row: any, rowIndex: number) => (
                         <div key={rowIndex} className='flex justify-around'>
-                          {row.positions.map((position: any, posIndex) => (
+                          {row.positions.map((position: any, posIndex: number) => (
                             <div key={posIndex} className='p-1 sm:px-3 sm:py-1 rounded-sm text-white font-semibold border-white' style={{ backgroundColor: getColor(row.type, row.positions[posIndex]), borderWidth: row.positions[posIndex] ? 2 : 0, boxShadow: position ? `-8px -8px 10px -4px ${getColor(row.type, row.positions[posIndex])},-8px 8px 10px -4px ${getColor(row.type, row.positions[posIndex])},8px -8px 10px -4px ${getColor(row.type, row.positions[posIndex])},8px 8px 10px -4px ${getColor(row.type, row.positions[posIndex])}` : '' }}>
                               <p className='text-[10px] sm:text-[20px]'>{position}</p>
                             </div>
@@ -194,9 +194,9 @@ const PlayPage = () => {
                       <p className='font-bold text-white'>username</p>
                     </div>
                     <div className='h-[250px] w-full flex flex-col justify-around rounded-md bg-slate-800 border-[1px] sm:border-4 border-white' style={{ backgroundImage: `url('/Field-dark.png')`, backgroundSize: 'cover', backgroundPosition: 'center' }}>
-                      {formation?.data.map((row, rowIndex) => (
+                      {formation?.data.map((row : any, rowIndex : number) => (
                         <div key={rowIndex} className='flex justify-around'>
-                          {row.positions.map((position: any, posIndex) => (
+                          {row.positions.map((position: any, posIndex : number) => (
                             <div key={posIndex} className='p-1 sm:px-3 sm:py-1 rounded-sm text-white font-semibold border-white' style={{ backgroundColor: getColor(row.type, row.positions[posIndex]), borderWidth: row.positions[posIndex] ? 2 : 0, boxShadow: position ? `-8px -8px 10px -4px ${getColor(row.type, row.positions[posIndex])},-8px 8px 10px -4px ${getColor(row.type, row.positions[posIndex])},8px -8px 10px -4px ${getColor(row.type, row.positions[posIndex])},8px 8px 10px -4px ${getColor(row.type, row.positions[posIndex])}` : '' }}>
                               <p className='text-[10px] sm:text-[20px]'>{position}</p>
                             </div>
@@ -249,9 +249,9 @@ const PlayPage = () => {
       <div className='w-full flex flex-col h-full justify-center items-center flex-grow mt-3'>
         <div className='w-11/12 flex flex-row items-center h-full gap-2'>
           <div className='h-full w-1/2 flex flex-col justify-around rounded-md bg-slate-800 border-[1px] sm:border-4 border-white' style={{ backgroundImage: `url('/Field-dark.png')`, backgroundSize: 'cover', backgroundPosition: 'center' }}>
-            {formation?.data.map((row, rowIndex) => (
+            {formation?.data.map((row : any, rowIndex : number) => (
               <div key={rowIndex} className='flex justify-around'>
-                {row.positions.map((position: any, posIndex) => (
+                {row.positions.map((position: any, posIndex : number) => (
                   <div key={posIndex} className='p-1 sm:px-3 sm:py-1 rounded-sm text-white font-semibold border-white' style={{ backgroundColor: getColor(row.type, row.positions[posIndex]), borderWidth: row.positions[posIndex] ? 2 : 0, boxShadow: position ? `-8px -8px 10px -4px ${getColor(row.type, row.positions[posIndex])},-8px 8px 10px -4px ${getColor(row.type, row.positions[posIndex])},8px -8px 10px -4px ${getColor(row.type, row.positions[posIndex])},8px 8px 10px -4px ${getColor(row.type, row.positions[posIndex])}` : '' }}>
                     <p className='text-[10px] sm:text-[20px]'>{position}</p>
                   </div>
@@ -275,7 +275,7 @@ const PlayPage = () => {
                   </div>
                 </div>
                 {positions
-                  .filter(position => filteredPositions.some(userPos => userPos.position === position.symbol))
+                  .filter(position => filteredPositions.some((userPos : any) => userPos.position === position.symbol))
                   .map((position: any) => (
                     <div key={position.symbol} className='bg-slate-800 p-2 sm:p-4 rounded-lg'>
                       <div className='flex flex-row items-center'>

@@ -8,6 +8,8 @@ type Attack = {
   minute: number;
   player: string;
   outcome: string;
+  stepIndex: number;
+  finalOutcome: string
 };
 
 type Match = {
@@ -61,7 +63,7 @@ const stepsMap: { [key: string]: string[] } = {
 
 const MatchPage = ({ id }: { id: string }) => {
   const [match, setMatch] = useState<Match | null>(null);
-  const [displayedAttacks, setDisplayedAttacks] = useState<{ minute: number; player: string; outcome: string, stepIndex: number }[]>([]);
+  const [displayedAttacks, setDisplayedAttacks] = useState<{ minute: number; player: string; outcome: string, stepIndex: number, finalOutcome: string }[]>([]);
   const [currentSteps, setCurrentSteps] = useState<string[]>([]);
   const [currentIndex, setCurrentIndex] = useState<number>(0);
   const [stepIndex, setStepIndex] = useState<number>(0);
@@ -74,7 +76,7 @@ const MatchPage = ({ id }: { id: string }) => {
       if (matchID) {
         const thisMatch = await getMatchByID(matchID);
         setMatch(thisMatch);
-        setDisplayedAttacks([{ minute: 0, player: 'Match', outcome: '', stepIndex: 0 }]);
+        setDisplayedAttacks([{ minute: 0, player: 'Match', outcome: '', stepIndex: 0, finalOutcome:'' }]);
         setCurrentSteps(['Match Started']);
       }
     };
@@ -109,7 +111,7 @@ const MatchPage = ({ id }: { id: string }) => {
         setCurrentSteps(steps);
         setStepIndex(0);
         setDisplayedAttacks(prev => [
-          { minute: currentAttack.minute, player: currentAttack.player, outcome: steps[0], stepIndex: 0 },
+          { minute: currentAttack.minute, player: currentAttack.player, outcome: steps[0], stepIndex: 0, finalOutcome: currentAttack.outcome },
           ...prev
         ]);
         setCurrentIndex(currentIndex + 1);
@@ -125,62 +127,65 @@ const MatchPage = ({ id }: { id: string }) => {
     <section className='w-full h-screen flex flex-col bg-slate-800'>
       <div className='flex flex-row items-center justify-evenly'>
         <Image src={'/icons/user.svg'} alt='user' height={50} width={50} className='bg-slate-500 p-1 h-[50px] w-[50px] rounded-md' />
-        <p className='place-self-center text-[50px] text-white font-bold'> {playerScore} - {opponentScore} </p>
+        <p className='place-self-center text-[50px] text-yellow-400 font-bold'> {playerScore} - {opponentScore} </p>
         <Image src={'/icons/user.svg'} alt='user' height={50} width={50} className='bg-slate-500 p-1 h-[50px] w-[50px] rounded-md' />
       </div>
-      <ScrollArea className='h-[75%]'>
+      <ScrollArea className='h-[80%]'>
         <div className='flex flex-col justify-center items-center gap-3'>
-          {displayedAttacks.map((attack, index) => (
-            <div className='bg-slate-900 w-5/6 text-center py-2 text-white font-semibold rounded-md' key={index}>
-              {attack.player === 'Player' &&
-                <div className='w-5/6 rounded-md flex flex-row items-center justify-center py-3 px-2'>
-                  <div className='w-1/4 flex flex-col justify-center items-center gap-2'>
-                    {attack.stepIndex < currentSteps.length - 1 ? (
-                      <Image className='animate-spin' src={'/icons/Football-yellow.svg'} alt='ball' height={20} width={20} />
-                    ) : (
-                      <>
-                        {attack.outcome === 'Goalkeeper saves the shot' && <Image src={'/icons/goalkeeper-red.svg'} alt='final' height={30} width={30} />}
-                        {attack.outcome === 'Defender intercepts the ball' && <Image src={'/icons/shield-red.svg'} alt='final' height={35} width={35} />}
-                        {attack.outcome === 'Forward caught offside' && <Image src={'/icons/offside-red.svg'} alt='final' height={35} width={35} />}
-                        {attack.outcome === 'Midfield fouled by opponent' && <Image src={'/icons/whistle-red.svg'} alt='final' height={35} width={35} />}
-                        {attack.outcome === 'Goal scored!' && <Image src={'/icons/Football-green.svg'} alt='final' height={25} width={25} />}
-                        {attack.outcome === 'Midfield loses the ball' && <Image src={'/icons/x-red.svg'} alt='final' height={25} width={25} />}
-                      </>
-                    )}
-                    <p className='text-yellow-500 font-semibold'>{attack.minute}</p>
-                  </div>
-                  <div className='w-3/4 flex flex-col justify-center items gap-2'>
-                    <p>{attack.outcome}</p>
-                  </div>
-                </div>}
-              {attack.player === 'Opponent' &&
-                <div className='w-5/6 rounded-md flex flex-row items-center justify-center py-3 ml-auto px-2'>
-                  <div className='w-3/4 flex flex-col justify-center items gap-2'>
-                    <p>{attack.outcome}</p>
-                  </div>
-                  <div className='w-1/4 flex flex-col justify-center items-center gap-2'>
-                    {attack.stepIndex < currentSteps.length - 1 ? (
-                      <Image className='animate-spin' src={'/icons/Football-yellow.svg'} alt='ball' height={20} width={20} />
-                    ) : (
-                      <>
-                        {attack.outcome === 'Goalkeeper saves the shot' && <Image src={'/icons/goalkeeper-green.svg'} alt='final' height={30} width={30} />}
-                        {attack.outcome === 'Defender intercepts the ball' && <Image src={'/icons/shield-green.svg'} alt='final' height={35} width={35} />}
-                        {attack.outcome === 'Forward caught offside' && <Image src={'/icons/offside-green.svg'} alt='final' height={35} width={35} />}
-                        {attack.outcome === 'Midfield fouled by opponent' && <Image src={'/icons/whistle-green.svg'} alt='final' height={35} width={35} />}
-                        {attack.outcome === 'Goal scored!' && <Image src={'/icons/Football-red.svg'} alt='final' height={25} width={25} />}
-                        {attack.outcome === 'Midfield loses the ball' && <Image src={'/icons/x-green.svg'} alt='final' height={25} width={25} />}
+          {displayedAttacks.map((attack, index) => {
+            const steps = stepsMap[attack.finalOutcome];
+            return (
+              <div className='bg-slate-900 w-5/6 text-center py-2 text-white font-semibold rounded-md' key={index}>
+                {attack.player === 'Player' &&
+                  <div className='w-5/6 rounded-md flex flex-row items-center justify-center py-3 px-2'>
+                    <div className='w-1/4 flex flex-col justify-center items-center gap-2'>
+                      {attack.stepIndex < steps.length - 1 ? (
+                        <Image className='animate-spin' src={'/icons/Football-yellow.svg'} alt='ball' height={20} width={20} />
+                      ) : (
+                        <>
+                          {attack.outcome === 'Goalkeeper saves the shot' && <Image src={'/icons/goalkeeper-red.svg'} alt='final' height={30} width={30} />}
+                          {attack.outcome === 'Defender intercepts the ball' && <Image src={'/icons/shield-red.svg'} alt='final' height={35} width={35} />}
+                          {attack.outcome === 'Forward caught offside' && <Image src={'/icons/offside-red.svg'} alt='final' height={35} width={35} />}
+                          {attack.outcome === 'Midfield fouled by opponent' && <Image src={'/icons/whistle-red.svg'} alt='final' height={35} width={35} />}
+                          {attack.outcome === 'Goal scored!' && <Image src={'/icons/Football-green.svg'} alt='final' height={25} width={25} />}
+                          {attack.outcome === 'Midfield loses the ball' && <Image src={'/icons/x-red.svg'} alt='final' height={25} width={25} />}
+                        </>
+                      )}
+                      <p className='text-yellow-500 font-semibold'>{attack.minute}</p>
+                    </div>
+                    <div className='w-3/4 flex flex-col justify-center items gap-2'>
+                      <p>{attack.outcome}</p>
+                    </div>
+                  </div>}
+                {attack.player === 'Opponent' &&
+                  <div className='w-5/6 rounded-md flex flex-row items-center justify-center py-3 ml-auto px-2'>
+                    <div className='w-3/4 flex flex-col justify-center items gap-2'>
+                      <p>{attack.outcome}</p>
+                    </div>
+                    <div className='w-1/4 flex flex-col justify-center items-center gap-2'>
+                      {attack.stepIndex < steps.length - 1 ? (
+                        <Image className='animate-spin' src={'/icons/Football-yellow.svg'} alt='ball' height={20} width={20} />
+                      ) : (
+                        <>
+                          {attack.outcome === 'Goalkeeper saves the shot' && <Image src={'/icons/goalkeeper-green.svg'} alt='final' height={30} width={30} />}
+                          {attack.outcome === 'Defender intercepts the ball' && <Image src={'/icons/shield-green.svg'} alt='final' height={35} width={35} />}
+                          {attack.outcome === 'Forward caught offside' && <Image src={'/icons/offside-green.svg'} alt='final' height={35} width={35} />}
+                          {attack.outcome === 'Midfield fouled by opponent' && <Image src={'/icons/whistle-green.svg'} alt='final' height={35} width={35} />}
+                          {attack.outcome === 'Goal scored!' && <Image src={'/icons/Football-red.svg'} alt='final' height={25} width={25} />}
+                          {attack.outcome === 'Midfield loses the ball' && <Image src={'/icons/x-green.svg'} alt='final' height={25} width={25} />}
 
-                      </>
-                    )}
-                    <p className='text-yellow-500 font-semibold'>{attack.minute}</p>
-                  </div>
-                </div>}
-              {attack.player === 'Match' &&
-                <div className='text-center'>
-                  {attack.outcome}
-                </div>}
-            </div>
-          ))}
+                        </>
+                      )}
+                      <p className='text-yellow-500 font-semibold'>{attack.minute}</p>
+                    </div>
+                  </div>}
+                {attack.player === 'Match' &&
+                  <div className='text-center'>
+                    {attack.outcome}
+                  </div>}
+              </div>
+            )
+          })}
         </div>
       </ScrollArea>
     </section>

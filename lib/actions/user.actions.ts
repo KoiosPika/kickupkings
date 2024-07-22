@@ -40,6 +40,43 @@ export async function getUserByUserID(id: string) {
     }
 }
 
+export async function getUserForPlayPage(id: string) {
+    try {
+        await connectToDatabase();
+
+        const user = await UserData.findOne({ User: id })
+
+        const userMatches = await Match.find({
+            $or: [{ Player: id }, { Opponent: id }]
+        })
+            .sort({ createdAt: -1 })
+            .limit(5)
+
+        const form = userMatches.reverse().map(match => match.winner.toString() === id ? 'W' : 'L').join('');
+
+        console.log(userMatches)
+
+        const recentMatches = userMatches.reverse().slice(0, 2)
+
+        const returnObject = {
+            formation: user.formation,
+            coins: user.coins,
+            played: user.played,
+            won: user.won,
+            lost: user.lost,
+            Rank: user.Rank,
+            positions: user.positions,
+            form,
+            matches: recentMatches
+        }
+
+        return JSON.parse(JSON.stringify(returnObject))
+
+    } catch (error) {
+        console.log(error)
+    }
+}
+
 export async function saveFormation(id: string, formation: string) {
     try {
         await connectToDatabase();
@@ -167,14 +204,25 @@ function mapUserDataToPlayers(userData: IUserData, increment: number) {
     }));
 }
 
-function distributeAttacks(attacksCount: number, totalMinutes: number) {
-    let minutes: any[] = [];
+function distributeAttacks(attacksCount: number, totalMinutes: number, splitMinute: number) {
+
+    let minutes: number[] = [];
+
     while (minutes.length < attacksCount) {
         const minute = Math.floor(Math.random() * totalMinutes) + 1;
         if (!minutes.includes(minute)) {
-            minutes.push(minute);
+            if (minute < splitMinute) {
+                if (minutes.filter(m => m < splitMinute).length < attacksCount / 2) {
+                    minutes.push(minute);
+                }
+            } else {
+                if (minutes.filter(m => m >= splitMinute).length < attacksCount / 2) {
+                    minutes.push(minute);
+                }
+            }
         }
     }
+
     return minutes.sort((a, b) => a - b);
 }
 
@@ -194,23 +242,23 @@ export async function playGame(player1ID: string, player2ID: string) {
 
         const player2 = await UserData.findOne({ User: player2ID })
 
-        const formation1 = formations.find(f => f.id === '4-3-3');
-        const formation2 = formations.find(f => f.id === '4-5-1');
+        const formation1 = formations.find(f => f.id === '4-2-3-1');
+        const formation2 = formations.find(f => f.id === '3-2-4-1');
 
-        const players1 = mapUserDataToPlayers(player1, 0);
-        const players2 = mapUserDataToPlayers(player2, 0);
+        const players1 = mapUserDataToPlayers(player1, 4);
+        const players2 = mapUserDataToPlayers(player2, 30);
 
         let results = [{ minute: 0, player: 'Match', outcome: 'Match Started' }];
         let score1 = 0;
         let score2 = 0;
 
-        const normalTimeAttacks = 14;
+        const normalTimeAttacks = 20;
         const extraTimeAttacks = 6;
 
-        let normalTimeMinutes = distributeAttacks(normalTimeAttacks, 90);
-        let extraTimeMinutes = distributeAttacks(extraTimeAttacks, 30).map(minute => minute + 90);
+        let normalTimeMinutes = distributeAttacks(normalTimeAttacks, 90, 45);
+        let extraTimeMinutes = distributeAttacks(extraTimeAttacks, 30, 15).map(minute => minute + 90);
 
-        for (let i = 0; i < normalTimeAttacks; i++) {
+        for (let i = 0; i < normalTimeAttacks / 2; i++) {
             let outcome;
             if (i % 2 === 0) {
                 outcome = simulateAttack(formation1, formation2, players1, players2);
@@ -225,9 +273,24 @@ export async function playGame(player1ID: string, player2ID: string) {
                 }
                 results.push({ minute: normalTimeMinutes[i], player: 'Opponent', outcome });
             }
+        }
 
-            if (normalTimeMinutes[i] >= 45 && !results.some(r => r.outcome === 'Half-time')) {
-                results.push({ minute: 45, player: 'Match', outcome: 'Half-time' });
+        results.push({ minute: 45, player: 'Match', outcome: 'Half-time' });
+
+        for (let i = normalTimeAttacks / 2; i < normalTimeAttacks; i++) {
+            let outcome;
+            if (i % 2 === 0) {
+                outcome = simulateAttack(formation1, formation2, players1, players2);
+                if (outcome === 'Goal Scored') {
+                    score1++;
+                }
+                results.push({ minute: normalTimeMinutes[i], player: 'Player', outcome });
+            } else {
+                outcome = simulateAttack(formation2, formation1, players2, players1);
+                if (outcome === 'Goal Scored') {
+                    score2++;
+                }
+                results.push({ minute: normalTimeMinutes[i], player: 'Opponent', outcome });
             }
         }
 
@@ -280,13 +343,23 @@ export async function playGame(player1ID: string, player2ID: string) {
 
         results.push({ minute: finalOutcomeMinute, player: 'Match', outcome: finalOutcome });
 
+        if (finalOutcome === 'Player Wins!') {
+            await UserData.findOneAndUpdate({ User: player1ID }, { '$inc': { played: 1, won: 1 } })
+            await UserData.findOneAndUpdate({ User: player2ID }, { '$inc': { played: 1, lost: 1 } })
+            console.log('Updating Player')
+        } else if (finalOutcome === 'Opponent Wins!') {
+            await UserData.findOneAndUpdate({ User: player1ID }, { '$inc': { played: 1, lost: 1 } })
+            await UserData.findOneAndUpdate({ User: player2ID }, { '$inc': { played: 1, won: 1 } })
+        }
+
 
         const match = new Match({
-            Player: player1._id,
-            Opponent: player2._id,
+            Player: player1ID,
+            Opponent: player2ID,
             attacks: results,
             status: 'finished',
-            winner: player1._id
+            winner: finalOutcome === 'Player Wins!' ? player1ID : player2ID,
+            type: 'Rank'
         });
 
         await match.save();
