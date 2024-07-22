@@ -1,10 +1,9 @@
 import HistoryPage from '@/components/screens/HistoryPage'
-import Image from 'next/image'
 import React from 'react'
 
-const page = () => {
+const page = ({ params: { id } }: any) => {
     return (
-        <HistoryPage />
+        <HistoryPage id={id} />
     )
 }
 

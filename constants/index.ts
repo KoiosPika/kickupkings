@@ -287,3 +287,21 @@ export const positions = [
         initialPrice: 50,
     },
 ]
+
+export const Ranks = [
+    { rank: 'Youth Coach', maxPoints: 1000 },
+    { rank: 'Assistant Coach', maxPoints: 2000 },
+    { rank: 'Head Coach', maxPoints: 3000 },
+    { rank: 'Reserve Coach', maxPoints: 4000 },
+    { rank: 'First Coach', maxPoints: 5000 },
+    { rank: 'Tactical Analyst', maxPoints: 6000 },
+    { rank: 'Fitness Coach', maxPoints: 7000 },
+    { rank: 'Goalkeeper Coach', maxPoints: 8000 },
+    { rank: 'Scout', maxPoints: 9000 },
+    { rank: 'Football Director', maxPoints: 10000 },
+    { rank: 'Academy Director', maxPoints: 11000 },
+    { rank: 'Assistant Manager', maxPoints: 12000 },
+    { rank: 'Youth Director', maxPoints: 13000 },
+    { rank: 'Manager', maxPoints: 14000 },
+    { rank: 'Technical Director', maxPoints: 15000 },
+];

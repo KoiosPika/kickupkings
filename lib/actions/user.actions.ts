@@ -370,11 +370,11 @@ export async function playGame(player1ID: string, player2ID: string) {
         results.push({ minute: finalOutcomeMinute, player: 'Match', outcome: finalOutcome });
 
         if (finalOutcome === 'Player Wins!') {
-            await UserData.findOneAndUpdate({ User: player1ID }, { '$inc': { played: 1, won: 1 } })
+            await UserData.findOneAndUpdate({ User: player1ID }, { '$inc': { played: 1, won: 1, points: 50 } })
             await UserData.findOneAndUpdate({ User: player2ID }, { '$inc': { played: 1, lost: 1 } })
             console.log('Updating Player')
         } else if (finalOutcome === 'Opponent Wins!') {
-            await UserData.findOneAndUpdate({ User: player1ID }, { '$inc': { played: 1, lost: 1 } })
+            await UserData.findOneAndUpdate({ User: player1ID }, { '$inc': { played: 1, lost: 1, points: 50 } })
             await UserData.findOneAndUpdate({ User: player2ID }, { '$inc': { played: 1, won: 1 } })
         }
 
