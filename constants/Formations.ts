@@ -9,7 +9,7 @@ export const formations = [
             { positions: ['CDM'], type: 'Midfield' },
             { positions: [''], type: 'Defense' },
             { positions: ['', 'LCB', '', 'CB', '', 'RCB', ''], type: 'Defense' },
-            { positions: [''], type: 'Goalkeeper' },
+            { positions: [''], type: 'Spacer' },
             { positions: ['GK'], type: 'Goalkeeper' }
         ]
     },
@@ -23,7 +23,7 @@ export const formations = [
             { positions: ['CDM'], type: 'Midfield' },
             { positions: [''], type: 'Defense' },
             { positions: ['', 'LCB', '', 'CB', '', 'RCB', ''], type: 'Defense' },
-            { positions: [''], type: 'Goalkeeper' },
+            { positions: [''], type: 'Spacer' },
             { positions: ['GK'], type: 'Goalkeeper' }
         ]
     },
@@ -37,7 +37,7 @@ export const formations = [
             { positions: ['', 'LDM', 'RDM', ''], type: 'Midfield' },
             { positions: [''], type: 'Defense' },
             { positions: ['', 'LCB', '', 'CB', '', 'RCB', ''], type: 'Defense' },
-            { positions: [''], type: 'Goalkeeper' },
+            { positions: [''], type: 'Spacer' },
             { positions: ['GK'], type: 'Goalkeeper' }
         ]
     },
@@ -51,7 +51,7 @@ export const formations = [
             { positions: ['', 'LDM','', 'RDM', ''], type: 'Midfield' },
             { positions: [''], type: 'Defense' },
             { positions: ['', 'LCB', '', 'CB', '', 'RCB', ''], type: 'Defense' },
-            { positions: [''], type: 'Goalkeeper' },
+            { positions: [''], type: 'Spacer' },
             { positions: ['GK'], type: 'Goalkeeper' }
         ]
     },
@@ -65,7 +65,7 @@ export const formations = [
             { positions: ['', 'LDM', '', 'CDM', '', 'RDM', ''], type: 'Midfield' },
             { positions: [''], type: 'Defense' },
             { positions: ['', 'LCB', '', 'CB', '', 'RCB', ''], type: 'Defense' },
-            { positions: [''], type: 'Goalkeeper' },
+            { positions: [''], type: 'Spacer' },
             { positions: ['GK'], type: 'Goalkeeper' }
         ]
     },
@@ -105,7 +105,7 @@ export const formations = [
             { positions: [''], type: 'Forward' },
             { positions: ['LM', 'LCM', 'RCM', 'RM'], type: 'Midfield' },
             { positions: [''], type: 'Midfield' },
-            { positions: [''], type: 'Defense' },
+            { positions: [''], type: 'Midfield' },
             { positions: ['', 'LCB', '', 'CB', '', 'RCB', ''], type: 'Defense' },
             { positions: [''], type: 'Goalkeeper' },
             { positions: ['GK'], type: 'Goalkeeper' }

@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react'
 import { ScrollArea } from '../ui/scroll-area'
 import { formations } from '@/constants/Formations'
 import { positions } from '@/constants'
-import { createUser, getUserByUserID } from '@/lib/actions/user.actions'
+import { createUser, getUserByUserID, playGame } from '@/lib/actions/user.actions'
 import { IUserData } from '@/lib/database/models/userData.model'
 import {
   AlertDialog,
@@ -13,6 +13,7 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog"
+import { useRouter } from 'next/navigation'
 
 
 const colors = [
@@ -26,6 +27,7 @@ const PlayPage = () => {
 
   const [height, setHeight] = useState<number>(window.innerHeight)
   const [user, setUser] = useState<IUserData>()
+  const router = useRouter()
 
   useEffect(() => {
     const updateHeights = () => {
@@ -65,6 +67,13 @@ const PlayPage = () => {
 
   const overallAverageLevel =
     filteredPositions.reduce((sum, userPos) => sum + userPos.level, 0) / filteredPositions.length || 0;
+
+  const handlePlaying = async () => {
+
+    const match = await playGame('6699bfa1ba8348c3228f89ab', '6699bfa1ba8348c3228f89ab')
+
+    router.push(`/play?matchID=${encodeURIComponent(match._id)}`);
+  }
 
 
   return (
@@ -215,7 +224,7 @@ const PlayPage = () => {
                   </div>
                 </div>
                 <div className='flex flex-row items-center gap-3 w-full'>
-                  <div className='w-1/2 bg-green-700 text-white font-semibold rounded-md py-1 flex flex-row items-center justify-center gap-2'>
+                  <div className='w-1/2 bg-green-700 text-white font-semibold rounded-md py-1 flex flex-row items-center justify-center gap-2' onClick={handlePlaying}>
                     <p>Play</p>
                     <Image src={'/icons/coin.svg'} alt='coin' height={100} width={100} className='w-[20px] h-[20px] sm:w-[35px] sm:h-[35px]' />
                     <p className='font-semibold text-white text-[16px] sm:text-[25px]'>10</p>
