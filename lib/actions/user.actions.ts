@@ -280,46 +280,46 @@ export async function playGame(player1ID: string, player2ID: string) {
 
         results.push({ minute: 45, player: 'Match', outcome: 'Half-time' });
 
-        // for (let i = normalTimeAttacks / 2; i < normalTimeAttacks; i++) {
-        //     let outcome;
-        //     if (i % 2 === 0) {
-        //         outcome = simulateAttack(formation1, formation2, players1, players2);
-        //         if (outcome === 'Goal Scored') {
-        //             score1++;
-        //         }
-        //         results.push({ minute: normalTimeMinutes[i], player: 'Player', outcome });
-        //     } else {
-        //         outcome = simulateAttack(formation2, formation1, players2, players1);
-        //         if (outcome === 'Goal Scored') {
-        //             score2++;
-        //         }
-        //         results.push({ minute: normalTimeMinutes[i], player: 'Opponent', outcome });
-        //     }
-        // }
+        for (let i = normalTimeAttacks / 2; i < normalTimeAttacks; i++) {
+            let outcome;
+            if (i % 2 === 0) {
+                outcome = simulateAttack(formation1, formation2, players1, players2);
+                if (outcome === 'Goal Scored') {
+                    score1++;
+                }
+                results.push({ minute: normalTimeMinutes[i], player: 'Player', outcome });
+            } else {
+                outcome = simulateAttack(formation2, formation1, players2, players1);
+                if (outcome === 'Goal Scored') {
+                    score2++;
+                }
+                results.push({ minute: normalTimeMinutes[i], player: 'Opponent', outcome });
+            }
+        }
 
         results.push({ minute: 90, player: 'Match', outcome: score1 === score2 ? 'Awaiting Extra Time' : 'Full-time' });
 
-        // if (score1 === score2) {
-        //     // Extra time
-        //     for (let i = 0; i < extraTimeAttacks; i++) {
-        //         let outcome;
-        //         if (i % 2 === 0) {
-        //             outcome = simulateAttack(formation1, formation2, players1, players2);
-        //             if (outcome === 'Goal Scored') {
-        //                 score1++;
-        //             }
-        //             results.push({ minute: extraTimeMinutes[i], player: 'Player', outcome });
-        //         } else {
-        //             outcome = simulateAttack(formation2, formation1, players2, players1);
-        //             if (outcome === 'Goal Scored') {
-        //                 score2++;
-        //             }
-        //             results.push({ minute: extraTimeMinutes[i], player: 'Opponent', outcome });
-        //         }
-        //     }
+        if (score1 === score2) {
+            // Extra time
+            for (let i = 0; i < extraTimeAttacks; i++) {
+                let outcome;
+                if (i % 2 === 0) {
+                    outcome = simulateAttack(formation1, formation2, players1, players2);
+                    if (outcome === 'Goal Scored') {
+                        score1++;
+                    }
+                    results.push({ minute: extraTimeMinutes[i], player: 'Player', outcome });
+                } else {
+                    outcome = simulateAttack(formation2, formation1, players2, players1);
+                    if (outcome === 'Goal Scored') {
+                        score2++;
+                    }
+                    results.push({ minute: extraTimeMinutes[i], player: 'Opponent', outcome });
+                }
+            }
 
-        //     results.push({ minute: 120, player: 'Match', outcome: score1 === score2 ? 'Awaiting Penalties' : 'Full-time' });
-        // }
+            results.push({ minute: 120, player: 'Match', outcome: score1 === score2 ? 'Awaiting Penalties' : 'Full-time' });
+        }
 
         let penalties = [];
         let playerPenalties = 0;
