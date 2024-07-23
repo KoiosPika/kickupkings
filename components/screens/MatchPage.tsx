@@ -64,22 +64,26 @@ const stepsMap: { [key: string]: string[] } = {
   'Player Penalty Scored': [
     'Player ready to shoot',
     'Player comes forward',
-    'Penalty scored!'
+    'Player shoots',
+    'Penalty Scored!'
   ],
   'Player Penalty Missed': [
     'Player ready to shoot',
     'Player comes forward',
-    'Penalty Missed'
+    'Player shoots',
+    'Penalty Missed!'
   ],
   'Opponent Penalty Scored': [
     'Opponent ready to shoot',
     'Opponent comes forward',
-    'Penalty scored!'
+    'Opponent shoots',
+    'Penalty Scored!'
   ],
   'Opponent Penalty Missed': [
     'Opponent ready to shoot',
     'Opponent comes forward',
-    'Penalty Missed'
+    'Opponent shoots',
+    'Penalty Missed!'
   ]
 };
 
@@ -132,7 +136,7 @@ const MatchPage = ({ id }: { id: string }) => {
           updated[0] = { ...updated[0], outcome: currentSteps[stepIndex], stepIndex };
 
           // Check if the current step is "Goal scored!"
-          if (currentSteps[stepIndex] === 'Goal scored!') {
+          if (currentSteps[stepIndex] === 'Goal scored!' || currentSteps[stepIndex] === 'Penalty Scored!') {
             if (updated[0].player === 'Player') {
               setPlayerScore(prevScore => prevScore + 1);
             } else if (updated[0].player === 'Opponent') {
@@ -156,7 +160,7 @@ const MatchPage = ({ id }: { id: string }) => {
       } else {
         clearInterval(interval);
       }
-    }, 500);
+    }, 2000);
 
     return () => clearInterval(interval);
   }, [match, currentSteps, stepIndex, currentIndex]);
@@ -208,8 +212,8 @@ const MatchPage = ({ id }: { id: string }) => {
                           {attack.outcome === 'Midfield fouled by opponent' && <Image src={'/icons/whistle-red.svg'} alt='final' height={35} width={35} />}
                           {attack.outcome === 'Goal scored!' && <Image src={'/icons/Football-green.svg'} alt='final' height={25} width={25} />}
                           {attack.outcome === 'Midfield loses the ball' && <Image src={'/icons/x-red.svg'} alt='final' height={25} width={25} />}
-                          {attack.outcome === 'Penalty scored!' && <Image src={'/icons/penalty-green.svg'} alt='final' height={30} width={30} />}
-                          {attack.outcome === 'Penalty Missed' && <Image src={'/icons/penalty-red.svg'} alt='final' height={30} width={30} />}
+                          {attack.outcome === 'Penalty Scored!' && <Image src={'/icons/penalty-green.svg'} alt='final' height={30} width={30} />}
+                          {attack.outcome === 'Penalty Missed!' && <Image src={'/icons/penalty-red.svg'} alt='final' height={30} width={30} />}
                         </>
                       )}
                       <p className='text-yellow-500 font-semibold'>{attack.minute}</p>
@@ -234,8 +238,8 @@ const MatchPage = ({ id }: { id: string }) => {
                           {attack.outcome === 'Midfield fouled by opponent' && <Image src={'/icons/whistle-green.svg'} alt='final' height={35} width={35} />}
                           {attack.outcome === 'Goal scored!' && <Image src={'/icons/Football-red.svg'} alt='final' height={25} width={25} />}
                           {attack.outcome === 'Midfield loses the ball' && <Image src={'/icons/x-green.svg'} alt='final' height={25} width={25} />}
-                          {attack.outcome === 'Penalty scored!' && <Image src={'/icons/penalty-green.svg'} alt='final' height={30} width={30} />}
-                          {attack.outcome === 'Penalty Missed' && <Image src={'/icons/penalty-red.svg'} alt='final' height={30} width={30} />}
+                          {attack.outcome === 'Penalty Scored!' && <Image src={'/icons/penalty-green.svg'} alt='final' height={30} width={30} />}
+                          {attack.outcome === 'Penalty Missed!' && <Image src={'/icons/penalty-red.svg'} alt='final' height={30} width={30} />}
                         </>
                       )}
                       <p className='text-yellow-500 font-semibold'>{attack.minute}</p>
