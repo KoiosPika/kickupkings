@@ -112,7 +112,7 @@ const MatchPage = ({ id }: { id: string }) => {
 
   useEffect(() => {
     // Check if the game has reached extra time
-    if (displayedAttacks.length > 24) {
+    if (displayedAttacks.length > 25) {
       setIsExtraTime(true);
       setCurrentTotalAttacks(31);
     }

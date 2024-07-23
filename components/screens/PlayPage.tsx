@@ -29,6 +29,7 @@ const PlayPage = () => {
   const [height, setHeight] = useState<number>(window.innerHeight)
   const [user, setUser] = useState<any>()
   const router = useRouter()
+  const [waiting, setWaiting] = useState(false)
 
   useEffect(() => {
     const updateHeights = () => {
@@ -73,13 +74,18 @@ const PlayPage = () => {
 
   const handlePlaying = async () => {
 
+    if (waiting) {
+      return;
+    }
+
+    setWaiting(true);
     const match = await playGame('6699bfa1ba8348c3228f89ab', '6699bfa1ba8348c3228f89ab')
 
     router.push(`/play/${match._id}`);
   }
 
   if (!user) {
-    return (<Image src={'/icons/spinner.svg'} alt='spinner' height={30} width={30} className='animate-spin'/>)
+    return (<Image src={'/icons/spinner.svg'} alt='spinner' height={30} width={30} className='animate-spin' />)
   }
 
 
@@ -229,7 +235,7 @@ const PlayPage = () => {
                 </div>
                 <div className='flex flex-row items-center gap-3 w-full'>
                   <div className='w-1/2 bg-green-700 text-white font-semibold rounded-md py-1 flex flex-row items-center justify-center gap-2' onClick={handlePlaying}>
-                    <p>Play</p>
+                    <p>{waiting ? 'Wait' : 'Play'}</p>
                     <Image src={'/icons/coin.svg'} alt='coin' height={100} width={100} className='w-[20px] h-[20px] sm:w-[35px] sm:h-[35px]' />
                     <p className='font-semibold text-white text-[16px] sm:text-[25px]'>10</p>
                   </div>
