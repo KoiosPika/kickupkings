@@ -15,7 +15,8 @@ export interface IUserData extends Document {
     lost: number,
     positions: IPosition[],
     dailyQuizzes: IQuiz[],
-    dailyPredictions: IPrediction[]
+    dailyPredictions: IPrediction[],
+    teamOverall: number
 }
 
 interface IQuiz {
@@ -64,6 +65,7 @@ const UserDataSchema = new Schema({
     won: { type: Number, default: 0 },
     lost: { type: Number, default: 0 },
     Rank: { type: String, default: 'Youth Coach' },
+    teamOverall: { type: Number, default: 0 },
     positions: {
         type: [PositionSchema], default: () => positions.map(position => ({
             position: position.symbol,
@@ -72,7 +74,7 @@ const UserDataSchema = new Schema({
         }))
     },
     dailyQuizzes: [QuizSchema],
-    dailyPredictions: [PredictionSchema]
+    dailyPredictions: [PredictionSchema],
 })
 
 const UserData = models.UserData || model('UserData', UserDataSchema);

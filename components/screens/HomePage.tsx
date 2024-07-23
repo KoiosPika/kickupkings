@@ -26,6 +26,10 @@ const HomePage = () => {
 
     const progress = maxPoints > 0 ? ((user?.points || 0) / maxPoints) * 100 : 0;
 
+    if (!user) {
+        return (<Image src={'/icons/spinner.svg'} alt='spinner' height={30} width={30} className='animate-spin' />)
+    }
+
 
     return (
         <section className='w-full h-screen'>
@@ -44,7 +48,7 @@ const HomePage = () => {
                 </div>
                 <div className='w-1/2 bg-slate-800 flex flex-row gap-2 justify-center items-center rounded-lg h-[53px] sm:h-[75px]'>
                     <p className='font-bold text-white text-[16px] sm:text-[22px]'>Team Overall:</p>
-                    <p className='font-bold text-green-500'>21.5</p>
+                    <p className='font-bold text-green-500'>{(user?.teamOverall).toFixed(2)}</p>
                 </div>
             </div>
             <div className='w-full flex flex-col justify-center items-center'>

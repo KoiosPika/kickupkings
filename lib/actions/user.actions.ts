@@ -129,6 +129,8 @@ export async function upgradePosition(id: string, position: string) {
 
         user.coins -= price;
 
+        user.teamOverall = calculateTeamOverall(user.positions);
+
         await user.save();
 
         return JSON.parse(JSON.stringify(user));
@@ -503,3 +505,19 @@ export async function collectCoins(userId: string, matchId: string) {
     // Save user data
     await user.save();
 }
+
+const calculateTeamOverall = (userPositions: any) => {
+    const validPositions = userPositions.filter((pos: any) => {
+        const posData = positions.find((p: any) => p.symbol === pos.position);
+        return posData && posData.type !== 'Staff';
+    });
+
+    if (validPositions.length === 0) {
+        return 0; // or another default value if no valid positions
+    }
+
+    const totalLevels = validPositions.reduce((sum: any, pos: any) => sum + pos.level, 0);
+    const averageLevel = totalLevels / validPositions.length;
+
+    return averageLevel;
+};
