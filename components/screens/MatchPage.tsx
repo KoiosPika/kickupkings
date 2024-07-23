@@ -3,6 +3,7 @@ import React, { Suspense, useEffect, useState } from 'react'
 import { getMatchByID } from '@/lib/actions/match.actions';
 import Image from 'next/image';
 import { ScrollArea } from '../ui/scroll-area';
+import RollingNumber from '../shared/RollingNumber';
 
 type Attack = {
   minute: number;
@@ -96,7 +97,7 @@ const MatchPage = ({ id }: { id: string }) => {
       if (matchID) {
         const thisMatch = await getMatchByID(matchID);
         setMatch(thisMatch);
-        setDisplayedAttacks([{ minute: 0, player: 'Match', outcome: '', stepIndex: 0, finalOutcome:'' }]);
+        setDisplayedAttacks([{ minute: 0, player: 'Match', outcome: '', stepIndex: 0, finalOutcome: '' }]);
         setCurrentSteps(['Match Started']);
       }
     };
@@ -145,9 +146,13 @@ const MatchPage = ({ id }: { id: string }) => {
 
   return (
     <section className='w-full h-screen flex flex-col bg-slate-800'>
-      <div className='flex flex-row items-center justify-evenly'>
+      <div className='flex flex-row items-center justify-evenly bg-slate-900 mb-3'>
         <Image src={'/icons/user.svg'} alt='user' height={50} width={50} className='bg-slate-500 p-1 h-[50px] w-[50px] rounded-md' />
-        <p className='place-self-center text-[50px] text-yellow-400 font-bold'> {playerScore} - {opponentScore} </p>
+        <div className='text-yellow-400 font-bold h-[70px] flex flex-row items-center text-[50px]'>
+          <RollingNumber number={playerScore} />
+          <p>-</p>
+          <RollingNumber number={opponentScore} />
+        </div>
         <Image src={'/icons/user.svg'} alt='user' height={50} width={50} className='bg-slate-500 p-1 h-[50px] w-[50px] rounded-md' />
       </div>
       <ScrollArea className='h-[80%]'>

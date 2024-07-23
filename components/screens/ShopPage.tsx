@@ -153,6 +153,10 @@ const ShopPage = () => {
         }
     };
 
+    if (!user) {
+        return (<Image src={'/icons/spinner.svg'} alt='spinner' height={30} width={30} className='animate-spin' />)
+    }
+
     return (
         <section className='w-full h-screen'>
             <div className='w-full ml-auto mb-auto p-2 flex flex-row items-center gap-2'>

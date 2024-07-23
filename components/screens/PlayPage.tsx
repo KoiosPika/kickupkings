@@ -78,6 +78,10 @@ const PlayPage = () => {
     router.push(`/play/${match._id}`);
   }
 
+  if (!user) {
+    return (<Image src={'/icons/spinner.svg'} alt='spinner' height={30} width={30} className='animate-spin'/>)
+  }
+
 
   return (
     <section className='w-full h-screen flex flex-col'>
@@ -150,7 +154,7 @@ const PlayPage = () => {
                   <p className='ml-2 max-w-[80px] sm:max-w-[200px] text-[16px] sm:text-[24px] overflow-hidden'>username</p>
                 </div>
                 {match.type === 'Rank' && <p className='bg-orange-600 px-2 text-[14px] sm:text-[24px] py-[2px] rounded-lg ml-auto shadow-md shadow-orange-500 border-b-[3px] sm:border-b-[6px] border-orange-800'>Rank</p>}
-                {match.type === 'Friendly' &&<p className='bg-purple-700 px-2 text-[14px] sm:text-[24px] py-[2px] rounded-lg ml-auto shadow-md shadow-purple-500 border-b-[3px] sm:border-b-[6px] border-purple-800'>Friendly</p>}
+                {match.type === 'Friendly' && <p className='bg-purple-700 px-2 text-[14px] sm:text-[24px] py-[2px] rounded-lg ml-auto shadow-md shadow-purple-500 border-b-[3px] sm:border-b-[6px] border-purple-800'>Friendly</p>}
               </div>))}
           </div>
         </div>
@@ -194,9 +198,9 @@ const PlayPage = () => {
                       <p className='font-bold text-white'>username</p>
                     </div>
                     <div className='h-[250px] w-full flex flex-col justify-around rounded-md bg-slate-800 border-[1px] sm:border-4 border-white' style={{ backgroundImage: `url('/Field-dark.png')`, backgroundSize: 'cover', backgroundPosition: 'center' }}>
-                      {formation?.data.map((row : any, rowIndex : number) => (
+                      {formation?.data.map((row: any, rowIndex: number) => (
                         <div key={rowIndex} className='flex justify-around'>
-                          {row.positions.map((position: any, posIndex : number) => (
+                          {row.positions.map((position: any, posIndex: number) => (
                             <div key={posIndex} className='p-1 sm:px-3 sm:py-1 rounded-sm text-white font-semibold border-white' style={{ backgroundColor: getColor(row.type, row.positions[posIndex]), borderWidth: row.positions[posIndex] ? 2 : 0, boxShadow: position ? `-8px -8px 10px -4px ${getColor(row.type, row.positions[posIndex])},-8px 8px 10px -4px ${getColor(row.type, row.positions[posIndex])},8px -8px 10px -4px ${getColor(row.type, row.positions[posIndex])},8px 8px 10px -4px ${getColor(row.type, row.positions[posIndex])}` : '' }}>
                               <p className='text-[10px] sm:text-[20px]'>{position}</p>
                             </div>
@@ -249,9 +253,9 @@ const PlayPage = () => {
       <div className='w-full flex flex-col h-full justify-center items-center flex-grow mt-3'>
         <div className='w-11/12 flex flex-row items-center h-full gap-2'>
           <div className='h-full w-1/2 flex flex-col justify-around rounded-md bg-slate-800 border-[1px] sm:border-4 border-white' style={{ backgroundImage: `url('/Field-dark.png')`, backgroundSize: 'cover', backgroundPosition: 'center' }}>
-            {formation?.data.map((row : any, rowIndex : number) => (
+            {formation?.data.map((row: any, rowIndex: number) => (
               <div key={rowIndex} className='flex justify-around'>
-                {row.positions.map((position: any, posIndex : number) => (
+                {row.positions.map((position: any, posIndex: number) => (
                   <div key={posIndex} className='p-1 sm:px-3 sm:py-1 rounded-sm text-white font-semibold border-white' style={{ backgroundColor: getColor(row.type, row.positions[posIndex]), borderWidth: row.positions[posIndex] ? 2 : 0, boxShadow: position ? `-8px -8px 10px -4px ${getColor(row.type, row.positions[posIndex])},-8px 8px 10px -4px ${getColor(row.type, row.positions[posIndex])},8px -8px 10px -4px ${getColor(row.type, row.positions[posIndex])},8px 8px 10px -4px ${getColor(row.type, row.positions[posIndex])}` : '' }}>
                     <p className='text-[10px] sm:text-[20px]'>{position}</p>
                   </div>
@@ -275,7 +279,7 @@ const PlayPage = () => {
                   </div>
                 </div>
                 {positions
-                  .filter(position => filteredPositions.some((userPos : any) => userPos.position === position.symbol))
+                  .filter(position => filteredPositions.some((userPos: any) => userPos.position === position.symbol))
                   .map((position: any) => (
                     <div key={position.symbol} className='bg-slate-800 p-2 sm:p-4 rounded-lg'>
                       <div className='flex flex-row items-center'>
