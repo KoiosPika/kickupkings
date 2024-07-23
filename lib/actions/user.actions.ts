@@ -1,6 +1,6 @@
 'use server'
 
-import { positions } from "@/constants";
+import { Ranks, positions } from "@/constants";
 import { connectToDatabase } from "../database"
 import User from "../database/models/user.model";
 import UserData, { IUserData } from "../database/models/userData.model";
@@ -9,13 +9,18 @@ import { calculateGoalkeeperChance, simulateAttack } from "../utils";
 import Match from "../database/models/match.model";
 import { Predictions, Quizzes } from "@/constants/Earnings";
 
-export async function createUser() {
+const populateUsers = (query: any) => {
+    return query
+        .populate({ path: 'User', model: User, select: "_id username" })
+}
+
+export async function createUser(id: string, username: string) {
     try {
         await connectToDatabase();
 
         const user = await User.create({
-            telegramID: '48128938472634981239862549382743',
-            username: 'KoiosPika',
+            telegramID: id,
+            username: username,
         })
 
         const userData = await UserData.create({
@@ -67,6 +72,7 @@ export async function getUserForPlayPage(id: string) {
             lost: user.lost,
             Rank: user.Rank,
             positions: user.positions,
+            teamOverall:user.teamOverall,
             form,
             matches: recentMatches
         }
@@ -535,3 +541,85 @@ const calculateTeamOverall = (userPositions: any) => {
 
     return averageLevel;
 };
+
+const generateRandomPositions = () => {
+    return positions.map(position => ({
+        position: position.symbol,
+        level: Math.floor(Math.random() * 10), // Levels between 0 and 9
+        availableTime: new Date(),
+    }));
+};
+
+const generateRandomUsername = () => {
+    const characters = 'abcdefghijklmnopqrstuvwxyz0123456789';
+    let username = '';
+    for (let i = 0; i < 8; i++) {
+        username += characters.charAt(Math.floor(Math.random() * characters.length));
+    }
+    return username;
+};
+
+const generateRandomTelegramID = () => {
+    const characters = 'abcdefghijklmnopqrstuvwxyz0123456789';
+    let telegramID = '';
+    for (let i = 0; i < 10; i++) {
+        telegramID += characters.charAt(Math.floor(Math.random() * characters.length));
+    }
+    return telegramID;
+};
+
+export async function createFakeUsers(count: number) {
+    try {
+        await connectToDatabase();
+
+        for (let i = 0; i < count; i++) {
+            const user = new User({
+                telegramID: generateRandomTelegramID(),
+                username: generateRandomUsername(),
+                photo: '', // No photo
+            });
+
+            await user.save();
+
+            const rank = Ranks[i % Ranks.length]; // Cycle through ranks
+
+            const userData = new UserData({
+                User: user._id,
+                formation: '4-3-3',
+                coins: Math.floor(Math.random() * 10001), // Coins between 0 and 10000
+                diamonds: Math.floor(Math.random() * 1001), // Diamonds between 0 and 1000
+                points: Math.floor(Math.random() * (rank.maxPoints + 1)), // Points between 0 and maxPoints
+                played: Math.floor(Math.random() * 101), // Played between 0 and 100
+                won: Math.floor(Math.random() * 51), // Won between 0 and 50
+                lost: Math.floor(Math.random() * 51), // Lost between 0 and 50
+                Rank: rank.rank,
+                teamOverall: 0, // This will be calculated after
+                positions: generateRandomPositions(),
+                dailyQuizzes: [],
+                dailyPredictions: [],
+            });
+
+            userData.teamOverall = calculateTeamOverall(userData.positions);
+
+            await userData.save();
+        }
+
+        console.log(`${count} fake users created successfully.`);
+    } catch (error) {
+        console.error('Error creating fake users:', error);
+    }
+};
+
+export async function findMatch(id: string) {
+    try {
+        await connectToDatabase();
+
+        const user = await UserData.findOne({ User: id })
+
+        const users = await populateUsers(UserData.find({ Rank: user.Rank }))
+
+        return JSON.parse(JSON.stringify(users[1]))
+    } catch (error) {
+        console.log(error)
+    }
+}
