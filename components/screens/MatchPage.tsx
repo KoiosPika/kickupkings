@@ -145,22 +145,34 @@ const MatchPage = ({ id }: { id: string }) => {
   }, [match, currentSteps, stepIndex, currentIndex]);
 
   return (
-    <section className='w-full h-screen flex flex-col bg-slate-800'>
-      <div className='flex flex-row items-center justify-evenly bg-slate-900 mb-3'>
-        <Image src={'/icons/user.svg'} alt='user' height={50} width={50} className='bg-slate-500 p-1 h-[50px] w-[50px] rounded-md' />
-        <div className='text-yellow-400 font-bold h-[70px] flex flex-row items-center text-[50px]'>
+    <section className='w-full h-screen flex flex-col bg-gradient-to-b from-slate-900 to-gray-600'>
+      <div className='flex flex-row items-center ml-3 mt-2 gap-2'>
+        <a href='/' className=' py-2 px-3 rounded-md text-white font-bold'>
+          <Image src={'/icons/back.svg'} alt='back' height={10} width={10} />
+        </a>
+        <p className='font-bold text-white'>Friendly Match</p>
+      </div>
+      <div className='flex flex-row items-center justify-evenly mb-3 h-[140px]'>
+        <div className='flex flex-col justify-center items-center gap-2 w-[80px]'>
+          <Image src={'/icons/user.svg'} alt='user' height={50} width={50} className='bg-slate-500 p-1 h-[50px] w-[50px] rounded-md' />
+          <p className='text-white font-semibold text-[14px]'>KoiosPika</p>
+        </div>
+        <div className='text-yellow-400 font-semibold h-[70px] flex flex-row items-center text-[50px]'>
           <RollingNumber number={playerScore} />
-          <p>-</p>
+          <div className='h-[6px] bg-gradient-to-t from-yellow-400 to-yellow-500 w-[20px] rounded-md'/>
           <RollingNumber number={opponentScore} />
         </div>
-        <Image src={'/icons/user.svg'} alt='user' height={50} width={50} className='bg-slate-500 p-1 h-[50px] w-[50px] rounded-md' />
+        <div className='flex flex-col justify-center items-center gap-2 w-[80px] overflow-hidden'>
+          <Image src={'/icons/user.svg'} alt='user' height={50} width={50} className='bg-slate-500 p-1 h-[50px] w-[50px] rounded-md' />
+          <p className='text-white font-semibold text-[14px] text-start'>KoiosPikaaa</p>
+        </div>
       </div>
       <ScrollArea className='h-[80%]'>
         <div className='flex flex-col justify-center items-center gap-3'>
           {displayedAttacks.map((attack, index) => {
             const steps = stepsMap[attack.finalOutcome];
             return (
-              <div className='bg-slate-900 w-5/6 text-center py-2 text-white font-semibold rounded-md' key={index}>
+              <div className='bg-gradient-to-b from-slate-700 to-slate-800 w-5/6 text-center py-2 text-white font-semibold rounded-md shadow-md shadow-slate-800' key={index}>
                 {attack.player === 'Player' &&
                   <div className='w-5/6 rounded-md flex flex-row items-center justify-center py-3 px-2'>
                     <div className='w-1/4 flex flex-col justify-center items-center gap-2'>
