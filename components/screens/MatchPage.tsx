@@ -21,38 +21,39 @@ type Match = {
 
 const stepsMap: { [key: string]: string[] } = {
   'Midfield Interception': [
-    'Your team attacking',
+    'Team is attacking',
     'Defender passes the ball to midfield',
     'Midfield loses the ball'
   ],
   'Goalkeeper Save': [
-    'Your team attacking',
+    'Team is attacking',
     'Defender passes the ball to midfield',
     'Midfield passes to forward',
     'Forward shoots',
     'Goalkeeper saves the shot'
   ],
   'Goal Scored': [
-    'Your team attacking',
+    'Team is attacking',
     'Defender passes the ball to midfield',
     'Midfield passes to forward',
     'Forward shoots',
     'Goal scored!'
   ],
   'Defender Interception': [
-    'Your team attacking',
+    'Team is attacking',
     'Defender passes the ball to midfield',
     'Midfield passes to forward',
     'Defender intercepts the ball'
   ],
   'Foul': [
-    'Your team attacking',
+    'Team is attacking',
     'Defender passes the ball to midfield',
     'Midfield fouled by opponent'
   ],
   'Offside': [
-    'Your team attacking',
+    'Team is attacking',
     'Defender passes the ball to midfield',
+    'Midfield passes to forward',
     'Forward caught offside'
   ],
   'Match Started': ['Match Started'],
@@ -90,6 +91,10 @@ const MatchPage = ({ id }: { id: string }) => {
   const [stepIndex, setStepIndex] = useState<number>(0);
   const [playerScore, setPlayerScore] = useState<number>(0);
   const [opponentScore, setOpponentScore] = useState<number>(0);
+  const [progress, setProgress] = useState<number>(0);
+  const [isExtraTime, setIsExtraTime] = useState(false);
+  const [currentTotalAttacks, setCurrentTotalAttacks] = useState(24);
+
 
   useEffect(() => {
     const getMatch = async () => {
@@ -98,12 +103,24 @@ const MatchPage = ({ id }: { id: string }) => {
         const thisMatch = await getMatchByID(matchID);
         setMatch(thisMatch);
         setDisplayedAttacks([{ minute: 0, player: 'Match', outcome: '', stepIndex: 0, finalOutcome: '' }]);
-        setCurrentSteps(['Match Started']);
+        setCurrentSteps(['']);
       }
     };
 
     getMatch();
   }, [id]);
+
+  useEffect(() => {
+    // Check if the game has reached extra time
+    if (displayedAttacks.length > 24) {
+      setIsExtraTime(true);
+      setCurrentTotalAttacks(31);
+    }
+
+    const progressPercentage = (displayedAttacks.length / currentTotalAttacks) * 100;
+    setProgress(progressPercentage);
+  }, [displayedAttacks, currentTotalAttacks]);
+
 
   useEffect(() => {
     if (!match) return;
@@ -139,7 +156,7 @@ const MatchPage = ({ id }: { id: string }) => {
       } else {
         clearInterval(interval);
       }
-    }, 2000);
+    }, 500);
 
     return () => clearInterval(interval);
   }, [match, currentSteps, stepIndex, currentIndex]);
@@ -150,7 +167,7 @@ const MatchPage = ({ id }: { id: string }) => {
         <a href='/' className=' py-2 px-3 rounded-md text-white font-bold'>
           <Image src={'/icons/back.svg'} alt='back' height={10} width={10} />
         </a>
-        <p className='font-bold text-white'>Friendly Match</p>
+        <p className='font-bold text-white'>Rank Match</p>
       </div>
       <div className='flex flex-row items-center justify-evenly mb-3 h-[140px]'>
         <div className='flex flex-col justify-center items-center gap-2 w-[80px]'>
@@ -159,7 +176,7 @@ const MatchPage = ({ id }: { id: string }) => {
         </div>
         <div className='text-yellow-400 font-semibold h-[70px] flex flex-row items-center text-[50px]'>
           <RollingNumber number={playerScore} />
-          <div className='h-[6px] bg-gradient-to-t from-yellow-400 to-yellow-500 w-[20px] rounded-md'/>
+          <div className='h-[6px] bg-gradient-to-t from-yellow-400 to-yellow-500 w-[20px] rounded-md' />
           <RollingNumber number={opponentScore} />
         </div>
         <div className='flex flex-col justify-center items-center gap-2 w-[80px] overflow-hidden'>
@@ -167,7 +184,12 @@ const MatchPage = ({ id }: { id: string }) => {
           <p className='text-white font-semibold text-[14px] text-start'>KoiosPikaaa</p>
         </div>
       </div>
-      <ScrollArea className='h-[80%]'>
+      <div className='w-full flex justify-center items-center'>
+        <div className='progress-container w-11/12'>
+          <div className='progress-bar bg-yellow-500' style={{ width: `${progress}%` }}></div>
+        </div>
+      </div>
+      <ScrollArea className='h-[80%] mt-2'>
         <div className='flex flex-col justify-center items-center gap-3'>
           {displayedAttacks.map((attack, index) => {
             const steps = stepsMap[attack.finalOutcome];

@@ -381,6 +381,8 @@ export async function playGame(player1ID: string, player2ID: string) {
             await UserData.findOneAndUpdate({ User: player2ID }, { '$inc': { played: 1, won: 1 } })
         }
 
+        console.log(results)
+
 
         const match = new Match({
             Player: player1ID,
