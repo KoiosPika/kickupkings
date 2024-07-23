@@ -22,6 +22,16 @@ interface IPosition {
     availableTime: Date;
 }
 
+const QuizSchema = new Schema({
+    quizId: { type: String, required: true },
+    answered: { type: Boolean, default: false }
+});
+
+const PredictionSchema = new Schema({
+    matchId: { type: String, required: true },
+    predictedScore: { type: String, required: true }
+});
+
 const PositionSchema: Schema<IPosition> = new Schema({
     position: { type: String, required: true },
     level: { type: Number, required: true, default: 0 },
@@ -44,7 +54,9 @@ const UserDataSchema = new Schema({
             level: 0,
             availableTime: Date.now()
         }))
-    }
+    },
+    dailyQuizzes: [QuizSchema],
+    dailyPredictions: [PredictionSchema]
 })
 
 const UserData = models.UserData || model('UserData', UserDataSchema);
