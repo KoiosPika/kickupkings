@@ -13,7 +13,21 @@ export interface IUserData extends Document {
     played: number,
     won: number,
     lost: number,
-    positions: IPosition[]
+    positions: IPosition[],
+    dailyQuizzes: IQuiz[],
+    dailyPredictions: IPrediction[]
+}
+
+interface IQuiz {
+    quizId: string;
+    answered: number;
+}
+
+interface IPrediction {
+    quizId: string;
+    predictedTeam1Score: number;
+    predictedTeam2Score: number;
+    collected: boolean
 }
 
 interface IPosition {
@@ -29,7 +43,9 @@ const QuizSchema = new Schema({
 
 const PredictionSchema = new Schema({
     matchId: { type: String, required: true },
-    predictedScore: { type: String, required: true }
+    predictedTeam1Score: { type: Number, required: true },
+    predictedTeam2Score: { type: Number, required: true },
+    collected: { type: Boolean, default: false },
 });
 
 const PositionSchema: Schema<IPosition> = new Schema({

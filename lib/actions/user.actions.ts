@@ -430,28 +430,76 @@ export async function addOrUpdateQuiz(userId: string, quizId: string, userAnswer
     await user.save();
 }
 
-export async function addOrUpdatePrediction(userId : string, matchId : string, predictedScore : any) {
-    const match = Predictions.find((m : any) => m.id === matchId);
+export async function addOrUpdatePrediction(userId: string, matchId: string, predictedTeam1Score: number, predictedTeam2Score: number) {
+    const match = Predictions.find(m => m.id === matchId);
     if (!match) {
         throw new Error('Match not found');
     }
 
     const now = new Date();
-    if (now > match.lastTimeToPredict) {
+    if (now > new Date(match.lastTimeToPredict)) {
         throw new Error('Prediction time has passed');
+    }
+
+    if (predictedTeam1Score === undefined || predictedTeam2Score === undefined) {
+        throw new Error('Predicted scores are required');
     }
 
     const user = await UserData.findOne({ User: userId });
 
-    const predictionIndex = user.dailyPredictions.findIndex((p : any) => p.matchId === matchId);
+    const predictionIndex = user.dailyPredictions.findIndex((p: any) => p.matchId === matchId);
 
     if (predictionIndex !== -1) {
         // Update existing prediction
-        user.dailyPredictions[predictionIndex].predictedScore = predictedScore;
+        user.dailyPredictions[predictionIndex].predictedTeam1Score = predictedTeam1Score;
+        user.dailyPredictions[predictionIndex].predictedTeam2Score = predictedTeam2Score;
     } else {
         // Add new prediction
-        user.dailyPredictions.push({ matchId, predictedScore });
+        user.dailyPredictions.push({ matchId, predictedTeam1Score, predictedTeam2Score });
     }
 
+    await user.save();
+}
+
+export async function collectCoins(userId: string, matchId: string) {
+    await connectToDatabase();
+
+    const user = await UserData.findOne({ User: userId });
+
+    if (!user) {
+        throw new Error('User not found');
+    }
+
+    const prediction = user.dailyPredictions.find((p: any) => p.matchId === matchId);
+
+    if (!prediction) {
+        throw new Error('Prediction not found');
+    }
+
+    // Check if the prediction is correct
+    const match = Predictions.find(m => m.id === matchId);
+    if (!match) {
+        throw new Error('Match not found');
+    }
+
+    const isCorrectPrediction = prediction.predictedTeam1Score === match.team1Score &&
+        prediction.predictedTeam2Score === match.team2Score;
+
+    if (!isCorrectPrediction) {
+        throw new Error('Prediction is not correct');
+    }
+
+    // Check if the prize has already been collected
+    if (prediction.collected) {
+        throw new Error('Prize already collected');
+    }
+
+    // Add coins to user's balance
+    user.coins += 1200;
+
+    // Mark the prediction as collected
+    prediction.collected = true;
+
+    // Save user data
     await user.save();
 }

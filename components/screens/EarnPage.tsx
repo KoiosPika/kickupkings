@@ -4,7 +4,7 @@ import { Input } from '../ui/input'
 import { ScrollArea } from '../ui/scroll-area'
 import { Predictions, Quizzes } from '@/constants/Earnings';
 import { IUserData } from '@/lib/database/models/userData.model';
-import { addOrUpdatePrediction, addOrUpdateQuiz, getUserByUserID } from '@/lib/actions/user.actions';
+import { addOrUpdatePrediction, addOrUpdateQuiz, collectCoins, getUserByUserID } from '@/lib/actions/user.actions';
 
 const EarnPage = () => {
 
@@ -24,6 +24,15 @@ const EarnPage = () => {
     const getUser = async () => {
       const userData = await getUserByUserID('6699bfa1ba8348c3228f89ab')
       setUser(userData)
+
+      const initialPredictions: any = {};
+      userData.dailyPredictions.forEach((prediction: any) => {
+        initialPredictions[prediction.matchId] = {
+          team1: prediction.predictedTeam1Score,
+          team2: prediction.predictedTeam2Score
+        };
+      });
+      setPredictions(initialPredictions);
     }
 
     getUser()
@@ -39,28 +48,33 @@ const EarnPage = () => {
     });
   };
 
-  const handlePredictionChange = (matchId: string, score: number) => {
+  const handlePredictionChange = (matchId: string, score: string, team: string) => {
     setPredictions({
       ...predictions,
-      [matchId]: score
+      [matchId]: { ...predictions[matchId], [team]: score }
     });
   };
 
   const handleQuizSubmit = async (quizId: string) => {
     try {
       await addOrUpdateQuiz('6699bfa1ba8348c3228f89ab', quizId, quizAnswers[quizId]);
-      alert('Quiz answer submitted!');
+
+      const thisUser = await getUserByUserID('6699bfa1ba8348c3228f89ab')
+      setUser(thisUser)
     } catch (error) {
-      alert('Error submitting quiz answer');
+
     }
   };
 
   const handlePredictionSubmit = async (matchId: string) => {
+    const { team1: predictedTeam1Score, team2: predictedTeam2Score } = predictions[matchId];
+    if (predictedTeam1Score === undefined || predictedTeam2Score === undefined) {
+      return;
+    }
     try {
-      await addOrUpdatePrediction('6699bfa1ba8348c3228f89ab', matchId, predictions[matchId]);
-      alert('Prediction submitted!');
+      await addOrUpdatePrediction('6699bfa1ba8348c3228f89ab', matchId, parseInt(predictedTeam1Score), parseInt(predictedTeam2Score));
     } catch (error) {
-      alert('Error submitting prediction');
+
     }
   };
 
@@ -69,9 +83,21 @@ const EarnPage = () => {
       for (const matchId in predictions) {
         await handlePredictionSubmit(matchId);
       }
-      alert('All predictions saved!');
+
     } catch (error) {
-      alert('Error saving predictions');
+
+    }
+  };
+
+  const handleCollectCoins = async (matchId: string) => {
+    try {
+      await collectCoins('6699bfa1ba8348c3228f89ab', matchId);
+      alert('Coins collected!');
+      // Fetch user data again to update the state
+      const updatedUser = await getUserByUserID('6699bfa1ba8348c3228f89ab');
+      setUser(updatedUser);
+    } catch (error) {
+      alert('Error collecting coins');
     }
   };
 
@@ -85,55 +111,112 @@ const EarnPage = () => {
       <ScrollArea style={{ height: 'calc(100vh - 130px)' }}>
         <div className='w-full flex flex-col justify-center items-center'>
           <p className='font-semibold text-white text-[20px] mt-2 bg-slate-800 px-2 py-1 rounded-md'>Daily Quizzes</p>
-          {Quizzes.map((quiz , index) => (
-            <div key={quiz.id} className='gap-2 flex flex-col justify-center items-center my-2'>
-              {index === 0 && <div className='my-2 flex flex-row items-center gap-2'>
-                <p className='font-semibold text-white'>Find the quiz on Telegram Channel</p>
-                <Image src={'/icons/telegram.svg'} alt='link' height={100} width={100} className='bg-white h-[30px] w-[30px] p-[2px] rounded-full' />
-              </div>}
-              {index === 1 && <div className='my-2 flex flex-row items-center gap-2 mt-6'>
-                <p className='font-semibold text-white'>Find the quiz on X</p>
-                <Image src={'/icons/x-twitter.svg'} alt='twitter' height={100} width={100} className='bg-white h-[30px] w-[30px] p-[3px] rounded-md' />
-              </div>}
-              <div className='flex flex-row items-center relative w-[300px]'>
-                <Input
-                  className='font-bold text-center text-[18px] bg-slate-500 text-white border-2 border-white h-[50px] rounded-full'
-                  value={quizAnswers[quiz.id] || ''}
-                  onChange={(e) => handleQuizChange(quiz.id, e.target.value)}
-                />
-                <Image
-                  src={'/icons/send.svg'}
-                  alt='send'
-                  height={100}
-                  width={100}
-                  className='bg-white h-[30px] w-[30px] p-[3px] rounded-full rotate-45 absolute right-2'
-                  onClick={() => handleQuizSubmit(quiz.id)}
-                />
+          {Quizzes.map((quiz: any, index) => {
+            const isAnswered = user && user.dailyQuizzes.some(q => q.quizId === quiz.id && q.answered);
+            if (isAnswered) {
+              return (
+                <div key={quiz.id} className='gap-2 flex flex-col justify-center items-center my-2'>
+                  {index === 0 && <div className='my-2 flex flex-row items-center gap-2'>
+                    <p className='font-semibold text-white'>Find the quiz on Telegram Channel</p>
+                    <Image src={'/icons/telegram.svg'} alt='link' height={100} width={100} className='bg-white h-[30px] w-[30px] p-[2px] rounded-full' />
+                  </div>}
+                  {index === 1 && <div className='my-2 flex flex-row items-center gap-2 mt-6'>
+                    <p className='font-semibold text-white'>Find the quiz on X</p>
+                    <Image src={'/icons/x-twitter.svg'} alt='twitter' height={100} width={100} className='bg-white h-[30px] w-[30px] p-[3px] rounded-md' />
+                  </div>}
+                  <div className='flex flex-row items-center relative w-[300px]'>
+                    <Input
+                      className='font-bold text-center text-[18px] bg-green-500 text-white border-2 border-white h-[50px] rounded-full'
+                      value={quiz.answer}
+                    />
+                  </div>
+                  <div className='flex flex-row items-center justify-center gap-3 bg-green-500 px-2 py-1 rounded-full'>
+                    <Image src={'/icons/coin.svg'} alt='coin' height={25} width={25} />
+                    <p className='font-bold text-white'>200</p>
+                  </div>
+                </div>
+              )
+            }
+            return (
+              <div key={quiz.id} className='gap-2 flex flex-col justify-center items-center my-2'>
+                {index === 0 && <div className='my-2 flex flex-row items-center gap-2'>
+                  <p className='font-semibold text-white'>Find the quiz on Telegram Channel</p>
+                  <Image src={'/icons/telegram.svg'} alt='link' height={100} width={100} className='bg-white h-[30px] w-[30px] p-[2px] rounded-full' />
+                </div>}
+                {index === 1 && <div className='my-2 flex flex-row items-center gap-2 mt-6'>
+                  <p className='font-semibold text-white'>Find the quiz on X</p>
+                  <Image src={'/icons/x-twitter.svg'} alt='twitter' height={100} width={100} className='bg-white h-[30px] w-[30px] p-[3px] rounded-md' />
+                </div>}
+                <div className='flex flex-row items-center relative w-[300px]'>
+                  <Input
+                    className='font-bold text-center text-[18px] bg-slate-500 text-white border-2 border-white h-[50px] rounded-full'
+                    value={quizAnswers[quiz.id] || ''}
+                    onChange={(e) => handleQuizChange(quiz.id, e.target.value)}
+                  />
+                  <Image
+                    src={'/icons/send.svg'}
+                    alt='send'
+                    height={100}
+                    width={100}
+                    className='bg-white h-[30px] w-[30px] p-[3px] rounded-full rotate-45 absolute right-2'
+                    onClick={() => handleQuizSubmit(quiz.id)}
+                  />
+                </div>
+                <div className='flex flex-row items-center justify-center gap-3 bg-white px-2 py-1 rounded-full'>
+                  <Image src={'/icons/coin.svg'} alt='coin' height={25} width={25} />
+                  <p className='font-bold'>200</p>
+                </div>
               </div>
-            </div>
-          ))}
+            )
+          })}
         </div>
         <div className='w-full flex flex-col justify-center items-center my-3'>
           <p className='font-semibold text-white text-[20px] mt-2 bg-slate-800 px-2 py-1 rounded-md'>Daily Predictions</p>
-          {Predictions.map((prediction: any) => (
-            <div key={prediction.id} className='w-10/12 flex flex-row gap-2 items-center justify-around my-4 relative'>
-              <Image src={`/teams/${prediction.team1}.png`} alt={prediction.team1} height={50} width={50} className='h-[50px] w-[40px]' />
-              <Input
-                type='number'
-                className='text-[16px] w-[40px] font-bold text-center'
-                value={predictions[prediction.id]?.team1 || ''}
-                onChange={(e) => handlePredictionChange(prediction.id, { ...predictions[prediction.id], team1: e.target.value })}
-              />
-              <p className='text-white font-bold'>-</p>
-              <Input
-                type='number'
-                className='text-[16px] w-[40px] font-bold text-center'
-                value={predictions[prediction.id]?.team2 || ''}
-                onChange={(e) => handlePredictionChange(prediction.id, { ...predictions[prediction.id], team2: e.target.value })}
-              />
-              <Image src={`/teams/${prediction.team2}.png`} alt={prediction.team2} height={50} width={50} className='h-[50px] w-[40px]'  />
-            </div>
-          ))}
+          {Predictions.map((prediction: any) => {
+            const isPredictionTimePassed = new Date() > new Date(prediction.lastTimeToPredict);
+            const userPrediction = user && user.dailyPredictions.find((p: any) => p.matchId === prediction.id);
+            const isCorrectPrediction = userPrediction &&
+              userPrediction.predictedTeam1Score === prediction.team1Score &&
+              userPrediction.predictedTeam2Score === prediction.team2Score;
+            const isCollected = userPrediction && userPrediction.collected;
+            return (
+              <div key={prediction.id} className='w-10/12 flex flex-col gap-2 items-center justify-around my-4 relative'>
+                <div className='w-full flex flex-row gap-2 items-center justify-around my-4 relative'>
+                  <Image src={`/teams/${prediction.team1}.png`} alt={prediction.team1} height={50} width={50} className='h-[50px] w-[40px]' />
+                  <Input
+                    type='number'
+                    className='text-[16px] w-[40px] font-bold text-center'
+                    value={predictions[prediction.id]?.team1 || (userPrediction ? userPrediction.predictedTeam1Score : '')}
+                    onChange={(e) => handlePredictionChange(prediction.id, e.target.value, 'team1')}
+                    disabled={isPredictionTimePassed}
+                  />
+                  <p className='text-white font-bold'>-</p>
+                  <Input
+                    type='number'
+                    className='text-[16px] w-[40px] font-bold text-center'
+                    value={predictions[prediction.id]?.team2 || (userPrediction ? userPrediction.predictedTeam2Score : '')}
+                    onChange={(e) => handlePredictionChange(prediction.id, e.target.value, 'team2')}
+                    disabled={isPredictionTimePassed}
+                  />
+                  <Image src={`/teams/${prediction.team2}.png`} alt={prediction.team2} height={50} width={50} className='h-[50px] w-[40px]' />
+                </div>
+                {prediction.finished && isCorrectPrediction && !isCollected ? (
+                  <div
+                    className='flex flex-row items-center justify-center gap-3 bg-green-500 px-2 py-1 rounded-full cursor-pointer'
+                    onClick={() => handleCollectCoins(prediction.id)}
+                  >
+                    <Image src={'/icons/coin.svg'} alt='coin' height={25} width={25} />
+                    <p className='font-bold'>1,200</p>
+                  </div>
+                ) : (
+                  <div className='flex flex-row items-center justify-center gap-3 bg-red-500 px-2 py-1 rounded-full'>
+                    <Image src={'/icons/coin.svg'} alt='coin' height={25} width={25} />
+                    <p className='font-bold text-white'>1,200</p>
+                  </div>
+                )}
+              </div>
+            )
+          })}
           <div className='w-full flex justify-center items-center'>
             <div
               className='bg-green-700 flex flex-row items-center gap-2 px-4 py-1 rounded-full'
