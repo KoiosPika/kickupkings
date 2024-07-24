@@ -17,7 +17,15 @@ export async function POST(request: any) {
         // Find the user by their Telegram ID
         let user = await User.findOne({ telegramID: telegramId });
 
+        if (!user) {
+            throw new Error('User not found');
+        }
+
         let userData = await UserData.findOne({ User: user._id })
+
+        if (!userData) {
+            throw new Error('User data not found');
+        }
 
         // Update the user's diamond count
         userData.diamonds += amount;
