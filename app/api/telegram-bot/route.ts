@@ -13,22 +13,17 @@ if (!botToken) {
 const bot = new Bot(botToken);
 
 bot.command('start', (ctx) => {
-  const keyboard = new InlineKeyboard().url('Play', 'https://kickupkings.vercel.app/');
+  const keyboard = new InlineKeyboard().text('Play', 'play_game');
   ctx.reply('Click the button below to play:', {
     reply_markup: keyboard,
   });
 });
 
-// Handle /start command
-bot.command('start', (ctx) => {
-  const chatId = ctx.chat.id;
-  ctx.reply('Click the button below to open the Mini App:', {
-    reply_markup: {
-      inline_keyboard: [
-        [{ text: "Open Mini App", web_app: { url: webAppUrl } }],
-      ],
-    },
-  });
+bot.on('callback_query:data', async (ctx) => {
+  if (ctx.callbackQuery.data === 'play_game') {
+    await ctx.answerCallbackQuery('Game started!');
+    // Handle the game start logic
+  }
 });
 
 // Handle /buy command to send an invoice
