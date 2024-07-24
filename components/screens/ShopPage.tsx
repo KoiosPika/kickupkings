@@ -154,6 +154,21 @@ const ShopPage = () => {
         }
     };
 
+    const handlePurchase = async (price: any) => {
+        try {
+            const response = await fetch('/api/telegram-bot/create-invoice', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ diamonds: price.diamonds, amount: price.price }),
+            });
+
+        } catch (error) {
+            console.error('Error:', error);
+        }
+    };
+
     if (!user) {
         return (<Image src={'/icons/spinner.svg'} alt='spinner' height={30} width={30} className='animate-spin' />)
     }
@@ -184,7 +199,7 @@ const ShopPage = () => {
                             <DrawerTitle className='text-white my-3'>Recharge Diamonds</DrawerTitle>
                         </DrawerHeader>
                         {Prices.map((price, index) => (
-                            <div key={index} className='flex flex-row items-center justify-around w-9/12 place-self-center bg-slate-900 py-2 rounded-full my-2'>
+                            <div key={index} className='flex flex-row items-center justify-around w-9/12 place-self-center bg-slate-900 py-2 rounded-full my-2' onClick={() => handlePurchase(price)}>
                                 <div className='flex flex-row justify-center items-center gap-2'>
                                     <Image src={'/icons/diamond.svg'} alt='diamond' height={20} width={20} />
                                     <p className='text-white text-[20px] font-semibold'>{price.diamonds}</p>

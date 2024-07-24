@@ -1,43 +1,37 @@
-import { NextResponse } from 'next/server';
-import fetch from 'node-fetch';
+import { Bot } from 'grammy';
+import { NextRequest, NextResponse } from 'next/server';
 
-export async function POST(req: Request) {
-  const { userId, amount } = await req.json();
+const botToken = process.env.TELEGRAM_BOT_TOKEN;
 
-  try {
-    const paymentUrl = await createPayment(userId, amount);
-    return NextResponse.json({ ok: true, paymentUrl });
-  } catch (error) {
-    return NextResponse.json({ ok: false, error: (error as Error).message }, { status: 500 });
-  }
+if (!botToken) {
+  throw new Error('TELEGRAM_BOT_TOKEN is not defined');
 }
 
-async function createPayment(userId: string, amount: number) {
-  const payload = `${userId}-${Date.now()}`;
-  const prices = [{ label: 'Diamonds', amount: amount * 100 }]; // Telegram expects amount in smallest units
+const bot = new Bot(botToken);
 
-  const response = await fetch(`https://api.telegram.org/bot${process.env.TELEGRAM_BOT_TOKEN}/sendInvoice`, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-    },
-    body: JSON.stringify({
-      chat_id: userId,
-      title: 'Buy Diamonds',
-      description: 'Exchange stars for diamonds',
-      payload: payload,
-      provider_token: '', // Leave provider_token empty for XTR
-      start_parameter: 'get-started',
-      currency: 'XTR', // Use XTR as the currency
-      prices: prices,
-    }),
-  });
+export async function POST(request: NextRequest) {
+  const { diamonds, amount } = await request.json();
 
-  const data: any = await response.json();
+  try {
+    // Here you would typically look up the chat_id associated with the user's session or ID
+    const chatId = 'CHAT_ID'; // Replace with actual logic to get the user's chat ID
 
-  if (!data?.ok) {
-    throw new Error(data?.description);
+    await bot.api.sendInvoice(
+      chatId,
+      'Purchase Diamonds', // Title
+      `Purchase ${diamonds} diamonds`, // Description
+      'unique-payload-id', // Payload
+      'XTR', // Currency
+      [{ label: `${diamonds} Diamonds`, amount }], // Price breakdown
+      {
+        provider_token: '', // Empty for Telegram Stars
+        start_parameter: 'start', // Optional start parameter
+      }
+    );
+
+    return NextResponse.json({ success: true });
+  } catch (error) {
+    console.error('Error sending invoice:', error);
+    return NextResponse.json({ success: false, error: 'Failed to create and send invoice' }, { status: 500 });
   }
-
-  return `https://t.me/${process.env.BOT_USERNAME}?start=${data.result.start_parameter}`;
 }
