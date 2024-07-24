@@ -62,7 +62,7 @@ export async function getUserForPlayPage(id: string) {
 
         console.log(userMatches)
 
-        const recentMatches = userMatches.slice(0, 2)
+        const recentMatches = userMatches.reverse().slice(0, 2)
 
         const returnObject = {
             formation: user.formation,

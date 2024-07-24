@@ -106,7 +106,7 @@ const EarnPage = () => {
   }
 
   return (
-    <div className='w-full h-screen'>
+    <div className='w-full h-screen bg-gradient-to-b from-slate-900 to-gray-600'>
       <div className='w-full ml-auto mb-auto p-2 flex flex-row items-center gap-2'>
         <Image src={'/icons/user.svg'} alt='user' height={50} width={50} className='bg-slate-500 p-1 h-[30px] w-[30px] rounded-lg' />
         {user && <p className='font-semibold text-white text-[13px]'>{`Rami (${user.Rank})`}</p>}
@@ -232,7 +232,7 @@ const EarnPage = () => {
           </div>
         </div>
       </ScrollArea>
-      <div className='h-[80px] bg-slate-700 mt-auto' />
+      <div className='h-[80px] mt-auto' />
     </div>
   );
 };

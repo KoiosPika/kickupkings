@@ -106,7 +106,7 @@ const PlayPage = () => {
 
 
   return (
-    <section className='w-full h-screen flex flex-col'>
+    <section className='w-full h-screen flex flex-col bg-gradient-to-b from-slate-800 to-gray-600'>
       <div className='w-full ml-auto mb-auto p-2 flex flex-row items-center gap-2'>
         <Image src={'/icons/user.svg'} alt='user' height={50} width={50} className='bg-slate-500 p-1 h-[30px] w-[30px] rounded-md' />
         <p className='font-semibold text-white text-[13px]'>Rami ({user?.Rank})</p>
@@ -317,8 +317,7 @@ const PlayPage = () => {
                       <div className='flex flex-row items-center'>
                         <p style={{ backgroundColor: position.color }} className='inline-flex py-1 px-2 text-white font-semibold rounded-md text-[13px] sm:text-[25px]'>{position.symbol}</p>
                         <div className='ml-auto mr-2 text-yellow-500 font-bold flex flex-col'>
-                          <p className='text-[12px] sm:text-[22px]'>Ready 7/8</p>
-                          <p className='text-[10px] sm:text-[20px] ml-auto'>15m</p>
+                          <p className='text-[13px] sm:text-[22px]'>{position.level}</p>
                         </div>
                       </div>
                     </div>

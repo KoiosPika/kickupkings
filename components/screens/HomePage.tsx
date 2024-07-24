@@ -32,7 +32,7 @@ const HomePage = () => {
 
 
     return (
-        <section className='w-full h-screen'>
+        <section className='w-full h-screen bg-gradient-to-b from-slate-800 to-gray-600'>
             <div className='w-full ml-auto mb-auto p-2 flex flex-row items-center gap-2'>
                 <Image src={'/icons/user.svg'} alt='user' height={50} width={50} className='bg-slate-500 p-1 h-[30px] w-[30px] rounded-lg' />
                 <p className='font-semibold text-white text-[13px]'>Rami ({user?.Rank})</p>

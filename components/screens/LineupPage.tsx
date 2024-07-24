@@ -103,7 +103,7 @@ const LineupPage = () => {
   }
 
   return (
-    <section className='w-full h-screen'>
+    <section className='w-full h-screen bg-gradient-to-b from-slate-900 to-gray-600'>
       <div className='w-full ml-auto mb-auto p-2 flex flex-row items-center gap-2'>
         <Image src={'/icons/user.svg'} alt='user' height={50} width={50} className='bg-slate-500 p-1 h-[30px] w-[30px] sm:h-[40px] sm:w-[40px] rounded-lg' />
         <p className='font-semibold text-white text-[13px] sm:text-[17px]'>Rami (Amature)</p>
@@ -128,7 +128,7 @@ const LineupPage = () => {
             </div>
           ))}
         </div>
-        <Image src={'/Field-dark.png'} alt='field' height={2000} width={2000} style={{ height: height - 210 }} className='w-full max-w-[700px]' />
+        <Image src={'/Field-dark-try.png'} alt='field' height={2000} width={2000} style={{ height: height - 210 }} className='w-full max-w-[700px]' />
       </div>
       <ScrollArea className='py-2 px-2 h-[50px]'>
         <div className='flex gap-2'>
