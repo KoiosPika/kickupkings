@@ -1,6 +1,6 @@
 // app/api/telegram-bot/route.ts
 
-import { Bot } from 'grammy';
+import { Bot, InlineKeyboard } from 'grammy';
 import { NextRequest, NextResponse } from 'next/server';
 
 const botToken = process.env.TELEGRAM_BOT_TOKEN;
@@ -11,6 +11,13 @@ if (!botToken) {
 }
 
 const bot = new Bot(botToken);
+
+bot.command('start', (ctx) => {
+  const keyboard = new InlineKeyboard().url('Play', 'https://kickupkings.vercel.app/');
+  ctx.reply('Click the button below to play:', {
+    reply_markup: keyboard,
+  });
+});
 
 // Handle /start command
 bot.command('start', (ctx) => {
