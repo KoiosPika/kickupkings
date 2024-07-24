@@ -25,8 +25,8 @@ function calculatePossessionChance(formation : any, players :any) {
 
   const averageLevel = midfielders > 0 ? totalLevel / midfielders : 0;
 
-  const numberWeight = 0.5;
-  const levelWeight = 0.5;
+  const numberWeight = 0.6;
+  const levelWeight = 0.4;
 
   const possessionFactor = (numberWeight * midfielders) + (levelWeight * averageLevel);
   return possessionFactor;

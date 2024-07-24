@@ -170,13 +170,17 @@ const PlayPage = () => {
               <div key={index} className='text-white font-semibold bg-slate-800 p-2 rounded-lg flex flex-row items-center gap-1 sm:gap-5'>
                 {match.winner.toString() != '6699bfa1ba8348c3228f89ab' && <p className='h-[25px] w-[30px] sm:h-[45px] sm:w-[50px] text-[16px] sm:text-[30px] text-center bg-red-600 rounded-sm'>L</p>}
                 {match.winner.toString() == '6699bfa1ba8348c3228f89ab' && <p className='h-[25px] w-[30px] sm:h-[45px] sm:w-[50px] text-[16px] sm:text-[30px] text-center bg-green-600 rounded-sm'>W</p>}
-                <p className='ml-2 text-[16px] sm:text-[30px]'>4-1</p>
+                <p className='ml-2 text-[16px] sm:text-[30px]'>{match.playerScore}-{match.opponentScore}</p>
                 <div className='ml-5 flex flex-row items-center bg-slate-900 px-2 py-1 rounded-lg'>
                   <Image src={'/icons/user.svg'} alt='user' height={50} width={50} className='bg-slate-500 p-1 h-[28px] w-[28px] sm:h-[48px] sm:w-[48px] rounded-lg' />
                   <p className='ml-2 max-w-[80px] sm:max-w-[200px] text-[16px] sm:text-[24px] overflow-hidden'>username</p>
                 </div>
                 {match.type === 'Rank' && <p className='bg-orange-600 px-2 text-[14px] sm:text-[24px] py-[2px] rounded-lg ml-auto shadow-md shadow-orange-500 border-b-[3px] sm:border-b-[6px] border-orange-800'>Rank</p>}
                 {match.type === 'Friendly' && <p className='bg-purple-700 px-2 text-[14px] sm:text-[24px] py-[2px] rounded-lg ml-auto shadow-md shadow-purple-500 border-b-[3px] sm:border-b-[6px] border-purple-800'>Friendly</p>}
+              </div>))}
+            {(user && user.matches.length == 0) && [0, 1].map((_, index) => (
+              <div key={index} className='text-white font-semibold bg-slate-800 p-2 rounded-lg flex flex-row items-center gap-1 sm:gap-5 h-[55px]'>
+
               </div>))}
           </div>
         </div>

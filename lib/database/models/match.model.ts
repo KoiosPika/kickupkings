@@ -8,6 +8,8 @@ export interface IMatch extends Document {
     attacks: any,
     winner: IUser
     createdAt: Date,
+    playerScore: number,
+    opponentScore: number,
     type: string
 }
 
@@ -21,7 +23,9 @@ const MatchSchema = new Schema({
     }],
     winner: { type: Schema.Types.ObjectId, ref: "User", index: true },
     type: { type: String },
-    createdAt: { type: Date, default: Date.now }
+    playerScore: { type: Number },
+    opponentScore: { type: Number },
+    createdAt: { type: Date, default: Date.now() }
 })
 
 const Match = models.Match || model('Match', MatchSchema);

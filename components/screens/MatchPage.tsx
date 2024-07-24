@@ -97,7 +97,7 @@ const MatchPage = ({ id }: { id: string }) => {
   const [opponentScore, setOpponentScore] = useState<number>(0);
   const [progress, setProgress] = useState<number>(0);
   const [isExtraTime, setIsExtraTime] = useState(false);
-  const [currentTotalAttacks, setCurrentTotalAttacks] = useState(24);
+  const [currentTotalAttacks, setCurrentTotalAttacks] = useState(27);
 
 
   useEffect(() => {
@@ -116,7 +116,7 @@ const MatchPage = ({ id }: { id: string }) => {
 
   useEffect(() => {
     // Check if the game has reached extra time
-    if (displayedAttacks.length > 29) {
+    if (displayedAttacks.length > 28) {
       setIsExtraTime(true);
       setCurrentTotalAttacks(35);
     }

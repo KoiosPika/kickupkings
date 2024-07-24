@@ -62,7 +62,7 @@ export async function getUserForPlayPage(id: string) {
 
         console.log(userMatches)
 
-        const recentMatches = userMatches.reverse().slice(0, 2)
+        const recentMatches = userMatches.slice(0, 2)
 
         const returnObject = {
             formation: user.formation,
@@ -72,7 +72,7 @@ export async function getUserForPlayPage(id: string) {
             lost: user.lost,
             Rank: user.Rank,
             positions: user.positions,
-            teamOverall:user.teamOverall,
+            teamOverall: user.teamOverall,
             form,
             matches: recentMatches
         }
@@ -251,15 +251,15 @@ export async function playGame(player1ID: string, player2ID: string) {
             throw new Error('One or both players not found.');
         }
 
-        const formation1 = formations.find(f => f.id === '5-4-1');
-        const formation2 = formations.find(f => f.id === '5-4-1');
+        const formation1 = formations.find(f => f.id === player1.formation);
+        const formation2 = formations.find(f => f.id === player2.formation);
 
         if (!formation1 || !formation2) {
             throw new Error('Formations not found.');
         }
 
-        const players1 = mapUserDataToPlayers(player1, 4);
-        const players2 = mapUserDataToPlayers(player2, 4);
+        const players1 = mapUserDataToPlayers(player1, 3);
+        const players2 = mapUserDataToPlayers(player2, 3);
 
         let results = [{ minute: 0, player: 'Match', outcome: 'Match Started' }];
         let score1 = 0;
@@ -408,6 +408,8 @@ export async function playGame(player1ID: string, player2ID: string) {
             attacks: results,
             status: 'finished',
             winner: finalOutcome === 'Player Wins!' ? player1ID : player2ID,
+            playerScore: score1 + playerPenalties,
+            opponentScore: score2 + opponentPenalties,
             type: 'Rank'
         });
 
@@ -618,7 +620,9 @@ export async function findMatch(id: string) {
 
         const users = await populateUsers(UserData.find({ Rank: user.Rank }))
 
-        return JSON.parse(JSON.stringify(users[1]))
+        console.log(users);
+
+        return JSON.parse(JSON.stringify(users[2]))
     } catch (error) {
         console.log(error)
     }
