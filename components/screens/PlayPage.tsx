@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react'
 import { ScrollArea } from '../ui/scroll-area'
 import { formations } from '@/constants/Formations'
 import { positions } from '@/constants'
-import { createFakeUsers, createUser, findMatch, getUserByUserID, getUserForPlayPage, playGame } from '@/lib/actions/user.actions'
+import { addChatID, createFakeUsers, createUser, findMatch, getUserByUserID, getUserForPlayPage, playGame } from '@/lib/actions/user.actions'
 import { IUserData } from '@/lib/database/models/userData.model'
 import {
   AlertDialog,

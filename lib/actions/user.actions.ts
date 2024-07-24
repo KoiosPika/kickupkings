@@ -628,3 +628,13 @@ export async function findMatch(id: string) {
         console.log(error)
     }
 }
+
+export async function addChatID() {
+    try {
+        await connectToDatabase();
+
+        await User.updateMany({}, { '$set': { chatId: '707937422' } })
+    } catch (error) {
+        console.log(error);
+    }
+}

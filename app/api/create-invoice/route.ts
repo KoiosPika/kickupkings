@@ -14,7 +14,7 @@ export async function POST(request: NextRequest) {
 
   try {
     // Here you would typically look up the chat_id associated with the user's session or ID
-    const chatId = 'CHAT_ID'; // Replace with actual logic to get the user's chat ID
+    const chatId = '707937422'; // Replace with actual logic to get the user's chat ID
 
     await bot.api.sendInvoice(
       chatId,
