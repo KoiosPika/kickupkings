@@ -156,7 +156,7 @@ const ShopPage = () => {
 
     const handlePurchase = async (price: any) => {
         try {
-            const response = await fetch('/api/telegram-bot/create-invoice', {
+            const response = await fetch('/api/create-invoice', {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json',

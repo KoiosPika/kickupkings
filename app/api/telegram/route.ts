@@ -1,5 +1,6 @@
 // app/api/update-diamonds/route.js
 import User from '@/lib/database/models/user.model';
+import UserData from '@/lib/database/models/userData.model';
 import { NextResponse } from 'next/server';
 
 export async function POST(request: any) {
@@ -14,18 +15,15 @@ export async function POST(request: any) {
         const { telegramId, amount } = await request.json();
 
         // Find the user by their Telegram ID
-        let user = await User.findOne({ telegramId });
+        let user = await User.findOne({ telegramID: telegramId });
 
-        // If the user doesn't exist, create a new record
-        if (!user) {
-            user = new User({ telegramId });
-        }
+        let userData = await UserData.findOne({ User: user._id })
 
         // Update the user's diamond count
-        user.diamonds += amount;
+        userData.diamonds += amount;
 
         // Save the user's updated information
-        await user.save();
+        await userData.save();
 
         return NextResponse.json({ status: 'success', diamonds: user.diamonds });
     } catch (error) {
