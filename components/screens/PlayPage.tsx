@@ -119,10 +119,10 @@ const PlayPage = () => {
       <div className='w-full flex justify-center items-center'>
         <div className='w-11/12 flex items-center gap-1'>
           <div className='w-2/5 flex flex-col h-[60px] sm:h-[80px] gap-[3px]'>
-            <div className='w-full bg-slate-800 text-white text-center font-semibold rounded-tl-lg h-1/2 flex justify-center items-center'>
+            <div className='w-full bg-slate-900 text-white text-center font-semibold rounded-tl-lg h-1/2 flex justify-center items-center'>
               <p className='text-[16px] sm:text-[20px]'>Form</p>
             </div>
-            <div className='w-full bg-slate-800 text-white text-center font-semibold rounded-bl-lg flex flex-row items-center justify-center gap-1 h-1/2'>
+            <div className='w-full bg-slate-900 text-white text-center font-semibold rounded-bl-lg flex flex-row items-center justify-center gap-1 h-1/2'>
               {user && user.form.split('').map((result: any, index: number) => (
                 <p
                   key={index}
@@ -134,26 +134,26 @@ const PlayPage = () => {
             </div>
           </div>
           <div className='w-1/5 flex flex-col h-[60px] sm:h-[80px] gap-[3px]'>
-            <div className='w-full bg-slate-800 text-white text-center font-semibold h-1/2 flex justify-center items-center'>
+            <div className='w-full bg-slate-900 text-white text-center font-semibold h-1/2 flex justify-center items-center'>
               <p className='text-[16px] sm:text-[20px]'>Played</p>
             </div>
-            <div className='w-full bg-slate-800 text-white text-center font-semibold h-1/2 flex justify-center items-center'>
+            <div className='w-full bg-slate-900 text-white text-center font-semibold h-1/2 flex justify-center items-center'>
               <p className='text-[16px] sm:text-[20px]'>{user && user?.played}</p>
             </div>
           </div>
           <div className='w-1/5 flex flex-col h-[60px] sm:h-[80px] gap-[3px]'>
-            <div className='w-full bg-slate-800 text-white text-center font-semibold h-1/2 flex justify-center items-center'>
+            <div className='w-full bg-slate-900 text-white text-center font-semibold h-1/2 flex justify-center items-center'>
               <p className='text-[16px] sm:text-[20px]'>Won</p>
             </div>
-            <div className='w-full bg-slate-800 text-white text-center font-semibold h-1/2 flex justify-center items-center'>
+            <div className='w-full bg-slate-900 text-white text-center font-semibold h-1/2 flex justify-center items-center'>
               <p className='text-[16px] sm:text-[20px]'>{user && user?.won}</p>
             </div>
           </div>
           <div className='w-1/5 flex flex-col h-[60px] sm:h-[80px] gap-[3px]'>
-            <div className='w-full bg-slate-800 text-white text-center font-semibold rounded-tr-lg h-1/2 flex justify-center items-center'>
+            <div className='w-full bg-slate-900 text-white text-center font-semibold rounded-tr-lg h-1/2 flex justify-center items-center'>
               <p className='text-[16px] sm:text-[20px]'>Lost</p>
             </div>
-            <div className='w-full bg-slate-800 text-white text-center font-semibold rounded-br-lg h-1/2 flex justify-center items-center'>
+            <div className='w-full bg-slate-900 text-white text-center font-semibold rounded-br-lg h-1/2 flex justify-center items-center'>
               <p className='text-[16px] sm:text-[20px]'>{user && user?.lost}</p>
             </div>
           </div>
@@ -162,12 +162,12 @@ const PlayPage = () => {
       <div className='w-full flex flex-col justify-center items-center mt-2'>
         <div className='w-11/12'>
           <div className='flex flex-row items-center w-full'>
-            <p className='text-white font-semibold bg-slate-800 px-3 py-1 inline-flex rounded-lg text-[16px] sm:text-[22px]'>History</p>
-            <a href='/history/6699bfa1ba8348c3228f89ab' className='text-white font-semibold bg-slate-800 px-3 py-1 inline-flex rounded-lg text-[12px] sm:text-[22px] ml-auto mt-auto'>View All {`->`}</a>
+            <p className='text-white font-semibold bg-slate-900 px-3 py-1 inline-flex rounded-lg text-[16px] sm:text-[22px]'>History</p>
+            <a href='/history/6699bfa1ba8348c3228f89ab' className='text-white font-semibold bg-slate-900 px-3 py-1 inline-flex rounded-lg text-[12px] sm:text-[22px] ml-auto mt-auto'>View All {`->`}</a>
           </div>
           <div className='flex flex-col gap-1 sm:gap-4 my-2'>
             {user && user.matches.map((match: IMatch, index: number) => (
-              <div key={index} className='text-white font-semibold bg-slate-800 p-2 rounded-lg flex flex-row items-center gap-1 sm:gap-5'>
+              <div key={index} className='text-white font-semibold bg-slate-900 p-2 rounded-lg flex flex-row items-center gap-1 sm:gap-5'>
                 {match.winner.toString() != '6699bfa1ba8348c3228f89ab' && <p className='h-[25px] w-[30px] sm:h-[45px] sm:w-[50px] text-[16px] sm:text-[30px] text-center bg-red-600 rounded-sm'>L</p>}
                 {match.winner.toString() == '6699bfa1ba8348c3228f89ab' && <p className='h-[25px] w-[30px] sm:h-[45px] sm:w-[50px] text-[16px] sm:text-[30px] text-center bg-green-600 rounded-sm'>W</p>}
                 <p className='ml-2 text-[16px] sm:text-[30px]'>{match.playerScore}-{match.opponentScore}</p>
@@ -284,7 +284,7 @@ const PlayPage = () => {
       </div>
       <div className='w-full flex flex-col h-full justify-center items-center flex-grow mt-3'>
         <div className='w-11/12 flex flex-row items-center h-full gap-2'>
-          <div className='h-full w-1/2 flex flex-col justify-around rounded-md bg-slate-800 border-[1px] sm:border-4 border-white' style={{ backgroundImage: `url('/Field-dark.png')`, backgroundSize: 'cover', backgroundPosition: 'center' }}>
+          <div className='h-full w-1/2 flex flex-col justify-around rounded-md bg-slate-900 border-[1px] sm:border-4 border-white' style={{ backgroundImage: `url('/Field-dark-try.png')`, backgroundSize: 'cover', backgroundPosition: 'center' }}>
             {formation?.data.map((row: any, rowIndex: number) => (
               <div key={rowIndex} className='flex justify-around'>
                 {row.positions.map((position: any, posIndex: number) => (
@@ -298,12 +298,12 @@ const PlayPage = () => {
           <div className='w-1/2 flex flex-col justify-around rounded-md scroll-area'>
             <ScrollArea>
               <div className='flex flex-col gap-1 w-full'>
-                <div className='bg-slate-800 p-2 sm:p-4 rounded-lg'>
+                <div className='bg-slate-900 p-2 sm:p-4 rounded-lg'>
                   <div className='flex flex-row items-center justify-center'>
                     <p className='text-yellow-400 font-bold text-[20px] sm:text-[22px]'>{user && user?.formation}</p>
                   </div>
                 </div>
-                <div className='bg-slate-800 p-2 sm:p-4 rounded-lg'>
+                <div className='bg-slate-900 p-2 sm:p-4 rounded-lg'>
                   <div className='flex flex-row items-center'>
                     <p className='inline-flex py-1 px-2 text-white font-semibold rounded-md text-[16px] sm:text-[25px]'>Overall</p>
                     {/* <p className='ml-auto mr-2 text-green-500 font-bold'>Ready</p> */}
@@ -313,7 +313,7 @@ const PlayPage = () => {
                 {positions
                   .filter(position => filteredPositions.some((userPos: any) => userPos.position === position.symbol))
                   .map((position: any) => (
-                    <div key={position.symbol} className='bg-slate-800 p-2 sm:p-4 rounded-lg'>
+                    <div key={position.symbol} className='bg-slate-900 p-2 sm:p-4 rounded-lg'>
                       <div className='flex flex-row items-center'>
                         <p style={{ backgroundColor: position.color }} className='inline-flex py-1 px-2 text-white font-semibold rounded-md text-[13px] sm:text-[25px]'>{position.symbol}</p>
                         <div className='ml-auto mr-2 text-yellow-500 font-bold flex flex-col'>

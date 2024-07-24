@@ -15,6 +15,7 @@ import {
 import { IUserData } from '@/lib/database/models/userData.model';
 import { getUserByUserID, savePrize, upgradePosition } from '@/lib/actions/user.actions';
 import { useRouter } from 'next/navigation';
+import { Prices } from '@/constants/Earnings';
 
 const ShopPage = () => {
 
@@ -171,12 +172,33 @@ const ShopPage = () => {
                         <p className='font-bold text-white text-[16px] sm:text-[22px]'>{user && user?.coins}</p>
                     </div>
                 </div>
-                <div className='w-1/3 bg-slate-800 flex flex-row justify-around items-center rounded-lg h-[53px] sm:h-[75px]'>
-                    <div className='flex flex-row items-center gap-2' onClick={handlePurchaseClick}>
-                        <Image src={'/icons/diamond.svg'} alt='coin' height={100} width={100} className='w-[25px] h-[25px] sm:w-[40px] sm:h-[40px]' />
-                        <p className='font-bold text-white text-[16px] sm:text-[22px]'>{user && user?.diamonds}</p>
-                    </div>
-                </div>
+                <Drawer>
+                    <DrawerTrigger className='w-1/3 bg-slate-800 flex flex-row justify-around items-center rounded-lg h-[53px] sm:h-[75px]'>
+                        <div className='flex flex-row items-center gap-2'>
+                            <Image src={'/icons/diamond.svg'} alt='coin' height={100} width={100} className='w-[25px] h-[25px] sm:w-[40px] sm:h-[40px]' />
+                            <p className='font-bold text-white text-[16px] sm:text-[22px]'>{user && user?.diamonds}</p>
+                        </div>
+                    </DrawerTrigger>
+                    <DrawerContent className={` h-[85%] sm:h-[40%] border-t-8 border-blue-500 border-x-0 bg-gradient-to-b from-slate-900 to-gray-700`}>
+                        <DrawerHeader>
+                            <DrawerTitle className='text-white my-3'>Recharge Diamonds</DrawerTitle>
+                        </DrawerHeader>
+                        {Prices.map((price, index) => (
+                            <div key={index} className='flex flex-row items-center justify-around w-9/12 place-self-center bg-slate-900 py-2 rounded-full my-2'>
+                                <div className='flex flex-row justify-center items-center gap-2'>
+                                    <Image src={'/icons/diamond.svg'} alt='diamond' height={20} width={20} />
+                                    <p className='text-white text-[20px] font-semibold'>{price.diamonds}</p>
+                                </div>
+                                <div className='flex flex-row justify-center items-center gap-2 px-2 py-1 rounded-lg'>
+                                    <Image src={'/icons/telegram-star.png'} alt='diamond' height={100} width={100} className='h-[20px] w-[20px]' />
+                                    <p className='text-white text-[20px] font-semibold'>{price.price}</p>
+                                </div>
+                            </div>))}
+                        <DrawerClose className='absolute text-white right-4 top-4'>
+                            <Image src={'/icons/x.svg'} alt='coin' height={100} width={100} className='w-[25px] h-[25px] sm:w-[40px] sm:h-[40px]' />
+                        </DrawerClose>
+                    </DrawerContent>
+                </Drawer>
                 <Drawer>
                     <DrawerTrigger className='w-1/3 bg-slate-800 flex flex-row justify-around items-center rounded-lg h-[53px] sm:h-[75px]'>
                         <div className='flex flex-row items-center gap-1'>
@@ -184,7 +206,7 @@ const ShopPage = () => {
                             <p className='font-bold text-white text-[16px] sm:text-[22px]'>Spin</p>
                         </div>
                     </DrawerTrigger>
-                    <DrawerContent className={` h-[85%] sm:h-[40%] border-t-8 border-orange-500 border-x-0 bg-slate-800`}>
+                    <DrawerContent className={` h-[85%] sm:h-[40%] border-t-8 border-orange-500 border-x-0 bg-gradient-to-b from-slate-900 to-gray-700`}>
                         <DrawerHeader>
                             <DrawerTitle className='text-white my-3'>Lucky Spin</DrawerTitle>
                         </DrawerHeader>

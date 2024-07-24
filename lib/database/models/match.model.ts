@@ -10,7 +10,8 @@ export interface IMatch extends Document {
     createdAt: Date,
     playerScore: number,
     opponentScore: number,
-    type: string
+    type: string,
+    availableToWatch:Date
 }
 
 const MatchSchema = new Schema({
@@ -25,7 +26,8 @@ const MatchSchema = new Schema({
     type: { type: String },
     playerScore: { type: Number },
     opponentScore: { type: Number },
-    createdAt: { type: Date, default: Date.now }
+    createdAt: { type: Date, default: Date.now },
+    availableToWatch: { type: Date, default: () => new Date(Date.now() + 4 * 60 * 1000) }
 })
 
 const Match = models.Match || model('Match', MatchSchema);

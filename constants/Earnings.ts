@@ -38,3 +38,30 @@ export const Predictions = [
         finished: false
     },
 ]
+
+export const Prices = [
+    {
+        diamonds: 25,
+        price: 50
+    },
+    {
+        diamonds: 50,
+        price: 75
+    },
+    {
+        diamonds: 100,
+        price: 100
+    },
+    {
+        diamonds: 200,
+        price: 150
+    },
+    {
+        diamonds: 400,
+        price: 200
+    },
+    {
+        diamonds: 800,
+        price: 300
+    },
+]

@@ -29,7 +29,7 @@ const Page = () => {
   };
 
   return (
-    <div className='h-screen w-screen max-w-[700px] flex justify-center items-center bg-slate-700'>
+    <div className='h-screen w-screen max-w-[700px] flex justify-center items-center bg-gradient-to-b from-slate-900 to-gray-600'>
       {renderPage()}
       <BottomNavBar currentPage={currentPage} setCurrentPage={setCurrentPage} />
     </div>

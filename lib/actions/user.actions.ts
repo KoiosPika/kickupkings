@@ -53,7 +53,8 @@ export async function getUserForPlayPage(id: string) {
         const user = await UserData.findOne({ User: id })
 
         const userMatches = await Match.find({
-            $or: [{ Player: id }, { Opponent: id }]
+            $or: [{ Player: id }, { Opponent: id }],
+            availableToWatch: { $lte: new Date() }
         })
             .sort({ createdAt: -1 })
             .limit(5)
