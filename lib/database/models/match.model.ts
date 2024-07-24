@@ -25,7 +25,7 @@ const MatchSchema = new Schema({
     type: { type: String },
     playerScore: { type: Number },
     opponentScore: { type: Number },
-    createdAt: { type: Date, default: Date.now() }
+    createdAt: { type: Date, default: Date.now }
 })
 
 const Match = models.Match || model('Match', MatchSchema);
