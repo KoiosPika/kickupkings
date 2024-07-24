@@ -20,7 +20,7 @@ export async function POST(request: NextRequest) {
       chatId,
       'Purchase Diamonds', // Title
       `Purchase ${diamonds} diamonds`, // Description
-      'unique-payload-id', // Payload
+      `unique-payload-id-${Date.now()}`, // Payload
       'XTR', // Currency
       [{ label: `${diamonds} Diamonds`, amount }], // Price breakdown
       {
