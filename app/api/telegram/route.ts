@@ -1,4 +1,5 @@
 // app/api/update-diamonds/route.js
+import { connectToDatabase } from '@/lib/database';
 import User from '@/lib/database/models/user.model';
 import UserData from '@/lib/database/models/userData.model';
 import { NextResponse } from 'next/server';
@@ -11,33 +12,33 @@ export async function POST(request: any) {
         return NextResponse.json({ status: 'error', message: 'Unauthorized' }, { status: 401 });
     }
 
-    // try {
-    //     const { telegramId, amount } = await request.json();
+    try {
+        const { telegramId, amount } = await request.json();
 
-    //     // Find the user by their Telegram ID
-    //     let user = await User.findOne({ telegramID: telegramId });
+        await connectToDatabase()
 
-    //     if (!user) {
-    //         throw new Error('User not found');
-    //     }
+        // Find the user by their Telegram ID
+        let user = await User.findOne({ telegramID: telegramId });
 
-    //     let userData = await UserData.findOne({ User: user._id })
+        if (!user) {
+            throw new Error('User not found');
+        }
 
-    //     if (!userData) {
-    //         throw new Error('User data not found');
-    //     }
+        let userData = await UserData.findOne({ User: user._id })
 
-    //     // Update the user's diamond count
-    //     userData.diamonds += amount;
+        if (!userData) {
+            throw new Error('User data not found');
+        }
 
-    //     // Save the user's updated information
-    //     await userData.save();
+        // Update the user's diamond count
+        userData.diamonds += amount;
 
-    //     return NextResponse.json({ status: 'success', diamonds: user.diamonds });
-    // } catch (error) {
-    //     console.error('Error updating diamonds:', error);
-    //     return NextResponse.json({ status: 'error', message: 'Failed to update diamonds' }, { status: 500 });
-    // }
+        // Save the user's updated information
+        await userData.save();
 
-    return NextResponse.json({ status: 'success', message: 'Endpoint working' });
+        return NextResponse.json({ status: 'success', diamonds: user.diamonds });
+    } catch (error) {
+        console.error('Error updating diamonds:', error);
+        return NextResponse.json({ status: 'error', message: 'Failed to update diamonds' }, { status: 500 });
+    }
 }
