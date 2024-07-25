@@ -620,13 +620,28 @@ export async function findMatch(id: string) {
     try {
         await connectToDatabase();
 
-        const user = await UserData.findOne({ User: id })
+        const user = await populateUsers(UserData.findOne({ User: id })).lean();
 
-        const users = await populateUsers(UserData.find({ Rank: user.Rank }))
+        if (!user) throw new Error('User not found');
 
-        console.log(users);
+        const opponent = await populateUsers(UserData.findOne({ Rank: user.Rank }).skip(2)).lean();
 
-        return JSON.parse(JSON.stringify(users[2]))
+        if (!opponent) throw new Error('Opponent not found');
+
+        const userOverall = calculateFormationOverall(user);
+        const opponentOverall = calculateFormationOverall(opponent);
+
+        const prizes = calculatePrizes(userOverall, opponentOverall);
+
+        const matchDetails = {
+            player: { ...user },
+            opponent: { ...opponent },
+            playerOverall: userOverall,
+            opponentOverall: opponentOverall,
+            prizes
+        }
+
+        return JSON.parse(JSON.stringify(matchDetails))
     } catch (error) {
         console.log(error)
     }
@@ -640,4 +655,59 @@ export async function addChatID() {
     } catch (error) {
         console.log(error);
     }
+}
+
+function calculateFormationOverall(userData: IUserData) {
+    const userFormation = formations.find(f => f.id === userData.formation);
+    
+    if (!userFormation) {
+        throw new Error('User formation not found');
+    }
+
+    // Extract the positions from the user's formation
+    const formationPositions = userFormation.data.flatMap(data => data.positions).filter(pos => pos);
+
+    // Filter user's positions based on the formation positions
+    const validPositions = userData.positions.filter(userPos => formationPositions.includes(userPos.position));
+
+    if (validPositions.length === 0) {
+        return 0; // or another default value if no valid positions
+    }
+
+    // Calculate the average level of the positions
+    const totalLevels = validPositions.reduce((sum, position) => sum + position.level, 0);
+    const averageLevel = totalLevels / validPositions.length;
+
+    return averageLevel;
+}
+
+function calculatePrizes(userOverall: number, opponentOverall: number) {
+    const baseCoins = 25;
+    const basePoints = 25;
+    const baseDiamonds = 0;
+
+    let coins = baseCoins;
+    let points = basePoints;
+    let diamonds = baseDiamonds;
+
+    const difference = opponentOverall - userOverall;
+
+    if (difference >= 2) {
+        // Opponent's overall is significantly higher
+        coins = baseCoins * 2;
+        points = basePoints * 2;
+        diamonds = 3;
+    } else if (difference <= -2) {
+        // Opponent's overall is significantly lower
+        coins = baseCoins / 2;
+        points = basePoints / 2;
+        diamonds = 0;
+    } else {
+        // The difference is within -2 to 2
+        coins = baseCoins;
+        points = basePoints;
+        diamonds = baseDiamonds;
+    }
+
+    return { coins, points, diamonds };
 }

@@ -31,7 +31,7 @@ const PlayPage = () => {
   const router = useRouter()
   const [waiting, setWaiting] = useState(false)
   const [searching, setSearching] = useState(false)
-  const [resultUser, setResultUser] = useState<IUserData>()
+  const [match, setMatch] = useState<any>()
 
   useEffect(() => {
     const updateHeights = () => {
@@ -124,9 +124,11 @@ const PlayPage = () => {
 
     setSearching(true);
 
-    const searchedUser = await findMatch('6699bfa1ba8348c3228f89ab');
+    const matchFound = await findMatch('6699bfa1ba8348c3228f89ab');
 
-    setResultUser(searchedUser);
+    console.log(matchFound)
+
+    setMatch(matchFound);
 
     setSearching(false);
   }
@@ -230,21 +232,21 @@ const PlayPage = () => {
               <div className='bg-blue-500 px-3 py-2 font-semibold text-white rounded-xl shadow-blue-600 shadow-lg border-b-[4px] sm:border-b-[8px] border-blue-800 flex flex-row items-center justify-center gap-1'>
                 <p className='text-[16px] sm:text-[34px] ml-1'>Find Match</p>
                 <Image src={'/icons/coin.svg'} alt='coin' height={100} width={100} className='w-[20px] h-[20px] sm:w-[35px] sm:h-[35px]' />
-                <p className='font-semibold text-white text-[16px] sm:text-[25px]'>10</p>
+                <p className='font-semibold text-white text-[16px] sm:text-[25px]'>1</p>
               </div>
             </AlertDialogTrigger>
             <AlertDialogContent className='bg-slate-800 px-2 border-0 rounded-lg'>
               <AlertDialogHeader>
-                <AlertDialogTitle className='text-white my-6'>Find Match</AlertDialogTitle>
-                {resultUser && <>
+                <AlertDialogTitle className='text-white mt-6'>Find Match</AlertDialogTitle>
+                {match && <>
                   <div className='flex flex-row items-center gap-3'>
                     <div className='w-1/2'>
                       <div className='flex flex-row justify-center items gap-3 my-2'>
                         <Image src={'/icons/user.svg'} alt='user' height={50} width={50} className='bg-slate-500 p-1 h-[28px] w-[28px] sm:h-[48px] sm:w-[48px] rounded-lg' />
-                        <p className='font-bold text-white'>username</p>
+                        <p className='font-bold text-white'>{match.player.User.username}</p>
                       </div>
                       <div className='h-[250px] w-full flex flex-col justify-around rounded-md bg-slate-800 border-[1px] sm:border-4 border-white' style={{ backgroundImage: `url('/Field-dark.png')`, backgroundSize: 'cover', backgroundPosition: 'center' }}>
-                        {formation?.data.map((row: any, rowIndex: number) => (
+                        {formations.find(f => f.id === match.player?.formation)?.data.map((row: any, rowIndex: number) => (
                           <div key={rowIndex} className='flex justify-around'>
                             {row.positions.map((position: any, posIndex: number) => (
                               <div key={posIndex} className='p-1 sm:px-3 sm:py-1 rounded-sm text-white font-semibold border-white' style={{ backgroundColor: getColor(row.type, row.positions[posIndex]), borderWidth: row.positions[posIndex] ? 2 : 0, boxShadow: position ? `-8px -8px 10px -4px ${getColor(row.type, row.positions[posIndex])},-8px 8px 10px -4px ${getColor(row.type, row.positions[posIndex])},8px -8px 10px -4px ${getColor(row.type, row.positions[posIndex])},8px 8px 10px -4px ${getColor(row.type, row.positions[posIndex])}` : '' }}>
@@ -254,16 +256,16 @@ const PlayPage = () => {
                           </div>
                         ))}
                       </div>
-                      <p className='bg-slate-900 text-white font-semibold my-1 rounded-full'>{user.formation}</p>
-                      <p className='bg-slate-900 text-white font-semibold my-1 rounded-full'>Overall: {(user.teamOverall).toFixed(2)}</p>
+                      <p className='bg-slate-900 text-white font-semibold my-1 rounded-full'>{match.player.formation}</p>
+                      <p className='bg-slate-900 text-white font-semibold my-1 rounded-full'>Overall: {(match.playerOverall).toFixed(2)}</p>
                     </div>
                     <div className='w-1/2'>
                       <div className='flex flex-row justify-center items gap-3 my-2'>
                         <Image src={'/icons/user.svg'} alt='user' height={50} width={50} className='bg-slate-500 p-1 h-[28px] w-[28px] sm:h-[48px] sm:w-[48px] rounded-lg' />
-                        <p className='font-bold text-white'>{resultUser.User.username}</p>
+                        <p className='font-bold text-white'>{match.opponent.User.username}</p>
                       </div>
                       <div className='h-[250px] w-full flex flex-col justify-around rounded-md bg-slate-800 border-[1px] sm:border-4 border-white' style={{ backgroundImage: `url('/Field-dark.png')`, backgroundSize: 'cover', backgroundPosition: 'center' }}>
-                        {formations.find(f => f.id === resultUser?.formation)?.data.map((row: any, rowIndex: number) => (
+                        {formations.find(f => f.id === match.opponent?.formation)?.data.map((row: any, rowIndex: number) => (
                           <div key={rowIndex} className='flex justify-around'>
                             {row.positions.map((position: any, posIndex: number) => (
                               <div key={posIndex} className='p-1 sm:px-3 sm:py-1 rounded-sm text-white font-semibold border-white' style={{ backgroundColor: getColor(row.type, row.positions[posIndex]), borderWidth: row.positions[posIndex] ? 2 : 0, boxShadow: position ? `-8px -8px 10px -4px ${getColor(row.type, row.positions[posIndex])},-8px 8px 10px -4px ${getColor(row.type, row.positions[posIndex])},8px -8px 10px -4px ${getColor(row.type, row.positions[posIndex])},8px 8px 10px -4px ${getColor(row.type, row.positions[posIndex])}` : '' }}>
@@ -273,27 +275,28 @@ const PlayPage = () => {
                           </div>
                         ))}
                       </div>
-                      <p className='bg-slate-900 text-white font-semibold my-1 rounded-full'>{resultUser.formation}</p>
-                      <p className='bg-slate-900 text-white font-semibold my-1 rounded-full'>Overall: {(resultUser.teamOverall).toFixed(2)}</p>
+                      <p className='bg-slate-900 text-white font-semibold my-1 rounded-full'>{match.opponent.formation}</p>
+                      <p className='bg-slate-900 text-white font-semibold my-1 rounded-full'>Overall: {(match.opponentOverall).toFixed(2)}</p>
                     </div>
                   </div>
                   <div className='w-full flex justify-center items-center'>
                     <div className='w-11/12 bg-slate-700 flex flex-row justify-center items-center py-2 rounded-full gap-6'>
                       <div className='flex flex-row items-center gap-2'>
-                        <Image src={'/icons/coin.svg'} alt='coin' height={100} width={100} className='w-[20px] h-[20px] sm:w-[35px] sm:h-[35px]' />
-                        <p className='font-semibold text-white'>75</p>
+                        <Image src={'/icons/coin.svg'} alt='coin' height={100} width={100} className='w-[30px] h-[30px] sm:w-[35px] sm:h-[35px]' />
+                        <p className='font-semibold text-white'>{match.prizes.coins}</p>
                       </div>
                       <div className='flex flex-row items-center gap-2'>
-                        <Image src={'/icons/diamond.svg'} alt='coin' height={100} width={100} className='w-[20px] h-[20px] sm:w-[35px] sm:h-[35px]' />
-                        <p className='font-semibold text-white'>2</p>
+                        <Image src={'/icons/diamond.svg'} alt='coin' height={100} width={100} className='w-[30px] h-[30px] sm:w-[35px] sm:h-[35px]' />
+                        <p className='font-semibold text-white'>{match.prizes.diamonds}</p>
                       </div>
                       <div className='flex flex-row items-center gap-2'>
-                        <p className='font-semibold text-white'>25 Points</p>
+                        <Image src={'/icons/Ballon Dor.png'} alt='coin' height={100} width={100} className='w-[25px] h-[30px] sm:w-[35px] sm:h-[35px]' />
+                        <p className='font-semibold text-white'>{match.prizes.points}</p>
                       </div>
                     </div>
                   </div>
                   <div className='flex flex-row items-center gap-3 w-full'>
-                    <div className='w-1/2 bg-green-700 text-white font-semibold rounded-md py-1 flex flex-row items-center justify-center gap-2' onClick={() => handlePlaying(resultUser.User._id)}>
+                    <div className='w-1/2 bg-green-700 text-white font-semibold rounded-md py-1 flex flex-row items-center justify-center gap-2' onClick={() => handlePlaying(match.opponent.User._id)}>
                       <p>{waiting ? 'Wait' : 'Play'}</p>
                       <Image src={'/icons/coin.svg'} alt='coin' height={100} width={100} className='w-[20px] h-[20px] sm:w-[35px] sm:h-[35px]' />
                       <p className='font-semibold text-white text-[16px] sm:text-[25px]'>10</p>
@@ -305,7 +308,7 @@ const PlayPage = () => {
                     </div>
                   </div>
                 </>}
-                {!resultUser && <div className='py-2 px-3 bg-purple-700 w-3/4 place-self-center text-white font-bold flex flex-row items-center justify-center gap-3 text-[18px] rounded-lg' onClick={handleFindingMatch}>
+                {!match && <div className='py-2 px-3 bg-purple-700 w-3/4 place-self-center text-white font-bold flex flex-row items-center justify-center gap-3 text-[18px] rounded-lg' onClick={handleFindingMatch}>
                   <Image src={'/icons/search.svg'} alt='search' height={20} width={20} />
                   <p>Search For Opponents</p>
                 </div>}
@@ -358,7 +361,7 @@ const PlayPage = () => {
                     return (
                       <div key={position.symbol} className='bg-slate-900 p-2 sm:p-4 rounded-lg'>
                         <div className='flex flex-row items-center'>
-                          <p style={{ backgroundColor: position.color }} className='inline-flex py-1 px-2 text-white font-semibold rounded-md text-[13px] sm:text-[25px]'>
+                          <p style={{ backgroundColor: position.color }} className='inline-flex py-1 px-2 text-white font-semibold rounded-md text-[17px] sm:text-[25px]'>
                             {position.symbol}
                           </p>
                           <div className='ml-auto mr-2 font-bold flex flex-col'>

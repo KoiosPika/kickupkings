@@ -40,7 +40,10 @@ const HomePage = () => {
             </div>
             <div className='w-full ml-auto mb-auto p-2 flex flex-row items-center gap-2'>
                 <div className='w-1/2 bg-slate-800 flex flex-col justify-center items-center rounded-lg h-[53px] sm:h-[75px] gap-[3px]'>
-                    {user && <p className='font-bold text-white text-[13px] sm:text-[22px]'>{user?.points} / {maxPoints}</p>}
+                    <div className='flex flex-row items-center gap-2'>
+                        <Image src={'/icons/Ballon Dor.png'} alt='dor' height={20} width={20}/>
+                        {user && <p className='font-bold text-white text-[13px] sm:text-[22px]'>{user?.points} / {maxPoints}</p>}
+                    </div>
                     {user && <div className='w-11/12 flex flex-row items-center'>
                         <div style={{ width: `${progress}%` }} className='h-[5px] sm:h-[10px] rounded-l-lg bg-orange-600' />
                         <div style={{ width: `${100 - progress}%` }} className='h-[5px] sm:h-[10px] rounded-r-lg bg-orange-300' />
