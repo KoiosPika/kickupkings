@@ -39,6 +39,14 @@ const HistoryPage = ({ id }: { id: string }) => {
 
         setRefreshing(false)
     }
+
+    if (!user) {
+        return (
+            <section className='w-full h-screen flex flex-col justify-center items-center bg-gradient-to-b from-slate-800 to-gray-600'>
+                <Image src={'/icons/spinner.svg'} alt='spinner' height={30} width={30} className='animate-spin' />
+            </section>)
+    }
+    
     return (
         <section className='w-full h-screen flex flex-col bg-gradient-to-b from-slate-900 to-gray-600'>
             <div className='w-full ml-auto mb-auto p-2 flex flex-row items-center gap-2'>
