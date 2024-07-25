@@ -105,9 +105,9 @@ const LineupPage = () => {
   return (
     <section className='w-full h-screen bg-gradient-to-b from-slate-900 to-gray-600'>
       <div className='w-full ml-auto mb-auto p-2 flex flex-row items-center gap-2'>
-        <Image src={'/icons/user.svg'} alt='user' height={50} width={50} className='bg-slate-500 p-1 h-[30px] w-[30px] sm:h-[40px] sm:w-[40px] rounded-lg' />
-        <p className='font-semibold text-white text-[13px] sm:text-[17px]'>Rami (Amature)</p>
-        <p className='font-semibold text-white text-[13px] sm:text-[17px]'>{`->`}</p>
+      <Image src={'/PFP.jpg'} alt='user' height={50} width={50} className='bg-slate-500 h-[30px] w-[30px] rounded-lg' />
+                <p className='font-semibold text-white text-[13px]'>{user?.User.username} ({user?.Rank})</p>
+                <p className='font-semibold text-white text-[13px]'>{`->`}</p>
       </div>
       <div style={{ height: height - 210 }} className='relative'>
         <div className='h-full w-full absolute flex flex-col justify-around'>

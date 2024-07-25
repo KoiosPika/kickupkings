@@ -145,11 +145,11 @@ const FriendsPage = () => {
     return (
         <section className='w-full h-screen flex flex-col bg-gradient-to-b from-slate-800 to-gray-600'>
             <div className='w-full ml-auto p-2 flex flex-row items-center gap-2'>
-                <a href='/' className='bg-slate-500 py-2 px-3 rounded-md text-white font-bold'>
+                <a href='/' className='py-2 px-3 rounded-md text-white font-bold'>
                     <Image src={'/icons/back.svg'} alt='back' height={10} width={10} />
                 </a>
-                <Image src={'/icons/user.svg'} alt='user' height={50} width={50} className='bg-slate-500 p-1 h-[30px] w-[30px] rounded-md' />
-                <p className='font-semibold text-white text-[13px]'>Rami ({user?.Rank})</p>
+                <Image src={'/PFP.jpg'} alt='user' height={50} width={50} className='bg-slate-500 h-[30px] w-[30px] rounded-lg' />
+                <p className='font-semibold text-white text-[13px]'>{user?.User.username} ({user?.Rank})</p>
                 <p className='font-semibold text-white text-[13px]'>{`->`}</p>
             </div>
             <div className='w-full p-4'>
@@ -217,7 +217,7 @@ const FriendsPage = () => {
                             {friendsList.length > 0 ? (
                                 friendsList.map(friend => (
                                     <div key={friend._id} className='w-full max-w-md bg-gradient-to-b from-slate-900 to-slate-800 rounded-md p-3 mb-2 text-white flex items-center'>
-                                        <Image src={'/icons/user.svg'} alt='friend' height={20} width={20} />
+                                        <Image src={'/PFP.jpg'} alt='friend' height={20} width={20} className='h-[35px] w-[35px] rounded-md' />
                                         <p className='text-[16px] font-medium ml-3'>{friend.username}</p>
                                         <AlertDialog>
                                             <AlertDialogTrigger className='ml-auto'>
@@ -232,7 +232,7 @@ const FriendsPage = () => {
                                                         <div className='flex flex-row items-center gap-3'>
                                                             <div className='w-1/2'>
                                                                 <div className='flex flex-row justify-center items gap-3 my-2'>
-                                                                    <Image src={'/icons/user.svg'} alt='user' height={50} width={50} className='bg-slate-500 p-1 h-[28px] w-[28px] sm:h-[48px] sm:w-[48px] rounded-lg' />
+                                                                    <Image src={'/PFP.jpg'} alt='user' height={50} width={50} className='bg-slate-500 p-1 h-[28px] w-[28px] sm:h-[48px] sm:w-[48px] rounded-lg' />
                                                                     <p className='font-bold text-white'>{user?.User.username}</p>
                                                                 </div>
                                                                 <div className='h-[250px] w-full flex flex-col justify-around rounded-md bg-slate-800 border-[1px] sm:border-4 border-white' style={{ backgroundImage: `url('/Field-dark.png')`, backgroundSize: 'cover', backgroundPosition: 'center' }}>
@@ -251,7 +251,7 @@ const FriendsPage = () => {
                                                             </div>
                                                             <div className='w-1/2'>
                                                                 <div className='flex flex-row justify-center items gap-3 my-2'>
-                                                                    <Image src={'/icons/user.svg'} alt='user' height={50} width={50} className='bg-slate-500 p-1 h-[28px] w-[28px] sm:h-[48px] sm:w-[48px] rounded-lg' />
+                                                                    <Image src={'/PFP.jpg'} alt='user' height={50} width={50} className='bg-slate-500 p-1 h-[28px] w-[28px] sm:h-[48px] sm:w-[48px] rounded-lg' />
                                                                     <p className='font-bold text-white'>{selectedFriend?.User.username}</p>
                                                                 </div>
                                                                 <div className='h-[250px] w-full flex flex-col justify-around rounded-md bg-slate-800 border-[1px] sm:border-4 border-white' style={{ backgroundImage: `url('/Field-dark.png')`, backgroundSize: 'cover', backgroundPosition: 'center' }}>
@@ -291,7 +291,7 @@ const FriendsPage = () => {
                             {friendRequests.length > 0 ? (
                                 friendRequests.map(request => (
                                     <div key={request._id} className='w-full max-w-md bg-gradient-to-b from-slate-900 to-slate-800 rounded-md p-3 mb-2 text-white flex flex-row gap-3 items-center'>
-                                        <Image src={'/icons/user.svg'} alt='user' height={20} width={20} />
+                                        <Image src={'/PFP.jpg'} alt='user' height={20} width={20} />
                                         <p className='text-[16px] font-medium'>{request.Requester.username}</p>
                                         <div className='flex flex-row items-center gap-2 ml-auto'>
                                             <div className='bg-green-500 text-white py-[5.5px] px-[9px] rounded-md font-semibold' onClick={() => handleAcceptRequest(request._id)}>

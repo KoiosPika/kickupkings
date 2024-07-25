@@ -51,7 +51,7 @@ export async function getUserForPlayPage(id: string) {
     try {
         await connectToDatabase();
 
-        const user = await UserData.findOne({ User: id })
+        const user = await populateUsers(UserData.findOne({ User: id }))
 
         const userMatches = await populateMatch(Match.find({
             $or: [{ Player: id }, { Opponent: id }],
@@ -73,6 +73,7 @@ export async function getUserForPlayPage(id: string) {
             won: user.won,
             lost: user.lost,
             Rank: user.Rank,
+            username : user.User.username,
             positions: user.positions,
             teamOverall: user.teamOverall,
             form,

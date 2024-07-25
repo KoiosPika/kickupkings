@@ -141,9 +141,9 @@ const PlayPage = () => {
   return (
     <section className='w-full h-screen flex flex-col bg-gradient-to-b from-slate-800 to-gray-600'>
       <div className='w-full ml-auto mb-auto p-2 flex flex-row items-center gap-2'>
-        <Image src={'/icons/user.svg'} alt='user' height={50} width={50} className='bg-slate-500 p-1 h-[30px] w-[30px] rounded-md' />
-        <p className='font-semibold text-white text-[13px]'>Rami ({user?.Rank})</p>
-        <p className='font-semibold text-white text-[13px]'>{`->`}</p>
+      <Image src={'/PFP.jpg'} alt='user' height={50} width={50} className='bg-slate-500 h-[30px] w-[30px] rounded-lg' />
+                <p className='font-semibold text-white text-[13px]'>{user?.username} ({user?.Rank})</p>
+                <p className='font-semibold text-white text-[13px]'>{`->`}</p>
         <div className='flex flex-row items-center gap-2 bg-slate-800 px-2 py-[2px] sm:py-[5px] rounded-md ml-auto mr-2'>
           <Image src={'/icons/coin.svg'} alt='coin' height={100} width={100} className='w-[20px] h-[20px] sm:w-[35px] sm:h-[35px]' />
           <p className='font-semibold text-white text-[16px] sm:text-[25px]'>{user && user?.coins}</p>
@@ -208,7 +208,7 @@ const PlayPage = () => {
                 )}
                 <p className='ml-2 text-[16px] sm:text-[30px]'>{match.playerScore}-{match.opponentScore}</p>
                 <div className='ml-5 flex flex-row items-center bg-slate-900 px-2 py-1 rounded-lg'>
-                  <Image src={'/icons/user.svg'} alt='user' height={50} width={50} className='bg-slate-500 p-1 h-[28px] w-[28px] sm:h-[48px] sm:w-[48px] rounded-lg' />
+                  <Image src={'/PFP.jpg'} alt='user' height={50} width={50} className='bg-slate-500 h-[28px] w-[28px] sm:h-[48px] sm:w-[48px] rounded-lg' />
                   {match.Player.toString() !== '6699bfa1ba8348c3228f89ab' ? (
                     <p className='text-[15px] sm:text-[30px] text-center ml-[6px] rounded-sm'>{match.Opponent.username}</p>
                   ) : (

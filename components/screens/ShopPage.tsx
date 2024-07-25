@@ -83,7 +83,7 @@ const ShopPage = () => {
                 }))
             );
         }
-        for (let i = 0; i < 26; i++) {
+        for (let i = 0; i < 40; i++) {
             prizes.push({ type: 'coins', amount: Math.floor(Math.random() * (500 - 20 + 1)) + 20 });
         }
         return prizes;
@@ -179,9 +179,9 @@ const ShopPage = () => {
     return (
         <section className='w-full h-screen bg-gradient-to-b from-slate-900 to-gray-700'>
             <div className='w-full ml-auto mb-auto p-2 flex flex-row items-center gap-2'>
-                <Image src={'/icons/user.svg'} alt='user' height={50} width={50} className='bg-slate-500 p-1 h-[30px] sm:h-[45px] w-[30px] sm:w-[45px] rounded-lg' />
-                <p className='font-semibold text-white text-[13px] sm:text-[20px]'>Rami (Amature)</p>
-                <p className='font-semibold text-white text-[13px] sm:text-[20px]'>{`->`}</p>
+            <Image src={'/PFP.jpg'} alt='user' height={50} width={50} className='bg-slate-500 h-[30px] w-[30px] rounded-lg' />
+                <p className='font-semibold text-white text-[13px]'>{user?.User.username} ({user?.Rank})</p>
+                <p className='font-semibold text-white text-[13px]'>{`->`}</p>
             </div>
             <div className='w-full ml-auto mb-auto p-2 flex flex-row items-center gap-2'>
                 <div className='w-1/3 bg-slate-800 flex flex-row justify-around items-center rounded-lg h-[53px] sm:h-[75px]'>

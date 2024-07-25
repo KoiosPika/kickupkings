@@ -50,11 +50,11 @@ const HistoryPage = ({ id }: { id: string }) => {
     return (
         <section className='w-full h-screen flex flex-col bg-gradient-to-b from-slate-900 to-gray-600'>
             <div className='w-full ml-auto mb-auto p-2 flex flex-row items-center gap-2'>
-                <a href='/' className='bg-slate-500 py-2 px-3 rounded-md text-white font-bold'>
+                <a href='/' className='py-2 px-3 rounded-md text-white font-bold'>
                     <Image src={'/icons/back.svg'} alt='back' height={10} width={10} />
                 </a>
-                <Image src={'/icons/user.svg'} alt='user' height={50} width={50} className='bg-slate-500 p-1 h-[30px] w-[30px] rounded-md' />
-                <p className='font-semibold text-white text-[13px]'>{user?.User?.username} ({user?.Rank})</p>
+                <Image src={'/PFP.jpg'} alt='user' height={50} width={50} className='bg-slate-500 h-[30px] w-[30px] rounded-lg' />
+                <p className='font-semibold text-white text-[13px]'>{user?.User.username} ({user?.Rank})</p>
                 <p className='font-semibold text-white text-[13px]'>{`->`}</p>
             </div>
             <div className='flex w-full'>
@@ -82,7 +82,7 @@ const HistoryPage = ({ id }: { id: string }) => {
                                 <p className='ml-2 text-[16px] sm:text-[30px]'>?-?</p>
                             ) : (<p className='ml-2 text-[16px] sm:text-[30px]'>{match.playerScore}-{match.opponentScore}</p>)}
                             <div className='ml-5 flex flex-row items-center px-2 py-1 rounded-lg'>
-                                <Image src={'/icons/user.svg'} alt='user' height={50} width={50} className='bg-slate-500 p-1 h-[28px] w-[28px] sm:h-[48px] sm:w-[48px] rounded-lg' />
+                                <Image src={'/PFP.jpg'} alt='user' height={50} width={50} className='bg-slate-500 h-[28px] w-[28px] sm:h-[48px] sm:w-[48px] rounded-lg' />
                                 {match.Player.toString() !== '6699bfa1ba8348c3228f89ab' ? (
                                     <p className='text-[15px] sm:text-[30px] text-center ml-[6px] rounded-sm'>{match.Opponent.username}</p>
                                 ) : (
