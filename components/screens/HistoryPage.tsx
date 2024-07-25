@@ -46,7 +46,7 @@ const HistoryPage = ({ id }: { id: string }) => {
                 <Image src={'/icons/spinner.svg'} alt='spinner' height={30} width={30} className='animate-spin' />
             </section>)
     }
-    
+
     return (
         <section className='w-full h-screen flex flex-col bg-gradient-to-b from-slate-900 to-gray-600'>
             <div className='w-full ml-auto mb-auto p-2 flex flex-row items-center gap-2'>
@@ -54,7 +54,7 @@ const HistoryPage = ({ id }: { id: string }) => {
                     <Image src={'/icons/back.svg'} alt='back' height={10} width={10} />
                 </a>
                 <Image src={'/icons/user.svg'} alt='user' height={50} width={50} className='bg-slate-500 p-1 h-[30px] w-[30px] rounded-md' />
-                <p className='font-semibold text-white text-[13px]'>Rami ({user?.Rank})</p>
+                <p className='font-semibold text-white text-[13px]'>{user?.User?.username} ({user?.Rank})</p>
                 <p className='font-semibold text-white text-[13px]'>{`->`}</p>
             </div>
             <div className='flex w-full'>

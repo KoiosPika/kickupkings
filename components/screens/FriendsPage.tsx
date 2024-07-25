@@ -1,6 +1,6 @@
 'use client'
 
-import { getUserByUserID } from '@/lib/actions/user.actions'
+import { getUserByUserID, playGame } from '@/lib/actions/user.actions'
 import { IUserData } from '@/lib/database/models/userData.model'
 import Image from 'next/image'
 import React, { useEffect, useState } from 'react'
@@ -9,6 +9,15 @@ import { Input } from '../ui/input'
 import { acceptFriendRequest, deleteFriendRequest, findUsersByUsernames, getFriendRequests, getFriends, sendFriendRequest } from '@/lib/actions/friendship.actions'
 import { IUser } from '@/lib/database/models/user.model'
 import { ScrollArea } from '../ui/scroll-area'
+import { formations } from '@/constants/Formations'
+import { useRouter } from 'next/navigation'
+
+const colors = [
+    { 'Forward': '#EE2E0C' },
+    { 'Midfield': '#EE9F0C' },
+    { 'Defense': '#0090DE' },
+    { 'Goalkeeper': '#41B815' },
+]
 
 const FriendsPage = () => {
 
@@ -19,6 +28,10 @@ const FriendsPage = () => {
     const [loadingRequests, setLoadingRequests] = useState<any>({});
     const [friendRequests, setFriendRequests] = useState<any[]>([]);
     const [friendsList, setFriendsList] = useState<IUser[]>([]);
+    const [selectedFriend, setSelectedFriend] = useState<IUserData>(); // State for selected friend data
+    const [loadingUserData, setLoadingUserData] = useState(false); // State for loading data
+    const [waiting, setWaiting] = useState(false)
+    const router = useRouter();
 
     useEffect(() => {
 
@@ -94,13 +107,40 @@ const FriendsPage = () => {
         );
     };
 
+    const getColor = (type: any, position: any) => {
+        if (!position) {
+            return '';
+        }
+        const colorObj: any = colors.find((color: any) => color[type]);
+        return colorObj ? colorObj[type] : '';
+    };
+
+    const handlePlaying = async (opponentId: string) => {
+
+        if (waiting) {
+            return;
+        }
+
+        setWaiting(true);
+        const match = await playGame('6699bfa1ba8348c3228f89ab', opponentId, 'Friendly')
+
+        router.push(`/play/${match._id}`);
+    }
+
+
+    const handleOpenDialog = async (friendId: string) => {
+        setLoadingUserData(true);
+        const friendData = await getUserByUserID(friendId);
+        setSelectedFriend(friendData);
+        setLoadingUserData(false);
+    };
+
     if (!user) {
         return (
             <section className='w-full h-screen flex flex-col justify-center items-center bg-gradient-to-b from-slate-800 to-gray-600'>
                 <Image src={'/icons/spinner.svg'} alt='spinner' height={30} width={30} className='animate-spin' />
             </section>)
     }
-
 
     return (
         <section className='w-full h-screen flex flex-col bg-gradient-to-b from-slate-800 to-gray-600'>
@@ -148,16 +188,16 @@ const FriendsPage = () => {
                                 {searchResults.length > 0 ? (
                                     searchResults.map((user) => (
                                         <div key={user.id} className='w-full max-w-md bg-gray-800 rounded-md p-3 mb-2 text-white flex justify-between items-center'>
-                                            <p className='text-lg font-medium'>{user.username}</p>
+                                            <p className='text-[15px] font-medium'>{user.username}</p>
                                             {!user.hasRequest ? (
                                                 <div
-                                                    className='bg-blue-500 text-white font-semibold px-3 py-1 rounded-md'
+                                                    className='bg-blue-500 text-white font-semibold text-[13px] px-3 py-1 rounded-md'
                                                     onClick={() => sendRequest(user.id)}
                                                 >
                                                     {loadingRequests[user.id] ? 'Sending...' : 'Request'}
                                                 </div>
                                             ) : (
-                                                <p className='text-gray-400'>Request Sent</p>
+                                                <p className='text-gray-400 text-[13px]'>Request Sent</p>
                                             )}
                                         </div>
                                     ))
@@ -179,6 +219,67 @@ const FriendsPage = () => {
                                     <div key={friend._id} className='w-full max-w-md bg-slate-900 rounded-md p-3 mb-2 text-white flex items-center'>
                                         <Image src={'/icons/user.svg'} alt='friend' height={20} width={20} />
                                         <p className='text-[16px] font-medium ml-3'>{friend.username}</p>
+                                        <AlertDialog>
+                                            <AlertDialogTrigger className='ml-auto'>
+                                                <div className='ml-auto mr-2 shadow-purple-500 border-b-[3px] border-purple-800 bg-purple-600 px-2 text-[14px] sm:text-[24px] py-[2px] rounded-lg shadow-md font-semibold' onClick={() => handleOpenDialog(friend._id)}>Play</div>
+                                            </AlertDialogTrigger>
+                                            <AlertDialogContent className='bg-slate-800 px-2 border-0 rounded-lg'>
+                                                <AlertDialogHeader>
+                                                    <AlertDialogTitle className='text-white mt-6 mb-2'>Friendly Match</AlertDialogTitle>
+                                                    {loadingUserData ? (
+                                                        <Image src={'/icons/spinner.svg'} alt='spinner' height={30} width={30} className='animate-spin place-self-center' />
+                                                    ) : selectedFriend && <>
+                                                        <div className='flex flex-row items-center gap-3'>
+                                                            <div className='w-1/2'>
+                                                                <div className='flex flex-row justify-center items gap-3 my-2'>
+                                                                    <Image src={'/icons/user.svg'} alt='user' height={50} width={50} className='bg-slate-500 p-1 h-[28px] w-[28px] sm:h-[48px] sm:w-[48px] rounded-lg' />
+                                                                    <p className='font-bold text-white'>{user?.User.username}</p>
+                                                                </div>
+                                                                <div className='h-[250px] w-full flex flex-col justify-around rounded-md bg-slate-800 border-[1px] sm:border-4 border-white' style={{ backgroundImage: `url('/Field-dark.png')`, backgroundSize: 'cover', backgroundPosition: 'center' }}>
+                                                                    {formations.find(f => f.id === user?.formation)?.data.map((row: any, rowIndex: number) => (
+                                                                        <div key={rowIndex} className='flex justify-around'>
+                                                                            {row.positions.map((position: any, posIndex: number) => (
+                                                                                <div key={posIndex} className='p-1 sm:px-3 sm:py-1 rounded-sm text-white font-semibold border-white' style={{ backgroundColor: getColor(row.type, row.positions[posIndex]), borderWidth: row.positions[posIndex] ? 2 : 0, boxShadow: position ? `-8px -8px 10px -4px ${getColor(row.type, row.positions[posIndex])},-8px 8px 10px -4px ${getColor(row.type, row.positions[posIndex])},8px -8px 10px -4px ${getColor(row.type, row.positions[posIndex])},8px 8px 10px -4px ${getColor(row.type, row.positions[posIndex])}` : '' }}>
+                                                                                    <p className='text-[10px] sm:text-[20px]'>{position}</p>
+                                                                                </div>
+                                                                            ))}
+                                                                        </div>
+                                                                    ))}
+                                                                </div>
+                                                                <p className='bg-slate-900 text-white font-semibold my-1 rounded-full'>{user.formation}</p>
+                                                                <p className='bg-slate-900 text-white font-semibold my-1 rounded-full'>Overall: {(user.teamOverall).toFixed(2)}</p>
+                                                            </div>
+                                                            <div className='w-1/2'>
+                                                                <div className='flex flex-row justify-center items gap-3 my-2'>
+                                                                    <Image src={'/icons/user.svg'} alt='user' height={50} width={50} className='bg-slate-500 p-1 h-[28px] w-[28px] sm:h-[48px] sm:w-[48px] rounded-lg' />
+                                                                    <p className='font-bold text-white'>{selectedFriend?.User.username}</p>
+                                                                </div>
+                                                                <div className='h-[250px] w-full flex flex-col justify-around rounded-md bg-slate-800 border-[1px] sm:border-4 border-white' style={{ backgroundImage: `url('/Field-dark.png')`, backgroundSize: 'cover', backgroundPosition: 'center' }}>
+                                                                    {formations.find(f => f.id === selectedFriend?.formation)?.data.map((row: any, rowIndex: number) => (
+                                                                        <div key={rowIndex} className='flex justify-around'>
+                                                                            {row.positions.map((position: any, posIndex: number) => (
+                                                                                <div key={posIndex} className='p-1 sm:px-3 sm:py-1 rounded-sm text-white font-semibold border-white' style={{ backgroundColor: getColor(row.type, row.positions[posIndex]), borderWidth: row.positions[posIndex] ? 2 : 0, boxShadow: position ? `-8px -8px 10px -4px ${getColor(row.type, row.positions[posIndex])},-8px 8px 10px -4px ${getColor(row.type, row.positions[posIndex])},8px -8px 10px -4px ${getColor(row.type, row.positions[posIndex])},8px 8px 10px -4px ${getColor(row.type, row.positions[posIndex])}` : '' }}>
+                                                                                    <p className='text-[10px] sm:text-[20px]'>{position}</p>
+                                                                                </div>
+                                                                            ))}
+                                                                        </div>
+                                                                    ))}
+                                                                </div>
+                                                                <p className='bg-slate-900 text-white font-semibold my-1 rounded-full'>{selectedFriend?.formation}</p>
+                                                                <p className='bg-slate-900 text-white font-semibold my-1 rounded-full'>Overall: {(selectedFriend?.teamOverall).toFixed(2)}</p>
+                                                            </div>
+                                                        </div>
+                                                        <div className='w-full bg-green-700 text-white font-semibold rounded-md py-1 flex flex-row items-center justify-center gap-2' onClick={() => handlePlaying(selectedFriend.User._id)}>
+                                                            <p>{waiting ? 'Wait' : 'Play Friendly Match'}</p>
+                                                        </div>
+
+                                                    </>}
+                                                </AlertDialogHeader>
+                                                <AlertDialogCancel className='absolute text-white right-2 top-0 bg-transparent border-0'>
+                                                    <Image src={'/icons/x.svg'} alt='coin' height={100} width={100} className='w-[25px] h-[25px] sm:w-[40px] sm:h-[40px]' />
+                                                </AlertDialogCancel>
+                                            </AlertDialogContent>
+                                        </AlertDialog>
                                     </div>
                                 ))
                             ) : (

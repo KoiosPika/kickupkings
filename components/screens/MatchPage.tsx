@@ -4,6 +4,7 @@ import { getMatchByID } from '@/lib/actions/match.actions';
 import Image from 'next/image';
 import { ScrollArea } from '../ui/scroll-area';
 import RollingNumber from '../shared/RollingNumber';
+import { IMatch } from '@/lib/database/models/match.model';
 
 type Attack = {
   minute: number;
@@ -88,7 +89,7 @@ const stepsMap: { [key: string]: string[] } = {
 };
 
 const MatchPage = ({ id }: { id: string }) => {
-  const [match, setMatch] = useState<Match | null>(null);
+  const [match, setMatch] = useState<IMatch | null>(null);
   const [displayedAttacks, setDisplayedAttacks] = useState<{ minute: number; player: string; outcome: string, stepIndex: number, finalOutcome: string }[]>([]);
   const [currentSteps, setCurrentSteps] = useState<string[]>([]);
   const [currentIndex, setCurrentIndex] = useState<number>(0);
@@ -171,12 +172,12 @@ const MatchPage = ({ id }: { id: string }) => {
         <a href='/' className=' py-2 px-3 rounded-md text-white font-bold'>
           <Image src={'/icons/back.svg'} alt='back' height={10} width={10} />
         </a>
-        <p className='font-bold text-white'>Rank Match</p>
+        <p className='font-bold text-white'>{match?.type} Match</p>
       </div>
       <div className='flex flex-row items-center justify-evenly mb-3 h-[140px]'>
         <div className='flex flex-col justify-center items-center gap-2 w-[80px]'>
           <Image src={'/icons/user.svg'} alt='user' height={50} width={50} className='bg-slate-500 p-1 h-[50px] w-[50px] rounded-md' />
-          <p className='text-white font-semibold text-[14px]'>KoiosPika</p>
+          <p className='text-white font-semibold text-[14px]'>{match?.Player.username}</p>
         </div>
         <div className='text-yellow-400 font-semibold h-[70px] flex flex-row items-center text-[50px]'>
           <RollingNumber number={playerScore} />
@@ -185,7 +186,7 @@ const MatchPage = ({ id }: { id: string }) => {
         </div>
         <div className='flex flex-col justify-center items-center gap-2 w-[80px] overflow-hidden'>
           <Image src={'/icons/user.svg'} alt='user' height={50} width={50} className='bg-slate-500 p-1 h-[50px] w-[50px] rounded-md' />
-          <p className='text-white font-semibold text-[14px] text-start'>KoiosPikaaa</p>
+          <p className='text-white font-semibold text-[14px] text-start'>{match?.Opponent.username}</p>
         </div>
       </div>
       <div className='w-full flex justify-center items-center'>
