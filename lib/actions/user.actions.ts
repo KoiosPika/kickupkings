@@ -199,6 +199,8 @@ export async function savePrize(id: string, prize: string) {
 
         user.diamonds -= 5;
 
+        user.teamOverall = calculateTeamOverall(user.positions);
+
         const newUser = await user.save();
 
         return JSON.parse(JSON.stringify(newUser));

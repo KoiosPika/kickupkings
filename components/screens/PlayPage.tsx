@@ -67,12 +67,43 @@ const PlayPage = () => {
 
   const formation = user && formations.find(f => f.id === user?.formation);
 
-  const filteredPositions = formation
-    ? user?.positions.filter((userPos: any) => formation.data.some((row: any) => row.positions.includes(userPos.position)))
-    : [];
+  const formationPositions = formation && formation.data.reduce((acc: any, row: any) => {
+    row.positions.forEach((pos: any) => {
+      if (pos) acc.push(pos);
+    });
+    return acc;
+  }, []);
 
-  const overallAverageLevel =
-    filteredPositions.reduce((sum: number, userPos: any) => sum + userPos.level, 0) / filteredPositions.length || 0;
+  const calculateOverallAverageLevel = (userPositions: any, formationId: any) => {
+    // Find the formation data
+    const formationData = formations.find(f => f.id === formationId);
+
+    if (!formationData) {
+      return 0; // Return 0 if formation data is not found
+    }
+
+    // Get all position symbols in the formation
+    const formationPositionSymbols = formationData.data.reduce((acc: any, row: any) => {
+      row.positions.forEach((pos: any) => {
+        if (pos) acc.push(pos);
+      });
+      return acc;
+    }, []);
+
+    // Filter user positions to include only those in the formation and calculate their levels
+    const relevantUserPositions = userPositions.filter((pos: any) => formationPositionSymbols.includes(pos.position));
+
+    if (relevantUserPositions.length === 0) {
+      return 0; // Avoid division by zero if there are no relevant positions
+    }
+
+    const totalLevel = relevantUserPositions.reduce((sum: any, pos: any) => sum + pos.level, 0);
+    const overallAverageLevel = totalLevel / relevantUserPositions.length;
+
+    return overallAverageLevel;
+  };
+
+  const overallAverageLevel = user &&  calculateOverallAverageLevel(user.positions, user.formation);
 
   const handlePlaying = async (opponentId: string) => {
 
@@ -314,21 +345,29 @@ const PlayPage = () => {
                   <div className='flex flex-row items-center'>
                     <p className='inline-flex py-1 px-2 text-white font-semibold rounded-md text-[16px] sm:text-[25px]'>Overall</p>
                     {/* <p className='ml-auto mr-2 text-green-500 font-bold'>Ready</p> */}
-                    <p className='ml-auto mr-2 text-green-500 font-bold text-[15px] sm:text-[22px]'>{overallAverageLevel.toFixed(2)}</p>
+                    <p className='ml-auto mr-2 text-green-500 font-bold text-[18px] sm:text-[22px]'>{overallAverageLevel.toFixed(2)}</p>
                   </div>
                 </div>
                 {positions
-                  .filter(position => filteredPositions.some((userPos: any) => userPos.position === position.symbol))
-                  .map((position: any) => (
-                    <div key={position.symbol} className='bg-slate-900 p-2 sm:p-4 rounded-lg'>
-                      <div className='flex flex-row items-center'>
-                        <p style={{ backgroundColor: position.color }} className='inline-flex py-1 px-2 text-white font-semibold rounded-md text-[13px] sm:text-[25px]'>{position.symbol}</p>
-                        <div className='ml-auto mr-2 text-yellow-500 font-bold flex flex-col'>
-                          <p className='text-[13px] sm:text-[22px]'>{position.level}</p>
+                  .filter(position => formationPositions.includes(position.symbol))
+                  .map((position) => {
+                    // Find user position level
+                    const userPosition = user.positions.find((p: any) => p.position === position.symbol);
+                    const level = userPosition ? userPosition.level : 0;
+
+                    return (
+                      <div key={position.symbol} className='bg-slate-900 p-2 sm:p-4 rounded-lg'>
+                        <div className='flex flex-row items-center'>
+                          <p style={{ backgroundColor: position.color }} className='inline-flex py-1 px-2 text-white font-semibold rounded-md text-[13px] sm:text-[25px]'>
+                            {position.symbol}
+                          </p>
+                          <div className='ml-auto mr-2 font-bold flex flex-col'>
+                            <p className='text-[20px] sm:text-[22px]' style={{ color: position.color }}>{level}</p>
+                          </div>
                         </div>
                       </div>
-                    </div>
-                  ))}
+                    );
+                  })}
               </div>
             </ScrollArea>
           </div>

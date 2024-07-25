@@ -72,15 +72,18 @@ const ShopPage = () => {
 
     const generateWeightedPrizes = () => {
         let prizes: any[] = [];
+
+        const filteredPositions = positions.filter(pos => pos.type !== 'Staff');
+
         for (let i = 0; i < 3; i++) {
             prizes = prizes.concat(
-                positions.map(pos => ({
+                filteredPositions.map(pos => ({
                     ...pos,
                     increment: Math.floor(Math.random() * 4) + 1
                 }))
             );
         }
-        for (let i = 0; i < 14; i++) {
+        for (let i = 0; i < 26; i++) {
             prizes.push({ type: 'coins', amount: Math.floor(Math.random() * (500 - 20 + 1)) + 20 });
         }
         return prizes;

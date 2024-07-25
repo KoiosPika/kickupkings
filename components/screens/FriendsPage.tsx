@@ -216,7 +216,7 @@ const FriendsPage = () => {
                         <div className='w-full flex flex-col items-center overflow-y-auto'>
                             {friendsList.length > 0 ? (
                                 friendsList.map(friend => (
-                                    <div key={friend._id} className='w-full max-w-md bg-slate-900 rounded-md p-3 mb-2 text-white flex items-center'>
+                                    <div key={friend._id} className='w-full max-w-md bg-gradient-to-b from-slate-900 to-slate-800 rounded-md p-3 mb-2 text-white flex items-center'>
                                         <Image src={'/icons/user.svg'} alt='friend' height={20} width={20} />
                                         <p className='text-[16px] font-medium ml-3'>{friend.username}</p>
                                         <AlertDialog>
@@ -290,7 +290,7 @@ const FriendsPage = () => {
                         <div className='w-full flex flex-col items-center overflow-y-auto'>
                             {friendRequests.length > 0 ? (
                                 friendRequests.map(request => (
-                                    <div key={request._id} className='w-full max-w-md bg-slate-900 rounded-md p-3 mb-2 text-white flex flex-row gap-3 items-center'>
+                                    <div key={request._id} className='w-full max-w-md bg-gradient-to-b from-slate-900 to-slate-800 rounded-md p-3 mb-2 text-white flex flex-row gap-3 items-center'>
                                         <Image src={'/icons/user.svg'} alt='user' height={20} width={20} />
                                         <p className='text-[16px] font-medium'>{request.Requester.username}</p>
                                         <div className='flex flex-row items-center gap-2 ml-auto'>
