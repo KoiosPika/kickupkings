@@ -250,7 +250,7 @@ function simulatePenalty(player: string) {
     return Math.random() < 0.5 ? `${player} Penalty Missed` : `${player} Penalty Scored`;
 }
 
-export async function playGame(player1ID: string, player2ID: string, type: string) {
+export async function playGame(player1ID: string, player2ID: string, type: string, coins: number, diamonds: number, points: number) {
     try {
         await connectToDatabase();
 
@@ -299,8 +299,6 @@ export async function playGame(player1ID: string, player2ID: string, type: strin
             }
         }
 
-        console.log('result 1:', results)
-
         results.push({ minute: 45, player: 'Match', outcome: 'Half-time' });
 
         for (let i = normalTimeAttacks / 2; i < normalTimeAttacks; i++) {
@@ -321,7 +319,6 @@ export async function playGame(player1ID: string, player2ID: string, type: strin
         }
 
         results.push({ minute: 90, player: 'Match', outcome: score1 === score2 ? 'Awaiting Extra Time' : 'Full-time' });
-        console.log('result 2:', results)
 
         if (score1 === score2) {
             // Extra time
@@ -345,9 +342,6 @@ export async function playGame(player1ID: string, player2ID: string, type: strin
             results.push({ minute: 120, player: 'Match', outcome: score1 === score2 ? 'Awaiting Penalties' : 'Full-time' });
         }
 
-
-        console.log('result 3:', results)
-
         let penalties = [];
         let playerPenalties = 0;
         let opponentPenalties = 0;
@@ -356,7 +350,6 @@ export async function playGame(player1ID: string, player2ID: string, type: strin
             // Initial 5 penalties for each team
             for (let i = 0; i < 5; i++) {
                 let penaltyOutcome = simulatePenalty('Player');
-                console.log("penalty outcome for:", penaltyOutcome)
                 results.push({ minute: 120, player: 'Player', outcome: penaltyOutcome });
                 penalties.push({ player: 'Player', outcome: penaltyOutcome });
                 if (penaltyOutcome === 'Player Penalty Scored') playerPenalties++;
@@ -376,7 +369,6 @@ export async function playGame(player1ID: string, player2ID: string, type: strin
             let round = 6;
             while (playerPenalties === opponentPenalties) {
                 let penaltyOutcome = simulatePenalty('Player');;
-                console.log("penalty outcome while:", penaltyOutcome)
                 results.push({ minute: 120, player: 'Player', outcome: penaltyOutcome });
                 penalties.push({ player: 'Player', outcome: penaltyOutcome });
                 if (penaltyOutcome === 'Player Penalty Scored') playerPenalties++;
@@ -402,12 +394,35 @@ export async function playGame(player1ID: string, player2ID: string, type: strin
         results.push({ minute: finalOutcomeMinute, player: 'Match', outcome: finalOutcome });
 
         if (type == 'Rank') {
+            const rankData = Ranks.find(rank => rank.rank === player1.Rank);
             if (finalOutcome === 'Player Wins!') {
-                await UserData.findOneAndUpdate({ User: player1ID }, { '$inc': { played: 1, won: 1, points: 50 } })
+                const updatedPlayer1 = await UserData.findOneAndUpdate({ User: player1ID }, { '$inc': { played: 1, won: 1, points, coins, diamonds } }, { new: true })
+
+                console.log(updatedPlayer1)
+
+                const newRank = Ranks.find(rank => updatedPlayer1.points <= rank.maxPoints) || Ranks[Ranks.length - 1];
+
+                console.log(newRank)
+
+                if (newRank.rank !== updatedPlayer1.Rank) {
+                    await UserData.findOneAndUpdate(
+                        { User: player1ID },
+                        { Rank: newRank.rank }
+                    );
+                }
+
                 await UserData.findOneAndUpdate({ User: player2ID }, { '$inc': { played: 1, lost: 1 } })
                 console.log('Updating Player')
             } else if (finalOutcome === 'Opponent Wins!') {
-                await UserData.findOneAndUpdate({ User: player1ID }, { '$inc': { played: 1, lost: 1, points: 50 } })
+                const updatedPlayer1 = await UserData.findOneAndUpdate({ User: player1ID }, { '$inc': { played: 1, lost: 1, points: (rankData?.basePoints || 0) * -1 } }, { new: true })
+                const newRank = Ranks.find(rank => updatedPlayer1.points <= rank.maxPoints) || Ranks[Ranks.length - 1];
+
+                if (newRank.rank !== updatedPlayer1.Rank) {
+                    await UserData.findOneAndUpdate(
+                        { User: player1ID },
+                        { Rank: newRank.rank }
+                    );
+                }
                 await UserData.findOneAndUpdate({ User: player2ID }, { '$inc': { played: 1, won: 1 } })
             }
         }
@@ -631,7 +646,7 @@ export async function findMatch(id: string) {
 
         if (!user) throw new Error('User not found');
 
-        const opponent = await populateUsers(UserData.findOne({ Rank: user.Rank }).skip(2)).lean();
+        const opponent = await populateUsers(UserData.findOne({ Rank: user.Rank }).skip(0)).lean();
 
         if (!opponent) throw new Error('Opponent not found');
 

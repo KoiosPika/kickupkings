@@ -17,14 +17,30 @@ const HomePage = () => {
         getUser();
     }, [])
 
-    function getMaxPointsForRank(rank: string) {
-        const rankObj = Ranks.find(r => r.rank === rank);
-        return rankObj ? rankObj.maxPoints : 0;
-    }
+    const getRankData = (rank: any) => Ranks.find(r => r.rank === rank);
+    const getPreviousRankData = (currentRank: any) => {
+        const index = Ranks.findIndex(r => r.rank === currentRank);
+        return index > 0 ? Ranks[index - 1] : null;
+    };
 
-    const maxPoints = getMaxPointsForRank(user?.Rank || '');
+    const calculateProgress = (userRank: string, userPoints: number) => {
+        const currentRankData = getRankData(userRank);
+        const previousRankData = getPreviousRankData(userRank);
 
-    const progress = maxPoints > 0 ? ((user?.points || 0) / maxPoints) * 100 : 0;
+        if (!currentRankData) return 0;
+
+        const previousMaxPoints = previousRankData ? previousRankData.maxPoints : 0;
+        const rangeInCurrentRank = currentRankData.maxPoints - previousMaxPoints;
+        const pointsInCurrentRank = userPoints - previousMaxPoints;
+
+        const progress = (pointsInCurrentRank / rangeInCurrentRank) * 100;
+
+        return progress;
+    };
+
+    // Usage in your component
+    const maxPoints = getRankData(user?.Rank || '')?.maxPoints || 0;
+    const progress = calculateProgress(user?.Rank || '', user?.points || 0);
 
     if (!user) {
         return (<Image src={'/icons/spinner.svg'} alt='spinner' height={30} width={30} className='animate-spin' />)
@@ -41,7 +57,7 @@ const HomePage = () => {
             <div className='w-full ml-auto mb-auto p-2 flex flex-row items-center gap-2'>
                 <div className='w-1/2 bg-slate-800 flex flex-col justify-center items-center rounded-lg h-[53px] sm:h-[75px] gap-[3px]'>
                     <div className='flex flex-row items-center gap-2'>
-                        <Image src={'/icons/Ballon Dor.png'} alt='dor' height={20} width={20}/>
+                        <Image src={'/icons/Ballon Dor.png'} alt='dor' height={20} width={20} />
                         {user && <p className='font-bold text-white text-[13px] sm:text-[22px]'>{user?.points} / {maxPoints}</p>}
                     </div>
                     {user && <div className='w-11/12 flex flex-row items-center mt-1'>

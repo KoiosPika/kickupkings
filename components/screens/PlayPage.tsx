@@ -112,9 +112,9 @@ const PlayPage = () => {
     }
 
     setWaiting(true);
-    const match = await playGame('6699bfa1ba8348c3228f89ab', opponentId, 'Rank')
+    const newMatch = await playGame('6699bfa1ba8348c3228f89ab', opponentId, 'Rank', match.prizes.coins, match.prizes.diamonds, match.prizes.points)
 
-    router.push(`/play/${match._id}`);
+    router.push(`/play/${newMatch._id}`);
   }
 
   const handleFindingMatch = async () => {

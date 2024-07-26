@@ -122,7 +122,7 @@ const FriendsPage = () => {
         }
 
         setWaiting(true);
-        const match = await playGame('6699bfa1ba8348c3228f89ab', opponentId, 'Friendly')
+        const match = await playGame('6699bfa1ba8348c3228f89ab', opponentId, 'Friendly', 0, 0, 0)
 
         router.push(`/play/${match._id}`);
     }
