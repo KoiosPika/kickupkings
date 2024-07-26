@@ -1,6 +1,6 @@
 'use client'
 
-import { getUserByUserID, playGame } from '@/lib/actions/user.actions'
+import { getFriendlyMatchInfo, getUserByUserID, playGame } from '@/lib/actions/user.actions'
 import { IUserData } from '@/lib/database/models/userData.model'
 import Image from 'next/image'
 import React, { useEffect, useState } from 'react'
@@ -28,7 +28,7 @@ const FriendsPage = () => {
     const [loadingRequests, setLoadingRequests] = useState<any>({});
     const [friendRequests, setFriendRequests] = useState<any[]>([]);
     const [friendsList, setFriendsList] = useState<IUser[]>([]);
-    const [selectedFriend, setSelectedFriend] = useState<IUserData>(); // State for selected friend data
+    const [match, setMatch] = useState<any>(); // State for selected friend data
     const [loadingUserData, setLoadingUserData] = useState(false); // State for loading data
     const [waiting, setWaiting] = useState(false)
     const router = useRouter();
@@ -130,8 +130,8 @@ const FriendsPage = () => {
 
     const handleOpenDialog = async (friendId: string) => {
         setLoadingUserData(true);
-        const friendData = await getUserByUserID(friendId);
-        setSelectedFriend(friendData);
+        const friendlyMatch = await getFriendlyMatchInfo('6699bfa1ba8348c3228f89ab', friendId);
+        setMatch(friendlyMatch);
         setLoadingUserData(false);
     };
 
@@ -221,22 +221,22 @@ const FriendsPage = () => {
                                         <p className='text-[16px] font-medium ml-3'>{friend.username}</p>
                                         <AlertDialog>
                                             <AlertDialogTrigger className='ml-auto'>
-                                                <div className='ml-auto mr-2 shadow-purple-500 border-b-[3px] border-purple-800 bg-purple-600 px-2 text-[14px] sm:text-[24px] py-[2px] rounded-lg shadow-md font-semibold' onClick={() => handleOpenDialog(friend._id)}>Play</div>
+                                                <div className='ml-auto mr-2 shadow-purple-500 border-b-[3px] border-purple-800 bg-purple-600 px-2 text-[14px] sm:text-[24px] py-[2px] rounded-lg shadow-md font-semibold' onClick={() => handleOpenDialog(friend._id)}>Play Friendly</div>
                                             </AlertDialogTrigger>
                                             <AlertDialogContent className='bg-slate-800 px-2 border-0 rounded-lg'>
                                                 <AlertDialogHeader>
                                                     <AlertDialogTitle className='text-white mt-6 mb-2'>Friendly Match</AlertDialogTitle>
                                                     {loadingUserData ? (
                                                         <Image src={'/icons/spinner.svg'} alt='spinner' height={30} width={30} className='animate-spin place-self-center' />
-                                                    ) : selectedFriend && <>
+                                                    ) : match && <>
                                                         <div className='flex flex-row items-center gap-3'>
                                                             <div className='w-1/2'>
                                                                 <div className='flex flex-row justify-center items gap-3 my-2'>
-                                                                    <Image src={'/PFP.jpg'} alt='user' height={50} width={50} className='bg-slate-500 p-1 h-[28px] w-[28px] sm:h-[48px] sm:w-[48px] rounded-lg' />
-                                                                    <p className='font-bold text-white'>{user?.User.username}</p>
+                                                                    <Image src={'/PFP.jpg'} alt='user' height={50} width={50} className='bg-slate-500 h-[28px] w-[28px] sm:h-[48px] sm:w-[48px] rounded-lg' />
+                                                                    <p className='font-bold text-white'>{match?.player.User.username}</p>
                                                                 </div>
                                                                 <div className='h-[250px] w-full flex flex-col justify-around rounded-md bg-slate-800 border-[1px] sm:border-4 border-white' style={{ backgroundImage: `url('/Field-dark.png')`, backgroundSize: 'cover', backgroundPosition: 'center' }}>
-                                                                    {formations.find(f => f.id === user?.formation)?.data.map((row: any, rowIndex: number) => (
+                                                                    {formations.find(f => f.id === match?.player.formation)?.data.map((row: any, rowIndex: number) => (
                                                                         <div key={rowIndex} className='flex justify-around'>
                                                                             {row.positions.map((position: any, posIndex: number) => (
                                                                                 <div key={posIndex} className='p-1 sm:px-3 sm:py-1 rounded-sm text-white font-semibold border-white' style={{ backgroundColor: getColor(row.type, row.positions[posIndex]), borderWidth: row.positions[posIndex] ? 2 : 0, boxShadow: position ? `-8px -8px 10px -4px ${getColor(row.type, row.positions[posIndex])},-8px 8px 10px -4px ${getColor(row.type, row.positions[posIndex])},8px -8px 10px -4px ${getColor(row.type, row.positions[posIndex])},8px 8px 10px -4px ${getColor(row.type, row.positions[posIndex])}` : '' }}>
@@ -246,16 +246,16 @@ const FriendsPage = () => {
                                                                         </div>
                                                                     ))}
                                                                 </div>
-                                                                <p className='bg-slate-900 text-white font-semibold my-1 rounded-full'>{user.formation}</p>
-                                                                <p className='bg-slate-900 text-white font-semibold my-1 rounded-full'>Overall: {(user.teamOverall).toFixed(2)}</p>
+                                                                <p className='bg-slate-900 text-white font-semibold my-1 rounded-full'>{match?.player.formation}</p>
+                                                                <p className='bg-slate-900 text-white font-semibold my-1 rounded-full'>Overall: {(match?.playerOverall).toFixed(2)}</p>
                                                             </div>
                                                             <div className='w-1/2'>
                                                                 <div className='flex flex-row justify-center items gap-3 my-2'>
-                                                                    <Image src={'/PFP.jpg'} alt='user' height={50} width={50} className='bg-slate-500 p-1 h-[28px] w-[28px] sm:h-[48px] sm:w-[48px] rounded-lg' />
-                                                                    <p className='font-bold text-white'>{selectedFriend?.User.username}</p>
+                                                                    <Image src={'/PFP.jpg'} alt='user' height={50} width={50} className='bg-slate-500 h-[28px] w-[28px] sm:h-[48px] sm:w-[48px] rounded-lg' />
+                                                                    <p className='font-bold text-white'>{match.opponent?.User.username}</p>
                                                                 </div>
                                                                 <div className='h-[250px] w-full flex flex-col justify-around rounded-md bg-slate-800 border-[1px] sm:border-4 border-white' style={{ backgroundImage: `url('/Field-dark.png')`, backgroundSize: 'cover', backgroundPosition: 'center' }}>
-                                                                    {formations.find(f => f.id === selectedFriend?.formation)?.data.map((row: any, rowIndex: number) => (
+                                                                    {formations.find(f => f.id === match.opponent?.formation)?.data.map((row: any, rowIndex: number) => (
                                                                         <div key={rowIndex} className='flex justify-around'>
                                                                             {row.positions.map((position: any, posIndex: number) => (
                                                                                 <div key={posIndex} className='p-1 sm:px-3 sm:py-1 rounded-sm text-white font-semibold border-white' style={{ backgroundColor: getColor(row.type, row.positions[posIndex]), borderWidth: row.positions[posIndex] ? 2 : 0, boxShadow: position ? `-8px -8px 10px -4px ${getColor(row.type, row.positions[posIndex])},-8px 8px 10px -4px ${getColor(row.type, row.positions[posIndex])},8px -8px 10px -4px ${getColor(row.type, row.positions[posIndex])},8px 8px 10px -4px ${getColor(row.type, row.positions[posIndex])}` : '' }}>
@@ -265,11 +265,11 @@ const FriendsPage = () => {
                                                                         </div>
                                                                     ))}
                                                                 </div>
-                                                                <p className='bg-slate-900 text-white font-semibold my-1 rounded-full'>{selectedFriend?.formation}</p>
-                                                                <p className='bg-slate-900 text-white font-semibold my-1 rounded-full'>Overall: {(selectedFriend?.teamOverall).toFixed(2)}</p>
+                                                                <p className='bg-slate-900 text-white font-semibold my-1 rounded-full'>{match.opponent.formation}</p>
+                                                                <p className='bg-slate-900 text-white font-semibold my-1 rounded-full'>Overall: {(match.opponentOverall).toFixed(2)}</p>
                                                             </div>
                                                         </div>
-                                                        <div className='w-full bg-green-700 text-white font-semibold rounded-md py-1 flex flex-row items-center justify-center gap-2' onClick={() => handlePlaying(selectedFriend.User._id)}>
+                                                        <div className='w-full bg-green-700 text-white font-semibold rounded-md py-1 flex flex-row items-center justify-center gap-2' onClick={() => handlePlaying(match.opponent.User._id)}>
                                                             <p>{waiting ? 'Wait' : 'Play Friendly Match'}</p>
                                                         </div>
 

@@ -136,7 +136,7 @@ const EarnPage = () => {
                 {isAnswered ? (
                   <div className='flex flex-row items-center relative w-[300px]'>
                     <Input
-                      className='font-bold text-center text-[18px] bg-green-500 text-white border-2 border-white h-[50px] rounded-full'
+                      className='font-bold text-center text-[18px] bg-green-600 text-white border-2 border-white h-[50px] rounded-full'
                       value={quiz.answer}
                       readOnly
                     />
@@ -158,7 +158,7 @@ const EarnPage = () => {
                     />
                   </div>
                 )}
-                <div className={`flex flex-row items-center justify-center gap-3 px-2 py-1 rounded-full ${isAnswered ? 'bg-green-500' : 'bg-white'}`}>
+                <div className={`flex flex-row items-center justify-center gap-3 px-2 py-1 rounded-full ${isAnswered ? 'bg-green-600' : 'bg-white'}`}>
                   <Image src={'/icons/coin.svg'} alt='coin' height={25} width={25} />
                   <p className='font-bold text-white'>{rankData ? (rankData.quizPrize).toLocaleString() : 0}</p>
                 </div>
@@ -199,7 +199,7 @@ const EarnPage = () => {
                 </div>
                 {prediction.finished && isCorrectPrediction && !isCollected ? (
                   <div
-                    className='flex flex-row items-center justify-center gap-3 bg-green-500 px-2 py-1 rounded-full cursor-pointer'
+                    className='flex flex-row items-center justify-center gap-3 bg-green-600 px-2 py-1 rounded-full cursor-pointer'
                     onClick={() => handleCollectCoins(prediction.id)}
                   >
                     <Image src={'/icons/coin.svg'} alt='coin' height={25} width={25} />

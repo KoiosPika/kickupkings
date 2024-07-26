@@ -133,6 +133,19 @@ const PlayPage = () => {
     setSearching(false);
   }
 
+  const handleSkipping = async () => {
+
+    setSearching(true);
+
+    setMatch(null)
+
+    const matchFound = await findMatch('6699bfa1ba8348c3228f89ab');
+
+    setMatch(matchFound);
+
+    setSearching(false);
+  }
+
   if (!user) {
     return (<Image src={'/icons/spinner.svg'} alt='spinner' height={30} width={30} className='animate-spin' />)
   }
@@ -231,8 +244,6 @@ const PlayPage = () => {
             <AlertDialogTrigger>
               <div className='bg-blue-500 px-3 py-2 font-semibold text-white rounded-xl shadow-blue-600 shadow-lg border-b-[4px] sm:border-b-[8px] border-blue-800 flex flex-row items-center justify-center gap-1'>
                 <p className='text-[16px] sm:text-[34px] ml-1'>Find Match</p>
-                <Image src={'/icons/coin.svg'} alt='coin' height={100} width={100} className='w-[20px] h-[20px] sm:w-[35px] sm:h-[35px]' />
-                <p className='font-semibold text-white text-[16px] sm:text-[25px]'>1</p>
               </div>
             </AlertDialogTrigger>
             <AlertDialogContent className='bg-slate-800 px-2 border-0 rounded-lg'>
@@ -297,20 +308,16 @@ const PlayPage = () => {
                   </div>
                   <div className='flex flex-row items-center gap-3 w-full'>
                     <div className='w-1/2 bg-green-700 text-white font-semibold rounded-md py-1 flex flex-row items-center justify-center gap-2' onClick={() => handlePlaying(match.opponent.User._id)}>
-                      <p>{waiting ? 'Wait' : 'Play'}</p>
-                      <Image src={'/icons/coin.svg'} alt='coin' height={100} width={100} className='w-[20px] h-[20px] sm:w-[35px] sm:h-[35px]' />
-                      <p className='font-semibold text-white text-[16px] sm:text-[25px]'>10</p>
+                      <p>{waiting ? 'Please Wait' : 'Play'}</p>
                     </div>
-                    <div className='w-1/2 bg-red-700 text-white font-semibold rounded-md py-1 flex flex-row items-center justify-center gap-2'>
+                    <div className='w-1/2 bg-red-700 text-white font-semibold rounded-md py-1 flex flex-row items-center justify-center gap-2' onClick={handleSkipping}>
                       <p>Skip</p>
-                      <Image src={'/icons/coin.svg'} alt='coin' height={100} width={100} className='w-[20px] h-[20px] sm:w-[35px] sm:h-[35px]' />
-                      <p className='font-semibold text-white text-[16px] sm:text-[25px]'>1</p>
                     </div>
                   </div>
                 </>}
                 {!match && <div className='py-2 px-3 bg-purple-700 w-3/4 place-self-center text-white font-bold flex flex-row items-center justify-center gap-3 text-[18px] rounded-lg' onClick={handleFindingMatch}>
                   <Image src={'/icons/search.svg'} alt='search' height={20} width={20} />
-                  <p>Search For Opponents</p>
+                  <p>{searching ? 'Searching...' : 'Search For Opponents'}</p>
                 </div>}
               </AlertDialogHeader>
               <AlertDialogCancel className='absolute text-white right-2 top-0 bg-transparent border-0'>
@@ -361,7 +368,7 @@ const PlayPage = () => {
                     return (
                       <div key={position.symbol} className='bg-slate-900 p-2 sm:p-4 rounded-lg'>
                         <div className='flex flex-row items-center'>
-                          <p style={{ backgroundColor: position.color }} className='inline-flex py-1 px-2 text-white font-semibold rounded-md text-[17px] sm:text-[25px]'>
+                          <p style={{ backgroundColor: position.color }} className='inline-flex py-1 px-2 text-white font-semibold rounded-md text-[15px] sm:text-[25px]'>
                             {position.symbol}
                           </p>
                           <div className='ml-auto mr-2 font-bold flex flex-col'>

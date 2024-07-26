@@ -646,7 +646,15 @@ export async function findMatch(id: string) {
 
         if (!user) throw new Error('User not found');
 
-        const opponent = await populateUsers(UserData.findOne({ Rank: user.Rank }).skip(0)).lean();
+        const count = await UserData.countDocuments({ Rank: user.Rank, User: { $ne: id } });
+
+        const randomIndex = Math.floor(Math.random() * count);
+
+        const opponent = await populateUsers(
+            UserData.findOne({ Rank: user.Rank, User: { $ne: id } })
+                .skip(randomIndex)
+                .lean()
+        );
 
         if (!opponent) throw new Error('Opponent not found');
 
@@ -664,6 +672,30 @@ export async function findMatch(id: string) {
         }
 
         return JSON.parse(JSON.stringify(matchDetails))
+    } catch (error) {
+        console.log(error)
+    }
+}
+
+export async function getFriendlyMatchInfo(playerId:string, opponentId:string){
+    try {
+        await connectToDatabase();
+        const user = await populateUsers(UserData.findOne({ User: playerId })).lean();
+
+        const opponent = await populateUsers(UserData.findOne({ User: opponentId })).lean();
+
+        const userOverall = calculateFormationOverall(user);
+        const opponentOverall = calculateFormationOverall(opponent);
+
+        const matchDetails = {
+            player: { ...user },
+            opponent: { ...opponent },
+            playerOverall: userOverall,
+            opponentOverall: opponentOverall,
+        }
+
+        return JSON.parse(JSON.stringify(matchDetails))
+
     } catch (error) {
         console.log(error)
     }
