@@ -5,6 +5,7 @@ import { ScrollArea } from '../ui/scroll-area'
 import { Predictions, Quizzes } from '@/constants/Earnings';
 import { IUserData } from '@/lib/database/models/userData.model';
 import { addOrUpdatePrediction, addOrUpdateQuiz, collectCoins, getUserByUserID } from '@/lib/actions/user.actions';
+import { Ranks } from '@/constants';
 
 const EarnPage = () => {
 
@@ -115,60 +116,51 @@ const EarnPage = () => {
       <ScrollArea style={{ height: 'calc(100vh - 130px)' }}>
         <div className='w-full flex flex-col justify-center items-center'>
           <p className='font-semibold text-white text-[20px] mt-2 bg-slate-800 px-2 py-1 rounded-md'>Daily Quizzes</p>
-          {Quizzes.map((quiz: any, index) => {
+          {Quizzes.map((quiz, index) => {
             const isAnswered = user && user.dailyQuizzes.some(q => q.quizId === quiz.id && q.answered);
-            if (isAnswered) {
-              return (
-                <div key={quiz.id} className='gap-2 flex flex-col justify-center items-center my-2'>
-                  {index === 0 && <div className='my-2 flex flex-row items-center gap-2'>
+            const rankData = Ranks.find(rank => rank.rank === user.Rank);
+            return (
+              <div key={quiz.id} className='gap-2 flex flex-col justify-center items-center my-2'>
+                {index === 0 && (
+                  <div className='my-2 flex flex-row items-center gap-2'>
                     <p className='font-semibold text-white'>Find the quiz on Telegram Channel</p>
                     <Image src={'/icons/telegram.svg'} alt='link' height={100} width={100} className='bg-white h-[30px] w-[30px] p-[2px] rounded-full' />
-                  </div>}
-                  {index === 1 && <div className='my-2 flex flex-row items-center gap-2 mt-6'>
+                  </div>
+                )}
+                {index === 1 && (
+                  <div className='my-2 flex flex-row items-center gap-2 mt-6'>
                     <p className='font-semibold text-white'>Find the quiz on X</p>
                     <Image src={'/icons/x-twitter.svg'} alt='twitter' height={100} width={100} className='bg-white h-[30px] w-[30px] p-[3px] rounded-md' />
-                  </div>}
+                  </div>
+                )}
+                {isAnswered ? (
                   <div className='flex flex-row items-center relative w-[300px]'>
                     <Input
                       className='font-bold text-center text-[18px] bg-green-500 text-white border-2 border-white h-[50px] rounded-full'
                       value={quiz.answer}
+                      readOnly
                     />
                   </div>
-                  <div className='flex flex-row items-center justify-center gap-3 bg-green-500 px-2 py-1 rounded-full'>
-                    <Image src={'/icons/coin.svg'} alt='coin' height={25} width={25} />
-                    <p className='font-bold text-white'>200</p>
+                ) : (
+                  <div className='flex flex-row items-center relative w-[300px]'>
+                    <Input
+                      className='font-bold text-center text-[18px] bg-slate-500 text-white border-2 border-white h-[50px] rounded-full'
+                      value={quizAnswers[quiz.id] || ''}
+                      onChange={(e) => handleQuizChange(quiz.id, e.target.value)}
+                    />
+                    <Image
+                      src={'/icons/send.svg'}
+                      alt='send'
+                      height={100}
+                      width={100}
+                      className='bg-white h-[30px] w-[30px] p-[3px] rounded-full rotate-45 absolute right-2 cursor-pointer'
+                      onClick={() => handleQuizSubmit(quiz.id)}
+                    />
                   </div>
-                </div>
-              )
-            }
-            return (
-              <div key={quiz.id} className='gap-2 flex flex-col justify-center items-center my-2'>
-                {index === 0 && <div className='my-2 flex flex-row items-center gap-2'>
-                  <p className='font-semibold text-white'>Find the quiz on Telegram Channel</p>
-                  <Image src={'/icons/telegram.svg'} alt='link' height={100} width={100} className='bg-white h-[30px] w-[30px] p-[2px] rounded-full' />
-                </div>}
-                {index === 1 && <div className='my-2 flex flex-row items-center gap-2 mt-6'>
-                  <p className='font-semibold text-white'>Find the quiz on X</p>
-                  <Image src={'/icons/x-twitter.svg'} alt='twitter' height={100} width={100} className='bg-white h-[30px] w-[30px] p-[3px] rounded-md' />
-                </div>}
-                <div className='flex flex-row items-center relative w-[300px]'>
-                  <Input
-                    className='font-bold text-center text-[18px] bg-slate-500 text-white border-2 border-white h-[50px] rounded-full'
-                    value={quizAnswers[quiz.id] || ''}
-                    onChange={(e) => handleQuizChange(quiz.id, e.target.value)}
-                  />
-                  <Image
-                    src={'/icons/send.svg'}
-                    alt='send'
-                    height={100}
-                    width={100}
-                    className='bg-white h-[30px] w-[30px] p-[3px] rounded-full rotate-45 absolute right-2'
-                    onClick={() => handleQuizSubmit(quiz.id)}
-                  />
-                </div>
-                <div className='flex flex-row items-center justify-center gap-3 bg-white px-2 py-1 rounded-full'>
+                )}
+                <div className={`flex flex-row items-center justify-center gap-3 px-2 py-1 rounded-full ${isAnswered ? 'bg-green-500' : 'bg-white'}`}>
                   <Image src={'/icons/coin.svg'} alt='coin' height={25} width={25} />
-                  <p className='font-bold'>200</p>
+                  <p className='font-bold text-white'>{rankData ? (rankData.quizPrize).toLocaleString() : 0}</p>
                 </div>
               </div>
             )
@@ -183,6 +175,7 @@ const EarnPage = () => {
               userPrediction.predictedTeam1Score === prediction.team1Score &&
               userPrediction.predictedTeam2Score === prediction.team2Score;
             const isCollected = userPrediction && userPrediction.collected;
+            const rankData = Ranks.find(rank => rank.rank === user.Rank);
             return (
               <div key={prediction.id} className='w-10/12 flex flex-col gap-2 items-center justify-around my-4 relative'>
                 <div className='w-full flex flex-row gap-2 items-center justify-around my-4 relative'>
@@ -210,12 +203,12 @@ const EarnPage = () => {
                     onClick={() => handleCollectCoins(prediction.id)}
                   >
                     <Image src={'/icons/coin.svg'} alt='coin' height={25} width={25} />
-                    <p className='font-bold'>1,200</p>
+                    <p className='font-bold'>{rankData ? (rankData.predictionPrize).toLocaleString() : 0}</p>
                   </div>
                 ) : (
                   <div className='flex flex-row items-center justify-center gap-3 bg-red-500 px-2 py-1 rounded-full'>
                     <Image src={'/icons/coin.svg'} alt='coin' height={25} width={25} />
-                    <p className='font-bold text-white'>1,200</p>
+                    <p className='font-bold text-white'>{rankData ? (rankData.predictionPrize).toLocaleString() : 0}</p>
                   </div>
                 )}
               </div>

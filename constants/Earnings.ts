@@ -12,12 +12,12 @@ export const Quizzes = [
 export const Predictions = [
     {
         id: '07-23-2024_Match_1',
-        lastTimeToPredict: new Date('2024-07-24T14:00:00Z'), // Some date type
+        lastTimeToPredict: new Date('2024-07-26T14:00:00Z'), // Some date type
         team1: 'Real Madrid',
         team2: 'Barcelona',
-        team1Score: 3,
-        team2Score: 0,
-        finished: true
+        team1Score: null,
+        team2Score: null,
+        finished: false
     },
     {
         id: '07-23-2024_Match_2',

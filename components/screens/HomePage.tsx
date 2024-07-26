@@ -44,7 +44,7 @@ const HomePage = () => {
                         <Image src={'/icons/Ballon Dor.png'} alt='dor' height={20} width={20}/>
                         {user && <p className='font-bold text-white text-[13px] sm:text-[22px]'>{user?.points} / {maxPoints}</p>}
                     </div>
-                    {user && <div className='w-11/12 flex flex-row items-center'>
+                    {user && <div className='w-11/12 flex flex-row items-center mt-1'>
                         <div style={{ width: `${progress}%` }} className='h-[5px] sm:h-[10px] rounded-l-lg bg-orange-600' />
                         <div style={{ width: `${100 - progress}%` }} className='h-[5px] sm:h-[10px] rounded-r-lg bg-orange-300' />
                     </div>}

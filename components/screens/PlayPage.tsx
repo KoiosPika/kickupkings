@@ -103,7 +103,7 @@ const PlayPage = () => {
     return overallAverageLevel;
   };
 
-  const overallAverageLevel = user &&  calculateOverallAverageLevel(user.positions, user.formation);
+  const overallAverageLevel = user && calculateOverallAverageLevel(user.positions, user.formation);
 
   const handlePlaying = async (opponentId: string) => {
 
@@ -141,9 +141,9 @@ const PlayPage = () => {
   return (
     <section className='w-full h-screen flex flex-col bg-gradient-to-b from-slate-800 to-gray-600'>
       <div className='w-full ml-auto mb-auto p-2 flex flex-row items-center gap-2'>
-      <Image src={'/PFP.jpg'} alt='user' height={50} width={50} className='bg-slate-500 h-[30px] w-[30px] rounded-lg' />
-                <p className='font-semibold text-white text-[13px]'>{user?.username} ({user?.Rank})</p>
-                <p className='font-semibold text-white text-[13px]'>{`->`}</p>
+        <Image src={'/PFP.jpg'} alt='user' height={50} width={50} className='bg-slate-500 h-[30px] w-[30px] rounded-lg' />
+        <p className='font-semibold text-white text-[13px]'>{user?.username} ({user?.Rank})</p>
+        <p className='font-semibold text-white text-[13px]'>{`->`}</p>
         <div className='flex flex-row items-center gap-2 bg-slate-800 px-2 py-[2px] sm:py-[5px] rounded-md ml-auto mr-2'>
           <Image src={'/icons/coin.svg'} alt='coin' height={100} width={100} className='w-[20px] h-[20px] sm:w-[35px] sm:h-[35px]' />
           <p className='font-semibold text-white text-[16px] sm:text-[25px]'>{user && user?.coins}</p>
@@ -184,10 +184,10 @@ const PlayPage = () => {
           </div>
           <div className='w-1/5 flex flex-col h-[60px] sm:h-[80px] gap-[3px]'>
             <div className='w-full bg-slate-900 text-white text-center font-semibold rounded-tr-lg h-1/2 flex justify-center items-center'>
-              <p className='text-[16px] sm:text-[20px]'>Lost</p>
+              <p className='text-[16px] sm:text-[20px]'>Rate</p>
             </div>
-            <div className='w-full bg-slate-900 text-white text-center font-semibold rounded-br-lg h-1/2 flex justify-center items-center'>
-              <p className='text-[16px] sm:text-[20px]'>{user && user?.lost}</p>
+            <div className='w-full bg-slate-900 text-green-500 text-center font-semibold rounded-br-lg h-1/2 flex justify-center items-center'>
+              <p className='text-[16px] sm:text-[20px]'>%{user && ((user?.won / user?.played) * 100).toFixed(1)}</p>
             </div>
           </div>
         </div>

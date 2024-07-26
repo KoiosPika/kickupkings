@@ -267,10 +267,10 @@ const ShopPage = () => {
                                     )}
                                 </div>
                             ) : (
-                                <div className='h-[180px] w-[180px] bg-slate-700 rounded-full flex flex-col gap-2 justify-center items-center absolute' onClick={handleSpinClick}>
+                                <div className='h-[190px] w-[190px] bg-slate-700 rounded-full flex flex-col gap-2 justify-center items-center absolute' onClick={handleSpinClick}>
                                     <p className='rounded-full text-white mr-2 text-[24px] font-semibold'>Click to Spin</p>
-                                    <div className='flex flex-row justify-center items-center gap-2 bg-slate-800 px-2 py-1 rounded-full'>
-                                        <p className='font-bold' style={{ color: user && user.diamonds >= 5 ? 'white' : 'red' }}>5</p>
+                                    <div className='flex flex-row justify-center items-center gap-2 px-2 py-1 rounded-full'>
+                                        <p className='font-bold text-[20px]' style={{ color: user && user.diamonds >= 5 ? 'white' : 'red' }}>5</p>
                                         <Image src={'/icons/diamond.svg'} alt='coin' height={100} width={100} className='w-[25px] h-[25px] sm:w-[40px] sm:h-[40px]' />
                                     </div>
                                 </div>

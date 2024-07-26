@@ -73,7 +73,7 @@ export async function getUserForPlayPage(id: string) {
             won: user.won,
             lost: user.lost,
             Rank: user.Rank,
-            username : user.User.username,
+            username: user.User.username,
             positions: user.positions,
             teamOverall: user.teamOverall,
             form,
@@ -108,6 +108,8 @@ export async function upgradePosition(id: string, position: string) {
 
         const user = await UserData.findOne({ User: id });
 
+        console.log(user);
+
         if (!user) {
             throw new Error('User not found');
         }
@@ -126,8 +128,12 @@ export async function upgradePosition(id: string, position: string) {
 
         const initialPrice = positionData.initialPrice;
 
+        console.log(initialPrice)
 
-        const price = Math.round(initialPrice * (1.5 ** userPosition.level));
+
+        const price = Math.round(initialPrice * (1.3 ** userPosition.level));
+
+        console.log(price)
 
 
         if (user.coins < price) {
@@ -632,7 +638,7 @@ export async function findMatch(id: string) {
         const userOverall = calculateFormationOverall(user);
         const opponentOverall = calculateFormationOverall(opponent);
 
-        const prizes = calculatePrizes(userOverall, opponentOverall);
+        const prizes = calculatePrizes(userOverall, opponentOverall, user.Rank);
 
         const matchDetails = {
             player: { ...user },
@@ -660,7 +666,7 @@ export async function addChatID() {
 
 function calculateFormationOverall(userData: IUserData) {
     const userFormation = formations.find(f => f.id === userData.formation);
-    
+
     if (!userFormation) {
         throw new Error('User formation not found');
     }
@@ -682,32 +688,28 @@ function calculateFormationOverall(userData: IUserData) {
     return averageLevel;
 }
 
-function calculatePrizes(userOverall: number, opponentOverall: number) {
-    const baseCoins = 25;
-    const basePoints = 25;
-    const baseDiamonds = 0;
+function calculatePrizes(userOverall: number, opponentOverall: number, userRank: string) {
+    const rankData = Ranks.find(rank => rank.rank === userRank);
 
-    let coins = baseCoins;
-    let points = basePoints;
-    let diamonds = baseDiamonds;
+    if (!rankData) {
+        throw new Error('Rank data not found');
+    }
+
+    let coins = rankData.baseCoins;
+    let points = rankData.basePoints;
+    let diamonds = 0;
 
     const difference = opponentOverall - userOverall;
 
     if (difference >= 2) {
-        // Opponent's overall is significantly higher
-        coins = baseCoins * 2;
-        points = basePoints * 2;
+
+        coins *= 2;
+        points *= 2;
         diamonds = 3;
     } else if (difference <= -2) {
-        // Opponent's overall is significantly lower
-        coins = baseCoins / 2;
-        points = basePoints / 2;
-        diamonds = 0;
-    } else {
-        // The difference is within -2 to 2
-        coins = baseCoins;
-        points = basePoints;
-        diamonds = baseDiamonds;
+
+        coins = Math.floor(coins / 2);
+        points = Math.floor(points / 2);
     }
 
     return { coins, points, diamonds };

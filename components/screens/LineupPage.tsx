@@ -103,7 +103,7 @@ const LineupPage = () => {
   }
 
   return (
-    <section className='w-full h-screen bg-gradient-to-b from-slate-900 to-gray-600'>
+    <section className='w-full h-screen bg-gradient-to-b from-slate-900 to-slate-700'>
       <div className='w-full ml-auto mb-auto p-2 flex flex-row items-center gap-2'>
       <Image src={'/PFP.jpg'} alt='user' height={50} width={50} className='bg-slate-500 h-[30px] w-[30px] rounded-lg' />
                 <p className='font-semibold text-white text-[13px]'>{user?.User.username} ({user?.Rank})</p>
