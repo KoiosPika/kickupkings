@@ -221,7 +221,6 @@ export const Flags = [
     { name: `Holy See`, src: 'va' },
     { name: `Saint Vincent and the Grenadines`, src: 'vc' },
     { name: `Venezuela`, src: 've' },
-    { name: `Virgin Islands`, src: 'vg' },
     { name: `British Virgin Islands`, src: 'vg' },
     { name: `US Virgin Islands`, src: 'vi' },
     { name: `Vietnam`, src: 'vn' },
@@ -232,4 +231,4 @@ export const Flags = [
     { name: `South Africa`, src: 'za' },
     { name: `Zambia`, src: 'zm' },
     { name: `Zimbabwe`, src: 'zw' },
-]
+].sort((a, b) => a.name.localeCompare(b.name));

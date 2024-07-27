@@ -9,6 +9,7 @@ import { calculateGoalkeeperChance, simulateAttack } from "../utils";
 import Match, { IMatch } from "../database/models/match.model";
 import { Predictions, Quizzes } from "@/constants/Earnings";
 import { populateMatch } from "./match.actions";
+import { Flags } from "@/constants/Flags";
 
 const populateUsers = (query: any) => {
     return query
@@ -69,6 +70,8 @@ export async function getUserForPlayPage(id: string) {
         const returnObject = {
             formation: user.formation,
             coins: user.coins,
+            diamonds: user.diamonds,
+            points: user.points,
             played: user.played,
             won: user.won,
             lost: user.lost,
@@ -76,6 +79,7 @@ export async function getUserForPlayPage(id: string) {
             username: user.User.username,
             positions: user.positions,
             teamOverall: user.teamOverall,
+            country: user.country,
             form,
             matches: recentMatches
         }
@@ -148,7 +152,9 @@ export async function upgradePosition(id: string, position: string) {
 
         await user.save();
 
-        return JSON.parse(JSON.stringify(user));
+        const newUser = await getUserForPlayPage(user.User)
+
+        return JSON.parse(JSON.stringify(newUser));
 
     } catch (error) {
         console.log(error)
@@ -208,7 +214,9 @@ export async function savePrize(id: string, prize: string) {
 
         user.teamOverall = calculateTeamOverall(user.positions);
 
-        const newUser = await user.save();
+        await user.save();
+
+        const newUser = await getUserForPlayPage(user.User)
 
         return JSON.parse(JSON.stringify(newUser));
     } catch (error) {
@@ -677,7 +685,7 @@ export async function findMatch(id: string) {
     }
 }
 
-export async function getFriendlyMatchInfo(playerId:string, opponentId:string){
+export async function getFriendlyMatchInfo(playerId: string, opponentId: string) {
     try {
         await connectToDatabase();
         const user = await populateUsers(UserData.findOne({ User: playerId })).lean();
@@ -760,4 +768,16 @@ function calculatePrizes(userOverall: number, opponentOverall: number, userRank:
     }
 
     return { coins, points, diamonds };
+}
+
+export async function changeCountry(userId: string, country: string) {
+    try {
+        await connectToDatabase();
+
+        await UserData.findOneAndUpdate({ User: userId }, { '$set': { country } })
+
+        return;
+    } catch (error) {
+        console.log(error)
+    }
 }

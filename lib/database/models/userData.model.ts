@@ -10,6 +10,7 @@ export interface IUserData extends Document {
     diamonds: number,
     points: number,
     Rank: string,
+    country: string,
     played: number,
     won: number,
     lost: number,
@@ -65,6 +66,7 @@ const UserDataSchema = new Schema({
     won: { type: Number, default: 0 },
     lost: { type: Number, default: 0 },
     Rank: { type: String, default: 'Youth Coach' },
+    country: { type: String, default: 'unknown' },
     teamOverall: { type: Number, default: 0 },
     positions: {
         type: [PositionSchema], default: () => positions.map(position => ({

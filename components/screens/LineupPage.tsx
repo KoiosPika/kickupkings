@@ -105,9 +105,9 @@ const LineupPage = () => {
   return (
     <section className='w-full h-screen bg-gradient-to-b from-slate-900 to-slate-700'>
       <div className='w-full ml-auto mb-auto p-2 flex flex-row items-center gap-2'>
-      <Image src={'/PFP.jpg'} alt='user' height={50} width={50} className='bg-slate-500 h-[30px] w-[30px] rounded-lg' />
-                <p className='font-semibold text-white text-[13px]'>{user?.User.username} ({user?.Rank})</p>
-                <p className='font-semibold text-white text-[13px]'>{`->`}</p>
+        <Image src={'/PFP.jpg'} alt='user' height={50} width={50} className='bg-slate-500 h-[30px] w-[30px] rounded-lg' />
+        <p className='font-semibold text-white text-[13px]'>{user?.User.username} ({user?.Rank})</p>
+        <p className='font-semibold text-white text-[13px]'>{`->`}</p>
       </div>
       <div style={{ height: height - 210 }} className='relative'>
         <div className='h-full w-full absolute flex flex-col justify-around'>
@@ -121,8 +121,8 @@ const LineupPage = () => {
               </div>
               {row.positions.map((position, posIndex) => (
                 <div key={posIndex} className='px-2 py-[5px] rounded-lg text-white font-semibold border-white w-[50px] sm:w-[70px] sm:py-[10px]' style={{ backgroundColor: getColor(row.type, row.positions[posIndex]), borderWidth: row.positions[posIndex] ? 2 : 0, boxShadow: position ? `-8px -8px 10px -4px ${getColor(row.type, row.positions[posIndex])},-8px 8px 10px -4px ${getColor(row.type, row.positions[posIndex])},8px -8px 10px -4px ${getColor(row.type, row.positions[posIndex])},8px 8px 10px -4px ${getColor(row.type, row.positions[posIndex])}` : '' }}>
-                  {row.positions[posIndex] && <p className='text-[11px] sm:text-[18px] text-center'>{position}</p>}
-                  {position && <p className='text-center text-[13px] sm:text-[23px]'>{getUserData(position)}</p>}
+                  {row.positions[posIndex] && <p className='text-[13px] sm:text-[18px] text-center'>{position}</p>}
+                  {position && <p className='text-center text-[14px] sm:text-[23px]'>{getUserData(position)}</p>}
                 </div>
               ))}
             </div>

@@ -15,6 +15,7 @@ import {
 } from "@/components/ui/alert-dialog"
 import { useRouter } from 'next/navigation'
 import { IMatch } from '@/lib/database/models/match.model'
+import UserDialog from '../shared/UserDialog'
 
 
 const colors = [
@@ -153,10 +154,8 @@ const PlayPage = () => {
 
   return (
     <section className='w-full h-screen flex flex-col bg-gradient-to-b from-slate-800 to-gray-600'>
-      <div className='w-full ml-auto mb-auto p-2 flex flex-row items-center gap-2'>
-        <Image src={'/PFP.jpg'} alt='user' height={50} width={50} className='bg-slate-500 h-[30px] w-[30px] rounded-lg' />
-        <p className='font-semibold text-white text-[13px]'>{user?.username} ({user?.Rank})</p>
-        <p className='font-semibold text-white text-[13px]'>{`->`}</p>
+      <div className='flex flex-row justify-between'>
+        <UserDialog user={user} />
         <div className='flex flex-row items-center gap-2 bg-slate-800 px-2 py-[2px] sm:py-[5px] rounded-md ml-auto mr-2'>
           <Image src={'/icons/coin.svg'} alt='coin' height={100} width={100} className='w-[20px] h-[20px] sm:w-[35px] sm:h-[35px]' />
           <p className='font-semibold text-white text-[16px] sm:text-[25px]'>{user && user?.coins}</p>
@@ -255,6 +254,7 @@ const PlayPage = () => {
                       <div className='flex flex-row justify-center items gap-3 my-2'>
                         <Image src={'/icons/user.svg'} alt='user' height={50} width={50} className='bg-slate-500 p-1 h-[28px] w-[28px] sm:h-[48px] sm:w-[48px] rounded-lg' />
                         <p className='font-bold text-white'>{match.player.User.username}</p>
+                        <Image src={`/flags/${match?.player.country}.svg`} alt='flag' height={20} width={20} className='rounded-full h-[25px] w-[25px] bg-white' />
                       </div>
                       <div className='h-[250px] w-full flex flex-col justify-around rounded-md bg-slate-800 border-[1px] sm:border-4 border-white' style={{ backgroundImage: `url('/Field-dark.png')`, backgroundSize: 'cover', backgroundPosition: 'center' }}>
                         {formations.find(f => f.id === match.player?.formation)?.data.map((row: any, rowIndex: number) => (
@@ -274,6 +274,7 @@ const PlayPage = () => {
                       <div className='flex flex-row justify-center items gap-3 my-2'>
                         <Image src={'/icons/user.svg'} alt='user' height={50} width={50} className='bg-slate-500 p-1 h-[28px] w-[28px] sm:h-[48px] sm:w-[48px] rounded-lg' />
                         <p className='font-bold text-white'>{match.opponent.User.username}</p>
+                        <Image src={`/flags/${match?.opponent.country}.svg`} alt='flag' height={20} width={20} className='rounded-full h-[25px] w-[25px] bg-white' />
                       </div>
                       <div className='h-[250px] w-full flex flex-col justify-around rounded-md bg-slate-800 border-[1px] sm:border-4 border-white' style={{ backgroundImage: `url('/Field-dark.png')`, backgroundSize: 'cover', backgroundPosition: 'center' }}>
                         {formations.find(f => f.id === match.opponent?.formation)?.data.map((row: any, rowIndex: number) => (

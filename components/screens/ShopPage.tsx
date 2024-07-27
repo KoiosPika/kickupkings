@@ -12,16 +12,15 @@ import {
     DrawerTitle,
     DrawerTrigger,
 } from "@/components/ui/drawer"
-import { IUserData } from '@/lib/database/models/userData.model';
-import { getUserByUserID, savePrize, upgradePosition } from '@/lib/actions/user.actions';
-import { useRouter } from 'next/navigation';
+import { getUserForPlayPage, savePrize, upgradePosition } from '@/lib/actions/user.actions';
 import { Prices } from '@/constants/Earnings';
+import UserDialog from '../shared/UserDialog';
 
 const ShopPage = () => {
 
     const [selectedType, setSelectedType] = useState('Defense')
     const [height, setHeight] = useState<number>(window.innerHeight)
-    const [user, setUser] = useState<IUserData>()
+    const [user, setUser] = useState<any>()
     const [upgrading, setUpgrading] = useState<boolean>(false)
     const drawerRefs = useRef<{ [key: string]: HTMLDivElement | null }>({});
     const [isSpinning, setIsSpinning] = useState(false);
@@ -44,7 +43,7 @@ const ShopPage = () => {
 
     useEffect(() => {
         const getUser = async () => {
-            const userData = await getUserByUserID('6699bfa1ba8348c3228f89ab')
+            const userData = await getUserForPlayPage('6699bfa1ba8348c3228f89ab')
             setUser(userData)
         }
 
@@ -134,29 +133,6 @@ const ShopPage = () => {
             setFinalPrize(null)
     }
 
-    const handlePurchaseClick = async () => {
-        // Call your backend to create a payment request
-        const response = await fetch('/api/create-payment', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-                userId: '6699bfa1ba8348c3228f89ab',
-                amount: 100,
-            }),
-        });
-
-        const data = await response.json();
-
-        if (data.ok) {
-            // Redirect to the Telegram payment URL
-            window.location.href = data.paymentUrl;
-        } else {
-            console.error('Error creating payment:', data.error);
-        }
-    };
-
     const handlePurchase = async (price: any) => {
         try {
             const response = await fetch('/api/create-invoice', {
@@ -178,11 +154,7 @@ const ShopPage = () => {
 
     return (
         <section className='w-full h-screen bg-gradient-to-b from-slate-900 to-gray-700'>
-            <div className='w-full ml-auto mb-auto p-2 flex flex-row items-center gap-2'>
-            <Image src={'/PFP.jpg'} alt='user' height={50} width={50} className='bg-slate-500 h-[30px] w-[30px] rounded-lg' />
-                <p className='font-semibold text-white text-[13px]'>{user?.User.username} ({user?.Rank})</p>
-                <p className='font-semibold text-white text-[13px]'>{`->`}</p>
-            </div>
+            <UserDialog user={user} />
             <div className='w-full ml-auto mb-auto p-2 flex flex-row items-center gap-2'>
                 <div className='w-1/3 bg-slate-800 flex flex-row justify-around items-center rounded-lg h-[53px] sm:h-[75px]'>
                     <div className='flex flex-row items-center gap-2'>
