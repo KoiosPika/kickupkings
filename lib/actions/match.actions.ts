@@ -3,6 +3,7 @@
 import { connectToDatabase } from "../database"
 import Match from "../database/models/match.model";
 import User from "../database/models/user.model";
+import UserData from "../database/models/userData.model";
 
 export const populateMatch = (query: any) => {
     return query
@@ -16,7 +17,20 @@ export async function getMatchByID(id: string) {
 
         const match = await populateMatch(Match.findById(id))
 
-        return JSON.parse(JSON.stringify(match))
+        const player = await UserData.findOne({ User: match.Player._id })
+        const opponent = await UserData.findOne({ User: match.Opponent._id })
+
+        console.log('################################################################################')
+
+        if (!player || !opponent) {
+            throw new Error('Player or opponent not found');
+        }
+
+        let returnedMatch = { ...match._doc, playerCountry: player.country, opponentCountry: opponent.country }
+
+        console.log(returnedMatch)
+
+        return JSON.parse(JSON.stringify(returnedMatch))
     } catch (error) {
         console.log(error)
     }

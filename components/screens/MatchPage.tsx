@@ -89,7 +89,7 @@ const stepsMap: { [key: string]: string[] } = {
 };
 
 const MatchPage = ({ id }: { id: string }) => {
-  const [match, setMatch] = useState<IMatch | null>(null);
+  const [match, setMatch] = useState<any | null>(null);
   const [displayedAttacks, setDisplayedAttacks] = useState<{ minute: number; player: string; outcome: string, stepIndex: number, finalOutcome: string }[]>([]);
   const [currentSteps, setCurrentSteps] = useState<string[]>([]);
   const [currentIndex, setCurrentIndex] = useState<number>(0);
@@ -117,7 +117,7 @@ const MatchPage = ({ id }: { id: string }) => {
 
   useEffect(() => {
     // Check if the game has reached extra time
-    if (displayedAttacks.length > 28) {
+    if (displayedAttacks.length > 30) {
       setIsExtraTime(true);
       setCurrentTotalAttacks(35);
     }
@@ -161,10 +161,14 @@ const MatchPage = ({ id }: { id: string }) => {
       } else {
         clearInterval(interval);
       }
-    }, 2000);
+    }, 200);
 
     return () => clearInterval(interval);
   }, [match, currentSteps, stepIndex, currentIndex]);
+
+  if (!match) {
+    return <p>Wait</p>
+  }
 
   return (
     <section className='w-full h-screen flex flex-col bg-gradient-to-b from-slate-900 to-gray-600'>
@@ -175,18 +179,24 @@ const MatchPage = ({ id }: { id: string }) => {
         <p className='font-bold text-white'>{match?.type} Match</p>
       </div>
       <div className='flex flex-row items-center justify-evenly mb-3 h-[140px]'>
-        <div className='flex flex-col justify-center items-center gap-2 w-[80px]'>
-          <Image src={'/icons/user.svg'} alt='user' height={50} width={50} className='bg-slate-500 p-1 h-[50px] w-[50px] rounded-md' />
-          <p className='text-white font-semibold text-[14px]'>{match?.Player.username}</p>
+        <div className='flex flex-col justify-center items-center gap-2 w-[90px] overflow-hidden'>
+          <Image src={'/PFP.jpg'} alt='user' height={50} width={50} className='bg-slate-500 h-[50px] w-[50px] rounded-md' />
+          <div className='flex flex-row items-center gap-1'>
+            <p className='text-white font-semibold text-[14px]'>{match?.Player.username}</p>
+            <Image src={`/flags/${match.playerCountry}.svg`} alt='flag' height={20} width={20} className='bg-white h-[18px] w-[18px] rounded-full' />
+          </div>
         </div>
         <div className='text-yellow-400 font-semibold h-[70px] flex flex-row items-center text-[50px]'>
           <RollingNumber number={playerScore} />
           <div className='h-[6px] bg-gradient-to-t from-yellow-400 to-yellow-500 w-[20px] rounded-md' />
           <RollingNumber number={opponentScore} />
         </div>
-        <div className='flex flex-col justify-center items-center gap-2 w-[80px] overflow-hidden'>
-          <Image src={'/icons/user.svg'} alt='user' height={50} width={50} className='bg-slate-500 p-1 h-[50px] w-[50px] rounded-md' />
+        <div className='flex flex-col justify-center items-center gap-2 w-[90px] overflow-hidden'>
+          <Image src={'/PFP.jpg'} alt='user' height={50} width={50} className='bg-slate-500 h-[50px] w-[50px] rounded-md' />
+          <div className='flex flex-row items-center gap-1'>
           <p className='text-white font-semibold text-[14px] text-start'>{match?.Opponent.username}</p>
+            <Image src={`/flags/${match.opponentCountry}.svg`} alt='flag' height={20} width={20} className='bg-white h-[18px] w-[18px] rounded-full' />
+          </div>
         </div>
       </div>
       <div className='w-full flex justify-center items-center'>

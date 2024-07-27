@@ -13,7 +13,7 @@ import { Flags } from "@/constants/Flags";
 
 const populateUsers = (query: any) => {
     return query
-        .populate({ path: 'User', model: User, select: "_id username" })
+        .populate({ path: 'User', model: User, select: "_id username bio" })
 }
 
 export async function createUser(id: string, username: string) {
@@ -77,6 +77,7 @@ export async function getUserForPlayPage(id: string) {
             lost: user.lost,
             Rank: user.Rank,
             username: user.User.username,
+            bio: user.User.bio,
             positions: user.positions,
             teamOverall: user.teamOverall,
             country: user.country,
@@ -433,8 +434,18 @@ export async function playGame(player1ID: string, player2ID: string, type: strin
                 }
                 await UserData.findOneAndUpdate({ User: player2ID }, { '$inc': { played: 1, won: 1 } })
             }
-        }
+        } else if (type === 'Classic') {
+            if (finalOutcome === 'Player Wins!') {
+                await UserData.findOneAndUpdate({ User: player1ID }, { '$inc': { played: 1, won: 1, coins } })
 
+                await UserData.findOneAndUpdate({ User: player2ID }, { '$inc': { played: 1, lost: 1 } })
+
+            } else if (finalOutcome === 'Opponent Wins!') {
+                await UserData.findOneAndUpdate({ User: player1ID }, { '$inc': { played: 1, lost: 1, coins: coins / 3 } })
+
+                await UserData.findOneAndUpdate({ User: player2ID }, { '$inc': { played: 1, won: 1 } })
+            }
+        }
 
         const match = new Match({
             Player: player1ID,
@@ -779,5 +790,30 @@ export async function changeCountry(userId: string, country: string) {
         return;
     } catch (error) {
         console.log(error)
+    }
+}
+
+export async function editProfile(userId: string, username: string, bio: string) {
+    try {
+        await connectToDatabase();
+
+        const existingUser = await User.findOne({ username });
+
+        if (existingUser && existingUser._id.toString() !== userId) {
+            throw new Error('Username is already taken.');
+        }
+
+        const updatedUser = await User.findByIdAndUpdate(
+            userId,
+            { '$set': { username, bio } },
+            { new: true, runValidators: true }
+        );
+
+    } catch (error) {
+        if ((error as Error).message === 'Username is already taken.') {
+            return 'Username is already taken.';
+        }
+
+        console.log(error);
     }
 }

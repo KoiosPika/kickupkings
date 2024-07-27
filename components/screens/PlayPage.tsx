@@ -33,6 +33,7 @@ const PlayPage = () => {
   const [waiting, setWaiting] = useState(false)
   const [searching, setSearching] = useState(false)
   const [match, setMatch] = useState<any>()
+  const [activeTab, setActiveTab] = useState('Classic');
 
   useEffect(() => {
     const updateHeights = () => {
@@ -113,7 +114,12 @@ const PlayPage = () => {
     }
 
     setWaiting(true);
-    const newMatch = await playGame('6699bfa1ba8348c3228f89ab', opponentId, 'Rank', match.prizes.coins, match.prizes.diamonds, match.prizes.points)
+    let matchType = activeTab
+    let coins = activeTab === 'Classic' ? match.prizes.coins * 3 : match.prizes.coins;
+    let diamonds = activeTab === 'Classic' ? 0 : match.prizes.diamonds;
+    let points = activeTab === 'Classic' ? 0 : match.prizes.points;
+
+    const newMatch = await playGame('6699bfa1ba8348c3228f89ab', opponentId, matchType, coins, diamonds, points)
 
     router.push(`/play/${newMatch._id}`);
   }
@@ -229,6 +235,7 @@ const PlayPage = () => {
                 </div>
                 {match.type === 'Rank' && <p className='bg-orange-600 px-2 text-[14px] sm:text-[24px] py-[2px] rounded-lg ml-auto shadow-md shadow-orange-500 border-b-[3px] sm:border-b-[6px] border-orange-800'>Rank</p>}
                 {match.type === 'Friendly' && <p className='bg-purple-700 px-2 text-[14px] sm:text-[24px] py-[2px] rounded-lg ml-auto shadow-md shadow-purple-500 border-b-[3px] sm:border-b-[6px] border-purple-800'>Friendly</p>}
+                {match.type === 'Classic' && <p className='bg-blue-700 px-2 text-[14px] sm:text-[24px] py-[2px] rounded-lg ml-auto shadow-md shadow-blue-500 border-b-[3px] sm:border-b-[6px] border-blue-800'>Classic</p>}
               </div>))}
             {(user && user.matches.length == 0) && [0, 1].map((_, index) => (
               <div key={index} className='text-white font-semibold bg-slate-800 p-2 rounded-lg flex flex-row items-center gap-1 sm:gap-5 h-[55px]'>
@@ -247,81 +254,98 @@ const PlayPage = () => {
             </AlertDialogTrigger>
             <AlertDialogContent className='bg-slate-800 px-2 border-0 rounded-lg'>
               <AlertDialogHeader>
-                <AlertDialogTitle className='text-white mt-6'>Find Match</AlertDialogTitle>
-                {match && <>
-                  <div className='flex flex-row items-center gap-3'>
-                    <div className='w-1/2'>
-                      <div className='flex flex-row justify-center items gap-3 my-2'>
-                        <Image src={'/icons/user.svg'} alt='user' height={50} width={50} className='bg-slate-500 p-1 h-[28px] w-[28px] sm:h-[48px] sm:w-[48px] rounded-lg' />
-                        <p className='font-bold text-white'>{match.player.User.username}</p>
-                        <Image src={`/flags/${match?.player.country}.svg`} alt='flag' height={20} width={20} className='rounded-full h-[25px] w-[25px] bg-white' />
-                      </div>
-                      <div className='h-[250px] w-full flex flex-col justify-around rounded-md bg-slate-800 border-[1px] sm:border-4 border-white' style={{ backgroundImage: `url('/Field-dark.png')`, backgroundSize: 'cover', backgroundPosition: 'center' }}>
-                        {formations.find(f => f.id === match.player?.formation)?.data.map((row: any, rowIndex: number) => (
-                          <div key={rowIndex} className='flex justify-around'>
-                            {row.positions.map((position: any, posIndex: number) => (
-                              <div key={posIndex} className='p-1 sm:px-3 sm:py-1 rounded-sm text-white font-semibold border-white' style={{ backgroundColor: getColor(row.type, row.positions[posIndex]), borderWidth: row.positions[posIndex] ? 2 : 0, boxShadow: position ? `-8px -8px 10px -4px ${getColor(row.type, row.positions[posIndex])},-8px 8px 10px -4px ${getColor(row.type, row.positions[posIndex])},8px -8px 10px -4px ${getColor(row.type, row.positions[posIndex])},8px 8px 10px -4px ${getColor(row.type, row.positions[posIndex])}` : '' }}>
-                                <p className='text-[10px] sm:text-[20px]'>{position}</p>
-                              </div>
-                            ))}
-                          </div>
-                        ))}
-                      </div>
-                      <p className='bg-slate-900 text-white font-semibold my-1 rounded-full'>{match.player.formation}</p>
-                      <p className='bg-slate-900 text-white font-semibold my-1 rounded-full'>Overall: {(match.playerOverall).toFixed(2)}</p>
-                    </div>
-                    <div className='w-1/2'>
-                      <div className='flex flex-row justify-center items gap-3 my-2'>
-                        <Image src={'/icons/user.svg'} alt='user' height={50} width={50} className='bg-slate-500 p-1 h-[28px] w-[28px] sm:h-[48px] sm:w-[48px] rounded-lg' />
-                        <p className='font-bold text-white'>{match.opponent.User.username}</p>
-                        <Image src={`/flags/${match?.opponent.country}.svg`} alt='flag' height={20} width={20} className='rounded-full h-[25px] w-[25px] bg-white' />
-                      </div>
-                      <div className='h-[250px] w-full flex flex-col justify-around rounded-md bg-slate-800 border-[1px] sm:border-4 border-white' style={{ backgroundImage: `url('/Field-dark.png')`, backgroundSize: 'cover', backgroundPosition: 'center' }}>
-                        {formations.find(f => f.id === match.opponent?.formation)?.data.map((row: any, rowIndex: number) => (
-                          <div key={rowIndex} className='flex justify-around'>
-                            {row.positions.map((position: any, posIndex: number) => (
-                              <div key={posIndex} className='p-1 sm:px-3 sm:py-1 rounded-sm text-white font-semibold border-white' style={{ backgroundColor: getColor(row.type, row.positions[posIndex]), borderWidth: row.positions[posIndex] ? 2 : 0, boxShadow: position ? `-8px -8px 10px -4px ${getColor(row.type, row.positions[posIndex])},-8px 8px 10px -4px ${getColor(row.type, row.positions[posIndex])},8px -8px 10px -4px ${getColor(row.type, row.positions[posIndex])},8px 8px 10px -4px ${getColor(row.type, row.positions[posIndex])}` : '' }}>
-                                <p className='text-[10px] sm:text-[20px]'>{position}</p>
-                              </div>
-                            ))}
-                          </div>
-                        ))}
-                      </div>
-                      <p className='bg-slate-900 text-white font-semibold my-1 rounded-full'>{match.opponent.formation}</p>
-                      <p className='bg-slate-900 text-white font-semibold my-1 rounded-full'>Overall: {(match.opponentOverall).toFixed(2)}</p>
-                    </div>
-                  </div>
-                  <div className='w-full flex justify-center items-center'>
-                    <div className='w-11/12 bg-slate-700 flex flex-row justify-center items-center py-2 rounded-full gap-6'>
-                      <div className='flex flex-row items-center gap-2'>
-                        <Image src={'/icons/coin.svg'} alt='coin' height={100} width={100} className='w-[30px] h-[30px] sm:w-[35px] sm:h-[35px]' />
-                        <p className='font-semibold text-white'>{match.prizes.coins}</p>
-                      </div>
-                      <div className='flex flex-row items-center gap-2'>
-                        <Image src={'/icons/diamond.svg'} alt='coin' height={100} width={100} className='w-[30px] h-[30px] sm:w-[35px] sm:h-[35px]' />
-                        <p className='font-semibold text-white'>{match.prizes.diamonds}</p>
-                      </div>
-                      <div className='flex flex-row items-center gap-2'>
-                        <Image src={'/icons/Ballon Dor.png'} alt='coin' height={100} width={100} className='w-[25px] h-[30px] sm:w-[35px] sm:h-[35px]' />
-                        <p className='font-semibold text-white'>{match.prizes.points}</p>
-                      </div>
-                    </div>
-                  </div>
-                  <div className='flex flex-row items-center gap-3 w-full'>
-                    <div className='w-1/2 bg-green-700 text-white font-semibold rounded-md py-1 flex flex-row items-center justify-center gap-2' onClick={() => handlePlaying(match.opponent.User._id)}>
-                      <p>{waiting ? 'Please Wait' : 'Play'}</p>
-                    </div>
-                    <div className='w-1/2 bg-red-700 text-white font-semibold rounded-md py-1 flex flex-row items-center justify-center gap-2' onClick={handleSkipping}>
-                      <p>Skip</p>
-                    </div>
-                  </div>
-                </>}
-                {!match && <div className='py-2 px-3 bg-purple-700 w-3/4 place-self-center text-white font-bold flex flex-row items-center justify-center gap-3 text-[18px] rounded-lg' onClick={handleFindingMatch}>
-                  <Image src={'/icons/search.svg'} alt='search' height={20} width={20} />
-                  <p>{searching ? 'Searching...' : 'Search For Opponents'}</p>
-                </div>}
+                {(match && activeTab == 'Rank') && <AlertDialogTitle className='w-1/2 place-self-center bg-orange-700 px-2 text-[14px] sm:text-[24px] py-[2px] rounded-lg shadow-md shadow-orange-500 border-b-[3px] sm:border-b-[6px] border-orange-800 text-white mt-3'>Rank Match</AlertDialogTitle>}
+                {(match && activeTab == 'Classic') && <AlertDialogTitle className='w-1/2 place-self-center bg-blue-700 px-2 text-[14px] sm:text-[24px] py-[2px] rounded-lg shadow-md shadow-blue-500 border-b-[3px] sm:border-b-[6px] border-blue-800 text-white mt-3'>Classic Match</AlertDialogTitle>}
+                {!match && <AlertDialogTitle className='text-[18px] text-white my-3'>Find Match</AlertDialogTitle>}
               </AlertDialogHeader>
-              <AlertDialogCancel className='absolute text-white right-2 top-0 bg-transparent border-0'>
+              {!match &&
+                <div className='w-full flex justify-around bg-white rounded-md border-2 border-white mb-3'>
+                  <div
+                    className={`w-1/2 py-1 font-semibold text-center ${activeTab === 'Classic' ? 'bg-blue-600 text-white' : ' text-black'} rounded-md`}
+                    onClick={() => setActiveTab('Classic')}
+                  >
+                    Classic
+                  </div>
+                  <div
+                    className={`w-1/2 py-1 font-semibold text-center ${activeTab === 'Rank' ? 'bg-orange-500 text-white' : ' text-black'} rounded-md`}
+                    onClick={() => setActiveTab('Rank')}
+                  >
+                    Rank
+                  </div>
+                </div>}
+              {match && <>
+                <div className='flex flex-row items-center gap-3'>
+                  <div className='w-1/2'>
+                    <div className='flex flex-row justify-center items gap-3 my-2'>
+                      <Image src={'/icons/user.svg'} alt='user' height={50} width={50} className='bg-slate-500 p-1 h-[28px] w-[28px] sm:h-[48px] sm:w-[48px] rounded-lg' />
+                      <p className='font-bold text-white'>{match.player.User.username}</p>
+                      <Image src={`/flags/${match?.player.country}.svg`} alt='flag' height={20} width={20} className='rounded-full h-[25px] w-[25px] bg-white' />
+                    </div>
+                    <div className='h-[250px] w-full flex flex-col justify-around rounded-md bg-slate-800 border-[1px] sm:border-4 border-white' style={{ backgroundImage: `url('/Field-dark.png')`, backgroundSize: 'cover', backgroundPosition: 'center' }}>
+                      {formations.find(f => f.id === match.player?.formation)?.data.map((row: any, rowIndex: number) => (
+                        <div key={rowIndex} className='flex justify-around'>
+                          {row.positions.map((position: any, posIndex: number) => (
+                            <div key={posIndex} className='p-1 sm:px-3 sm:py-1 rounded-sm text-white font-semibold border-white' style={{ backgroundColor: getColor(row.type, row.positions[posIndex]), borderWidth: row.positions[posIndex] ? 2 : 0, boxShadow: position ? `-8px -8px 10px -4px ${getColor(row.type, row.positions[posIndex])},-8px 8px 10px -4px ${getColor(row.type, row.positions[posIndex])},8px -8px 10px -4px ${getColor(row.type, row.positions[posIndex])},8px 8px 10px -4px ${getColor(row.type, row.positions[posIndex])}` : '' }}>
+                              <p className='text-[10px] sm:text-[20px]'>{position}</p>
+                            </div>
+                          ))}
+                        </div>
+                      ))}
+                    </div>
+                    <p className='bg-slate-900 text-white font-semibold my-1 rounded-full text-center'>{match.player.formation}</p>
+                    <p className='bg-slate-900 text-white font-semibold my-1 rounded-full text-center'>Overall: {(match.playerOverall).toFixed(2)}</p>
+                  </div>
+                  <div className='w-1/2'>
+                    <div className='flex flex-row justify-center items gap-3 my-2'>
+                      <Image src={'/icons/user.svg'} alt='user' height={50} width={50} className='bg-slate-500 p-1 h-[28px] w-[28px] sm:h-[48px] sm:w-[48px] rounded-lg' />
+                      <p className='font-bold text-white'>{match.opponent.User.username}</p>
+                      <Image src={`/flags/${match?.opponent.country}.svg`} alt='flag' height={20} width={20} className='rounded-full h-[25px] w-[25px] bg-white' />
+                    </div>
+                    <div className='h-[250px] w-full flex flex-col justify-around rounded-md bg-slate-800 border-[1px] sm:border-4 border-white' style={{ backgroundImage: `url('/Field-dark.png')`, backgroundSize: 'cover', backgroundPosition: 'center' }}>
+                      {formations.find(f => f.id === match.opponent?.formation)?.data.map((row: any, rowIndex: number) => (
+                        <div key={rowIndex} className='flex justify-around'>
+                          {row.positions.map((position: any, posIndex: number) => (
+                            <div key={posIndex} className='p-1 sm:px-3 sm:py-1 rounded-sm text-white font-semibold border-white' style={{ backgroundColor: getColor(row.type, row.positions[posIndex]), borderWidth: row.positions[posIndex] ? 2 : 0, boxShadow: position ? `-8px -8px 10px -4px ${getColor(row.type, row.positions[posIndex])},-8px 8px 10px -4px ${getColor(row.type, row.positions[posIndex])},8px -8px 10px -4px ${getColor(row.type, row.positions[posIndex])},8px 8px 10px -4px ${getColor(row.type, row.positions[posIndex])}` : '' }}>
+                              <p className='text-[10px] sm:text-[20px]'>{position}</p>
+                            </div>
+                          ))}
+                        </div>
+                      ))}
+                    </div>
+                    <p className='bg-slate-900 text-white font-semibold my-1 rounded-full text-center'>{match.opponent.formation}</p>
+                    <p className='bg-slate-900 text-white font-semibold my-1 rounded-full text-center'>Overall: {(match.opponentOverall).toFixed(2)}</p>
+                  </div>
+                </div>
+                <div className='w-full flex justify-center items-center'>
+                  <div className='w-11/12 bg-slate-700 flex flex-row justify-center items-center py-2 rounded-full gap-6'>
+                    <div className='flex flex-row items-center gap-2'>
+                      <Image src={'/icons/coin.svg'} alt='coin' height={100} width={100} className='w-[30px] h-[30px] sm:w-[35px] sm:h-[35px]' />
+                      <p className='font-semibold text-white'>{activeTab === 'Classic' ? match.prizes.coins * 3 : match.prizes.coins}</p>
+                    </div>
+                    <div className='flex flex-row items-center gap-2'>
+                      <Image src={'/icons/diamond.svg'} alt='coin' height={100} width={100} className='w-[30px] h-[30px] sm:w-[35px] sm:h-[35px]' />
+                      <p className='font-semibold text-white'>{activeTab === 'Classic' ? 0 : match.prizes.diamonds}</p>
+                    </div>
+                    <div className='flex flex-row items-center gap-2'>
+                      <Image src={'/icons/Ballon Dor.png'} alt='coin' height={100} width={100} className='w-[25px] h-[30px] sm:w-[35px] sm:h-[35px]' />
+                      <p className='font-semibold text-white'>{activeTab === 'Classic' ? 0 : match.prizes.points}</p>
+                    </div>
+                  </div>
+                </div>
+                <div className='flex flex-row items-center gap-3 w-full'>
+                  <div className='w-1/2 bg-green-700 text-white font-semibold rounded-md py-1 flex flex-row items-center justify-center gap-2' onClick={() => handlePlaying(match.opponent.User._id)}>
+                    <p>{waiting ? 'Please Wait' : 'Play'}</p>
+                  </div>
+                  <div className='w-1/2 bg-red-700 text-white font-semibold rounded-md py-1 flex flex-row items-center justify-center gap-2' onClick={handleSkipping}>
+                    <p>Skip</p>
+                  </div>
+                </div>
+              </>}
+              {!match && <div className='py-2 px-3 bg-purple-700 w-3/4 place-self-center text-white font-bold flex flex-row items-center justify-center gap-3 text-[18px] rounded-lg' onClick={handleFindingMatch}>
+                <Image src={'/icons/search.svg'} alt='search' height={20} width={20} />
+                <p>{searching ? 'Searching...' : 'Search For Opponents'}</p>
+              </div>}
+              <AlertDialogCancel className='absolute text-white right-2 top-0 bg-transparent border-0' onClick={() => setMatch(null)}>
                 <Image src={'/icons/x.svg'} alt='coin' height={100} width={100} className='w-[25px] h-[25px] sm:w-[40px] sm:h-[40px]' />
               </AlertDialogCancel>
             </AlertDialogContent>

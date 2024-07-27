@@ -225,7 +225,7 @@ const FriendsPage = () => {
                                             </AlertDialogTrigger>
                                             <AlertDialogContent className='bg-slate-800 px-2 border-0 rounded-lg'>
                                                 <AlertDialogHeader>
-                                                    <AlertDialogTitle className='text-white mt-6 mb-2'>Friendly Match</AlertDialogTitle>
+                                                <AlertDialogTitle className='w-1/2 place-self-center bg-purple-700 px-2 text-[14px] sm:text-[24px] py-[2px] rounded-lg shadow-md shadow-purple-500 border-b-[3px] sm:border-b-[6px] border-purple-800 text-white mt-3'>Friendly Match</AlertDialogTitle>
                                                     {loadingUserData ? (
                                                         <Image src={'/icons/spinner.svg'} alt='spinner' height={30} width={30} className='animate-spin place-self-center' />
                                                     ) : match && <>

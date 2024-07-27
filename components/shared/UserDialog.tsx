@@ -1,17 +1,42 @@
-import React, { useState } from 'react'
+import React, { useRef, useState } from 'react'
 import { AlertDialog, AlertDialogCancel, AlertDialogContent, AlertDialogTrigger } from '../ui/alert-dialog'
 import Image from 'next/image'
 import { Drawer, DrawerContent, DrawerHeader, DrawerTrigger } from '../ui/drawer'
 import { Input } from '../ui/input'
 import { ScrollArea } from '../ui/scroll-area'
 import { Flags } from '@/constants/Flags'
-import { changeCountry } from '@/lib/actions/user.actions'
+import { changeCountry, editProfile } from '@/lib/actions/user.actions'
+import { Textarea } from '../ui/textarea'
+import { useRouter } from 'next/navigation'
 
 const UserDialog = ({ user }: { user: any }) => {
 
     const [search, setSearch] = useState('');
     const [filteredFlags, setFilteredFlags] = useState(Flags);
     const [selectedCountry, setSelectedCountry] = useState<any>(null);
+    const [isEditMode, setIsEditMode] = useState(false);
+    const [username, setUsername] = useState(user?.username || '');
+    const [bio, setBio] = useState(user?.bio || '');
+    const [error, setError] = useState<string>('');
+    const [usernameLimitError, setUsernameLimitError] = useState(false);
+    const [bioLimitError, setBioLimitError] = useState(false);
+    const [country, setCountry] = useState(user?.country)
+    const drawerRef = useRef<any>(null)
+
+    const toggleEditMode = () => {
+        setIsEditMode(!isEditMode);
+    };
+
+    const handleSaveProfile = async () => {
+        const result: any = await editProfile('6699bfa1ba8348c3228f89ab', username, bio)
+
+        if (result === 'Username is already taken.') {
+            setError('Username is taken');
+        } else {
+            setIsEditMode(false);
+            setError('');
+        }
+    };
 
     const handleSearchChange = (event: any) => {
         const value = event.target.value.toLowerCase();
@@ -25,6 +50,30 @@ const UserDialog = ({ user }: { user: any }) => {
 
     const handleChangeCountry = async () => {
         await changeCountry('6699bfa1ba8348c3228f89ab', selectedCountry.src)
+        setCountry(selectedCountry.src)
+        if (drawerRef.current) {
+            drawerRef.current.click(); // Assuming `close` is the method to close the drawer
+        }
+    }
+
+    const handleChangeUsername = (e: any) => {
+        const newUsername = e.target.value;
+        setUsername(newUsername);
+        if (newUsername.length <= 9) {
+            setUsernameLimitError(false);
+        } else {
+            setUsernameLimitError(true);
+        }
+    }
+
+    const handleChangeBio = (e: any) => {
+        const newBio = e.target.value;
+        setBio(newBio);
+        if (newBio.length <= 100) {
+            setBioLimitError(false);
+        } else {
+            setBioLimitError(true);
+        }
     }
 
     return (
@@ -32,7 +81,7 @@ const UserDialog = ({ user }: { user: any }) => {
             <AlertDialogTrigger>
                 <div className='w-full ml-auto mb-auto p-2 flex flex-row items-center gap-2'>
                     <Image src={'/PFP.jpg'} alt='user' height={50} width={50} className='bg-slate-500 h-[30px] w-[30px] rounded-lg' />
-                    <p className='font-semibold text-white text-[13px]'>{user?.username} ({user?.Rank})</p>
+                    <p className='font-semibold text-white text-[13px]'>{username} ({user?.Rank})</p>
                     <p className='font-semibold text-white text-[13px]'>{`->`}</p>
                 </div>
             </AlertDialogTrigger>
@@ -40,41 +89,56 @@ const UserDialog = ({ user }: { user: any }) => {
                 <div className='w-10/12 flex flex-orw items-center mt-6'>
                     <Image src={'/PFP.jpg'} alt='user' height={50} width={50} className='bg-slate-500 h-[100px] w-[100px] rounded-lg' />
                     <div className='flex flex-col ml-3 gap-2'>
-                        <div className='flex flex-row items-center gap-2'>
-                            <p className='font-semibold text-white text-[15px]'>{user?.username}</p>
-                            <Drawer>
-                                <DrawerTrigger>
-                                    <Image src={`/flags/${user?.country}.svg`} alt='flag' height={20} width={20} className='rounded-full bg-white h-[25px] w-[25px]' />
-                                </DrawerTrigger>
-                                <DrawerContent className='h-[90%] bg-gradient-to-b from-slate-900 to-slate-700'>
-                                    <DrawerHeader className='text-white font-semibold text-[18px]'>Find your country</DrawerHeader>
-                                    <div className='w-full flex py-2 justify-center items-center'>
-                                        <Input className='w-11/12 bg-slate-700 text-white' placeholder='Find country' value={search} onChange={handleSearchChange} />
-                                    </div>
-                                    <ScrollArea className='h-full'>
-                                        <div className='w-full px-2 py-3 grid grid-cols-3 gap-2'>
-                                            {filteredFlags.map((flag) => (
-                                                <div key={flag.src} className={`bg-slate-900 border-2 ${selectedCountry?.src === flag.src ? 'border-green-500' : 'border-white'} flex flex-col justify-center items-center gap-2 py-2 rounded-md`}
-                                                    onClick={() => handleCountrySelect(flag)}>
-                                                    <Image src={`/flags/${flag.src}.svg`} alt={flag.name} height={50} width={50} className='rounded-full' />
-                                                    <p className='text-white line-clamp-1 px-2'>{flag.name}</p>
-                                                </div>
-                                            ))}
+                        {isEditMode ? (
+                            <Input value={username} onChange={(e) => handleChangeUsername(e)} className='w-32 bg-slate-900 text-white border-0 font-semibold' />
+                        ) : (
+                            <div className='flex flex-row items-center gap-2'>
+                                <p className='font-semibold text-white text-[15px]'>{username}</p>
+                                <Drawer>
+                                    <DrawerTrigger>
+                                        <Image ref={drawerRef} src={`/flags/${country}.svg`} alt='flag' height={20} width={20} className='rounded-full bg-white h-[25px] w-[25px]' />
+                                    </DrawerTrigger>
+                                    <DrawerContent className='h-[90%] bg-gradient-to-b from-slate-900 to-slate-700'>
+                                        <DrawerHeader className='text-white font-semibold text-[18px]'>Find your country</DrawerHeader>
+                                        <div className='w-full flex py-2 justify-center items-center'>
+                                            <Input className='w-11/12 bg-slate-700 text-white' placeholder='Find country' value={search} onChange={handleSearchChange} />
                                         </div>
-                                    </ScrollArea>
-                                    <div className='bg-transparent' onClick={handleChangeCountry}>
-                                        <p className={`w-full py-2 ${selectedCountry ? 'bg-green-600' : 'bg-gray-500 cursor-not-allowed'} text-white font-semibold text-center`}>Set As Country</p>
-                                    </div>
-                                </DrawerContent>
-                            </Drawer>
-                        </div>
+                                        <ScrollArea className='h-full'>
+                                            <div className='w-full px-2 py-3 grid grid-cols-3 gap-2'>
+                                                {filteredFlags.map((flag) => (
+                                                    <div key={flag.src} className={`bg-slate-900 border-2 ${selectedCountry?.src === flag.src ? 'border-green-500' : 'border-white'} flex flex-col justify-center items-center gap-2 py-2 rounded-md`}
+                                                        onClick={() => handleCountrySelect(flag)}>
+                                                        <Image src={`/flags/${flag.src}.svg`} alt={flag.name} height={50} width={50} className='rounded-full bg-white' />
+                                                        <p className='text-white line-clamp-1 px-2'>{flag.name}</p>
+                                                    </div>
+                                                ))}
+                                            </div>
+                                        </ScrollArea>
+                                        <div className='bg-transparent' onClick={handleChangeCountry}>
+                                            <p className={`w-full py-2 ${selectedCountry ? 'bg-green-600' : 'bg-gray-500 cursor-not-allowed'} text-white font-semibold text-center`}>Set As Country</p>
+                                        </div>
+                                    </DrawerContent>
+                                </Drawer>
+                            </div>)}
                         <p className='font-semibold text-white text-[15px]'>{user?.Rank}</p>
                         <p className='font-semibold text-white text-[15px]'>Overall: {(user?.teamOverall).toFixed(2)}</p>
                     </div>
                 </div>
-                <div className='w-11/12 px-4 py-1 flex flex-row items-center gap-2 bg-slate-900 rounded-lg text-white font-semibold text-[13px]'>
-                    <p>Instagram: ramimalass</p>
+                {error && <p className='text-red-500 font-semibold text-[14px]'>Username is taken</p>}
+                {usernameLimitError && <p className='text-red-500 font-semibold text-[14px]'>Username must be 9 characters or less</p>}
+                <div className='w-11/12 py-1 flex flex-row items-center gap-2 bg-slate-900 rounded-lg text-white font-semibold text-[13px]'>
+                    {isEditMode ? (
+                        <Textarea value={bio} onChange={(e) => handleChangeBio(e)} className='w-full bg-slate-900 border-0 focus:border-0' />
+                    ) : (
+                        <p className='px-4 py-1'>{bio.split('\n').map((line:any, index:number) => (
+                            <span key={index}>
+                                {line}
+                                <br />
+                            </span>
+                        ))}</p>
+                    )}
                 </div>
+                {bioLimitError && <p className='text-red-500 font-semibold text-[14px]'>Bio must be 100 characters or less</p>}
                 <div className='w-11/12 flex items-center gap-1'>
                     <div className='w-2/5 flex flex-col h-[60px] sm:h-[80px] gap-[3px]'>
                         <div className='w-full bg-slate-900 text-white text-center font-semibold rounded-tl-lg h-1/2 flex justify-center items-center'>
@@ -119,6 +183,21 @@ const UserDialog = ({ user }: { user: any }) => {
                 <AlertDialogCancel className='absolute text-white right-2 top-0 bg-transparent border-0'>
                     <Image src={'/icons/x.svg'} alt='coin' height={100} width={100} className='w-[25px] h-[25px] sm:w-[40px] sm:h-[40px]' />
                 </AlertDialogCancel>
+                {!isEditMode ? (
+                    <div
+                        className='bg-blue-700 text-white w-11/12 py-1 rounded-lg text-center font-semibold cursor-pointer'
+                        onClick={toggleEditMode}
+                    >
+                        Edit Profile
+                    </div>
+                ) : (
+                    <div
+                        className='bg-blue-700 text-white w-11/12 py-1 rounded-lg text-center font-semibold cursor-pointer'
+                        onClick={handleSaveProfile}
+                    >
+                        Save
+                    </div>
+                )}
             </AlertDialogContent>
         </AlertDialog>
     )

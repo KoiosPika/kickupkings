@@ -92,15 +92,25 @@ const HistoryPage = ({ id }: { id: string }) => {
                             {isAvailableToWatch ? (
                                 <a
                                     href={`/play/${match._id}`}
-                                    className={`mr-1 px-2 text-[14px] sm:text-[24px] py-[2px] rounded-lg ml-auto shadow-md ${match.type === 'Rank' ? 'shadow-orange-500 border-b-[3px] sm:border-b-[6px] border-orange-800 bg-orange-600' : 'shadow-purple-500 border-b-[3px] sm:border-b-[6px] border-purple-800 bg-purple-600'}`}
+                                    className={`mr-1 px-2 text-[14px] sm:text-[24px] py-[2px] rounded-lg ml-auto shadow-md ${match.type === 'Rank'
+                                            ? 'shadow-orange-500 border-b-[3px] sm:border-b-[6px] border-orange-800 bg-orange-600'
+                                            : match.type === 'Friendly'
+                                                ? 'shadow-purple-500 border-b-[3px] sm:border-b-[6px] border-purple-800 bg-purple-600'
+                                                : 'shadow-blue-500 border-b-[3px] sm:border-b-[6px] border-blue-800 bg-blue-600'
+                                        }`}
                                 >
                                     Watch
                                 </a>
                             ) : (
                                 <p
-                                    className={`mr-1 px-2 text-[14px] sm:text-[24px] py-[2px] rounded-lg ml-auto shadow-md ${match.type === 'Rank' ? 'shadow-orange-500 border-b-[3px] sm:border-b-[6px] border-orange-800 bg-orange-600' : 'shadow-purple-500 border-b-[3px] sm:border-b-[6px] border-purple-800 bg-purple-600'}`}
+                                    className={`mr-1 px-2 text-[14px] sm:text-[24px] py-[2px] rounded-lg ml-auto shadow-md ${match.type === 'Rank'
+                                            ? 'shadow-orange-500 border-b-[3px] sm:border-b-[6px] border-orange-800 bg-orange-600'
+                                            : match.type === 'Friendly'
+                                                ? 'shadow-purple-500 border-b-[3px] sm:border-b-[6px] border-purple-800 bg-purple-600'
+                                                : 'shadow-blue-500 border-b-[3px] sm:border-b-[6px] border-blue-800 bg-blue-600'
+                                        }`}
                                 >
-                                    {match.type === 'Rank' ? 'Rank' : 'Friendly'}
+                                    {match.type === 'Rank' ? 'Rank' : match.type === 'Friendly' ? 'Friendly' : 'Classic'}
                                 </p>
                             )}
                         </div>)
