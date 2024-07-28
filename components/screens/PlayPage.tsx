@@ -267,7 +267,7 @@ const PlayPage = () => {
                     Classic
                   </div>
                   <div
-                    className={`w-1/2 py-1 font-semibold text-center ${activeTab === 'Rank' ? 'bg-orange-500 text-white' : ' text-black'} rounded-md`}
+                    className={`w-1/2 py-1 font-semibold text-center ${activeTab === 'Rank' ? 'bg-orange-600 text-white' : ' text-black'} rounded-md`}
                     onClick={() => setActiveTab('Rank')}
                   >
                     Rank
@@ -341,7 +341,7 @@ const PlayPage = () => {
                   </div>
                 </div>
               </>}
-              {!match && <div className='py-2 px-3 bg-purple-700 w-3/4 place-self-center text-white font-bold flex flex-row items-center justify-center gap-3 text-[18px] rounded-lg' onClick={handleFindingMatch}>
+              {!match && <div className={`py-2 px-3 ${activeTab === 'Classic' ? 'bg-blue-600' : 'bg-orange-600'} w-3/4 place-self-center text-white font-bold flex flex-row items-center justify-center gap-3 text-[18px] rounded-lg`} onClick={handleFindingMatch}>
                 <Image src={'/icons/search.svg'} alt='search' height={20} width={20} />
                 <p>{searching ? 'Searching...' : 'Search For Opponents'}</p>
               </div>}

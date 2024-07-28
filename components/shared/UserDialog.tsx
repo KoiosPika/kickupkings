@@ -23,11 +23,18 @@ const UserDialog = ({ user }: { user: any }) => {
     const [country, setCountry] = useState(user?.country)
     const drawerRef = useRef<any>(null)
 
+    let canSave = !usernameLimitError && !bioLimitError && username.length > 0
+
     const toggleEditMode = () => {
         setIsEditMode(!isEditMode);
     };
 
     const handleSaveProfile = async () => {
+
+        if (!canSave) {
+            return;
+        }
+        
         const result: any = await editProfile('6699bfa1ba8348c3228f89ab', username, bio)
 
         if (result === 'Username is already taken.') {
@@ -115,12 +122,12 @@ const UserDialog = ({ user }: { user: any }) => {
                                             </div>
                                         </ScrollArea>
                                         <div className='bg-transparent' onClick={handleChangeCountry}>
-                                            <p className={`w-full py-2 ${selectedCountry ? 'bg-green-600' : 'bg-gray-500 cursor-not-allowed'} text-white font-semibold text-center`}>Set As Country</p>
+                                            <p className={`w-full py-4 ${selectedCountry ? 'bg-green-600' : 'bg-gray-500 cursor-not-allowed'} text-white font-semibold text-center`}>Set As Country</p>
                                         </div>
                                     </DrawerContent>
                                 </Drawer>
                             </div>)}
-                        <p className='font-semibold text-white text-[15px]'>{user?.Rank}</p>
+                        <p className='font-semibold text-white text-[15px]'>Rank: {user?.Rank}</p>
                         <p className='font-semibold text-white text-[15px]'>Overall: {(user?.teamOverall).toFixed(2)}</p>
                     </div>
                 </div>
@@ -130,7 +137,7 @@ const UserDialog = ({ user }: { user: any }) => {
                     {isEditMode ? (
                         <Textarea value={bio} onChange={(e) => handleChangeBio(e)} className='w-full bg-slate-900 border-0 focus:border-0' />
                     ) : (
-                        <p className='px-4 py-1'>{bio.split('\n').map((line:any, index:number) => (
+                        <p className='px-4 py-1'>{bio.split('\n').map((line: any, index: number) => (
                             <span key={index}>
                                 {line}
                                 <br />
@@ -192,7 +199,7 @@ const UserDialog = ({ user }: { user: any }) => {
                     </div>
                 ) : (
                     <div
-                        className='bg-blue-700 text-white w-11/12 py-1 rounded-lg text-center font-semibold cursor-pointer'
+                        className={`${canSave ? 'bg-blue-700' : 'bg-slate-500'} text-white w-11/12 py-1 rounded-lg text-center font-semibold cursor-pointer`}
                         onClick={handleSaveProfile}
                     >
                         Save

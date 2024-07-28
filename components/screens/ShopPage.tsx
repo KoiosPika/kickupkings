@@ -1,4 +1,4 @@
-import { positions } from '@/constants';
+import { Ranks, positions } from '@/constants';
 import Image from 'next/image'
 import React, { useEffect, useRef, useState } from 'react'
 import { ScrollArea } from '../ui/scroll-area';
@@ -51,7 +51,7 @@ const ShopPage = () => {
     }, [])
 
     const calculatePrice = (initialPrice: number, level: number) => {
-        return Math.round(initialPrice * (1.3 ** level));
+        return Math.round(initialPrice * (1.1 ** level));
     };
 
     const handleUpgrade = async (position: string) => {
@@ -70,7 +70,13 @@ const ShopPage = () => {
     }
 
     const generateWeightedPrizes = () => {
+
+        const userRank = Ranks.find(rank => rank.rank === user.Rank);
+
         let prizes: any[] = [];
+
+        const minCoins = userRank!.baseCoins * 5;
+        const maxCoins = userRank!.baseCoins * 25;
 
         const filteredPositions = positions.filter(pos => pos.type !== 'Staff');
 
@@ -78,12 +84,13 @@ const ShopPage = () => {
             prizes = prizes.concat(
                 filteredPositions.map(pos => ({
                     ...pos,
-                    increment: Math.floor(Math.random() * 4) + 1
+                    increment: Math.floor(Math.random() * 3) + 1
                 }))
             );
         }
         for (let i = 0; i < 40; i++) {
-            prizes.push({ type: 'coins', amount: Math.floor(Math.random() * (500 - 20 + 1)) + 20 });
+            const amount = Math.floor(Math.random() * (maxCoins - minCoins + 1)) + minCoins;
+            prizes.push({ type: 'coins', amount });
         }
         return prizes;
     };

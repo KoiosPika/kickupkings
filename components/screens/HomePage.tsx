@@ -23,7 +23,7 @@ const HomePage = () => {
         return index > 0 ? Ranks[index - 1] : null;
     };
 
-    const calculateProgress = (userRank: string, userPoints: number) => {
+    const calculateProgress = (userRank: number, userPoints: number) => {
         const currentRankData = getRankData(userRank);
         const previousRankData = getPreviousRankData(userRank);
 

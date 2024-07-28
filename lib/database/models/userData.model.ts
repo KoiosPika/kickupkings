@@ -9,7 +9,7 @@ export interface IUserData extends Document {
     formation: string,
     diamonds: number,
     points: number,
-    Rank: string,
+    Rank: number,
     country: string,
     played: number,
     won: number,
@@ -65,7 +65,7 @@ const UserDataSchema = new Schema({
     played: { type: Number, default: 0 },
     won: { type: Number, default: 0 },
     lost: { type: Number, default: 0 },
-    Rank: { type: String, default: 'Youth Coach' },
+    Rank: { type: Number, default: 0 },
     country: { type: String, default: 'unknown' },
     teamOverall: { type: Number, default: 0 },
     positions: {

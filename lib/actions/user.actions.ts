@@ -754,7 +754,7 @@ function calculateFormationOverall(userData: IUserData) {
     return averageLevel;
 }
 
-function calculatePrizes(userOverall: number, opponentOverall: number, userRank: string) {
+function calculatePrizes(userOverall: number, opponentOverall: number, userRank: number) {
     const rankData = Ranks.find(rank => rank.rank === userRank);
 
     if (!rankData) {
