@@ -112,7 +112,7 @@ const MatchPage = ({ id }: { id: string }) => {
       </div>
       <div className='flex justify-center items-center my-4'>
         <div
-          className='w-3/4 h-[180px]'
+          className='w-[290px] h-[190px]'
           style={{
             backgroundImage: `url('/Field-dark-v.png')`,
             backgroundSize: 'cover',
