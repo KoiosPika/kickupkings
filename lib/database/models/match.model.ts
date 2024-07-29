@@ -11,7 +11,7 @@ export interface IMatch extends Document {
     playerScore: number,
     opponentScore: number,
     type: string,
-    availableToWatch:Date
+    availableToWatch: Date
 }
 
 const MatchSchema = new Schema({
@@ -20,7 +20,7 @@ const MatchSchema = new Schema({
     attacks: [{
         minute: Number,
         player: String,
-        outcome: String
+        scenario: [String]
     }],
     winner: { type: Schema.Types.ObjectId, ref: "User", index: true },
     type: { type: String },
