@@ -137,3 +137,32 @@
   height: 100%;
   transition: width 0.5s ease;
 }
+
+.field {
+  position: relative;
+  width: 290px;  /* Ensure this matches your field's actual width */
+  height: 190px; /* Ensure this matches your field's actual height */
+  background-image: url('/Field-dark-v.png');
+  background-size: cover;
+  background-position: center;
+}
+
+/* .shading {
+  position: absolute;
+  top: 0;
+  left: 0;
+  height: 100%;
+  background: rgba(0, 255, 0, 0.3); 
+  transition: width 0.5s ease-in-out;
+  clip-path: polygon(0 0, 100% 0, 100% 100%, 0 100%, 0 0);
+} */
+
+.shading {
+  position: absolute;
+  top: 0;
+  left: 0; /* Start shading from the left edge */
+  height: 100%;
+  background: rgba(0, 255, 0, 0.3); /* Greenish shade with opacity */
+  transition: width 0.5s ease-in-out; /* Smooth transition for width changes */
+  clip-path: polygon(14% 0, 100% 0, 100% 100%, 14% 100%, 0 50%);
+}

@@ -288,23 +288,18 @@ export const positions = [
     },
 ]
 
-// export const Ranks = [
-//     { rank: 'Youth Coach', maxPoints: 500, baseCoins: 25, basePoints: 25, quizPrize: 100, predictionPrize: 500 }, // 1
-//     { rank: 'Assistant Coach', maxPoints: 1200, baseCoins: 48, basePoints: 33, quizPrize: 120, predictionPrize: 600 }, // 2
-//     { rank: 'Head Coach', maxPoints: 2000, baseCoins: 120, basePoints: 43, quizPrize: 145, predictionPrize: 725 }, // 3
-//     { rank: 'Reserve Coach', maxPoints: 3200, baseCoins: 330, basePoints: 56, quizPrize: 175, predictionPrize: 875 }, // 4
-//     { rank: 'First Coach', maxPoints: 4700, baseCoins: 980, basePoints: 73, quizPrize: 210, predictionPrize: 1050 }, // 5
-//     { rank: 'Tactical Analyst', maxPoints: 6600, baseCoins: 3000, basePoints: 95, quizPrize: 255, predictionPrize: 1275 }, // 6
-//     { rank: 'Fitness Coach', maxPoints: 9100, baseCoins: 9725, basePoints: 124, quizPrize: 310, predictionPrize: 1550 }, // 7
-//     { rank: 'Goalkeeper Coach', maxPoints: 12400, baseCoins: 31500, basePoints: 161, quizPrize: 370, predictionPrize: 1850 }, // 8
-//     { rank: 'Scout', maxPoints: 17000, baseCoins: 104300, basePoints: 210, quizPrize: 450, predictionPrize: 2250 }, // 9
-//     { rank: 'Football Director', maxPoints: 22500, baseCoins: 348500, basePoints: 273, quizPrize: 535, predictionPrize: 2650 }, // 10
-//     { rank: 'Academy Director', maxPoints: 30000, baseCoins: 1170495, basePoints: 355, quizPrize: 640, predictionPrize: 3200 }, // 11
-//     { rank: 'Assistant Manager', maxPoints: 40000, baseCoins: 4000500, basePoints: 470, quizPrize: 780, predictionPrize: 3900 }, // 12
-//     { rank: 'Youth Director', maxPoints: 52500, baseCoins: 13750750, basePoints: 620, quizPrize: 930, predictionPrize: 4700 }, // 13
-//     { rank: 'Manager', maxPoints: 69000, baseCoins: 47320600, basePoints: 810, quizPrize: 1120, predictionPrize: 5600 }, // 14
-//     { rank: 'Technical Director', maxPoints: 90000, baseCoins: 164000650, basePoints: 1050, quizPrize: 1350, predictionPrize: 6800 }, // 15
-// ];
+export const matchPositions = [
+    { positions: ['GK'], number: 1 },
+    { positions: ['DF', 'DF', 'DF', 'DF'], number: 2 },
+    { positions: ['ST', 'ST', 'ST'], number: 3 },
+    { positions: ['DM', 'DM', 'DM'], number: 4 },
+    { positions: ['AM', 'AM', 'AM'], number: 5 },
+    { positions: ['AM', 'AM', 'AM'], number: 6 },
+    { positions: ['DM', 'DM', 'DM'], number: 7 },
+    { positions: ['ST', 'ST', 'ST'], number: 8 },
+    { positions: ['DF', 'DF', 'DF', 'DF'], number: 9 },
+    { positions: ['GK'], number: 10 }
+]
 
 // const Ranks = [];
 
@@ -314,14 +309,14 @@ export const positions = [
 // let rank = 115;
 
 // for (let x = 0; x < 40; x++) {
-    
+
 //     matchesToNextLevel = 30;
-    
+
 //     basePoints = rank == 0 ? 2993 : 25 * rank * 1.05
 
 //     const previousMaxPoints = Ranks[x - 1] ? Ranks[x - 1].maxPoints : 3526953;
 //     const maxPoints = previousMaxPoints + matchesToNextLevel * basePoints;
-    
+
 //     const baseCoins = baseCoinMultiplier * Math.pow(coinGrowthRate, Math.ceil(rank / 2));
 //     const quizPrize = baseCoins * 10;
 //     const predictionPrize = baseCoins * 100;

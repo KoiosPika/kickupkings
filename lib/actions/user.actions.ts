@@ -256,7 +256,7 @@ function distributeAttacks(attacksCount: number, totalMinutes: number, splitMinu
 }
 
 function simulatePenalty(player: string) {
-    return Math.random() < 0.5 ? [`Penalty Missed`] : [`Penalty Scored`];
+    return Math.random() < 0.5 ? `Penalty Missed` : `Penalty Scored`;
 }
 
 export async function playGame(player1ID: string, player2ID: string, type: string, coins: number, diamonds: number, points: number) {
@@ -281,7 +281,7 @@ export async function playGame(player1ID: string, player2ID: string, type: strin
         const players1 = mapUserDataToPlayers(player1, 3);
         const players2 = mapUserDataToPlayers(player2, 3);
 
-        let results = [{ minute: 0, player: 'Match', scenario: ['Match Started'] }];
+        let results = [{ minute: 0, player: 'Match', scenario: [{ scenario: 'Match Started', line: 5, wait: 2500 }] }];
         let score1 = 0;
         let score2 = 0;
 
@@ -295,39 +295,41 @@ export async function playGame(player1ID: string, player2ID: string, type: strin
             let scenario;
             if (i % 2 === 0) {
                 scenario = simulateAttack(formation1, formation2, players1, players2);
-                if (scenario[scenario.length - 1] === ('Goal Scored' || 'Penalty Scored')) {
+                if (scenario[scenario.length - 1].scenario === 'Goal Scored' || scenario[scenario.length - 1].scenario === 'Penalty Scored') {
                     score1++;
                 }
                 results.push({ minute: normalTimeMinutes[i], player: 'Player', scenario });
             } else {
                 scenario = simulateAttack(formation2, formation1, players2, players1);
-                if (scenario[scenario.length - 1] === ('Goal Scored' || 'Penalty Scored')) {
+                if (scenario[scenario.length - 1].scenario === 'Goal Scored' || scenario[scenario.length - 1].scenario === 'Penalty Scored') {
                     score2++;
                 }
                 results.push({ minute: normalTimeMinutes[i], player: 'Opponent', scenario });
             }
+            console.log(results)
         }
 
-        results.push({ minute: 45, player: 'Match', scenario: ['Half-time'] });
+        results.push({ minute: 45, player: 'Match', scenario: [{ scenario: 'Half-time', line: 5, wait: 2500 }] });
 
         for (let i = normalTimeAttacks / 2; i < normalTimeAttacks; i++) {
             let scenario;
             if (i % 2 === 0) {
                 scenario = simulateAttack(formation1, formation2, players1, players2);
-                if (scenario[scenario.length - 1] === ('Goal Scored' || 'Penalty Scored')) {
+                if (scenario[scenario.length - 1].scenario === 'Goal Scored' || scenario[scenario.length - 1].scenario === 'Penalty Scored') {
                     score1++;
                 }
                 results.push({ minute: normalTimeMinutes[i], player: 'Player', scenario });
             } else {
                 scenario = simulateAttack(formation2, formation1, players2, players1);
-                if (scenario[scenario.length - 1] === ('Goal Scored' || 'Penalty Scored')) {
+                if (scenario[scenario.length - 1].scenario === 'Goal Scored' || scenario[scenario.length - 1].scenario === 'Penalty Scored') {
                     score2++;
                 }
                 results.push({ minute: normalTimeMinutes[i], player: 'Opponent', scenario });
             }
+            console.log(results)
         }
 
-        results.push({ minute: 90, player: 'Match', scenario: score1 === score2 ? ['Awaiting Extra Time'] : ['Full-time'] });
+        results.push({ minute: 90, player: 'Match', scenario: score1 === score2 ? [{ scenario: 'Awaiting Extra-time', line: 5, wait: 2500 }] : [{ scenario: 'Full time', line: 5, wait: 2500 }] });
 
         if (score1 === score2) {
             // Extra time
@@ -335,20 +337,20 @@ export async function playGame(player1ID: string, player2ID: string, type: strin
                 let scenario;
                 if (i % 2 === 0) {
                     scenario = simulateAttack(formation1, formation2, players1, players2);
-                    if (scenario[scenario.length - 1] === ('Goal Scored' || 'Penalty Scored')) {
+                    if (scenario[scenario.length - 1].scenario === 'Goal Scored' || scenario[scenario.length - 1].scenario === 'Penalty Scored') {
                         score1++;
                     }
                     results.push({ minute: extraTimeMinutes[i], player: 'Player', scenario });
                 } else {
                     scenario = simulateAttack(formation2, formation1, players2, players1);
-                    if (scenario[scenario.length - 1] === ('Goal Scored' || 'Penalty Scored')) {
+                    if (scenario[scenario.length - 1].scenario === 'Goal Scored' || scenario[scenario.length - 1].scenario === 'Penalty Scored') {
                         score2++;
                     }
                     results.push({ minute: extraTimeMinutes[i], player: 'Opponent', scenario });
                 }
             }
 
-            results.push({ minute: 120, player: 'Match', scenario: score1 === score2 ? ['Awaiting Penalties'] : ['Full-time'] });
+            results.push({ minute: 120, player: 'Match', scenario: score1 === score2 ? [{ scenario: 'Awaiting Penalties', line: 5, wait: 2500 }] : [{ scenario: 'Full time', line: 5, wait: 2500 }] });
         }
 
         let penalties = [];
@@ -359,12 +361,12 @@ export async function playGame(player1ID: string, player2ID: string, type: strin
             // Initial 5 penalties for each team
             for (let i = 0; i < 5; i++) {
                 let penaltyOutcome = simulatePenalty('Player');
-                results.push({ minute: 120, player: 'Player', scenario: penaltyOutcome });
+                results.push({ minute: 120, player: 'Player', scenario: [{ scenario: penaltyOutcome, line: 5, wait: 3000 }] });
                 penalties.push({ player: 'Player', outcome: penaltyOutcome });
                 if (penaltyOutcome[0] === 'Penalty Scored') playerPenalties++;
 
                 penaltyOutcome = simulatePenalty('Opponent');
-                results.push({ minute: 120, player: 'Opponent', scenario: penaltyOutcome });
+                results.push({ minute: 120, player: 'Opponent', scenario: [{ scenario: penaltyOutcome, line: 5, wait: 3000 }] });
                 penalties.push({ player: 'Opponent', outcome: penaltyOutcome });
                 if (penaltyOutcome[0] === 'Penalty Scored') opponentPenalties++;
 
@@ -378,12 +380,12 @@ export async function playGame(player1ID: string, player2ID: string, type: strin
             let round = 6;
             while (playerPenalties === opponentPenalties) {
                 let penaltyOutcome = simulatePenalty('Player');;
-                results.push({ minute: 120, player: 'Player', scenario: penaltyOutcome });
+                results.push({ minute: 120, player: 'Player', scenario: [{ scenario: penaltyOutcome, line: 5, wait: 3000 }] });
                 penalties.push({ player: 'Player', outcome: penaltyOutcome });
                 if (penaltyOutcome[0] === 'Penalty Scored') playerPenalties++;
 
                 penaltyOutcome = simulatePenalty('Opponent');;
-                results.push({ minute: 120, player: 'Opponent', scenario: penaltyOutcome });
+                results.push({ minute: 120, player: 'Opponent', scenario: [{ scenario: penaltyOutcome, line: 5, wait: 3000 }] });
                 penalties.push({ player: 'Opponent', outcome: penaltyOutcome });
                 if (penaltyOutcome[0] === 'Penalty Scored') opponentPenalties++;
 
@@ -394,13 +396,13 @@ export async function playGame(player1ID: string, player2ID: string, type: strin
         const finalOutcomeMinute = score1 === score2 ? 120 : 90;
         const finalOutcome = score1 === score2
             ? playerPenalties > opponentPenalties
-                ? ['Player Wins!']
-                : ['Opponent Wins!']
+                ? 'Player Wins!'
+                : 'Opponent Wins!'
             : score1 > score2
-                ? ['Player Wins!']
-                : ['Opponent Wins!'];
+                ? 'Player Wins!'
+                : 'Opponent Wins!';
 
-        results.push({ minute: finalOutcomeMinute, player: 'Match', scenario: finalOutcome });
+        results.push({ minute: finalOutcomeMinute, player: 'Match', scenario: [{ scenario: finalOutcome, line: 5, wait: 3000 }] });
 
         console.log(results)
 
@@ -449,7 +451,7 @@ export async function playGame(player1ID: string, player2ID: string, type: strin
             Opponent: player2ID,
             attacks: results,
             status: 'finished',
-            winner: finalOutcome[0] === 'Player Wins!' ? player1ID : player2ID,
+            winner: finalOutcome === 'Player Wins!' ? player1ID : player2ID,
             playerScore: score1 + playerPenalties,
             opponentScore: score2 + opponentPenalties,
             type

@@ -20,7 +20,11 @@ const MatchSchema = new Schema({
     attacks: [{
         minute: Number,
         player: String,
-        scenario: [String]
+        scenario: [{
+            scenario: String,
+            line: Number,
+            wait: Number
+        }]
     }],
     winner: { type: Schema.Types.ObjectId, ref: "User", index: true },
     type: { type: String },
