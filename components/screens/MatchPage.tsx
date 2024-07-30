@@ -46,14 +46,14 @@ const MatchPage = ({ id }: { id: string }) => {
 
         if (currentScenarioIndex < currentAttack.scenario.length) {
           const scenario = currentAttack.scenario[currentScenarioIndex];
-          
+
           setMainScernario({ minute: currentAttack.minute, player: currentAttack.player, scenario: currentAttack.scenario[currentScenarioIndex] })
-          
+
           setCurrentScenario({
             line: scenario.line,
             player: currentAttack.player
           });
-          
+
           const scenarioText = currentAttack.scenario[currentScenarioIndex].scenario;
           if (scenarioText === 'Goal Scored' || scenarioText === 'Penalty Scored') {
             if (currentAttack.player === 'Player') {
@@ -62,7 +62,7 @@ const MatchPage = ({ id }: { id: string }) => {
               setOpponentScore(prevScore => prevScore + 1);
             }
           }
-          
+
           setDisplayedScenarios(prev => [
             { minute: currentAttack.minute, player: currentAttack.player, scenario: currentAttack.scenario[currentScenarioIndex] },
             ...prev
@@ -129,7 +129,7 @@ const MatchPage = ({ id }: { id: string }) => {
             {mainScenario.player === 'Player' &&
               <div className='w-5/6 rounded-md flex flex-row items-center justify-center py-3 mr-auto px-2'>
                 <div className='w-1/4 flex flex-col justify-center items-center gap-2'>
-                  <IconDisplay player={mainScenario.player} scenario={mainScenario.scenario.scenario} />
+                  <IconDisplay scenario={mainScenario.scenario.scenario} />
                   <p className='text-yellow-500 font-semibold '>{mainScenario.minute}{`'`}</p>
                 </div>
                 <div className='w-3/4 flex flex-col justify-center items gap-2 text-[15px]'>
@@ -142,7 +142,7 @@ const MatchPage = ({ id }: { id: string }) => {
                   <p>{mainScenario.scenario.scenario}</p>
                 </div>
                 <div className='w-1/4 flex flex-col justify-center items-center gap-2'>
-                  <IconDisplay player={mainScenario.player} scenario={mainScenario.scenario.scenario} />
+                  <IconDisplay scenario={mainScenario.scenario.scenario} />
                   <p className='text-yellow-500 font-semibold'>{mainScenario.minute}{`'`}</p>
                 </div>
               </div>}
@@ -163,7 +163,7 @@ const MatchPage = ({ id }: { id: string }) => {
               {scenario.player === 'Player' &&
                 <div className='w-5/6 rounded-md flex flex-row items-center justify-center py-3 px-2'>
                   <div className='w-1/4 flex flex-col justify-center items-center gap-2'>
-                    <IconDisplay player={scenario.player} scenario={scenario.scenario.scenario} />
+                    <IconDisplay scenario={scenario.scenario.scenario} />
                     <p className='text-yellow-500 font-semibold'>{scenario.minute}{`'`}</p>
                   </div>
                   <div className='w-3/4 flex flex-col justify-center items gap-2 text-[15px]'>
@@ -176,7 +176,7 @@ const MatchPage = ({ id }: { id: string }) => {
                     <p>{scenario.scenario.scenario}</p>
                   </div>
                   <div className='w-1/4 flex flex-col justify-center items-center gap-2'>
-                    <IconDisplay player={scenario.player} scenario={scenario.scenario.scenario} />
+                    <IconDisplay scenario={scenario.scenario.scenario} />
                     <p className='text-yellow-500 font-semibold'>{scenario.minute}{`'`}</p>
                   </div>
                 </div>}
@@ -227,44 +227,94 @@ const Field = ({ currentLine, player }: { currentLine: number, player: string })
   );
 };
 
-const IconDisplay = ({ scenario, player }: { scenario: string, player: string }) => {
+const IconDisplay = ({ scenario }: { scenario: string }) => {
+  const [isLoaded, setIsLoaded] = useState(false);
+
+  useEffect(() => {
+    setIsLoaded(false); // Reset loading state on scenario change
+  }, [scenario]);
+
+  const handleImageLoad = () => {
+    setIsLoaded(true);
+  };
+
+  const { src, alt, size } = getIconProps(scenario);
+
   return (
     <>
-      {scenario === 'Goal Scored' && <Image src={'/icons/football-green.svg'} alt='ball' height={30} width={30} />}
-      {scenario === 'Defense has the ball' && <Image src={'/icons/football-yellow.svg'} alt='ball' height={30} width={30} />}
-      {scenario === 'Forward has the ball' && <Image src={'/icons/football-yellow.svg'} alt='ball' height={30} width={30} />}
-      {scenario === 'Defense losses the ball to the opposing forward' && <Image src={'/icons/shield-broken-red.svg'} alt='ball' height={40} width={40} />}
-      {scenario === 'Defense plays a long ball to the forward' && <Image src={'/icons/cross-yellow.svg'} alt='ball' height={50} width={50} />}
-      {scenario === 'Defense plays a through pass to the front line of midfield' && <Image src={'/icons/pass-yellow.svg'} alt='ball' height={50} width={50} />}
-      {scenario === 'Defense plays a short pass to the back line of midfield' && <Image src={'/icons/pass-yellow.svg'} alt='ball' height={50} width={50} />}
-      {scenario === 'Ball passed to the front line of midfield' && <Image src={'/icons/pass-yellow.svg'} alt='ball' height={50} width={50} />}
-      {scenario === 'Ball passed to the forward' && <Image src={'/icons/pass-yellow.svg'} alt='ball' height={50} width={50} />}
-      {scenario === 'Midfield is fouled' && <Image src={'/icons/whistle-green.svg'} alt='ball' height={50} width={50} />}
-      {scenario === 'Free kick awarded' && <Image src={'/icons/free-kick-yellow.svg'} alt='ball' height={50} width={50} />}
-      {scenario === 'Player ready to take the penalty' && <Image src={'/icons/penalty-yellow.svg'} alt='ball' height={50} width={50} />}
-      {scenario === 'Player comes forward' && <Image src={'/icons/penalty-yellow.svg'} alt='ball' height={50} width={50} />}
-      {scenario === 'Player shoots' && <Image src={'/icons/penalty-yellow.svg'} alt='ball' height={50} width={50} />}
-      {scenario === 'Penalty awarded' && <Image src={'/icons/penalty-yellow.svg'} alt='ball' height={50} width={50} />}
-      {scenario === 'Penalty Missed' && <Image src={'/icons/penalty-red.svg'} alt='ball' height={50} width={50} />}
-      {scenario === 'Penalty is off target' && <Image src={'/icons/off-target-red.svg'} alt='ball' height={50} width={50} />}
-      {scenario === 'Shot is off target' && <Image src={'/icons/off-target-red.svg'} alt='ball' height={50} width={50} />}
-      {scenario === 'Goalkeeper saves the penalty' && <Image src={'/icons/goalkeeper-red.svg'} alt='ball' height={50} width={50} />}
-      {scenario === 'Goalkeeper saves the shot' && <Image src={'/icons/goalkeeper-red.svg'} alt='ball' height={50} width={50} />}
-      {scenario === 'Penalty hits the woodwork' && <Image src={'/icons/woodwork-red.svg'} alt='ball' height={50} width={50} />}
-      {scenario === 'Penalty Scored' && <Image src={'/icons/penalty-green.svg'} alt='ball' height={50} width={50} />}
-      {scenario === 'Goalkeeper catches the ball' && <Image src={'/icons/catch-green.svg'} alt='ball' height={50} width={50} />}
-      {scenario === 'Defender clears the ball' && <Image src={'/icons/shield-green.svg'} alt='ball' height={50} width={50} />}
-      {scenario === 'Forward shoots from the rebound' && <Image src={'/icons/football-shoots-yellow.svg'} alt='ball' height={40} width={40} />}
-      {scenario === 'Forward shoots' && <Image src={'/icons/football-shoots-yellow.svg'} alt='ball' height={40} width={40} />}
-      {scenario === 'Ball goes out for a corner' && <Image src={'/icons/corner-green.svg'} alt='ball' height={45} width={45} />}
-      {scenario === 'Corner is taken' && <Image src={'/icons/cross-yellow.svg'} alt='ball' height={100} width={100} />}
-      {scenario === 'Ball hits the woodwork' && <Image src={'/icons/woodwork-red.svg'} alt='ball' height={45} width={45} />}
-      {scenario === 'Shot hits the woodwork' && <Image src={'/icons/woodwork-red.svg'} alt='ball' height={45} width={45} />}
-      {scenario === 'Forward is caught offside' && <Image src={'/icons/offside-red.svg'} alt='ball' height={45} width={45} />}
-      {scenario === 'Defender commits a handball' && <Image src={'/icons/handball-red.svg'} alt='ball' height={45} width={45} />}
-      {scenario === 'Corner kick is too high and goes out of play' && <Image src={'/icons/x-red.svg'} alt='ball' height={45} width={45} />}
-      {scenario === 'Defender Intercepts the ball' && <Image src={'/icons/shield-green.svg'} alt='ball' height={45} width={45} />}
-      {scenario === 'Midfielder takes a direct shot at goal' && <Image src={'/icons/football-shoots-yellow.svg'} alt='ball' height={45} width={45} />}
+      {!isLoaded && <Image src={'/icons/spinner.svg'} alt='loading' height={30} width={30} />} {/* Placeholder */}
+      <Image
+        src={src}
+        alt={alt}
+        height={size}
+        width={size}
+        style={{ display: isLoaded ? 'block' : 'none' }}
+        onLoad={handleImageLoad}
+      />
     </>
-  )
+  );
+};
+
+const getIconProps = (scenario: string) => {
+  switch (scenario) {
+    case 'Goal Scored':
+      return { src: '/icons/football-green.svg', alt: 'Goal Scored', size: 30 };
+    case 'Defense has the ball':
+    case 'Forward has the ball':
+      return { src: '/icons/football-yellow.svg', alt: 'Has the ball', size: 30 };
+    case 'Defense losses the ball to the opposing forward':
+      return { src: '/icons/shield-broken-red.svg', alt: 'Loses the ball', size: 40 };
+    case 'Defense plays a long ball to the forward':
+    case 'Corner is taken':
+      return { src: '/icons/cross-yellow.svg', alt: 'Long ball to forward', size: 50 };
+    case 'Defense plays a through pass to the front line of midfield':
+    case 'Defense plays a short pass to the back line of midfield':
+    case 'Ball passed to the front line of midfield':
+    case 'Ball passed to the forward':
+      return { src: '/icons/pass-yellow.svg', alt: 'Pass to forward', size: 50 };
+    case 'Midfield is fouled':
+      return { src: '/icons/whistle-green.svg', alt: 'Fouled', size: 50 };
+    case 'Free kick awarded':
+      return { src: '/icons/free-kick-yellow.svg', alt: 'Free kick awarded', size: 50 };
+    case 'Player ready to take the penalty':
+    case 'Player comes forward':
+    case 'Player shoots':
+      return { src: '/icons/penalty-yellow.svg', alt: 'Penalty preparation', size: 50 };
+    case 'Penalty awarded':
+      return { src: '/icons/penalty-yellow.svg', alt: 'Penalty awarded', size: 50 };
+    case 'Penalty Missed':
+      return { src: '/icons/penalty-red.svg', alt: 'Penalty missed', size: 50 };
+    case 'Penalty is off target':
+    case 'Shot is off target':
+      return { src: '/icons/off-target-red.svg', alt: 'Off target', size: 50 };
+    case 'Goalkeeper saves the penalty':
+    case 'Goalkeeper saves the shot':
+      return { src: '/icons/goalkeeper-red.svg', alt: 'Goalkeeper saves', size: 50 };
+    case 'Penalty hits the woodwork':
+    case 'Shot hits the woodwork':
+    case 'Ball hits the woodwork':
+      return { src: '/icons/woodwork-red.svg', alt: 'Hits woodwork', size: 45 };
+    case 'Penalty Scored':
+      return { src: '/icons/penalty-green.svg', alt: 'Penalty scored', size: 50 };
+    case 'Goalkeeper catches the ball':
+      return { src: '/icons/catch-green.svg', alt: 'Goalkeeper catches', size: 50 };
+    case 'Defender clears the ball':
+      return { src: '/icons/shield-green.svg', alt: 'Clears ball', size: 50 };
+    case 'Forward shoots from the rebound':
+    case 'Forward shoots':
+    case 'Midfielder takes a direct shot at goal':
+      return { src: '/icons/football-shoots-yellow.svg', alt: 'Shoots', size: 40 };
+    case 'Ball goes out for a corner':
+      return { src: '/icons/corner-green.svg', alt: 'Out for a corner', size: 45 };
+    case 'Forward is caught offside':
+      return { src: '/icons/offside-red.svg', alt: 'Caught offside', size: 45 };
+    case 'Defender commits a handball':
+      return { src: '/icons/handball-red.svg', alt: 'Handball committed', size: 45 };
+    case 'Corner kick is too high and goes out of play':
+      return { src: '/icons/x-red.svg', alt: 'Out of play', size: 45 };
+    case 'Defender Intercepts the ball':
+      return { src: '/icons/shield-green.svg', alt: 'Intercepts', size: 45 };
+    default:
+      return { src: '/icons/default-icon.svg', alt: 'Default icon', size: 45 }; // Fallback
+  }
 }
