@@ -238,7 +238,7 @@ const getIconProps = (scenario: string) => {
       return { src: '/icons/football-green.svg', alt: 'Goal Scored', size: 30 };
     case 'Defense has the ball':
     case 'Forward has the ball':
-      return { src: '/icons/football-yellow.svg', alt: 'Has the ball', size: 30 };
+      return { src: '/icons/football-yellow-1.svg', alt: 'Has the ball', size: 35 };
     case 'Defense losses the ball to the opposing forward':
       return { src: '/icons/shield-broken-red.svg', alt: 'Loses the ball', size: 40 };
     case 'Defense plays a long ball to the forward':
