@@ -228,31 +228,8 @@ const Field = ({ currentLine, player }: { currentLine: number, player: string })
 };
 
 const IconDisplay = ({ scenario }: { scenario: string }) => {
-  const [isLoaded, setIsLoaded] = useState(false);
-
-  useEffect(() => {
-    setIsLoaded(false); // Reset loading state on scenario change
-  }, [scenario]);
-
-  const handleImageLoad = () => {
-    setIsLoaded(true);
-  };
-
   const { src, alt, size } = getIconProps(scenario);
-
-  return (
-    <>
-      {!isLoaded && <Image src={'/icons/spinner.svg'} alt='loading' height={30} width={30} />} {/* Placeholder */}
-      <Image
-        src={src}
-        alt={alt}
-        height={size}
-        width={size}
-        style={{ display: isLoaded ? 'block' : 'none' }}
-        onLoad={handleImageLoad}
-      />
-    </>
-  );
+  return <img src={src} alt={alt} height={size} width={size} />;
 };
 
 const getIconProps = (scenario: string) => {
