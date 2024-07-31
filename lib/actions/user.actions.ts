@@ -293,14 +293,20 @@ export async function playGame(player1ID: string, player2ID: string, type: strin
 
         for (let i = 0; i < normalTimeAttacks / 2; i++) {
             let scenario;
+            let lastScenario = '';
+
+            if (results.length > 0 && results[results.length - 1].scenario.length > 0) {
+                lastScenario = results[results.length - 1].scenario[results[results.length - 1].scenario.length - 1].scenario;
+            }
+
             if (i % 2 === 0) {
-                scenario = simulateAttack(formation1, formation2, players1, players2);
+                scenario = simulateAttack(formation1, formation2, players1, players2, lastScenario);
                 if (scenario[scenario.length - 1].scenario === 'Goal Scored' || scenario[scenario.length - 1].scenario === 'Penalty Scored') {
                     score1++;
                 }
                 results.push({ minute: normalTimeMinutes[i], player: 'Player', scenario });
             } else {
-                scenario = simulateAttack(formation2, formation1, players2, players1);
+                scenario = simulateAttack(formation2, formation1, players2, players1, lastScenario);
                 if (scenario[scenario.length - 1].scenario === 'Goal Scored' || scenario[scenario.length - 1].scenario === 'Penalty Scored') {
                     score2++;
                 }
@@ -313,20 +319,25 @@ export async function playGame(player1ID: string, player2ID: string, type: strin
 
         for (let i = normalTimeAttacks / 2; i < normalTimeAttacks; i++) {
             let scenario;
+            let lastScenario = '';
+
+            if (results.length > 0 && results[results.length - 1].scenario.length > 0) {
+                lastScenario = results[results.length - 1].scenario[results[results.length - 1].scenario.length - 1].scenario;
+            }
             if (i % 2 === 0) {
-                scenario = simulateAttack(formation1, formation2, players1, players2);
+                scenario = simulateAttack(formation1, formation2, players1, players2, lastScenario);
                 if (scenario[scenario.length - 1].scenario === 'Goal Scored' || scenario[scenario.length - 1].scenario === 'Penalty Scored') {
                     score1++;
                 }
                 results.push({ minute: normalTimeMinutes[i], player: 'Player', scenario });
             } else {
-                scenario = simulateAttack(formation2, formation1, players2, players1);
+                scenario = simulateAttack(formation2, formation1, players2, players1, lastScenario);
                 if (scenario[scenario.length - 1].scenario === 'Goal Scored' || scenario[scenario.length - 1].scenario === 'Penalty Scored') {
                     score2++;
                 }
                 results.push({ minute: normalTimeMinutes[i], player: 'Opponent', scenario });
             }
-            console.log(results)
+            console.log('Result:' ,results)
         }
 
         results.push({ minute: 90, player: 'Match', scenario: score1 === score2 ? [{ scenario: 'Awaiting Extra-time', line: 5, wait: 2500 }] : [{ scenario: 'Full time', line: 5, wait: 2500 }] });
@@ -335,14 +346,18 @@ export async function playGame(player1ID: string, player2ID: string, type: strin
             // Extra time
             for (let i = 0; i < extraTimeAttacks; i++) {
                 let scenario;
+                let lastScenario = '';
+                if (results.length > 0 && results[results.length - 1].scenario.length > 0) {
+                    lastScenario = results[results.length - 1].scenario[results[results.length - 1].scenario.length - 1].scenario;
+                }
                 if (i % 2 === 0) {
-                    scenario = simulateAttack(formation1, formation2, players1, players2);
+                    scenario = simulateAttack(formation1, formation2, players1, players2, lastScenario);
                     if (scenario[scenario.length - 1].scenario === 'Goal Scored' || scenario[scenario.length - 1].scenario === 'Penalty Scored') {
                         score1++;
                     }
                     results.push({ minute: extraTimeMinutes[i], player: 'Player', scenario });
                 } else {
-                    scenario = simulateAttack(formation2, formation1, players2, players1);
+                    scenario = simulateAttack(formation2, formation1, players2, players1, lastScenario);
                     if (scenario[scenario.length - 1].scenario === 'Goal Scored' || scenario[scenario.length - 1].scenario === 'Penalty Scored') {
                         score2++;
                     }

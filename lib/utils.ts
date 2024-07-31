@@ -137,16 +137,16 @@ function handlePenalty(scenario: any, level: any): any {
 
   scenario.push({ scenario: 'Player ready to take the penalty', line: 9, wait: 4000 });
   scenario.push({ scenario: 'Player comes forward', line: 9, wait: 3000 });
-  scenario.push({ scenario: 'Player shoots', line: 10, wait: 3000 });
+  scenario.push({ scenario: 'Player shoots', line: 10, wait: 1500 });
 
   if (penaltyOutcome < saveChance) {
 
     scenario.push({ scenario: 'Penalty Missed', line: 10, wait: 4000 });
-    scenario.push({ scenario: 'Goalkeeper saves the penalty', wait: 3000 });
+    scenario.push({ scenario: 'Goalkeeper saves the penalty', line: 9, wait: 3000 });
     return handleFollowUp(scenario, level, 'save');
   } else if (penaltyOutcome < saveChance + woodworkChance) {
     scenario.push({ scenario: 'Penalty Missed', line: 10, wait: 4000 });
-    scenario.push({ scenario: 'Penalty hits the woodwork', line: 10, wait: 3000 });
+    scenario.push({ scenario: 'Penalty hits the woodwork', line: 9, wait: 3000 });
     return handleFollowUp(scenario, level, 'woodwork');
   } else if (penaltyOutcome < saveChance + woodworkChance + 0.15) {
     scenario.push({ scenario: 'Penalty Missed', line: 10, wait: 4000 });
@@ -165,11 +165,10 @@ function handleFollowUp(scenario: any, level: any, outcome: string): any {
   if (outcome === 'save') {
     if (followUpEvent < 0.3) {
       scenario.push({ scenario: 'Goalkeeper catches the ball', line: 10, wait: 3000 });
-      scenario.push();
     } else if (followUpEvent < 0.6) {
       scenario.push({ scenario: 'Defender clears the ball', line: 8, wait: 2500 });
     } else if (followUpEvent < 0.9) {
-      scenario.push({ scenario: 'Forward shoots from the rebound', line: 10, wait: 3500 });
+      scenario.push({ scenario: 'Forward shoots from the rebound', line: 10, wait: 1500 });
       return handleRebound(scenario, level);
     } else {
       scenario.push({ scenario: 'Ball goes out for a corner', line: 10, wait: 4500 });
@@ -181,7 +180,7 @@ function handleFollowUp(scenario: any, level: any, outcome: string): any {
     } else if (followUpEvent < 0.6) {
       scenario.push({ scenario: 'Defender clears the ball', line: 8, wait: 3000 });
     } else {
-      scenario.push({ scenario: 'Forward shoots from the rebound', line: 10, wait: 3500 });
+      scenario.push({ scenario: 'Forward shoots from the rebound', line: 10, wait: 1500 });
       return handleRebound(scenario, level);
     }
   }
@@ -193,10 +192,10 @@ function handleFollowUp(scenario: any, level: any, outcome: string): any {
 function handleRebound(scenario: any, level: any): any {
   const reboundOutcome = Math.random();
   if (reboundOutcome < 0.25) {
-    scenario.push({ scenario: 'Goalkeeper saves the shot', line: 10, wait: 2500 });
+    scenario.push({ scenario: 'Goalkeeper saves the shot', line: 9, wait: 2500 });
     return handleFollowUp(scenario, level + 1, 'save');
   } else if (reboundOutcome < 0.4) {
-    scenario.push({ scenario: 'Ball hits the woodwork', line: 10, wait: 3000 });
+    scenario.push({ scenario: 'Ball hits the woodwork', line: 9, wait: 3000 });
     return handleFollowUp(scenario, level + 1, 'woodwork');
   } else if (reboundOutcome < 0.5) {
     scenario.push({ scenario: 'Shot is off target', line: 10, wait: 4000 });
@@ -219,7 +218,7 @@ function handleBlock(scenario: any, level: any): any {
     scenario.push({ scenario: 'Ball goes out for a corner', line: 10, wait: 4500 });
     handleCorner(scenario, level + 1)
   } else if (blockOutcome < 0.7) {
-    scenario.push({ scenario: 'Ball goes out for a throw-in', line: 8, wait: 3000 });
+    scenario.push({ scenario: 'Defender clears the ball', line: 8, wait: 3000 });
   } else {
     scenario.push({ scenario: 'Defender commits a handball', line: 9, wait: 4500 });
     scenario.push({ scenario: 'Penalty awarded', line: 9, wait: 4500 });
@@ -230,7 +229,7 @@ function handleBlock(scenario: any, level: any): any {
 
 function handleCorner(scenario: any[], level: number) {
 
-  scenario.push({ scenario: 'Corner is taken', line: 10, wait: 3500 });
+  scenario.push({ scenario: 'Corner kick cross', line: 9, wait: 3500 });
 
   const cornerOutcome = Math.random();
 
@@ -245,7 +244,7 @@ function handleCorner(scenario: any[], level: number) {
     if (headerOutcome < 0.3) {
       scenario.push({ scenario: 'Goal Scored', line: 10, wait: 4500 });
     } else if (headerOutcome < 0.6) {
-      scenario.push({ scenario: 'Goalkeeper saves the header', line: 10, wait: 3500 });
+      scenario.push({ scenario: 'Goalkeeper saves the header', line: 9, wait: 3500 });
       scenario = handleFollowUp(scenario, 1, 'save')
     } else if (headerOutcome < 0.8) {
       scenario.push({ scenario: 'Header is off target', line: 10, wait: 3000 });
@@ -253,11 +252,11 @@ function handleCorner(scenario: any[], level: number) {
       scenario.push({ scenario: 'Defender blocks the header', line: 9, wait: 3500 });
       handleBlock(scenario, level + 1)
     } else {
-      scenario.push({ scenario: 'Header hits the woodwork', line: 10, wait: 3500 });
+      scenario.push({ scenario: 'Header hits the woodwork', line: 9, wait: 3500 });
       scenario = handleFollowUp(scenario, 1, 'woodwork')
     }
   } else {
-    scenario.push({ scenario: 'Corner kick is too high and goes out of play', line: 8, wait: 3000 });
+    scenario.push({ scenario: 'Cross is too high', line: 8, wait: 3000 });
   }
 
   return scenario;
@@ -290,20 +289,20 @@ function calculateForward(scenario: any[], playerFormation: any, opponentFormati
 
     } else {
       // Forward gets a shot on goal
-      scenario.push({ scenario: 'Forward has the ball', line: 9, wait: 2000 });
-      scenario.push({ scenario: 'Forward shoots', line: 10, wait: 2600 });
+      scenario.push({ scenario: `Forward's chance`, line: 9, wait: 1500 });
+      scenario.push({ scenario: 'Forward shoots', line: 10, wait: 1500 });
 
       const goalkeeper = players2.find((p: any) => p.position === 'GK');
       const saveChance = calculateGoalkeeperChance(goalkeeper, offensivePower);
       const eventChance = Math.random();
 
       if (eventChance < saveChance * 0.6) {
-        scenario.push({ scenario: 'Goalkeeper saves the shot', line: 10, wait: 3500 });
+        scenario.push({ scenario: 'Goalkeeper saves the shot', line: 9, wait: 3500 });
         scenario = handleFollowUp(scenario, 1, 'save'); // Continue with follow-up scenarios
       } else if (eventChance < saveChance * 0.6 + 0.1) {
         scenario.push({ scenario: 'Shot is off target', line: 10, wait: 3500 });
       } else if (eventChance < saveChance * 0.6 + 0.2) {
-        scenario.push({ scenario: 'Shot hits the woodwork', line: 10, wait: 3000 });
+        scenario.push({ scenario: 'Shot hits the woodwork', line: 9, wait: 3000 });
         scenario = handleFollowUp(scenario, 1, 'woodwork'); // Continue with follow-up scenarios
       } else if (eventChance < saveChance * 0.6 + 0.3) {
         scenario.push({ scenario: 'Defender blocks the shot', line: 9, wait: 3500 });
@@ -323,20 +322,19 @@ function handleFrontLineFreeKick(scenario: any[], playerFormation: any, opponent
 
   if (freeKickOutcome < 0.3) {
     // Direct shot at goal
-    scenario.push({ scenario: 'Midfielder takes a direct shot at goal', line: 10, wait: 3500 });
+    scenario.push({ scenario: 'Midfielder shoots', line: 10, wait: 1500 });
     const goalkeeper = players2.find((p: any) => p.position === 'GK');
     const saveChance = calculateGoalkeeperChance(goalkeeper, offensivePower);
 
     const shotOutcome = Math.random();
     if (shotOutcome < saveChance) {
-      scenario.push({ scenario: 'Goalkeeper saves the shot', line: 10, wait: 3500 });
+      scenario.push({ scenario: 'Goalkeeper saves the shot', line: 9, wait: 3500 });
       scenario = handleFollowUp(scenario, 1, 'save');
     } else if (shotOutcome < saveChance + 0.1) {
       scenario.push({ scenario: 'Shot hits the woodwork', line: 10, wait: 3500 });
       scenario = handleFollowUp(scenario, 1, 'woodwork');
     } else if (shotOutcome < saveChance + 0.15) {
       scenario.push({ scenario: 'Shot hits the wall', line: 8, wait: 3000 });
-      scenario.push({ scenario: 'Ball is cleared by the defense', line: 7, wait: 3000 });
     } else if (shotOutcome < saveChance + 0.25) {
       scenario.push({ scenario: 'Shot is off target', line: 10, wait: 3500 });
     } else {
@@ -344,11 +342,11 @@ function handleFrontLineFreeKick(scenario: any[], playerFormation: any, opponent
     }
   } else if (freeKickOutcome < 0.6) {
 
-    scenario.push({ scenario: 'Midfielder crosses the ball into the box', line: 9, wait: 3000 });
+    scenario.push({ scenario: `Midfielder's cross`, line: 9, wait: 3000 });
     scenario = calculateForward(scenario, playerFormation, opponentFormation, players1, players2);
   } else {
 
-    scenario.push({ scenario: 'Midfielder passes the ball into the box', line: 9, wait: 3000 });
+    scenario.push({ scenario: `Midfielder's pass`, line: 9, wait: 3000 });
     scenario = calculateForward(scenario, playerFormation, opponentFormation, players1, players2);
   }
 
@@ -358,8 +356,8 @@ function handleFrontLineFreeKick(scenario: any[], playerFormation: any, opponent
 function calculateFrontLineMidfield(scenario: any[], playerFormation: any, opponentFormation: any, players1: any, players2: any) {
   const randomEvent = Math.random();
   if (randomEvent < 0.05) {
-    scenario.push({ scenario: 'Midfield is fouled', line: 7, wait: 3500 });
-    scenario.push({ scenario: 'Free kick awarded', line: 7, wait: 3500 });
+    scenario.push({ scenario: 'Midfield is fouled', line: 6, wait: 3500 });
+    scenario.push({ scenario: 'Free kick awarded', line: 6, wait: 3500 });
     scenario = handleFrontLineFreeKick(scenario, playerFormation, opponentFormation, players1, players2);
   } else {
     const defense = calculateDefenseInterception(opponentFormation, players2);
@@ -367,7 +365,7 @@ function calculateFrontLineMidfield(scenario: any[], playerFormation: any, oppon
     const interceptionChance = defense.averageLevel / (defense.averageLevel + offense.totalLevel);
 
     if (Math.random() < interceptionChance) {
-      scenario.push({ scenario: 'Pass intercepted by the backline midfield', line: 8, wait: 3000 });
+      scenario.push({ scenario: 'Midfield backline interception', line: 8, wait: 3000 });
     } else {
       scenario.push({ scenario: 'Ball passed to the forward', line: 9, wait: 3000 });
       scenario = calculateForward(scenario, playerFormation, opponentFormation, players1, players2);
@@ -381,22 +379,41 @@ function handleBackLineFreeKick(scenario: any[], playerFormation: any, opponentF
 
   const freeKickOutcome = Math.random();
   if (freeKickOutcome < 0.3) {
-    scenario.push({ scenario: 'Defense attempts a long pass to the forward', line: 7, wait: 3000 });
+    scenario.push({ scenario: 'Long ball to forward', line: 7, wait: 3000 });
     scenario = calculateForward(scenario, playerFormation, opponentFormation, players1, players2);
   } else {
-    scenario.push({ scenario: 'Defense plays a short pass to the front line of midfield', line: 6, wait: 3000 });
+    scenario.push({ scenario: 'Pass to frontline midfield', line: 6, wait: 3000 });
     scenario = calculateFrontLineMidfield(scenario, playerFormation, opponentFormation, players1, players2);
   }
 
   return scenario;
 }
 
-export function simulateAttack(playerFormation: any, opponentFormation: any, players1: any, players2: any) {
+function calculateBackLineMidfield(scenario: any[], playerFormation: any, opponentFormation: any, players1: any, players2: any) {
 
-  let scenario = [];
+  const possessionChance = calculatePossessionChance(playerFormation, players1);
+  const defenseInterception = calculateDefenseInterception(opponentFormation, players2);
+  const interceptionChance = defenseInterception.averageLevel / (defenseInterception.averageLevel + possessionChance);
 
-  scenario.push({ scenario: 'Defense has the ball', line: 2, wait: 3000 });
+  if (Math.random() < interceptionChance) {
+    scenario.push({ scenario: 'Midfield frontline interception', line: 7, wait: 3000 });
+  } else {
+    const randomEvent = Math.random();
+    if (randomEvent < 0.05) {
+      scenario.push({ scenario: 'Midfield is fouled', line: 4, wait: 3500 });
+      scenario.push({ scenario: 'Free kick awarded', line: 4, wait: 3500 });
+      scenario = handleBackLineFreeKick(scenario, playerFormation, opponentFormation, players1, players2);
+    } else {
+      scenario.push({ scenario: 'Midfield has the ball', line: 6, wait: 3000 });
 
+      calculateFrontLineMidfield(scenario, playerFormation, opponentFormation, players1, players2)
+    }
+  }
+
+  return scenario;
+}
+
+function calculateDefense(scenario: any[], playerFormation: any, opponentFormation: any, players1: any, players2: any) {
   const defenseControl = calculateDefensiveControl(playerFormation, players1);
   const offensivePress = calculateOffensivePressingPower(opponentFormation, players2);
 
@@ -404,13 +421,13 @@ export function simulateAttack(playerFormation: any, opponentFormation: any, pla
   let defenseChance = defenseControl / totalPower;
   let offenseChance = offensivePress / totalPower;
 
-  offenseChance = Math.min(offenseChance, 0.2);
+  offenseChance = Math.min(offenseChance, 0.10);
   defenseChance = 1 - offenseChance;
 
   const randomEvent = Math.random();
 
   if (randomEvent < offenseChance) {
-    scenario.push({ scenario: 'Defense losses the ball to the opposing forward', line: 3, wait: 3000 });
+    scenario.push({ scenario: 'Defense loses possession', line: 3, wait: 3000 });
 
     return scenario;
 
@@ -420,38 +437,86 @@ export function simulateAttack(playerFormation: any, opponentFormation: any, pla
 
     if (passOutcome < 0.33) {
 
-      scenario.push({ scenario: 'Defense plays a long ball to the forward', line: 7, wait: 3000 });
+      scenario.push({ scenario: 'Long ball to forward', line: 7, wait: 3000 });
 
       scenario = calculateForward(scenario, playerFormation, opponentFormation, players1, players2)
 
     } else if (passOutcome < 0.60) {
 
-      scenario.push({ scenario: 'Defense plays a through pass to the front line of midfield', line: 6, wait: 3000 });
+      scenario.push({ scenario: 'Pass to frontline midfield', line: 6, wait: 3000 });
 
       scenario = calculateFrontLineMidfield(scenario, playerFormation, opponentFormation, players1, players2)
 
     } else {
 
-      scenario.push({ scenario: 'Defense plays a short pass to the back line of midfield', line: 5, wait: 3000 });
+      scenario.push({ scenario: 'Pass to backline midfield', line: 5, wait: 3000 });
 
-      const possessionChance = calculatePossessionChance(playerFormation, players1);
-      const defenseInterception = calculateDefenseInterception(opponentFormation, players2);
-      const interceptionChance = defenseInterception.averageLevel / (defenseInterception.averageLevel + possessionChance);
+      scenario = calculateBackLineMidfield(scenario, playerFormation, opponentFormation, players1, players2)
+    }
+  }
 
-      if (Math.random() < interceptionChance) {
-        scenario.push({ scenario: 'Pass intercepted by the opposing midfield', line: 4, wait: 3000 });
-      } else {
-        const randomEvent = Math.random();
-        if (randomEvent < 0.05) {
-          scenario.push({ scenario: 'Midfield is fouled', line: 4, wait: 3500 });
-          scenario.push({ scenario: 'Free kick awarded', line: 4, wait: 3500 });
-          scenario = handleBackLineFreeKick(scenario, playerFormation, opponentFormation, players1, players2);
-        } else {
-          scenario.push({ scenario: 'Ball passed to the front line of midfield', line: 6, wait: 3000 });
+  return scenario;
+}
 
-          calculateFrontLineMidfield(scenario, playerFormation, opponentFormation, players1, players2)
-        }
-      }
+function calculateGoalkeeper(scenario: any[], playerFormation: any, opponentFormation: any, players1: any, players2: any) {
+  const randomEvent = Math.random();
+
+  if (randomEvent < 0.6) {
+    scenario.push({ scenario: 'GoalKeeper plays short pass', line: 3, wait: 3000 });
+    scenario = calculateDefense(scenario, playerFormation, opponentFormation, players1, players2)
+  } else if (randomEvent < 0.6 + 0.1) {
+    scenario.push({ scenario: 'Keeper plays through pass', line: 5, wait: 3000 });
+    scenario = calculateBackLineMidfield(scenario, playerFormation, opponentFormation, players1, players2)
+  } else {
+    scenario.push({ scenario: 'Keeper plays long pass', line: 7, wait: 3000 });
+    scenario = calculateFrontLineMidfield(scenario, playerFormation, opponentFormation, players1, players2)
+  }
+
+  return scenario;
+}
+
+export function simulateAttack(playerFormation: any, opponentFormation: any, players1: any, players2: any, lastSenario: string) {
+
+  let scenario: any[] = [];
+
+  if (lastSenario) {
+    switch (lastSenario) {
+      case 'Penalty is off target':
+      case 'Shot is off target':
+      case 'Header is off target':
+      case 'Goalkeeper catches the ball':
+        scenario.push({ scenario: 'Keeper has the ball', line: 1, wait: 2500 })
+        scenario = calculateGoalkeeper(scenario, playerFormation, opponentFormation, players1, players2)
+        break;
+
+      case 'Cross is too high':
+      case 'Defender clears the ball':
+      case 'Defender Intercepts the ball':
+      case 'Forward is caught offside':
+      case 'Shot hits the wall':
+      case 'Midfield backline interception':
+        scenario.push({ scenario: 'Midfield has the ball', line: 5, wait: 2500 })
+        scenario.push({ scenario: 'Pass to frontline midfield', line: 6, wait: 3000 });
+        scenario = calculateBackLineMidfield(scenario, playerFormation, opponentFormation, players1, players2)
+        break;
+      case 'Midfield frontline interception':
+        scenario.push({ scenario: 'Midfield has the ball', line: 6, wait: 2500 })
+        scenario = calculateFrontLineMidfield(scenario, playerFormation, opponentFormation, players1, players2)
+        break;
+      case 'Defense loses possession':
+        scenario = calculateDefense(scenario, playerFormation, opponentFormation, players1, players2)
+        break;
+      case 'Goal Scored':
+      case 'Penalty Scored':
+      case 'Match Started':
+      case 'Half-time':
+      case 'Awaiting Extra-time':
+        scenario.push({ scenario: 'Play kicks-off', line: 5, wait: 2500 })
+        scenario = calculateBackLineMidfield(scenario, playerFormation, opponentFormation, players1, players2)
+        break;
+      default:
+        scenario = calculateDefense(scenario, playerFormation, opponentFormation, players1, players2)
+        break;
     }
   }
 

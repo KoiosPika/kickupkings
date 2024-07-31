@@ -201,7 +201,11 @@ const Field = ({ currentLine, player }: { currentLine: number, player: string })
 
   const shadingWidth = (fieldWidth / lines) * currentLine;
   const isPlayer = player === 'Player';
-  const shadingColor = isPlayer ? 'rgba(0, 255, 0, 0.45)' : 'rgba(243, 25, 25, 0.55)';
+  const shadingColor = player === 'Player'
+    ? 'rgba(0, 255, 0, 0.45)'
+    : player === 'Opponent'
+      ? 'rgba(243, 25, 25, 0.55)'
+      : 'transparent';
   const shadingLeft = isPlayer ? '0' : 'auto';
   const shadingRight = isPlayer ? 'auto' : '0';
 
@@ -234,28 +238,38 @@ const IconDisplay = ({ scenario }: { scenario: string }) => {
 
 const getIconProps = (scenario: string) => {
   switch (scenario) {
+    case 'Play kicks-off':
+      return { src: '/icons/whistle-green.svg', alt: 'whistle', size: 30 }
     case 'Goal Scored':
-      return { src: '/icons/football-green.svg', alt: 'Goal Scored', size: 30 };
+      return { src: '/icons/football-green-1.svg', alt: 'Goal Scored', size: 35 };
     case 'Defense has the ball':
     case 'Forward has the ball':
+    case `Forward's chance`:
+    case `Midfield has the ball`:
+    case `Keeper has the ball`:
       return { src: '/icons/football-yellow-1.svg', alt: 'Has the ball', size: 35 };
-    case 'Defense losses the ball to the opposing forward':
+    case 'Defense loses possession':
       return { src: '/icons/shield-broken-red.svg', alt: 'Loses the ball', size: 40 };
-    case 'Defense plays a long ball to the forward':
-    case 'Corner is taken':
+    case 'Long ball to forward':
+    case 'Corner kick cross':
+    case 'Keeper plays long pass':
       return { src: '/icons/cross-yellow.svg', alt: 'Long ball to forward', size: 50 };
     case 'Defense plays a through pass to the front line of midfield':
-    case 'Defense plays a short pass to the back line of midfield':
-    case 'Ball passed to the front line of midfield':
+    case 'Pass to backline midfield':
     case 'Ball passed to the forward':
+    case 'Pass to frontline midfield':
+    case 'GoalKeeper plays short pass':
+    case `Midfielder's pass`:
       return { src: '/icons/pass-yellow.svg', alt: 'Pass to forward', size: 50 };
     case 'Midfield is fouled':
-      return { src: '/icons/whistle-green.svg', alt: 'Fouled', size: 50 };
+    case 'Defender fouls the forward':
+      return { src: '/icons/whistle-red.svg', alt: 'Fouled', size: 50 };
     case 'Free kick awarded':
       return { src: '/icons/free-kick-yellow.svg', alt: 'Free kick awarded', size: 50 };
     case 'Player ready to take the penalty':
     case 'Player comes forward':
     case 'Player shoots':
+    case 'Penalty committed':
       return { src: '/icons/penalty-yellow.svg', alt: 'Penalty preparation', size: 50 };
     case 'Penalty awarded':
       return { src: '/icons/penalty-yellow.svg', alt: 'Penalty awarded', size: 50 };
@@ -270,6 +284,7 @@ const getIconProps = (scenario: string) => {
     case 'Penalty hits the woodwork':
     case 'Shot hits the woodwork':
     case 'Ball hits the woodwork':
+    case 'Header hits the woodwork':
       return { src: '/icons/woodwork-red.svg', alt: 'Hits woodwork', size: 45 };
     case 'Penalty Scored':
       return { src: '/icons/penalty-green.svg', alt: 'Penalty scored', size: 50 };
@@ -277,9 +292,12 @@ const getIconProps = (scenario: string) => {
       return { src: '/icons/catch-green.svg', alt: 'Goalkeeper catches', size: 50 };
     case 'Defender clears the ball':
       return { src: '/icons/shield-green.svg', alt: 'Clears ball', size: 50 };
+    case 'Defender blocks the shot':
+      return { src: '/icons/shield-green.svg', alt: 'Clears ball', size: 50 };
     case 'Forward shoots from the rebound':
     case 'Forward shoots':
     case 'Midfielder takes a direct shot at goal':
+    case 'Forward heads the ball':
       return { src: '/icons/football-shoots-yellow.svg', alt: 'Shoots', size: 40 };
     case 'Ball goes out for a corner':
       return { src: '/icons/corner-green.svg', alt: 'Out for a corner', size: 45 };
@@ -287,9 +305,11 @@ const getIconProps = (scenario: string) => {
       return { src: '/icons/offside-red.svg', alt: 'Caught offside', size: 45 };
     case 'Defender commits a handball':
       return { src: '/icons/handball-red.svg', alt: 'Handball committed', size: 45 };
-    case 'Corner kick is too high and goes out of play':
+    case 'Cross is too high':
       return { src: '/icons/x-red.svg', alt: 'Out of play', size: 45 };
     case 'Defender Intercepts the ball':
+    case 'Midfield backline interception':
+    case 'Midfield frontline interception':
       return { src: '/icons/shield-green.svg', alt: 'Intercepts', size: 45 };
     default:
       return { src: '/icons/default-icon.svg', alt: 'Default icon', size: 45 }; // Fallback
