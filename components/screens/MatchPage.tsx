@@ -1,18 +1,22 @@
 'use client'
-import React, { Suspense, useEffect, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { getMatchByID } from '@/lib/actions/match.actions';
 import Image from 'next/image';
 import { ScrollArea } from '../ui/scroll-area';
 import RollingNumber from '../shared/RollingNumber';
-import { IMatch } from '@/lib/database/models/match.model';
-import { matchPositions } from '@/constants';
 
-type Attack = {
-  minute: number;
-  player: string;
-  outcome: string;
-  stepIndex: number;
-  finalOutcome: string
+type Stats = {
+  possession: number;
+  shots: number;
+  saves: number;
+  corners: number;
+  longBalls: number;
+  fouls: number;
+  passes: number;
+  freeKicks: number;
+  penalties: number;
+  woodwork: number;
+  offsides: number;
 };
 
 const MatchPage = ({ id }: { id: string }) => {
@@ -25,6 +29,138 @@ const MatchPage = ({ id }: { id: string }) => {
   const [playerScore, setPlayerScore] = useState<number>(0);
   const [opponentScore, setOpponentScore] = useState<number>(0);
   const [progress, setProgress] = useState<number>(0);
+  const [playerStats, setPlayerStats] = useState<Stats>({
+    possession: 0,
+    shots: 0,
+    saves: 0,
+    corners: 0,
+    longBalls: 0,
+    fouls: 0,
+    passes: 0,
+    freeKicks: 0,
+    penalties: 0,
+    woodwork: 0,
+    offsides: 0
+  });
+  const [opponentStats, setOpponentStats] = useState<Stats>({
+    possession: 0,
+    shots: 0,
+    saves: 0,
+    corners: 0,
+    longBalls: 0,
+    fouls: 0,
+    passes: 0,
+    freeKicks: 0,
+    penalties: 0,
+    woodwork: 0,
+    offsides: 0
+  });
+
+
+  const updateStats = (scenario: string, player: string) => {
+    const statsUpdate: any = {
+      possession: 0,
+      shots: 0,
+      saves: 0,
+      corners: 0,
+      longBalls: 0,
+      fouls: 0,
+      passes: 0,
+      freeKicks: 0,
+      penalties: 0,
+      woodwork: 0,
+      offsides: 0
+    };
+
+    switch (scenario) {
+      case 'Goalkeeper catches the ball':
+      case 'Defender Intercepts the ball':
+      case 'Forward\'s chance':
+      case 'Midfield backline interception':
+      case 'Ball passed to the forward':
+      case 'Long ball to forward':
+      case 'Pass to frontline midfield':
+      case 'Midfield frontline interception':
+      case 'Midfield has the ball':
+      case 'Defense loses possession':
+      case 'Pass to backline midfield':
+      case 'GoalKeeper plays short pass':
+      case 'Keeper plays through pass':
+      case 'Keeper plays long pass':
+        statsUpdate.possession++;
+        break;
+      case 'Player shoots':
+      case 'Forward shoots from the rebound':
+      case 'Forward heads the ball':
+      case 'Forward shoots':
+      case 'Midfielder shoots':
+        statsUpdate.shots++;
+        break;
+      case 'Goalkeeper saves the penalty':
+      case 'Goalkeeper saves the header':
+      case 'Goalkeeper saves the shot':
+        statsUpdate.saves++;
+        break;
+      case 'Ball goes out for a corner':
+        statsUpdate.corners++;
+        break;
+      case 'Corner kick cross':
+      case 'Midfielder\'s cross':
+      case 'Long ball to forward':
+      case 'Keeper plays long pass':
+        statsUpdate.longBalls++;
+        break;
+      case 'Defender commits a handball':
+      case 'Defender fouls the forward':
+      case 'Midfield is fouled':
+        statsUpdate.fouls++;
+        break;
+      case 'Defender clears the ball':
+      case 'Midfielder\'s pass':
+      case 'Ball passed to the forward':
+      case 'Pass to frontline midfield':
+      case 'Pass to backline midfield':
+      case 'GoalKeeper plays short pass':
+      case 'Keeper plays through pass':
+        statsUpdate.passes++;
+        break;
+      case 'Penalty awarded':
+      case 'Penalty committed':
+      case 'Free kick awarded':
+        statsUpdate.freeKicks++;
+        break;
+      case 'Penalty hits the woodwork':
+      case 'Ball hits the woodwork':
+      case 'Header hits the woodwork':
+      case 'Shot hits the woodwork':
+        statsUpdate.woodwork++;
+        break;
+      case 'Forward is caught offside':
+        statsUpdate.offsides++;
+        break;
+      default:
+        break;
+    }
+
+    if (player === 'Player') {
+      setPlayerStats((prevStats: any) => ({
+        ...prevStats,
+        ...Object.keys(statsUpdate).reduce((acc: any, key: any) => {
+          acc[key] = prevStats[key] + statsUpdate[key];
+          return acc;
+        }, {})
+      }));
+    } else if (player === 'Opponent') {
+      setOpponentStats((prevStats: any) => ({
+        ...prevStats,
+        ...Object.keys(statsUpdate).reduce((acc: any, key: any) => {
+          acc[key] = prevStats[key] + statsUpdate[key];
+          return acc;
+        }, {})
+      }));
+    }
+  };
+
 
 
   useEffect(() => {
@@ -62,6 +198,8 @@ const MatchPage = ({ id }: { id: string }) => {
               setOpponentScore(prevScore => prevScore + 1);
             }
           }
+
+          updateStats(scenarioText, currentAttack.player);
 
           setDisplayedScenarios(prev => [
             { minute: currentAttack.minute, player: currentAttack.player, scenario: currentAttack.scenario[currentScenarioIndex] },
@@ -125,9 +263,9 @@ const MatchPage = ({ id }: { id: string }) => {
       </div>
       <ScrollArea className='h-[85%]'>
         {mainScenario &&
-          <div className='w-full text-center text-white font-semibold rounded-md place-self-center h-[80px] flex flex-row justify-center items-center'>
+          <div className='w-full text-center text-white font-semibold rounded-md h-[85px] flex flex-row justify-center items-center'>
             {mainScenario.player === 'Player' &&
-              <div className='w-5/6 rounded-md flex flex-row items-center justify-center py-3 mr-auto px-2'>
+              <div className='bg-gradient-to-b from-slate-700 to-slate-800 w-5/6 rounded-lg flex flex-row items-center justify-center py-3 px-2'>
                 <div className='w-1/4 flex flex-col justify-center items-center gap-2'>
                   <IconDisplay scenario={mainScenario.scenario.scenario} />
                   <p className='text-yellow-500 font-semibold '>{mainScenario.minute}{`'`}</p>
@@ -137,7 +275,7 @@ const MatchPage = ({ id }: { id: string }) => {
                 </div>
               </div>}
             {mainScenario.player === 'Opponent' &&
-              <div className='w-5/6 rounded-md flex flex-row items-center justify-center py-3 ml-auto px-2'>
+              <div className='bg-gradient-to-b from-slate-700 to-slate-800 w-5/6 rounded-lg flex flex-row items-center justify-center py-3 px-2'>
                 <div className='w-3/4 flex flex-col justify-center items gap-2 text-[15px]'>
                   <p>{mainScenario.scenario.scenario}</p>
                 </div>
@@ -155,6 +293,9 @@ const MatchPage = ({ id }: { id: string }) => {
           <Field currentLine={currentScenario.line} player={currentScenario.player} />
         </div>
         <div className='w-full flex justify-center items-center'>
+          <MatchStats playerStats={playerStats} opponentStats={opponentStats} />
+        </div>
+        <div className='w-full flex justify-center items-center my-3'>
           <p className='place-self-center text-white font-semibold mb-2'>All Highlights</p>
         </div>
         <div className='flex flex-col justify-center items-center gap-3'>
@@ -263,9 +404,9 @@ const getIconProps = (scenario: string) => {
       return { src: '/icons/pass-yellow.svg', alt: 'Pass to forward', size: 50 };
     case 'Midfield is fouled':
     case 'Defender fouls the forward':
-      return { src: '/icons/whistle-red.svg', alt: 'Fouled', size: 50 };
+      return { src: '/icons/whistle-red.svg', alt: 'Fouled', size: 30 };
     case 'Free kick awarded':
-      return { src: '/icons/free-kick-yellow.svg', alt: 'Free kick awarded', size: 50 };
+      return { src: '/icons/freekick-yellow.svg', alt: 'Free kick awarded', size: 50 };
     case 'Player ready to take the penalty':
     case 'Player comes forward':
     case 'Player shoots':
@@ -312,6 +453,102 @@ const getIconProps = (scenario: string) => {
     case 'Midfield frontline interception':
       return { src: '/icons/shield-green.svg', alt: 'Intercepts', size: 45 };
     default:
-      return { src: '/icons/default-icon.svg', alt: 'Default icon', size: 45 }; // Fallback
+      return { src: '/icons/football-yellow-1.svg', alt: 'Default icon', size: 35 }; // Fallback
   }
 }
+
+const MatchStats = ({ playerStats, opponentStats }: any) => {
+  // Calculate possession percentages
+  const totalPossession = playerStats.possession + opponentStats.possession;
+  const playerPossessionPercent = totalPossession ? (playerStats.possession / totalPossession) * 100 : 0;
+  const opponentPossessionPercent = totalPossession ? (opponentStats.possession / totalPossession) * 100 : 0;
+
+  const createBar = (value: number, max: number) => {
+    const percentage = max ? (value / max) * 100 : 0;
+    return (
+      <div className="relative w-full h-6 bg-slate-200 rounded-lg overflow-hidden">
+        <div className="absolute top-0 left-0 h-full bg-green-500" style={{ width: `${percentage}%` }}></div>
+      </div>
+    );
+  };
+
+  return (
+    <div className='w-11/12 bg-gradient-to-b from-slate-800 to-slate-900 text-white p-4 rounded-md shadow-md shadow-slate-800'>
+      <h2 className='text-center font-bold mb-2'>Match Statistics</h2>
+      <div className='flex flex-col gap-2'>
+        <div className='flex flex-col items-center gap-2 mt-2'>
+          <div className='flex flex-row items-center justify-between w-11/12'>
+            <span>{playerPossessionPercent.toFixed(1)}%</span>
+            <span>Possession</span>
+            <span>{opponentPossessionPercent.toFixed(1)}%</span>
+          </div>
+          {createBar(playerPossessionPercent, 100)}
+        </div>
+        <div className='flex flex-col items-center gap-2 mt-2'>
+          <div className='flex flex-row items-center justify-between w-11/12'>
+            <span>{playerStats.shots}</span>
+            <span>Shots</span>
+            <span>{opponentStats.shots}</span>
+          </div>
+          {createBar(playerStats.shots, playerStats.shots + opponentStats.shots)}
+        </div>
+        <div className='flex flex-col items-center gap-2 mt-2'>
+          <div className='flex flex-row items-center justify-between w-11/12'>
+            <span>{playerStats.saves}</span>
+            <span>Saves</span>
+            <span>{opponentStats.saves}</span>
+          </div>
+          {createBar(playerStats.saves, playerStats.saves + opponentStats.saves)}
+        </div>
+        <div className='flex flex-col items-center gap-2 mt-2'>
+          <div className='flex flex-row items-center justify-between w-11/12'>
+            <span>{playerStats.corners}</span>
+            <span>Corners</span>
+            <span>{opponentStats.corners}</span>
+          </div>
+          {createBar(playerStats.corners, playerStats.corners + opponentStats.corners)}
+        </div>
+        <div className='flex flex-col items-center gap-2 mt-2'>
+          <div className='flex flex-row items-center justify-between w-11/12'>
+            <span>{playerStats.fouls}</span>
+            <span>Fouls</span>
+            <span>{opponentStats.fouls}</span>
+          </div>
+          {createBar(playerStats.fouls, playerStats.fouls + opponentStats.fouls)}
+        </div>
+        <div className='flex flex-col items-center gap-2 mt-2'>
+          <div className='flex flex-row items-center justify-between w-11/12'>
+            <span>{playerStats.freeKicks}</span>
+            <span>Freekicks & Pens</span>
+            <span>{opponentStats.freeKicks}</span>
+          </div>
+          {createBar(playerStats.freeKicks, playerStats.freeKicks + opponentStats.freeKicks)}
+        </div>
+        <div className='flex flex-col items-center gap-2 mt-2'>
+          <div className='flex flex-row items-center justify-between w-11/12'>
+            <span>{playerStats.longBalls}</span>
+            <span>Long Balls</span>
+            <span>{opponentStats.longBalls}</span>
+          </div>
+          {createBar(playerStats.longBalls, playerStats.longBalls + opponentStats.longBalls)}
+        </div>
+        <div className='flex flex-col items-center gap-2 mt-2'>
+          <div className='flex flex-row items-center justify-between w-11/12'>
+            <span>{playerStats.woodwork}</span>
+            <span>Hit Woodwork</span>
+            <span>{opponentStats.woodwork}</span>
+          </div>
+          {createBar(playerStats.woodwork, playerStats.woodwork + opponentStats.woodwork)}
+        </div>
+        <div className='flex flex-col items-center gap-2 mt-2'>
+          <div className='flex flex-row items-center justify-between w-11/12'>
+            <span>{playerStats.offsides}</span>
+            <span>Offside</span>
+            <span>{opponentStats.offsides}</span>
+          </div>
+          {createBar(playerStats.offsides, playerStats.offsides + opponentStats.offsides)}
+        </div>
+      </div>
+    </div>
+  );
+};
