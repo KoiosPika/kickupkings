@@ -11,7 +11,7 @@ export const populateMatch = (query: any) => {
         .populate({ path: 'Opponent', model: User, select: "_id username" })
 }
 
-export async function getMatchByID(id: string) {
+export async function getMatchByID(id: string, page: number) {
     try {
         await connectToDatabase();
 
@@ -19,8 +19,6 @@ export async function getMatchByID(id: string) {
 
         const player = await UserData.findOne({ User: match.Player._id })
         const opponent = await UserData.findOne({ User: match.Opponent._id })
-
-        console.log('################################################################################')
 
         if (!player || !opponent) {
             throw new Error('Player or opponent not found');
@@ -36,13 +34,13 @@ export async function getMatchByID(id: string) {
     }
 }
 
-export async function getMatchesByUserID(id: string) {
+export async function getMatchesByUserID(id: string, page: number) {
     try {
         await connectToDatabase();
 
         const matches = await populateMatch(Match.find({
             $or: [{ Player: id }, { Opponent: id }]
-        }).sort({ createdAt: -1 }))
+        }).sort({ createdAt: -1 }).skip(page * 20).limit(20))
 
         return JSON.parse(JSON.stringify(matches))
     } catch (error) {

@@ -144,7 +144,7 @@ const EarnPage = () => {
                   <div className='flex flex-row items-center relative w-[300px]'>
                     <Input
                       className='font-bold text-center text-[18px] bg-slate-500 text-white border-2 border-white h-[50px] rounded-full'
-                      value={quizAnswers[quiz.id] || ''}
+                      value={quizAnswers[quiz.id]}
                       onChange={(e) => handleQuizChange(quiz.id, e.target.value)}
                     />
                     <Image

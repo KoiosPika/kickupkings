@@ -73,6 +73,18 @@ const ShopPage = () => {
 
         const userRank = Ranks.find(rank => rank.rank === user.Rank);
 
+        const userDraws = user.draws
+
+        console.log(userDraws)
+
+        let coinPrizesMultiple;
+
+        if (userDraws < 4) {
+            coinPrizesMultiple = 8
+        } else {
+            coinPrizesMultiple = 0
+        }
+
         let prizes: any[] = [];
 
         const minCoins = userRank!.baseCoins * 5;
@@ -84,11 +96,11 @@ const ShopPage = () => {
             prizes = prizes.concat(
                 filteredPositions.map(pos => ({
                     ...pos,
-                    increment: Math.floor(Math.random() * 3) + 1
+                    increment: Math.floor(Math.random() * 2) + 1
                 }))
             );
         }
-        for (let i = 0; i < 40; i++) {
+        for (let i = 0; i < (40 * coinPrizesMultiple); i++) {
             const amount = Math.floor(Math.random() * (maxCoins - minCoins + 1)) + minCoins;
             prizes.push({ type: 'coins', amount });
         }
@@ -227,7 +239,7 @@ const ShopPage = () => {
                         <div className='flex justify-center items-center mt-6 relative'>
                             <div className='h-[200px] w-[200px] rounded-full bg-gradient-to-t from-green-700 to-red-500 flex justify-center items-center animate-spin' style={{ boxShadow: `-8px -8px 10px -6px red,-8px 8px 10px -6px green,8px -8px 10px -6px green,8px 8px 10px -6px red` }} />
                             {isSpinning || finalPrize ? (
-                                <div className='h-[180px] w-[180px] bg-slate-700 rounded-full flex flex-col gap-2 justify-center items-center absolute z-10'>
+                                <div className='h-[185px] w-[185px] bg-slate-700 rounded-full flex flex-col gap-2 justify-center items-center absolute z-10'>
                                     {currentPrize && (
                                         currentPrize.type === 'coins' ? (
                                             <div className='flex flex-row items-center gap-2'>
@@ -246,7 +258,7 @@ const ShopPage = () => {
                                     )}
                                 </div>
                             ) : (
-                                <div className='h-[190px] w-[190px] bg-slate-700 rounded-full flex flex-col gap-2 justify-center items-center absolute' onClick={handleSpinClick}>
+                                <div className='h-[185px] w-[185px] bg-slate-700 rounded-full flex flex-col gap-2 justify-center items-center absolute' onClick={handleSpinClick}>
                                     <p className='rounded-full text-white mr-2 text-[24px] font-semibold'>Click to Spin</p>
                                     <div className='flex flex-row justify-center items-center gap-2 px-2 py-1 rounded-full'>
                                         <p className='font-bold text-[20px]' style={{ color: user && user.diamonds >= 5 ? 'white' : 'red' }}>5</p>
@@ -256,10 +268,13 @@ const ShopPage = () => {
                             )}
                         </div>
                         <div className='flex flex-row justify-center items-center gap-2 mt-5'>
-                            <div className='flex flex-row gap-2 justify-center items-center' onClick={handleReseting}>
+                            {finalPrize && <div className='flex flex-row gap-2 justify-center items-center' onClick={handleReseting}>
                                 <Image src={'/icons/refresh.svg'} alt='refresh' height={25} width={25} />
                                 <p className='font-semibold text-[18px] text-white'>Reset</p>
-                            </div>
+                            </div>}
+                            {!finalPrize && <div className='flex flex-row gap-2 justify-center items-center w-2/3 text-center' onClick={handleReseting}>
+                                <p className='font-semibold text-[15px] text-white'>Level upgrade is guaranteed after {5 - user.draws} spins</p>
+                            </div>}
                         </div>
                         <DrawerClose className='absolute text-white right-4 top-4'>
                             <Image src={'/icons/x.svg'} alt='coin' height={100} width={100} className='w-[25px] h-[25px] sm:w-[40px] sm:h-[40px]' />
@@ -269,10 +284,10 @@ const ShopPage = () => {
             </div>
             <div className='w-full flex flex-col justify-center items-center my-2'>
                 <div className='w-11/12 bg-slate-800 flex flex-row items-center justify-evenly px-1 py-1 rounded-lg my-2'>
-                    {['Defense', 'Midfield', 'Forward', 'Staff'].map((type) => (
+                    {['Defense', 'Midfield', 'Forward'].map((type) => (
                         <p
                             key={type}
-                            className={`w-1/4 rounded-md text-center text-[12.5px] sm:text-[24px] font-bold py-[2px] sm:py-[7px] cursor-pointer text-white ${selectedType === type ? 'bg-[#09C609]' : ''
+                            className={`w-1/3 rounded-md text-center text-[12.5px] sm:text-[24px] font-bold py-[2px] sm:py-[7px] cursor-pointer text-white ${selectedType === type ? 'bg-[#09C609]' : ''
                                 }`}
                             onClick={() => handleTypeChange(type)}
                         >

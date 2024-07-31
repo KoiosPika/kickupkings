@@ -56,13 +56,13 @@ export async function getUserForPlayPage(id: string) {
 
         await Match.updateMany(
             {
-              $and: [
-                { $or: [{ Player: id }, { Opponent: id }] },
-                { availableToWatch: { $lte: new Date() } }
-              ]
+                $and: [
+                    { $or: [{ Player: id }, { Opponent: id }] },
+                    { availableToWatch: { $lte: new Date() } }
+                ]
             },
             { $set: { attacks: [] } }
-          );
+        );
 
         const userMatches = await populateMatch(Match.find({
             $or: [{ Player: id }, { Opponent: id }],
@@ -82,6 +82,7 @@ export async function getUserForPlayPage(id: string) {
             coins: user.coins,
             diamonds: user.diamonds,
             points: user.points,
+            draws: user.draws,
             played: user.played,
             won: user.won,
             lost: user.lost,
@@ -223,6 +224,12 @@ export async function savePrize(id: string, prize: string) {
 
         user.diamonds -= 5;
 
+        user.draws += 1
+
+        if (user.draws === 5) {
+            user.draws = 0
+        }
+
         user.teamOverall = calculateTeamOverall(user.positions);
 
         await user.save();
@@ -247,7 +254,7 @@ function distributeAttacks(attacksCount: number, totalMinutes: number, splitMinu
 
     let minutes: number[] = [];
 
-    if(totalMinutes === 90){
+    if (totalMinutes === 90) {
         minutes.push(1)
         minutes.push(46)
     } else {

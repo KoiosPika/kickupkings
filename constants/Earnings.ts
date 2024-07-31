@@ -1,18 +1,18 @@
 export const Quizzes = [
     {
-        id: '07-23-2024_Quiz_1',
-        answer: 'Benzema',
+        id: '07-31-2024_Quiz_1',
+        answer: 'David Luiz',
     },
     {
-        id: '07-23-2024_Quiz_2',
-        answer: 'Barcelona',
+        id: '07-31-2024_Quiz_2',
+        answer: 'Henry',
     },
 ]
 
 export const Predictions = [
     {
-        id: '07-23-2024_Match_1',
-        lastTimeToPredict: new Date('2024-07-26T14:00:00Z'), // Some date type
+        id: '01-08-2024_Match_1',
+        lastTimeToPredict: new Date('2024-08-01T14:00:00Z'), // Some date type
         team1: 'Real Madrid',
         team2: 'Barcelona',
         team1Score: null,

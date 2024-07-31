@@ -522,3 +522,29 @@ export function simulateAttack(playerFormation: any, opponentFormation: any, pla
 
   return scenario;
 }
+
+export function timeAgo(dateInput: Date | string): string {
+  const date = new Date(dateInput); // Convert to Date object if it isn't already
+  const now = new Date();
+  const diff = now.getTime() - date.getTime(); // Difference in milliseconds
+
+  const minutes = Math.floor(diff / (1000 * 60));
+  const hours = Math.floor(diff / (1000 * 60 * 60));
+  const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+  const weeks = Math.floor(diff / (1000 * 60 * 60 * 24 * 7));
+  const years = Math.floor(diff / (1000 * 60 * 60 * 24 * 365));
+
+  if (years >= 1) {
+    return `${years}y`;
+  } else if (weeks >= 1) {
+    return `${weeks}w`;
+  } else if (days >= 1) {
+    return `${days}d`;
+  } else if (hours >= 1) {
+    return `${hours}h`;
+  } else if (minutes >= 1) {
+    return `${minutes}m`;
+  } else {
+    return "Just now";
+  }
+}

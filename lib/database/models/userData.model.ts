@@ -62,6 +62,7 @@ const UserDataSchema = new Schema({
     coins: { type: Number, default: 0 },
     diamonds: { type: Number, default: 0 },
     points: { type: Number, default: 0 },
+    draws: { type: Number, default: 0 },
     played: { type: Number, default: 0 },
     won: { type: Number, default: 0 },
     lost: { type: Number, default: 0 },

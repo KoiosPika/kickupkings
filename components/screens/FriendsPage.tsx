@@ -150,7 +150,6 @@ const FriendsPage = () => {
                 </a>
                 <Image src={'/PFP.jpg'} alt='user' height={50} width={50} className='bg-slate-500 h-[30px] w-[30px] rounded-lg' />
                 <p className='font-semibold text-white text-[13px]'>{user?.User.username} ({user?.Rank})</p>
-                <p className='font-semibold text-white text-[13px]'>{`->`}</p>
             </div>
             <div className='w-full p-4'>
                 <div className='w-full flex flex-row items-center gap-2'>
@@ -170,7 +169,9 @@ const FriendsPage = () => {
                     </div>
                     <AlertDialog>
                         <AlertDialogTrigger>
-                            <div className='px-3 py-[2px] rounded-md bg-white text-[20px] font-bold'>+</div>
+                            <div className='flex justify-center items-center px-3 h-[35px] rounded-md bg-white text-[20px] font-bold'>
+                                <p>+</p>
+                            </div>
                         </AlertDialogTrigger>
                         <AlertDialogContent className='bg-slate-900 px-4 py-6 border-0 rounded-lg min-h-[400px] flex flex-col justify-start items-center'>
                             <AlertDialogHeader>
@@ -216,7 +217,7 @@ const FriendsPage = () => {
                         <div className='w-full flex flex-col items-center overflow-y-auto'>
                             {friendsList.length > 0 ? (
                                 friendsList.map(friend => (
-                                    <div key={friend._id} className='w-full max-w-md bg-gradient-to-b from-slate-900 to-slate-800 rounded-md p-3 mb-2 text-white flex items-center'>
+                                    <div key={friend._id} className='w-full max-w-md bg-gradient-to-b from-slate-900 to-slate-800 rounded-md p-3 mb-1 text-white flex items-center'>
                                         <Image src={'/PFP.jpg'} alt='friend' height={20} width={20} className='h-[35px] w-[35px] rounded-md' />
                                         <p className='text-[16px] font-medium ml-3'>{friend.username}</p>
                                         <AlertDialog>
