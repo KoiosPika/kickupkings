@@ -256,7 +256,20 @@ function distributeAttacks(attacksCount: number, totalMinutes: number, splitMinu
 }
 
 function simulatePenalty(player: string) {
-    return Math.random() < 0.5 ? `Penalty Missed` : `Penalty Scored`;
+    let scenario: any[] = [];
+    scenario.push({ scenario: 'Player ready to take the penalty', line: 9, wait: 4000 });
+    scenario.push({ scenario: 'Player comes forward', line: 9, wait: 3000 });
+    scenario.push({ scenario: 'Player shoots', line: 10, wait: 1500 });
+
+    const PenaltyChance = Math.random();
+
+    if(PenaltyChance < 0.25){
+        scenario.push({ scenario: 'Penalty Missed', line: 10, wait: 1500 });
+    } else {
+        scenario.push({ scenario: 'Penalty Scored', line: 10, wait: 1500 });
+    }
+
+    return scenario;
 }
 
 export async function playGame(player1ID: string, player2ID: string, type: string, coins: number, diamonds: number, points: number) {
@@ -337,7 +350,7 @@ export async function playGame(player1ID: string, player2ID: string, type: strin
                 }
                 results.push({ minute: normalTimeMinutes[i], player: 'Opponent', scenario });
             }
-            console.log('Result:' ,results)
+            console.log('Result:', results)
         }
 
         results.push({ minute: 90, player: 'Match', scenario: score1 === score2 ? [{ scenario: 'Awaiting Extra-time', line: 5, wait: 2500 }] : [{ scenario: 'Full time', line: 5, wait: 2500 }] });
@@ -368,22 +381,20 @@ export async function playGame(player1ID: string, player2ID: string, type: strin
             results.push({ minute: 120, player: 'Match', scenario: score1 === score2 ? [{ scenario: 'Awaiting Penalties', line: 5, wait: 2500 }] : [{ scenario: 'Full time', line: 5, wait: 2500 }] });
         }
 
-        let penalties = [];
         let playerPenalties = 0;
         let opponentPenalties = 0;
 
         if (score1 === score2) {
             // Initial 5 penalties for each team
             for (let i = 0; i < 5; i++) {
-                let penaltyOutcome = simulatePenalty('Player');
-                results.push({ minute: 120, player: 'Player', scenario: [{ scenario: penaltyOutcome, line: 5, wait: 3000 }] });
-                penalties.push({ player: 'Player', outcome: penaltyOutcome });
-                if (penaltyOutcome[0] === 'Penalty Scored') playerPenalties++;
+                let scenario;
+                scenario = simulatePenalty('Player');
+                results.push({ minute: 120, player: 'Player', scenario: scenario});
+                if (scenario[scenario.length - 1].scenario === 'Penalty Scored') playerPenalties++;
 
-                penaltyOutcome = simulatePenalty('Opponent');
-                results.push({ minute: 120, player: 'Opponent', scenario: [{ scenario: penaltyOutcome, line: 5, wait: 3000 }] });
-                penalties.push({ player: 'Opponent', outcome: penaltyOutcome });
-                if (penaltyOutcome[0] === 'Penalty Scored') opponentPenalties++;
+                scenario = simulatePenalty('Opponent');
+                results.push({ minute: 120, player: 'Opponent', scenario: scenario });
+                if (scenario[scenario.length - 1].scenario === 'Penalty Scored') opponentPenalties++;
 
                 // Check for early win
                 if ((playerPenalties > opponentPenalties + (4 - i)) || (opponentPenalties > playerPenalties + (4 - i))) {
@@ -394,15 +405,14 @@ export async function playGame(player1ID: string, player2ID: string, type: strin
             // Sudden death if tied after 5 penalties each
             let round = 6;
             while (playerPenalties === opponentPenalties) {
-                let penaltyOutcome = simulatePenalty('Player');;
-                results.push({ minute: 120, player: 'Player', scenario: [{ scenario: penaltyOutcome, line: 5, wait: 3000 }] });
-                penalties.push({ player: 'Player', outcome: penaltyOutcome });
-                if (penaltyOutcome[0] === 'Penalty Scored') playerPenalties++;
+                let scenario;
+                scenario = simulatePenalty('Player');
+                results.push({ minute: 120, player: 'Player', scenario: scenario});
+                if (scenario[scenario.length - 1].scenario === 'Penalty Scored') playerPenalties++;
 
-                penaltyOutcome = simulatePenalty('Opponent');;
-                results.push({ minute: 120, player: 'Opponent', scenario: [{ scenario: penaltyOutcome, line: 5, wait: 3000 }] });
-                penalties.push({ player: 'Opponent', outcome: penaltyOutcome });
-                if (penaltyOutcome[0] === 'Penalty Scored') opponentPenalties++;
+                scenario = simulatePenalty('Opponent');
+                results.push({ minute: 120, player: 'Opponent', scenario: scenario });
+                if (scenario[scenario.length - 1].scenario === 'Penalty Scored') opponentPenalties++;
 
                 round++;
             }
@@ -423,7 +433,7 @@ export async function playGame(player1ID: string, player2ID: string, type: strin
 
         if (type == 'Rank') {
             const rankData = Ranks.find(rank => rank.rank === player1.Rank);
-            if (finalOutcome[0] === 'Player Wins!') {
+            if (finalOutcome === 'Player Wins!') {
                 const updatedPlayer1 = await UserData.findOneAndUpdate({ User: player1ID }, { '$inc': { played: 1, won: 1, points, coins, diamonds } }, { new: true })
 
                 const newRank = Ranks.find(rank => updatedPlayer1.points <= rank.maxPoints) || Ranks[Ranks.length - 1];
@@ -436,7 +446,7 @@ export async function playGame(player1ID: string, player2ID: string, type: strin
                 }
 
                 await UserData.findOneAndUpdate({ User: player2ID }, { '$inc': { played: 1, lost: 1 } })
-            } else if (finalOutcome[0] === 'Opponent Wins!') {
+            } else if (finalOutcome === 'Opponent Wins!') {
                 const updatedPlayer1 = await UserData.findOneAndUpdate({ User: player1ID }, { '$inc': { played: 1, lost: 1, points: (rankData?.basePoints || 0) * -1 } }, { new: true })
                 const newRank = Ranks.find(rank => updatedPlayer1.points <= rank.maxPoints) || Ranks[Ranks.length - 1];
 
@@ -449,12 +459,12 @@ export async function playGame(player1ID: string, player2ID: string, type: strin
                 await UserData.findOneAndUpdate({ User: player2ID }, { '$inc': { played: 1, won: 1 } })
             }
         } else if (type === 'Classic') {
-            if (finalOutcome[0] === 'Player Wins!') {
+            if (finalOutcome === 'Player Wins!') {
                 await UserData.findOneAndUpdate({ User: player1ID }, { '$inc': { played: 1, won: 1, coins } })
 
                 await UserData.findOneAndUpdate({ User: player2ID }, { '$inc': { played: 1, lost: 1 } })
 
-            } else if (finalOutcome[0] === 'Opponent Wins!') {
+            } else if (finalOutcome === 'Opponent Wins!') {
                 await UserData.findOneAndUpdate({ User: player1ID }, { '$inc': { played: 1, lost: 1, coins: coins / 3 } })
 
                 await UserData.findOneAndUpdate({ User: player2ID }, { '$inc': { played: 1, won: 1 } })

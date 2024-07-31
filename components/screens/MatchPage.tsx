@@ -25,7 +25,7 @@ const MatchPage = ({ id }: { id: string }) => {
   const [mainScenario, setMainScernario] = useState<{ minute: number; player: string; scenario: any }>()
   const [currentAttackIndex, setCurrentAttackIndex] = useState<number>(0);
   const [currentScenarioIndex, setCurrentScenarioIndex] = useState<number>(0);
-  const [currentScenario, setCurrentScenario] = useState({ line: 4, player: 'Player' });
+  const [currentScenario, setCurrentScenario] = useState({ line: 4, player: 'Match' });
   const [playerScore, setPlayerScore] = useState<number>(0);
   const [opponentScore, setOpponentScore] = useState<number>(0);
   const [progress, setProgress] = useState<number>(0);
@@ -142,22 +142,44 @@ const MatchPage = ({ id }: { id: string }) => {
         break;
     }
 
-    if (player === 'Player') {
-      setPlayerStats((prevStats: any) => ({
-        ...prevStats,
-        ...Object.keys(statsUpdate).reduce((acc: any, key: any) => {
-          acc[key] = prevStats[key] + statsUpdate[key];
-          return acc;
-        }, {})
-      }));
-    } else if (player === 'Opponent') {
-      setOpponentStats((prevStats: any) => ({
-        ...prevStats,
-        ...Object.keys(statsUpdate).reduce((acc: any, key: any) => {
-          acc[key] = prevStats[key] + statsUpdate[key];
-          return acc;
-        }, {})
-      }));
+    const isOpponentStat = ['Goalkeeper saves the penalty', 'Goalkeeper saves the shot', 'Goalkeeper saves the header', 'Defender commits a handball', 'Defender fouls the forward', 'Midfield is fouled'].includes(scenario);
+
+    if (isOpponentStat) {
+      if (player === 'Player') {
+        setOpponentStats((prevStats: any) => ({
+          ...prevStats,
+          ...Object.keys(statsUpdate).reduce((acc: any, key: any) => {
+            acc[key] = prevStats[key] + statsUpdate[key];
+            return acc;
+          }, {})
+        }));
+      } else if (player === 'Opponent') {
+        setPlayerStats((prevStats: any) => ({
+          ...prevStats,
+          ...Object.keys(statsUpdate).reduce((acc: any, key: any) => {
+            acc[key] = prevStats[key] + statsUpdate[key];
+            return acc;
+          }, {})
+        }));
+      }
+    } else {
+      if (player === 'Player') {
+        setPlayerStats((prevStats: any) => ({
+          ...prevStats,
+          ...Object.keys(statsUpdate).reduce((acc: any, key: any) => {
+            acc[key] = prevStats[key] + statsUpdate[key];
+            return acc;
+          }, {})
+        }));
+      } else if (player === 'Opponent') {
+        setOpponentStats((prevStats: any) => ({
+          ...prevStats,
+          ...Object.keys(statsUpdate).reduce((acc: any, key: any) => {
+            acc[key] = prevStats[key] + statsUpdate[key];
+            return acc;
+          }, {})
+        }));
+      }
     }
   };
 
@@ -265,7 +287,7 @@ const MatchPage = ({ id }: { id: string }) => {
         {mainScenario &&
           <div className='w-full text-center text-white font-semibold rounded-md h-[85px] flex flex-row justify-center items-center'>
             {mainScenario.player === 'Player' &&
-              <div className='bg-gradient-to-b from-slate-700 to-slate-800 w-5/6 rounded-lg flex flex-row items-center justify-center py-3 px-2'>
+              <div className='w-5/6 rounded-lg flex flex-row items-center justify-center mr-auto ml-2 py-3 px-2'>
                 <div className='w-1/4 flex flex-col justify-center items-center gap-2'>
                   <IconDisplay scenario={mainScenario.scenario.scenario} />
                   <p className='text-yellow-500 font-semibold '>{mainScenario.minute}{`'`}</p>
@@ -275,7 +297,7 @@ const MatchPage = ({ id }: { id: string }) => {
                 </div>
               </div>}
             {mainScenario.player === 'Opponent' &&
-              <div className='bg-gradient-to-b from-slate-700 to-slate-800 w-5/6 rounded-lg flex flex-row items-center justify-center py-3 px-2'>
+              <div className='w-5/6 rounded-lg flex flex-row items-center justify-center ml-auto mr-2 py-3 px-2'>
                 <div className='w-3/4 flex flex-col justify-center items gap-2 text-[15px]'>
                   <p>{mainScenario.scenario.scenario}</p>
                 </div>

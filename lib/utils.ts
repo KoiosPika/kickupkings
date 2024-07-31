@@ -172,7 +172,7 @@ function handleFollowUp(scenario: any, level: any, outcome: string): any {
       return handleRebound(scenario, level);
     } else {
       scenario.push({ scenario: 'Ball goes out for a corner', line: 10, wait: 4500 });
-      handleCorner(scenario, level + 1)
+      handleCorner(scenario, level)
     }
   } else if (outcome === 'woodwork') {
     if (followUpEvent < 0.3) {
@@ -193,20 +193,20 @@ function handleRebound(scenario: any, level: any): any {
   const reboundOutcome = Math.random();
   if (reboundOutcome < 0.25) {
     scenario.push({ scenario: 'Goalkeeper saves the shot', line: 9, wait: 2500 });
-    return handleFollowUp(scenario, level + 1, 'save');
+    return handleFollowUp(scenario, level, 'save');
   } else if (reboundOutcome < 0.4) {
     scenario.push({ scenario: 'Ball hits the woodwork', line: 9, wait: 3000 });
-    return handleFollowUp(scenario, level + 1, 'woodwork');
+    return handleFollowUp(scenario, level, 'woodwork');
   } else if (reboundOutcome < 0.5) {
     scenario.push({ scenario: 'Shot is off target', line: 10, wait: 4000 });
   } else if (reboundOutcome < 0.6) {
     scenario.push({ scenario: 'Goal Scored', line: 10, wait: 4500 });
   } else if (reboundOutcome < 0.7) {
     scenario.push({ scenario: 'Defender blocks the shot', line: 9, wait: 3000 });
-    return handleBlock(scenario, level + 1);
+    return handleBlock(scenario, level);
   } else {
     scenario.push({ scenario: 'Ball goes out for a corner', line: 10, wait: 4500 });
-    handleCorner(scenario, level + 1)
+    handleCorner(scenario, level)
   }
   return scenario;
 }
@@ -216,13 +216,13 @@ function handleBlock(scenario: any, level: any): any {
   const blockOutcome = Math.random();
   if (blockOutcome < 0.5) {
     scenario.push({ scenario: 'Ball goes out for a corner', line: 10, wait: 4500 });
-    handleCorner(scenario, level + 1)
+    handleCorner(scenario, level)
   } else if (blockOutcome < 0.7) {
     scenario.push({ scenario: 'Defender clears the ball', line: 8, wait: 3000 });
   } else {
     scenario.push({ scenario: 'Defender commits a handball', line: 9, wait: 4500 });
     scenario.push({ scenario: 'Penalty awarded', line: 9, wait: 4500 });
-    return handlePenalty(scenario, level + 1);
+    return handlePenalty(scenario, level);
   }
   return scenario;
 }
@@ -250,7 +250,7 @@ function handleCorner(scenario: any[], level: number) {
       scenario.push({ scenario: 'Header is off target', line: 10, wait: 3000 });
     } else if (headerOutcome < 0.9) {
       scenario.push({ scenario: 'Defender blocks the header', line: 9, wait: 3500 });
-      handleBlock(scenario, level + 1)
+      handleBlock(scenario, level)
     } else {
       scenario.push({ scenario: 'Header hits the woodwork', line: 9, wait: 3500 });
       scenario = handleFollowUp(scenario, 1, 'woodwork')
