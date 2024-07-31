@@ -235,7 +235,7 @@ function mapUserDataToPlayers(userData: IUserData, increment: number) {
 
 function distributeAttacks(attacksCount: number, totalMinutes: number, splitMinute: number) {
 
-    let minutes: number[] = [];
+    let minutes: number[] = [1, 46];
 
     while (minutes.length < attacksCount) {
         const minute = Math.floor(Math.random() * totalMinutes) + 1;
@@ -263,7 +263,7 @@ function simulatePenalty(player: string) {
 
     const PenaltyChance = Math.random();
 
-    if(PenaltyChance < 0.25){
+    if (PenaltyChance < 0.25) {
         scenario.push({ scenario: 'Penalty Missed', line: 10, wait: 1500 });
     } else {
         scenario.push({ scenario: 'Penalty Scored', line: 10, wait: 1500 });
@@ -389,7 +389,7 @@ export async function playGame(player1ID: string, player2ID: string, type: strin
             for (let i = 0; i < 5; i++) {
                 let scenario;
                 scenario = simulatePenalty('Player');
-                results.push({ minute: 120, player: 'Player', scenario: scenario});
+                results.push({ minute: 120, player: 'Player', scenario: scenario });
                 if (scenario[scenario.length - 1].scenario === 'Penalty Scored') playerPenalties++;
 
                 scenario = simulatePenalty('Opponent');
@@ -407,7 +407,7 @@ export async function playGame(player1ID: string, player2ID: string, type: strin
             while (playerPenalties === opponentPenalties) {
                 let scenario;
                 scenario = simulatePenalty('Player');
-                results.push({ minute: 120, player: 'Player', scenario: scenario});
+                results.push({ minute: 120, player: 'Player', scenario: scenario });
                 if (scenario[scenario.length - 1].scenario === 'Penalty Scored') playerPenalties++;
 
                 scenario = simulatePenalty('Opponent');

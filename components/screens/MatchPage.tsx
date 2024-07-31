@@ -230,13 +230,17 @@ const MatchPage = ({ id }: { id: string }) => {
 
           setCurrentScenarioIndex(currentScenarioIndex + 1);
         } else {
+
+          if (currentAttack.player !== 'Match') {
+            // Assuming totalSignificantAttacks is defined elsewhere, e.g., 24
+            const processedAttacks = match.attacks.slice(0, currentAttackIndex + 1)
+              .filter((attack: any) => attack.player !== 'Match').length;
+  
+            setProgress((processedAttacks / 24) * 100);
+          }
           setCurrentAttackIndex(currentAttackIndex + 1);
           setCurrentScenarioIndex(0);
         }
-
-        const totalScenarios = match.attacks.reduce((acc: any, attack: any) => acc + attack.scenario.length, 0);
-        const processedScenarios = currentAttackIndex * match.attacks[0].scenario.length + currentScenarioIndex + 1;
-        setProgress((processedScenarios / totalScenarios) * 100);
       } else {
         clearInterval(interval);
       }
@@ -488,8 +492,8 @@ const MatchStats = ({ playerStats, opponentStats }: any) => {
   const createBar = (value: number, max: number) => {
     const percentage = max ? (value / max) * 100 : 0;
     return (
-      <div className="relative w-full h-6 bg-slate-200 rounded-lg overflow-hidden">
-        <div className="absolute top-0 left-0 h-full bg-green-500" style={{ width: `${percentage}%` }}></div>
+      <div className="relative w-full h-6 bg-yellow-500 rounded-lg overflow-hidden">
+        <div className="absolute top-0 left-0 h-full bg-green-600" style={{ width: `${percentage}%` }}></div>
       </div>
     );
   };
