@@ -235,7 +235,7 @@ const MatchPage = ({ id }: { id: string }) => {
             // Assuming totalSignificantAttacks is defined elsewhere, e.g., 24
             const processedAttacks = match.attacks.slice(0, currentAttackIndex + 1)
               .filter((attack: any) => attack.player !== 'Match').length;
-  
+
             setProgress((processedAttacks / 24) * 100);
           }
           setCurrentAttackIndex(currentAttackIndex + 1);
@@ -250,7 +250,10 @@ const MatchPage = ({ id }: { id: string }) => {
   }, [match, currentAttackIndex, currentScenarioIndex]);
 
   if (!match) {
-    return <p>Wait</p>
+    return (
+      <section className='w-full h-screen flex flex-col justify-center items-center bg-gradient-to-b from-slate-800 to-gray-600'>
+        <Image src={'/icons/spinner.svg'} alt='spinner' height={30} width={30} className='animate-spin' />
+      </section>)
   }
 
   return (
@@ -312,11 +315,22 @@ const MatchPage = ({ id }: { id: string }) => {
               </div>}
             {mainScenario.player === 'Match' &&
               <div className='text-center'>
-                {mainScenario.scenario.scenario}
+                {mainScenario.scenario.scenario === 'Player Wins!' &&
+                  <div className='flex flex-row items-center gap-1'>
+                    <p className='text-white font-semibold text-[18px]'>{match?.Player.username}</p>
+                    <Image src={`/flags/${match.playerCountry}.svg`} alt='flag' height={20} width={20} className='bg-white h-[25px] w-[25px] rounded-full' />
+                    <p className='text-white font-semibold text-[18px] ml-1'>Wins!</p>
+                  </div>}
+                {mainScenario.scenario.scenario === 'Opponent Wins!' &&
+                  <div className='flex flex-row items-center gap-1'>
+                    <p className='text-white font-semibold text-[18px]'>{match?.Opponent.username}</p>
+                    <Image src={`/flags/${match.opponentCountry}.svg`} alt='flag' height={20} width={20} className='bg-white h-[25px] w-[25px] rounded-full' />
+                    <p className='text-white font-semibold text-[18px] ml-1'>Wins!</p>
+                  </div>}
               </div>}
           </div>}
         <div className='flex justify-center items-center my-4'>
-          <Field currentLine={currentScenario.line} player={currentScenario.player} />
+          <Field scenarioText={mainScenario?.scenario.scenario || ''} currentLine={currentScenario.line} player={currentScenario.player} match={match} />
         </div>
         <div className='w-full flex justify-center items-center'>
           <MatchStats playerStats={playerStats} opponentStats={opponentStats} />
@@ -349,7 +363,13 @@ const MatchPage = ({ id }: { id: string }) => {
                 </div>}
               {scenario.player === 'Match' &&
                 <div className='text-center'>
-                  {scenario.scenario.scenario}
+                  {scenario.scenario.scenario === 'Player Wins!' ? (
+                    <p>{match?.Player.username} Wins!</p>  
+                  ) : scenario.scenario.scenario === 'Opponent Wins!' ? (
+                    <p>{match?.Opponent.username} Wins!</p> 
+                  ) : (
+                    <p>{scenario.scenario.scenario}</p> 
+                  )}
                 </div>}
             </div>
           ))}
@@ -360,7 +380,7 @@ const MatchPage = ({ id }: { id: string }) => {
 };
 export default MatchPage
 
-const Field = ({ currentLine, player }: { currentLine: number, player: string }) => {
+const Field = ({ currentLine, player, scenarioText, match }: { currentLine: number, player: string, scenarioText: string, match: any }) => {
 
   const fieldHeight = 190;
   const fieldWidth = 290;
@@ -381,7 +401,7 @@ const Field = ({ currentLine, player }: { currentLine: number, player: string })
     : { borderTopLeftRadius: '50%', borderBottomLeftRadius: '50%' };
 
   return (
-    <div className="field" style={{ width: fieldWidth, height: fieldHeight, position: 'relative' }}>
+    <div className="field flex justify-center items-center" style={{ width: fieldWidth, height: fieldHeight, position: 'relative' }}>
       <div
         className="shading"
         style={{
@@ -394,6 +414,16 @@ const Field = ({ currentLine, player }: { currentLine: number, player: string })
           transform: !isPlayer ? 'none' : 'scale(-1)'
         }}
       />
+      {(scenarioText && scenarioText === 'Player Wins!') &&
+        <div className='flex flex-col justify-center items-center gap-2 w-[90px] overflow-hidden animate-in'>
+          <Image src={'/icons/crown.svg'} alt='user' height={70} width={70} className='h-[50px] w-[50px] rounded-md' />
+          <Image src={'/PFP.jpg'} alt='user' height={70} width={70} className='bg-slate-500 h-[70px] w-[70px] rounded-md' />
+        </div>}
+      {(scenarioText && scenarioText === 'Opponent Wins!') &&
+        <div className='flex flex-col justify-center items-center gap-2 w-[90px] overflow-hidden'>
+          <Image src={'/icons/crown.svg'} alt='user' height={70} width={70} className='h-[50px] w-[50px] rounded-md' />
+          <Image src={'/PFP.jpg'} alt='user' height={70} width={70} className='bg-slate-500 h-[70px] w-[70px] rounded-md' />
+        </div>}
     </div>
   );
 };
@@ -501,7 +531,7 @@ const MatchStats = ({ playerStats, opponentStats }: any) => {
   return (
     <div className='w-11/12 bg-gradient-to-b from-slate-800 to-slate-900 text-white p-4 rounded-md shadow-md shadow-slate-800'>
       <h2 className='text-center font-bold mb-2'>Match Statistics</h2>
-      <div className='flex flex-col gap-2'>
+      <div className='flex flex-col gap-2 font-semibold'>
         <div className='flex flex-col items-center gap-2 mt-2'>
           <div className='flex flex-row items-center justify-between w-11/12'>
             <span>{playerPossessionPercent.toFixed(1)}%</span>

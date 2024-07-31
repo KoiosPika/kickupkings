@@ -107,7 +107,6 @@ const LineupPage = () => {
       <div className='w-full ml-auto mb-auto p-2 flex flex-row items-center gap-2'>
         <Image src={'/PFP.jpg'} alt='user' height={50} width={50} className='bg-slate-500 h-[30px] w-[30px] rounded-lg' />
         <p className='font-semibold text-white text-[13px]'>{user?.User.username} ({user?.Rank})</p>
-        <p className='font-semibold text-white text-[13px]'>{`->`}</p>
       </div>
       <div style={{ height: height - 210 }} className='relative'>
         <div className='h-full w-full absolute flex flex-col justify-around'>
@@ -128,7 +127,7 @@ const LineupPage = () => {
             </div>
           ))}
         </div>
-        <Image src={'/Field-dark-try.png'} alt='field' height={2000} width={2000} style={{ height: height - 210 }} className='w-full max-w-[700px]' />
+        <Image src={'/icons/Field-dark.png'} alt='field' height={2000} width={2000} style={{ height: height - 210 }} className='w-full max-w-[700px]' />
       </div>
       <ScrollArea className='py-2 px-2 h-[50px]'>
         <div className='flex gap-2'>

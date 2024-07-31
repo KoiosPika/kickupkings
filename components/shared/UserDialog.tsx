@@ -89,7 +89,7 @@ const UserDialog = ({ user }: { user: any }) => {
                 <div className='w-full ml-auto mb-auto p-2 flex flex-row items-center gap-2'>
                     <Image src={'/PFP.jpg'} alt='user' height={50} width={50} className='bg-slate-500 h-[30px] w-[30px] rounded-lg' />
                     <p className='font-semibold text-white text-[13px]'>{username} ({user?.Rank})</p>
-                    <p className='font-semibold text-white text-[13px]'>{`->`}</p>
+                    <Image src={'/icons/arrow-right.svg'} alt='user' height={50} width={50} className='h-[12px] w-[12px] rounded-lg mt-[2px] rotate-90' />
                 </div>
             </AlertDialogTrigger>
             <AlertDialogContent className='bg-slate-800 px-2 border-0 rounded-lg flex flex-col justify-center items-center'>

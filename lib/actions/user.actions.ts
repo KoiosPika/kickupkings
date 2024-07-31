@@ -54,6 +54,16 @@ export async function getUserForPlayPage(id: string) {
 
         const user = await populateUsers(UserData.findOne({ User: id }))
 
+        await Match.updateMany(
+            {
+              $and: [
+                { $or: [{ Player: id }, { Opponent: id }] },
+                { availableToWatch: { $lte: new Date() } }
+              ]
+            },
+            { $set: { attacks: [] } }
+          );
+
         const userMatches = await populateMatch(Match.find({
             $or: [{ Player: id }, { Opponent: id }],
             availableToWatch: { $lte: new Date() }
@@ -235,7 +245,14 @@ function mapUserDataToPlayers(userData: IUserData, increment: number) {
 
 function distributeAttacks(attacksCount: number, totalMinutes: number, splitMinute: number) {
 
-    let minutes: number[] = [1, 46];
+    let minutes: number[] = [];
+
+    if(totalMinutes === 90){
+        minutes.push(1)
+        minutes.push(46)
+    } else {
+        minutes.push(1)
+    }
 
     while (minutes.length < attacksCount) {
         const minute = Math.floor(Math.random() * totalMinutes) + 1;

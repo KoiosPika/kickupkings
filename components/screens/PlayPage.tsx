@@ -214,7 +214,10 @@ const PlayPage = () => {
         <div className='w-11/12'>
           <div className='flex flex-row items-center w-full'>
             <p className='text-white font-semibold bg-slate-900 px-3 py-1 inline-flex rounded-lg text-[16px] sm:text-[22px]'>History</p>
-            <a href='/history/6699bfa1ba8348c3228f89ab' className='text-white font-semibold bg-slate-900 px-3 py-1 inline-flex rounded-lg text-[12px] sm:text-[22px] ml-auto mt-auto'>View All {`->`}</a>
+            <a href='/history/6699bfa1ba8348c3228f89ab' className='text-white font-semibold bg-slate-900 px-3 py-1 inline-flex rounded-lg text-[12px] sm:text-[22px] ml-auto mt-auto'>
+              <p>View All</p>
+              <Image src={'/icons/arrow-right.svg'} alt='arrow' height={9} width={9} className='rotate-90 ml-2 mt-[1.5px]'/>
+            </a>
           </div>
           <div className='flex flex-col gap-1 sm:gap-4 my-2'>
             {user && user.matches.map((match: IMatch, index: number) => (
