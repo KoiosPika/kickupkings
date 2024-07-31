@@ -11,7 +11,7 @@ export const populateMatch = (query: any) => {
         .populate({ path: 'Opponent', model: User, select: "_id username" })
 }
 
-export async function getMatchByID(id: string, page: number) {
+export async function getMatchByID(id: string) {
     try {
         await connectToDatabase();
 
