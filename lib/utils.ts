@@ -150,11 +150,11 @@ function handlePenalty(scenario: any, level: any): any {
   } else if (penaltyOutcome < saveChance + woodworkChance + 0.15) {
     scenario.push({ scenario: 'Penalty Missed', line: 10, wait: 1000 });
     scenario.push({ scenario: 'Off target', line: 10, wait: 1000 });
-    return scenario;
   } else {
     scenario.push({ scenario: 'Penalty Scored', line: 10, wait: 1000 });
-    return scenario;
   }
+
+  return scenario;
 }
 
 // Function to handle follow-up scenarios
@@ -260,108 +260,110 @@ function handleCorner(scenario: any[], level: number) {
 }
 
 function handleFreekick(scenario: any[], playerFormation: any, opponentFormation: any, players1: any, players2: any, type: string) {
-  const addAction = (description: string, line: number, wait: number) => {
-    scenario.push({ scenario: description, line, wait });
-  };
 
-  const passToNextLine = (line: number, description: string) => {
-    addAction(description, line + 1, 1500);
-    scenario = handleMidfieldOrDefense(scenario, line + 1, playerFormation, opponentFormation, players1, players2);
-  };
-
-  const passToPreviousLine = (line: number, description: string) => {
-    addAction(description, line - 1, 1500);
-    scenario = handleMidfieldOrDefense(scenario, line - 1, playerFormation, opponentFormation, players1, players2);
-  };
-
-  const playLongBall = (line: number, description: string) => {
-    addAction(description, line + 2, 2000);
-    scenario = handleMidfieldOrDefense(scenario, line + 2, playerFormation, opponentFormation, players1, players2);
-  };
+  console.log('Freekick Here')
 
   switch (type) {
     case 'Attacking Midfield':
       const offensivePower = calculateOffensivePower(playerFormation, players1);
-      addAction('Midfielder shoots', 10, 1000);
+      scenario.push({ scenario: 'Midfielder shoots', line: 10, wait: 1000 });
       const goalkeeper = players2.find((p: any) => p.position === 'GK');
       const saveChance = calculateGoalkeeperChance(goalkeeper, offensivePower);
 
       const shotOutcome = Math.random();
       if (shotOutcome < saveChance) {
-        addAction('Goalkeeper save', 9, 1000);
+        scenario.push({ scenario: 'Goalkeeper save', line: 9, wait: 1000 });
         scenario = handleFollowUp(scenario, 1, 'save');
       } else if (shotOutcome < saveChance + 0.1) {
-        addAction('Hits woodwork', 10, 1000);
+        scenario.push({ scenario: 'Hits woodwork', line: 9, wait: 1000 });
         scenario = handleFollowUp(scenario, 1, 'woodwork');
       } else if (shotOutcome < saveChance + 0.2) {
-        addAction('Off target', 10, 1000);
+        scenario.push({ scenario: 'Off target', line: 10, wait: 1000 });
       } else {
-        addAction('Goal Scored', 10, 1000);
+        scenario.push({ scenario: 'Freekick Scored', line: 10, wait: 1000 });
       }
       break;
 
     case 'Frontline Midfield':
-      passToNextLine(7, 'Pass');
-      passToPreviousLine(7, 'Pass');
-      playLongBall(7, 'Long Ball');
+      let FrontLinePass = Math.random();
+      if (FrontLinePass < 0.25) {
+        scenario.push({ scenario: 'Pass', line: 9, wait: 1000 });
+        scenario = calculateForward(scenario, playerFormation, opponentFormation, players1, players2);
+      } else if (FrontLinePass < 0.5) {
+        scenario.push({ scenario: 'Pass', line: 8, wait: 1000 });
+        scenario = calculateAttackingMidfield(scenario, playerFormation, opponentFormation, players1, players2);
+      } else {
+        scenario.push({ scenario: 'Pass', line: 6, wait: 1000 });
+        scenario = calculateCenterMidfield(scenario, playerFormation, opponentFormation, players1, players2);
+      }
       break;
 
     case 'Backline Midfield':
-      passToNextLine(5, 'Pass');
-      passToPreviousLine(5, 'Pass');
-      playLongBall(5, 'Long Ball');
+      const BackLinePass = Math.random();
+      if (BackLinePass < 0.2) {
+        scenario.push({ scenario: 'Pass', line: 7, wait: 1000 });
+        scenario = calculateFrontLineMidfield(scenario, playerFormation, opponentFormation, players1, players2);
+      } else if (BackLinePass < 0.6) {
+        scenario.push({ scenario: 'Pass', line: 6, wait: 1000 });
+        scenario = calculateCenterMidfield(scenario, playerFormation, opponentFormation, players1, players2);
+      } else if (BackLinePass < 0.8) {
+        scenario.push({ scenario: 'Pass', line: 4, wait: 1000 });
+        scenario = calculateFrontLineDefense(scenario, playerFormation, opponentFormation, players1, players2);
+      } else {
+        scenario.push({ scenario: 'Long Ball', line: 8, wait: 1000 });
+        scenario = calculateAttackingMidfield(scenario, playerFormation, opponentFormation, players1, players2);
+      }
       break;
 
     case 'Frontline Defense':
-      passToNextLine(4, 'Pass');
-      passToPreviousLine(4, 'Pass');
-      playLongBall(4, 'Long Ball');
+      const FrontLineDefPass = Math.random();
+      if (FrontLineDefPass < 0.2) {
+        scenario.push({ scenario: 'Pass', line: 6, wait: 1000 });
+        scenario = calculateCenterMidfield(scenario, playerFormation, opponentFormation, players1, players2);
+      } else if (FrontLineDefPass < 0.4) {
+        scenario.push({ scenario: 'Long Ball', line: 7, wait: 1000 });
+        scenario = calculateFrontLineMidfield(scenario, playerFormation, opponentFormation, players1, players2);
+      } else if (FrontLineDefPass < 0.6) {
+        scenario.push({ scenario: 'Pass', line: 5, wait: 1000 });
+        scenario = calculateBackLineMidfield(scenario, playerFormation, opponentFormation, players1, players2);
+      } else {
+        scenario.push({ scenario: 'Pass', line: 3, wait: 1000 });
+        scenario = calculateCenterDefense(scenario, playerFormation, opponentFormation, players1, players2);
+      }
       break;
 
     case 'Center Defense':
-      passToNextLine(3, 'Pass');
-      passToPreviousLine(3, 'Pass');
-      playLongBall(3, 'Long Ball');
+      const CenterDefPass = Math.random();
+      if (CenterDefPass < 0.2) {
+        scenario.push({ scenario: 'Pass', line: 5, wait: 1000 });
+        scenario = calculateBackLineMidfield(scenario, playerFormation, opponentFormation, players1, players2);
+      } else if (CenterDefPass < 0.4) {
+        scenario.push({ scenario: 'Long Ball', line: 6, wait: 1000 });
+        scenario = calculateCenterMidfield(scenario, playerFormation, opponentFormation, players1, players2);
+      } else if (CenterDefPass < 0.6) {
+        scenario.push({ scenario: 'Pass', line: 4, wait: 1000 });
+        scenario = calculateFrontLineDefense(scenario, playerFormation, opponentFormation, players1, players2);
+      } else {
+        scenario.push({ scenario: 'Pass', line: 2, wait: 1000 });
+        scenario = calculateBackLineDefense(scenario, playerFormation, opponentFormation, players1, players2);
+      }
       break;
 
     case 'Backline Defense':
-      passToNextLine(2, 'Pass');
-      passToPreviousLine(2, 'Pass');
-      playLongBall(2, 'Long Ball');
+      const BackLineDefPass = Math.random();
+      if (BackLineDefPass < 0.2) {
+        scenario.push({ scenario: 'Pass', line: 6, wait: 1000 });
+        scenario = calculateFrontLineDefense(scenario, playerFormation, opponentFormation, players1, players2);
+      } else if (BackLineDefPass < 0.4) {
+        scenario.push({ scenario: 'Long Ball', line: 7, wait: 1000 });
+        scenario = calculateBackLineMidfield(scenario, playerFormation, opponentFormation, players1, players2);
+      } else {
+        scenario.push({ scenario: 'Pass', line: 5, wait: 1000 });
+        scenario = calculateCenterDefense(scenario, playerFormation, opponentFormation, players1, players2);
+      }
       break;
 
     default:
-      break;
-  }
-
-  return scenario;
-}
-
-function handleMidfieldOrDefense(scenario: any[], line: number, playerFormation: any, opponentFormation: any, players1: any, players2: any) {
-  switch (line) {
-    case 2:
-      scenario = calculateBackLineDefense(scenario, playerFormation, opponentFormation, players1, players2);
-      break;
-    case 3:
-      scenario = calculateCenterDefense(scenario, playerFormation, opponentFormation, players1, players2);
-      break;
-    case 4:
-      scenario = calculateFrontLineDefense(scenario, playerFormation, opponentFormation, players1, players2);
-      break;
-    case 5:
-      scenario = calculateBackLineMidfield(scenario, playerFormation, opponentFormation, players1, players2);
-      break;
-    case 6:
-      scenario = calculateCenterMidfield(scenario, playerFormation, opponentFormation, players1, players2);
-      break;
-    case 7:
-      scenario = calculateFrontLineMidfield(scenario, playerFormation, opponentFormation, players1, players2);
-      break;
-    case 8:
-      scenario = calculateAttackingMidfield(scenario, playerFormation, opponentFormation, players1, players2);
-      break;
-    case 9:
-      scenario = calculateForward(scenario, playerFormation, opponentFormation, players1, players2);
       break;
   }
 
@@ -372,13 +374,16 @@ function handleMidfieldOrDefense(scenario: any[], line: number, playerFormation:
 function calculateForward(scenario: any[], playerFormation: any, opponentFormation: any, players1: any, players2: any) {
   const defense = calculateDefenseInterception(opponentFormation, players2);
   const offensivePower = calculateOffensivePower(playerFormation, players1);
-  const defenseFactor = defense.averageLevel / (defense.averageLevel + offensivePower.totalLevel);
+  const defenseFactor = defense.averageLevel / (defense.averageLevel + offensivePower.totalLevel + 5);
 
   let eventChance = Math.random();
 
   if (eventChance < defenseFactor * 0.7) {
 
-    scenario.push({ scenario: 'Forward Interception', line: 9, wait: 1000 });
+
+    scenario.push({ scenario: 'Pass', line: 7, wait: 1000 });
+    scenario.push({ scenario: 'Pass', line: 9, wait: 1000 });
+    scenario.push({ scenario: 'Forward Interception', line: 9, wait: 500 });
 
   } else {
 
@@ -425,11 +430,14 @@ function calculateForward(scenario: any[], playerFormation: any, opponentFormati
 function calculateFrontLineMidfield(scenario: any[], playerFormation: any, opponentFormation: any, players1: any, players2: any) {
   const possessionChance = calculatePossessionChance(playerFormation, players1);
   const defenseInterception = calculateDefenseInterception(opponentFormation, players2);
-  const interceptionChance = defenseInterception.averageLevel / (defenseInterception.averageLevel + possessionChance);
+  const interceptionChance = (defenseInterception.averageLevel * 0.2) / (defenseInterception.averageLevel * 0.2 + possessionChance );
 
   // Check for interception
   if (Math.random() < interceptionChance) {
-    scenario.push({ scenario: 'Frontline Midfield Interception', line: 7, wait: 1000 });
+
+    scenario.push({ scenario: 'Pass', line: 8, wait: 1000 });
+    scenario.push({ scenario: 'Pass', line: 7, wait: 1000 });
+    scenario.push({ scenario: 'Frontline Midfield Interception', line: 7, wait: 500 });
   } else {
     const randomEvent = Math.random();
 
@@ -447,12 +455,9 @@ function calculateFrontLineMidfield(scenario: any[], playerFormation: any, oppon
       } else if (passType < 0.5) {
         scenario.push({ scenario: 'Pass', line: 8, wait: 1000 });
         scenario = calculateAttackingMidfield(scenario, playerFormation, opponentFormation, players1, players2);
-      } else if (passType < 0.75) {
+      } else {
         scenario.push({ scenario: 'Pass', line: 6, wait: 1000 });
         scenario = calculateCenterMidfield(scenario, playerFormation, opponentFormation, players1, players2);
-      } else {
-        scenario.push({ scenario: 'Pass', line: 5, wait: 1000 });
-        scenario = calculateBackLineMidfield(scenario, playerFormation, opponentFormation, players1, players2);
       }
     }
   }
@@ -463,11 +468,13 @@ function calculateFrontLineMidfield(scenario: any[], playerFormation: any, oppon
 function calculateAttackingMidfield(scenario: any[], playerFormation: any, opponentFormation: any, players1: any, players2: any) {
   const possessionChance = calculatePossessionChance(playerFormation, players1);
   const defenseInterception = calculateDefenseInterception(opponentFormation, players2);
-  const interceptionChance = defenseInterception.averageLevel / (defenseInterception.averageLevel + possessionChance);
+  const interceptionChance = (defenseInterception.averageLevel * 0.3) / (defenseInterception.averageLevel * 0.3 + possessionChance );
 
   // Check for interception
   if (Math.random() < interceptionChance) {
-    scenario.push({ scenario: 'Attacking Midfield Interception', line: 8, wait: 1000 });
+    scenario.push({ scenario: 'Pass', line: 9, wait: 1000 });
+    scenario.push({ scenario: 'Pass', line: 8, wait: 1000 });
+    scenario.push({ scenario: 'Attacking Midfield Interception', line: 8, wait: 500 });
   } else {
     const randomEvent = Math.random();
 
@@ -477,18 +484,14 @@ function calculateAttackingMidfield(scenario: any[], playerFormation: any, oppon
       scenario.push({ scenario: 'Freekick awarded', line: 8, wait: 1000 });
       scenario = handleFreekick(scenario, playerFormation, opponentFormation, players1, players2, 'Attacking Midfield');
     } else {
-      scenario.push({ scenario: 'Attacking Midfield has the ball', line: 8, wait: 1000 });
 
       const passType = Math.random();
       if (passType < 0.25) {
         scenario.push({ scenario: 'Pass', line: 9, wait: 1000 });
         scenario = calculateForward(scenario, playerFormation, opponentFormation, players1, players2);
-      } else if (passType < 0.5) {
+      } else {
         scenario.push({ scenario: 'Pass', line: 7, wait: 1000 });
         scenario = calculateFrontLineMidfield(scenario, playerFormation, opponentFormation, players1, players2);
-      } else {
-        scenario.push({ scenario: 'Pass', line: 6, wait: 1000 });
-        scenario = calculateCenterMidfield(scenario, playerFormation, opponentFormation, players1, players2);
       }
     }
   }
@@ -499,11 +502,13 @@ function calculateAttackingMidfield(scenario: any[], playerFormation: any, oppon
 function calculateBackLineMidfield(scenario: any[], playerFormation: any, opponentFormation: any, players1: any, players2: any) {
   const possessionChance = calculatePossessionChance(playerFormation, players1);
   const defenseInterception = calculateDefenseInterception(opponentFormation, players2);
-  const interceptionChance = defenseInterception.averageLevel / (defenseInterception.averageLevel + possessionChance);
+  const interceptionChance = (defenseInterception.averageLevel * 0.3) / (defenseInterception.averageLevel * 0.3 + possessionChance + 5);
 
   // Check for interception
   if (Math.random() < interceptionChance) {
-    scenario.push({ scenario: 'Backline Midfield Interception', line: 5, wait: 1000 });
+    scenario.push({ scenario: 'Pass', line: 6, wait: 1000 });
+    scenario.push({ scenario: 'Pass', line: 5, wait: 1000 });
+    scenario.push({ scenario: 'Backline Midfield Interception', line: 5, wait: 500 });
   } else {
     const randomEvent = Math.random();
 
@@ -519,9 +524,6 @@ function calculateBackLineMidfield(scenario: any[], playerFormation: any, oppone
       if (passType < 0.2) {
         scenario.push({ scenario: 'Pass', line: 7, wait: 1000 });
         scenario = calculateFrontLineMidfield(scenario, playerFormation, opponentFormation, players1, players2);
-      } else if (passType < 0.4) {
-        scenario.push({ scenario: 'Pass', line: 3, wait: 1000 });
-        scenario = calculateCenterDefense(scenario, playerFormation, opponentFormation, players1, players2);
       } else if (passType < 0.6) {
         scenario.push({ scenario: 'Pass', line: 6, wait: 1000 });
         scenario = calculateCenterMidfield(scenario, playerFormation, opponentFormation, players1, players2);
@@ -548,12 +550,9 @@ function calculateCenterMidfield(scenario: any[], playerFormation: any, opponent
   } else if (passType < 0.66) {
     scenario.push({ scenario: 'Pass', line: 7, wait: 1000 });
     scenario = calculateFrontLineMidfield(scenario, playerFormation, opponentFormation, players1, players2);
-  } else if (passType < 0.83) {
+  } else {
     scenario.push({ scenario: 'Pass', line: 5, wait: 1000 });
     scenario = calculateBackLineMidfield(scenario, playerFormation, opponentFormation, players1, players2);
-  } else {
-    scenario.push({ scenario: 'Pass', line: 4, wait: 1000 });
-    scenario = calculateFrontLineDefense(scenario, playerFormation, opponentFormation, players1, players2);
   }
 
   return scenario;
@@ -568,12 +567,14 @@ function calculateCenterDefense(scenario: any[], playerFormation: any, opponentF
   let offenseChance = offensivePress / totalPower;
 
   // Limit the offensive chance to ensure balance
-  offenseChance = Math.min(offenseChance, 0.2);
+  offenseChance = Math.min(offenseChance, 0.05);
   defenseChance = 1 - offenseChance;
 
   // Check for interception
   if (Math.random() < offenseChance) {
-    scenario.push({ scenario: 'Center Defesne Interception', line: 3, wait: 1000 });
+    scenario.push({ scenario: 'Pass', line: 4, wait: 1000 });
+    scenario.push({ scenario: 'Pass', line: 3, wait: 1000 });
+    scenario.push({ scenario: 'Center Defesne Interception', line: 3, wait: 500 });
   } else {
     const randomEvent = Math.random();
 
@@ -614,12 +615,14 @@ function calculateFrontLineDefense(scenario: any[], playerFormation: any, oppone
   let offenseChance = offensivePress / totalPower;
 
   // Limit the offensive chance to ensure balance
-  offenseChance = Math.min(offenseChance, 0.2);
+  offenseChance = Math.min(offenseChance, 0.05);
   defenseChance = 1 - offenseChance;
 
   // Check for interception
   if (Math.random() < offenseChance) {
-    scenario.push({ scenario: 'Frontline Defense Interception', line: 4, wait: 1000 });
+    scenario.push({ scenario: 'Pass', line: 5, wait: 1000 });
+    scenario.push({ scenario: 'Pass', line: 4, wait: 1000 });
+    scenario.push({ scenario: 'Frontline Defense Interception', line: 4, wait: 500 });
   } else {
     const randomEvent = Math.random();
 
@@ -660,12 +663,14 @@ function calculateBackLineDefense(scenario: any[], playerFormation: any, opponen
   let offenseChance = offensivePress / totalPower;
 
   // Limit the offensive chance to ensure balance
-  offenseChance = Math.min(offenseChance, 0.2);
+  offenseChance = Math.min(offenseChance, 0.05);
   defenseChance = 1 - offenseChance;
 
   // Check for interception
   if (Math.random() < offenseChance) {
-    scenario.push({ scenario: 'Backline Defense Interception', line: 4, wait: 1000 });
+    scenario.push({ scenario: 'Pass', line: 5, wait: 1000 });
+    scenario.push({ scenario: 'Pass', line: 4, wait: 1000 });
+    scenario.push({ scenario: 'Backline Defense Interception', line: 4, wait: 500 });
   } else {
     const randomEvent = Math.random();
 
@@ -684,7 +689,7 @@ function calculateBackLineDefense(scenario: any[], playerFormation: any, opponen
       } else if (passType < 0.4) {
         scenario.push({ scenario: 'Long Ball', line: 7, wait: 1000 });
         scenario = calculateBackLineMidfield(scenario, playerFormation, opponentFormation, players1, players2);
-      } else if (passType < 0.6) {
+      } else {
         scenario.push({ scenario: 'Pass', line: 5, wait: 1000 });
         scenario = calculateCenterDefense(scenario, playerFormation, opponentFormation, players1, players2);
       }

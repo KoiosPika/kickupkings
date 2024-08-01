@@ -335,14 +335,14 @@ export async function playGame(player1ID: string, player2ID: string, type: strin
 
             if (player % 2 === 0) {
                 scenario = simulateAttack(formation1, formation2, players1, players2, lastScenario);
-                if (scenario[scenario.length - 1].scenario === 'Goal Scored' || scenario[scenario.length - 1].scenario === 'Penalty Scored') {
+                if (scenario[scenario.length - 1].scenario === 'Goal Scored' || scenario[scenario.length - 1].scenario === 'Penalty Scored' || scenario[scenario.length - 1].scenario === 'Freekick Scored') {
                     score1++;
                 }
                 results.push({ minute: 0, player: 'Player', scenario });
 
                 totalMoves = totalMoves + scenario.length
 
-                if (totalMoves >= 135) {
+                if (totalMoves >= 90) {
                     break;
                 }
 
@@ -350,14 +350,14 @@ export async function playGame(player1ID: string, player2ID: string, type: strin
 
             } else {
                 scenario = simulateAttack(formation2, formation1, players2, players1, lastScenario);
-                if (scenario[scenario.length - 1].scenario === 'Goal Scored' || scenario[scenario.length - 1].scenario === 'Penalty Scored') {
+                if (scenario[scenario.length - 1].scenario === 'Goal Scored' || scenario[scenario.length - 1].scenario === 'Penalty Scored' || scenario[scenario.length - 1].scenario === 'Freekick Scored') {
                     score2++;
                 }
                 results.push({ minute: 0, player: 'Opponent', scenario });
 
                 totalMoves = totalMoves + scenario.length
 
-                if (totalMoves >= 135) {
+                if (totalMoves >= 90) {
                     break;
                 }
 
@@ -381,14 +381,14 @@ export async function playGame(player1ID: string, player2ID: string, type: strin
 
             if (player % 2 === 0) {
                 scenario = simulateAttack(formation1, formation2, players1, players2, lastScenario);
-                if (scenario[scenario.length - 1].scenario === 'Goal Scored' || scenario[scenario.length - 1].scenario === 'Penalty Scored') {
+                if (scenario[scenario.length - 1].scenario === 'Goal Scored' || scenario[scenario.length - 1].scenario === 'Penalty Scored' || scenario[scenario.length - 1].scenario === 'Freekick Scored') {
                     score1++;
                 }
                 results.push({ minute: 0, player: 'Player', scenario });
 
                 totalMoves = totalMoves + scenario.length
 
-                if (totalMoves >= 135) {
+                if (totalMoves >= 90) {
                     break;
                 }
 
@@ -396,14 +396,14 @@ export async function playGame(player1ID: string, player2ID: string, type: strin
 
             } else {
                 scenario = simulateAttack(formation2, formation1, players2, players1, lastScenario);
-                if (scenario[scenario.length - 1].scenario === 'Goal Scored' || scenario[scenario.length - 1].scenario === 'Penalty Scored') {
+                if (scenario[scenario.length - 1].scenario === 'Goal Scored' || scenario[scenario.length - 1].scenario === 'Penalty Scored' || scenario[scenario.length - 1].scenario === 'Freekick Scored') {
                     score2++;
                 }
                 results.push({ minute: 0, player: 'Opponent', scenario });
 
                 totalMoves = totalMoves + scenario.length
 
-                if (totalMoves >= 135) {
+                if (totalMoves >= 90) {
                     break;
                 }
 
@@ -419,7 +419,7 @@ export async function playGame(player1ID: string, player2ID: string, type: strin
         
         if (score1 === score2) {
             // Extra time
-            while (player) {
+            while (true) {
                 let scenario;
                 let lastScenario = '';
 
@@ -429,14 +429,14 @@ export async function playGame(player1ID: string, player2ID: string, type: strin
 
                 if (player % 2 === 0) {
                     scenario = simulateAttack(formation1, formation2, players1, players2, lastScenario);
-                    if (scenario[scenario.length - 1].scenario === 'Goal Scored' || scenario[scenario.length - 1].scenario === 'Penalty Scored') {
+                    if (scenario[scenario.length - 1].scenario === 'Goal Scored' || scenario[scenario.length - 1].scenario === 'Penalty Scored' || scenario[scenario.length - 1].scenario === 'Freekick Scored') {
                         score1++;
                     }
                     results.push({ minute: 0, player: 'Player', scenario });
 
                     totalMoves = totalMoves + scenario.length
 
-                    if (totalMoves >= 90) {
+                    if (totalMoves >= 60) {
                         break;
                     }
 
@@ -444,14 +444,14 @@ export async function playGame(player1ID: string, player2ID: string, type: strin
 
                 } else {
                     scenario = simulateAttack(formation2, formation1, players2, players1, lastScenario);
-                    if (scenario[scenario.length - 1].scenario === 'Goal Scored' || scenario[scenario.length - 1].scenario === 'Penalty Scored') {
+                    if (scenario[scenario.length - 1].scenario === 'Goal Scored' || scenario[scenario.length - 1].scenario === 'Penalty Scored' || scenario[scenario.length - 1].scenario === 'Freekick Scored') {
                         score2++;
                     }
                     results.push({ minute: 0, player: 'Opponent', scenario });
 
                     totalMoves = totalMoves + scenario.length
 
-                    if (totalMoves >= 90) {
+                    if (totalMoves >= 60) {
                         break;
                     }
 

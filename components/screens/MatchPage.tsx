@@ -19,6 +19,8 @@ type Stats = {
   offsides: number;
 };
 
+let moves = 0;
+
 const MatchPage = ({ id }: { id: string }) => {
   const [match, setMatch] = useState<any | null>(null);
   const [displayedScenarios, setDisplayedScenarios] = useState<{ minute: number; player: string; scenario: string }[]>([]);
@@ -29,6 +31,8 @@ const MatchPage = ({ id }: { id: string }) => {
   const [playerScore, setPlayerScore] = useState<number>(0);
   const [opponentScore, setOpponentScore] = useState<number>(0);
   const [progress, setProgress] = useState<number>(0);
+  const [half, setHalf] = useState<string>('First half');
+  const [currentMinute, setCurrentMinute] = useState<number>(1);
   const [playerStats, setPlayerStats] = useState<Stats>({
     possession: 0,
     shots: 0,
@@ -109,7 +113,7 @@ const MatchPage = ({ id }: { id: string }) => {
         break;
     }
 
-    const isOpponentStat = ['Fouled','Goalkeeper save'].includes(scenario);
+    const isOpponentStat = ['Fouled', 'Goalkeeper save'].includes(scenario);
 
     if (isOpponentStat) {
       if (player === 'Player') {
@@ -171,16 +175,35 @@ const MatchPage = ({ id }: { id: string }) => {
 
         if (currentScenarioIndex < currentAttack.scenario.length) {
           const scenario = currentAttack.scenario[currentScenarioIndex];
+          const scenarioText = currentAttack.scenario[currentScenarioIndex].scenario;
 
-          setMainScernario({ minute: currentAttack.minute, player: currentAttack.player, scenario: currentAttack.scenario[currentScenarioIndex] })
+          if (scenarioText === 'Half-time') {
+            setHalf('Second half');
+            setCurrentMinute(46);
+          } else if (scenarioText === 'Awaiting Extra-time') {
+            setHalf('Extra time');
+            setCurrentMinute(91);
+          }
+
+
+          moves++;
+
+          if (moves % 2 === 0) {
+            if ((half === 'First half' && currentMinute < 45) ||
+              (half === 'Second half' && currentMinute < 90) ||
+              (half === 'Extra time' && currentMinute < 120)) {
+              setCurrentMinute(prev => prev + 1);
+            }
+          }
+
+          setMainScernario({ minute: currentMinute, player: currentAttack.player, scenario: currentAttack.scenario[currentScenarioIndex] })
 
           setCurrentScenario({
             line: scenario.line,
             player: currentAttack.player
           });
 
-          const scenarioText = currentAttack.scenario[currentScenarioIndex].scenario;
-          if (scenarioText === 'Goal Scored' || scenarioText === 'Penalty Scored') {
+          if (scenarioText === 'Goal Scored' || scenarioText === 'Penalty Scored' || scenarioText === 'Freekick Scored') {
             if (currentAttack.player === 'Player') {
               setPlayerScore(prevScore => prevScore + 1);
             } else if (currentAttack.player === 'Opponent') {
@@ -190,10 +213,15 @@ const MatchPage = ({ id }: { id: string }) => {
 
           updateStats(scenarioText, currentAttack.player);
 
-          setDisplayedScenarios(prev => [
-            { minute: currentAttack.minute, player: currentAttack.player, scenario: currentAttack.scenario[currentScenarioIndex] },
-            ...prev
-          ]);
+          const highlightEvents = ['Match Started', 'Half-time', 'Awaiting Extra-time', 'Awaiting Penalties', 'Goal Scored', 'Penalty Scored', 'Penalty Missed', 'Freekick Scored', 'Hits woodwork', 'Offside']
+
+          if (highlightEvents.includes(currentAttack.scenario[currentScenarioIndex].scenario)) {
+            setDisplayedScenarios(prev => [
+              { minute: currentMinute, player: currentAttack.player, scenario: currentAttack.scenario[currentScenarioIndex] },
+              ...prev
+            ]);
+          }
+
 
           setCurrentScenarioIndex(currentScenarioIndex + 1);
         } else {
@@ -239,10 +267,13 @@ const MatchPage = ({ id }: { id: string }) => {
             <Image src={`/flags/${match.playerCountry}.svg`} alt='flag' height={20} width={20} className='bg-white h-[18px] w-[18px] rounded-full' />
           </div>
         </div>
-        <div className='text-yellow-400 font-semibold h-[70px] flex flex-row items-center text-[50px]'>
-          <RollingNumber number={playerScore} />
-          <div className='h-[6px] bg-gradient-to-t from-yellow-400 to-yellow-500 w-[20px] rounded-md' />
-          <RollingNumber number={opponentScore} />
+        <div className='flex flex-col justify-center items-center'>
+          <div className='text-yellow-400 font-semibold h-[70px] flex flex-row items-center text-[50px]'>
+            <RollingNumber number={playerScore} />
+            <div className='h-[6px] bg-gradient-to-t from-yellow-400 to-yellow-500 w-[20px] rounded-md' />
+            <RollingNumber number={opponentScore} />
+          </div>
+          <p className='text-yellow-400 font-semibold'>{currentMinute}{`'`}</p>
         </div>
         <div className='flex flex-col justify-center items-center gap-2 w-[90px] overflow-hidden'>
           <Image src={'/PFP.jpg'} alt='user' height={50} width={50} className='bg-slate-500 h-[50px] w-[50px] rounded-md' />
@@ -264,7 +295,6 @@ const MatchPage = ({ id }: { id: string }) => {
               <div className='w-5/6 rounded-lg flex flex-row items-center justify-center mr-auto ml-2 py-3 px-2'>
                 <div className='w-1/4 flex flex-col justify-center items-center gap-2'>
                   <IconDisplay scenario={mainScenario.scenario.scenario} />
-                  <p className='text-yellow-500 font-semibold '>{mainScenario.minute}{`'`}</p>
                 </div>
                 <div className='w-3/4 flex flex-col justify-center items gap-2 text-[15px]'>
                   <p>{mainScenario.scenario.scenario}</p>
@@ -277,7 +307,6 @@ const MatchPage = ({ id }: { id: string }) => {
                 </div>
                 <div className='w-1/4 flex flex-col justify-center items-center gap-2'>
                   <IconDisplay scenario={mainScenario.scenario.scenario} />
-                  <p className='text-yellow-500 font-semibold'>{mainScenario.minute}{`'`}</p>
                 </div>
               </div>}
             {mainScenario.player === 'Match' &&
@@ -331,11 +360,11 @@ const MatchPage = ({ id }: { id: string }) => {
               {scenario.player === 'Match' &&
                 <div className='text-center'>
                   {scenario.scenario.scenario === 'Player Wins!' ? (
-                    <p>{match?.Player.username} Wins!</p>  
+                    <p>{match?.Player.username} Wins!</p>
                   ) : scenario.scenario.scenario === 'Opponent Wins!' ? (
-                    <p>{match?.Opponent.username} Wins!</p> 
+                    <p>{match?.Opponent.username} Wins!</p>
                   ) : (
-                    <p>{scenario.scenario.scenario}</p> 
+                    <p>{scenario.scenario.scenario}</p>
                   )}
                 </div>}
             </div>
@@ -358,7 +387,7 @@ const Field = ({ currentLine, player, scenarioText, match }: { currentLine: numb
   const shadingColor = player === 'Player'
     ? 'rgba(0, 255, 0, 0.45)'
     : player === 'Opponent'
-      ? 'rgba(243, 25, 25, 0.55)'
+      ? 'rgba(31, 129, 232, 0.60)'
       : 'transparent';
   const shadingLeft = isPlayer ? '0' : 'auto';
   const shadingRight = isPlayer ? 'auto' : '0';
@@ -391,6 +420,26 @@ const Field = ({ currentLine, player, scenarioText, match }: { currentLine: numb
           <Image src={'/icons/crown.svg'} alt='user' height={70} width={70} className='h-[50px] w-[50px] rounded-md' />
           <Image src={'/PFP.jpg'} alt='user' height={70} width={70} className='bg-slate-500 h-[70px] w-[70px] rounded-md' />
         </div>}
+      {(scenarioText && scenarioText.includes('Interception')) &&
+        <div className='bg-gradient-to-b from-slate-700 to-slate-800 w-3/4 text-center py-2 text-white font-semibold rounded-md shadow-md shadow-slate-800 animate-in'>
+          <p>Interception</p>
+        </div>}
+      {(scenarioText && scenarioText.includes('Penalty awarded')) &&
+        <div className='bg-gradient-to-b from-slate-700 to-slate-800 w-3/4 text-center py-2 text-white font-semibold rounded-md shadow-md shadow-slate-800 animate-in'>
+          <p>Penalty Awarded</p>
+        </div>}
+      {(scenarioText && scenarioText.includes('Freekick awarded')) &&
+        <div className='bg-gradient-to-b from-slate-700 to-slate-800 w-3/4 text-center py-2 text-white font-semibold rounded-md shadow-md shadow-slate-800 animate-in'>
+          <p>Freekick Awarded</p>
+        </div>}
+      {(scenarioText && scenarioText.includes('Offside')) &&
+        <div className='bg-gradient-to-b from-slate-700 to-slate-800 w-3/4 text-center py-2 text-white font-semibold rounded-md shadow-md shadow-slate-800 animate-in'>
+          <p>Offside</p>
+        </div>}
+      {(scenarioText && scenarioText.includes('Corner awarded')) &&
+        <div className='bg-gradient-to-b from-slate-700 to-slate-800 w-3/4 text-center py-2 text-white font-semibold rounded-md shadow-md shadow-slate-800 animate-in'>
+          <p>Corner Kick</p>
+        </div>}
     </div>
   );
 };
@@ -406,12 +455,8 @@ const getIconProps = (scenario: string) => {
       return { src: '/icons/whistle-green.svg', alt: 'whistle', size: 30 }
     case 'Goal Scored':
       return { src: '/icons/football-green-1.svg', alt: 'Goal Scored', size: 35 };
-    case 'Defense has the ball':
-    case 'Forward has the ball':
-    case `Forward's chance`:
-    case `Midfield has the ball`:
-    case `Keeper has the ball`:
-      return { src: '/icons/football-yellow-1.svg', alt: 'Has the ball', size: 35 };
+    case 'Pass':
+      return { src: '/icons/pass-yellow.svg', alt: 'Has the ball', size: 30 };
     case 'Defense loses possession':
       return { src: '/icons/shield-broken-red.svg', alt: 'Loses the ball', size: 40 };
     case 'Long ball to forward':
@@ -489,8 +534,8 @@ const MatchStats = ({ playerStats, opponentStats }: any) => {
   const createBar = (value: number, max: number) => {
     const percentage = max ? (value / max) * 100 : 0;
     return (
-      <div className="relative w-full h-6 bg-yellow-500 rounded-lg overflow-hidden">
-        <div className="absolute top-0 left-0 h-full bg-green-600" style={{ width: `${percentage}%` }}></div>
+      <div className="relative w-full h-6 bg-blue-500 rounded-lg overflow-hidden">
+        <div className="absolute top-0 left-0 h-full bg-green-500" style={{ width: `${percentage}%` }}></div>
       </div>
     );
   };
