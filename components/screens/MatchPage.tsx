@@ -73,76 +73,43 @@ const MatchPage = ({ id }: { id: string }) => {
     };
 
     switch (scenario) {
-      case 'Goalkeeper catches the ball':
-      case 'Defender Intercepts the ball':
-      case 'Forward\'s chance':
-      case 'Midfield backline interception':
-      case 'Ball passed to the forward':
-      case 'Long ball to forward':
-      case 'Pass to frontline midfield':
-      case 'Midfield frontline interception':
-      case 'Midfield has the ball':
-      case 'Defense loses possession':
-      case 'Pass to backline midfield':
-      case 'GoalKeeper plays short pass':
-      case 'Keeper plays through pass':
-      case 'Keeper plays long pass':
+      case 'Pass':
         statsUpdate.possession++;
+        statsUpdate.passes++;
+        break;
+      case 'Goalkeeper save':
+        statsUpdate.saves++;
+        break;
+      case 'Long Ball':
+      case 'Corner kick cross':
+        statsUpdate.longBalls++
+        break;
+      case 'Offside':
+        statsUpdate.offsides++;
+        break;
+      case 'Fouled':
+        statsUpdate.fouls++;
+        break;
+      case 'Penalty awarded':
+      case 'Freekick awarded':
+        statsUpdate.freeKicks++;
         break;
       case 'Player shoots':
-      case 'Forward shoots from the rebound':
-      case 'Forward heads the ball':
       case 'Forward shoots':
       case 'Midfielder shoots':
         statsUpdate.shots++;
         break;
-      case 'Goalkeeper saves the penalty':
-      case 'Goalkeeper saves the header':
-      case 'Goalkeeper saves the shot':
-        statsUpdate.saves++;
-        break;
-      case 'Ball goes out for a corner':
+      case 'Corner awarded':
         statsUpdate.corners++;
         break;
-      case 'Corner kick cross':
-      case 'Midfielder\'s cross':
-      case 'Long ball to forward':
-      case 'Keeper plays long pass':
-        statsUpdate.longBalls++;
-        break;
-      case 'Defender commits a handball':
-      case 'Defender fouls the forward':
-      case 'Midfield is fouled':
-        statsUpdate.fouls++;
-        break;
-      case 'Defender clears the ball':
-      case 'Midfielder\'s pass':
-      case 'Ball passed to the forward':
-      case 'Pass to frontline midfield':
-      case 'Pass to backline midfield':
-      case 'GoalKeeper plays short pass':
-      case 'Keeper plays through pass':
-        statsUpdate.passes++;
-        break;
-      case 'Penalty awarded':
-      case 'Penalty committed':
-      case 'Free kick awarded':
-        statsUpdate.freeKicks++;
-        break;
-      case 'Penalty hits the woodwork':
-      case 'Ball hits the woodwork':
-      case 'Header hits the woodwork':
-      case 'Shot hits the woodwork':
+      case 'Hits woodwork':
         statsUpdate.woodwork++;
-        break;
-      case 'Forward is caught offside':
-        statsUpdate.offsides++;
         break;
       default:
         break;
     }
 
-    const isOpponentStat = ['Goalkeeper saves the penalty', 'Goalkeeper saves the shot', 'Goalkeeper saves the header', 'Defender commits a handball', 'Defender fouls the forward', 'Midfield is fouled'].includes(scenario);
+    const isOpponentStat = ['Fouled','Goalkeeper save'].includes(scenario);
 
     if (isOpponentStat) {
       if (player === 'Player') {
@@ -539,6 +506,14 @@ const MatchStats = ({ playerStats, opponentStats }: any) => {
             <span>{opponentPossessionPercent.toFixed(1)}%</span>
           </div>
           {createBar(playerPossessionPercent, 100)}
+        </div>
+        <div className='flex flex-col items-center gap-2 mt-2'>
+          <div className='flex flex-row items-center justify-between w-11/12'>
+            <span>{playerStats.passes}</span>
+            <span>passes</span>
+            <span>{opponentStats.passes}</span>
+          </div>
+          {createBar(playerStats.passes, playerStats.passes + opponentStats.passes)}
         </div>
         <div className='flex flex-col items-center gap-2 mt-2'>
           <div className='flex flex-row items-center justify-between w-11/12'>
