@@ -231,9 +231,9 @@ const PlayPage = () => {
                 <div className='ml-5 flex flex-row items-center bg-slate-900 px-2 py-1 rounded-lg'>
                   <Image src={'/PFP.jpg'} alt='user' height={50} width={50} className='bg-slate-500 h-[28px] w-[28px] sm:h-[48px] sm:w-[48px] rounded-lg' />
                   {match.Player.toString() !== '6699bfa1ba8348c3228f89ab' ? (
-                    <p className='text-[15px] sm:text-[30px] text-center ml-[6px] rounded-sm'>{match.Opponent.username}</p>
+                    <p className='text-[14px] sm:text-[30px] text-center ml-[6px] rounded-sm'>{match.Opponent.username}</p>
                   ) : (
-                    <p className='text-[15px] sm:text-[30px] text-center ml-[6px] rounded-sm'>{match.Player.username}</p>
+                    <p className='text-[14px] sm:text-[30px] text-center ml-[6px] rounded-sm'>{match.Player.username}</p>
                   )}
                 </div>
                 {match.type === 'Rank' && <p className='bg-orange-600 px-2 text-[14px] sm:text-[24px] py-[2px] rounded-lg ml-auto shadow-md shadow-orange-500 border-b-[3px] sm:border-b-[6px] border-orange-800'>Rank</p>}
@@ -279,10 +279,10 @@ const PlayPage = () => {
               {match && <>
                 <div className='flex flex-row items-center gap-3'>
                   <div className='w-1/2'>
-                    <div className='flex flex-row justify-center items gap-3 my-2'>
+                    <div className='flex flex-row justify-center items-center gap-3 my-2'>
                       <Image src={'/icons/user.svg'} alt='user' height={50} width={50} className='bg-slate-500 p-1 h-[28px] w-[28px] sm:h-[48px] sm:w-[48px] rounded-lg' />
-                      <p className='font-bold text-white'>{match.player.User.username}</p>
-                      <Image src={`/flags/${match?.player.country}.svg`} alt='flag' height={20} width={20} className='rounded-full h-[25px] w-[25px] bg-white' />
+                      <p className='font-bold text-white text-[14px]'>{match.player.User.username}</p>
+                      <Image src={`/flags/${match?.player.country}.svg`} alt='flag' height={20} width={20} className='rounded-full h-[20px] w-[20px] bg-white' />
                     </div>
                     <div className='h-[250px] w-full flex flex-col justify-around rounded-md bg-slate-800 border-[1px] sm:border-4 border-white' style={{ backgroundImage: `url('/Field-dark.png')`, backgroundSize: 'cover', backgroundPosition: 'center' }}>
                       {formations.find(f => f.id === match.player?.formation)?.data.map((row: any, rowIndex: number) => (
@@ -299,10 +299,10 @@ const PlayPage = () => {
                     <p className='bg-slate-900 text-white font-semibold my-1 rounded-full text-center'>Overall: {(match.playerOverall).toFixed(2)}</p>
                   </div>
                   <div className='w-1/2'>
-                    <div className='flex flex-row justify-center items gap-3 my-2'>
+                    <div className='flex flex-row justify-center items-center gap-3 my-2'>
                       <Image src={'/icons/user.svg'} alt='user' height={50} width={50} className='bg-slate-500 p-1 h-[28px] w-[28px] sm:h-[48px] sm:w-[48px] rounded-lg' />
-                      <p className='font-bold text-white'>{match.opponent.User.username}</p>
-                      <Image src={`/flags/${match?.opponent.country}.svg`} alt='flag' height={20} width={20} className='rounded-full h-[25px] w-[25px] bg-white' />
+                      <p className='font-bold text-white text-[14px]'>{match.opponent.User.username}</p>
+                      <Image src={`/flags/${match?.opponent.country}.svg`} alt='flag' height={20} width={20} className='rounded-full h-[20px] w-[20px] bg-white' />
                     </div>
                     <div className='h-[250px] w-full flex flex-col justify-around rounded-md bg-slate-800 border-[1px] sm:border-4 border-white' style={{ backgroundImage: `url('/Field-dark.png')`, backgroundSize: 'cover', backgroundPosition: 'center' }}>
                       {formations.find(f => f.id === match.opponent?.formation)?.data.map((row: any, rowIndex: number) => (

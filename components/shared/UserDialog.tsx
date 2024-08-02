@@ -66,7 +66,7 @@ const UserDialog = ({ user }: { user: any }) => {
     const handleChangeUsername = (e: any) => {
         const newUsername = e.target.value;
         setUsername(newUsername);
-        if (newUsername.length <= 9) {
+        if (newUsername.length <= 13) {
             setUsernameLimitError(false);
         } else {
             setUsernameLimitError(true);
@@ -132,7 +132,7 @@ const UserDialog = ({ user }: { user: any }) => {
                     </div>
                 </div>
                 {error && <p className='text-red-500 font-semibold text-[14px]'>Username is taken</p>}
-                {usernameLimitError && <p className='text-red-500 font-semibold text-[14px]'>Username must be 9 characters or less</p>}
+                {usernameLimitError && <p className='text-red-500 font-semibold text-[14px]'>Username must be 13 characters or less</p>}
                 <div className='w-11/12 py-1 flex flex-row items-center gap-2 bg-slate-900 rounded-lg text-white font-semibold text-[13px]'>
                     {isEditMode ? (
                         <Textarea value={bio} onChange={(e) => handleChangeBio(e)} className='w-full bg-slate-900 border-0 focus:border-0' />

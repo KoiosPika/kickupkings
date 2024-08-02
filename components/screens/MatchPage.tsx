@@ -274,11 +274,11 @@ const MatchPage = ({ id }: { id: string }) => {
         <p className='font-bold text-white'>{match?.type} Match</p>
       </div>
       <div className='flex flex-row items-center justify-evenly my-3 h-[140px]'>
-        <div className='flex flex-col justify-center items-center gap-2 w-[90px] overflow-hidden'>
+        <div className='flex flex-col justify-center items-center gap-2 w-[120px] overflow-hidden'>
           <Image src={'/PFP.jpg'} alt='user' height={50} width={50} className='bg-slate-500 h-[50px] w-[50px] rounded-md' />
           <div className='flex flex-row items-center gap-1'>
             <p className='text-white font-semibold text-[14px]'>{match?.Player.username}</p>
-            <Image src={`/flags/${match.playerCountry}.svg`} alt='flag' height={20} width={20} className='bg-white h-[18px] w-[18px] rounded-full' />
+            <Image src={`/flags/${match.playerCountry}.svg`} alt='flag' height={20} width={20} className='bg-white h-[18px] w-[18px] rounded-full border-[1px] border-slate-800' />
           </div>
         </div>
         <div className='flex flex-col justify-center items-center'>
@@ -289,11 +289,11 @@ const MatchPage = ({ id }: { id: string }) => {
           </div>
           <p className='text-yellow-400 font-semibold'>{currentMinute}{`'`}</p>
         </div>
-        <div className='flex flex-col justify-center items-center gap-2 w-[90px] overflow-hidden'>
+        <div className='flex flex-col justify-center items-center gap-2 w-[120px] overflow-hidden'>
           <Image src={'/PFP.jpg'} alt='user' height={50} width={50} className='bg-slate-500 h-[50px] w-[50px] rounded-md' />
           <div className='flex flex-row items-center gap-1'>
             <p className='text-white font-semibold text-[14px] text-start'>{match?.Opponent.username}</p>
-            <Image src={`/flags/${match.opponentCountry}.svg`} alt='flag' height={20} width={20} className='bg-white h-[18px] w-[18px] rounded-full' />
+            <Image src={`/flags/${match.opponentCountry}.svg`} alt='flag' height={20} width={20} className='bg-white h-[18px] w-[18px] rounded-full border-[1px] border-slate-800' />
           </div>
         </div>
       </div>

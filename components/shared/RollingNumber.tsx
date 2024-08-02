@@ -16,7 +16,7 @@ const RollingNumber = ({ number }:{number:number}) => {
   }, [number, prevNumber]);
 
   return (
-    <div className='rolling-number mb-5 flex justify-center items-center text-center'>
+    <div className='rolling-number mb-5 flex justify-center items-center text-center text-[45px]'>
       <span className={animate ? 'animate-out' : 'text-center'}>{prevNumber}</span>
       {animate && <span className='animate-in'>{number}</span>}
     </div>
