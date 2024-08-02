@@ -17,6 +17,7 @@ type Stats = {
   penalties: number;
   woodwork: number;
   offsides: number;
+  interceptions:number;
 };
 
 let moves = 0;
@@ -44,7 +45,8 @@ const MatchPage = ({ id }: { id: string }) => {
     freeKicks: 0,
     penalties: 0,
     woodwork: 0,
-    offsides: 0
+    offsides: 0,
+    interceptions:0
   });
   const [opponentStats, setOpponentStats] = useState<Stats>({
     possession: 0,
@@ -57,7 +59,8 @@ const MatchPage = ({ id }: { id: string }) => {
     freeKicks: 0,
     penalties: 0,
     woodwork: 0,
-    offsides: 0
+    offsides: 0,
+    interceptions:0
   });
 
 
@@ -73,7 +76,8 @@ const MatchPage = ({ id }: { id: string }) => {
       freeKicks: 0,
       penalties: 0,
       woodwork: 0,
-      offsides: 0
+      offsides: 0,
+      interceptions: 0
     };
 
     switch (scenario) {
@@ -82,6 +86,7 @@ const MatchPage = ({ id }: { id: string }) => {
         statsUpdate.passes++;
         break;
       case 'Goalkeeper save':
+      case 'Goalkeeper catches the ball':
         statsUpdate.saves++;
         break;
       case 'Long Ball':
@@ -109,11 +114,20 @@ const MatchPage = ({ id }: { id: string }) => {
       case 'Hits woodwork':
         statsUpdate.woodwork++;
         break;
+      case 'Forward Interception':
+      case 'Attacking Midfield Interception':
+      case 'Frontline Midfield Interception':
+      case 'Backline Midfield Interception':
+      case 'Frontline Defense Interception':
+      case 'Center Defesne Interception':
+      case 'Backline Defense Interception':
+        statsUpdate.interceptions++;
+        break;
       default:
         break;
     }
 
-    const isOpponentStat = ['Fouled', 'Goalkeeper save'].includes(scenario);
+    const isOpponentStat = ['Fouled', 'Goalkeeper save', 'Goalkeeper catches the ball', 'Forward Interception', 'Attacking Midfield Interception', 'Frontline Midfield Interception', 'Backline Midfield Interception', 'Frontline Defense Interception', 'Center Defesne Interception', 'Backline Defense Interception'].includes(scenario);
 
     if (isOpponentStat) {
       if (player === 'Player') {
@@ -289,42 +303,6 @@ const MatchPage = ({ id }: { id: string }) => {
         </div>
       </div>
       <ScrollArea className='h-[85%]'>
-        {mainScenario &&
-          <div className='w-full text-center text-white font-semibold rounded-md h-[85px] flex flex-row justify-center items-center'>
-            {mainScenario.player === 'Player' &&
-              <div className='w-5/6 rounded-lg flex flex-row items-center justify-center mr-auto ml-2 py-3 px-2'>
-                <div className='w-1/4 flex flex-col justify-center items-center gap-2'>
-                  <IconDisplay scenario={mainScenario.scenario.scenario} />
-                </div>
-                <div className='w-3/4 flex flex-col justify-center items gap-2 text-[15px]'>
-                  <p>{mainScenario.scenario.scenario}</p>
-                </div>
-              </div>}
-            {mainScenario.player === 'Opponent' &&
-              <div className='w-5/6 rounded-lg flex flex-row items-center justify-center ml-auto mr-2 py-3 px-2'>
-                <div className='w-3/4 flex flex-col justify-center items gap-2 text-[15px]'>
-                  <p>{mainScenario.scenario.scenario}</p>
-                </div>
-                <div className='w-1/4 flex flex-col justify-center items-center gap-2'>
-                  <IconDisplay scenario={mainScenario.scenario.scenario} />
-                </div>
-              </div>}
-            {mainScenario.player === 'Match' &&
-              <div className='text-center'>
-                {mainScenario.scenario.scenario === 'Player Wins!' &&
-                  <div className='flex flex-row items-center gap-1'>
-                    <p className='text-white font-semibold text-[18px]'>{match?.Player.username}</p>
-                    <Image src={`/flags/${match.playerCountry}.svg`} alt='flag' height={20} width={20} className='bg-white h-[25px] w-[25px] rounded-full' />
-                    <p className='text-white font-semibold text-[18px] ml-1'>Wins!</p>
-                  </div>}
-                {mainScenario.scenario.scenario === 'Opponent Wins!' &&
-                  <div className='flex flex-row items-center gap-1'>
-                    <p className='text-white font-semibold text-[18px]'>{match?.Opponent.username}</p>
-                    <Image src={`/flags/${match.opponentCountry}.svg`} alt='flag' height={20} width={20} className='bg-white h-[25px] w-[25px] rounded-full' />
-                    <p className='text-white font-semibold text-[18px] ml-1'>Wins!</p>
-                  </div>}
-              </div>}
-          </div>}
         <div className='flex justify-center items-center my-4'>
           <Field scenarioText={mainScenario?.scenario.scenario || ''} currentLine={currentScenario.line} player={currentScenario.player} match={match} />
         </div>
@@ -411,14 +389,24 @@ const Field = ({ currentLine, player, scenarioText, match }: { currentLine: numb
         }}
       />
       {(scenarioText && scenarioText === 'Player Wins!') &&
-        <div className='flex flex-col justify-center items-center gap-2 w-[90px] overflow-hidden animate-in'>
+        <div className='flex flex-col justify-center items-center gap-2 overflow-hidden animate-in'>
           <Image src={'/icons/crown.svg'} alt='user' height={70} width={70} className='h-[50px] w-[50px] rounded-md' />
           <Image src={'/PFP.jpg'} alt='user' height={70} width={70} className='bg-slate-500 h-[70px] w-[70px] rounded-md' />
+          <div className='flex flex-row items-center gap-1 bg-gradient-to-b from-slate-700 to-slate-800 px-2 py-1 rounded-lg'>
+            <p className='text-white font-semibold text-[16px]'>{match?.Player.username}</p>
+            <Image src={`/flags/${match.playerCountry}.svg`} alt='flag' height={20} width={20} className='bg-white h-[20px] w-[20px] rounded-full' />
+            <p className='text-white font-semibold text-[16px] ml-1'>Wins!</p>
+          </div>
         </div>}
       {(scenarioText && scenarioText === 'Opponent Wins!') &&
-        <div className='flex flex-col justify-center items-center gap-2 w-[90px] overflow-hidden'>
+        <div className='flex flex-col justify-center items-center gap-2 overflow-hidden animate-in'>
           <Image src={'/icons/crown.svg'} alt='user' height={70} width={70} className='h-[50px] w-[50px] rounded-md' />
           <Image src={'/PFP.jpg'} alt='user' height={70} width={70} className='bg-slate-500 h-[70px] w-[70px] rounded-md' />
+          <div className='flex flex-row items-center gap-1 bg-gradient-to-b from-slate-700 to-slate-800 px-2 py-1 rounded-lg'>
+            <p className='text-white font-semibold text-[16px]'>{match?.Opponent.username}</p>
+            <Image src={`/flags/${match.opponentCountry}.svg`} alt='flag' height={20} width={20} className='bg-white h-[20px] w-[20px] rounded-full' />
+            <p className='text-white font-semibold text-[16px] ml-1'>Wins!</p>
+          </div>
         </div>}
       {(scenarioText && scenarioText.includes('Interception')) &&
         <div className='bg-gradient-to-b from-slate-700 to-slate-800 w-3/4 text-center py-2 text-white font-semibold rounded-md shadow-md shadow-slate-800 animate-in'>
@@ -439,6 +427,74 @@ const Field = ({ currentLine, player, scenarioText, match }: { currentLine: numb
       {(scenarioText && scenarioText.includes('Corner awarded')) &&
         <div className='bg-gradient-to-b from-slate-700 to-slate-800 w-3/4 text-center py-2 text-white font-semibold rounded-md shadow-md shadow-slate-800 animate-in'>
           <p>Corner Kick</p>
+        </div>}
+      {(scenarioText && scenarioText.includes('Goal Scored')) &&
+        <div className='bg-gradient-to-b from-slate-700 to-slate-800 w-3/4 text-center py-2 text-white font-semibold rounded-md shadow-md shadow-slate-800 animate-in'>
+          <p>Goal Scored</p>
+        </div>}
+      {(scenarioText && scenarioText.includes('Penalty Scored')) &&
+        <div className='bg-gradient-to-b from-slate-700 to-slate-800 w-3/4 text-center py-2 text-white font-semibold rounded-md shadow-md shadow-slate-800 animate-in'>
+          <p>Penalty Scored</p>
+        </div>}
+      {(scenarioText && scenarioText.includes('Penalty Missed')) &&
+        <div className='bg-gradient-to-b from-slate-700 to-slate-800 w-3/4 text-center py-2 text-white font-semibold rounded-md shadow-md shadow-slate-800 animate-in'>
+          <p>Penalty Missed</p>
+        </div>}
+      {(scenarioText && scenarioText.includes('Handball')) &&
+        <div className='bg-gradient-to-b from-slate-700 to-slate-800 w-3/4 text-center py-2 text-white font-semibold rounded-md shadow-md shadow-slate-800 animate-in'>
+          <p>Handball</p>
+        </div>}
+      {(scenarioText && scenarioText.includes('Shot Blocked')) &&
+        <div className='bg-gradient-to-b from-slate-700 to-slate-800 w-3/4 text-center py-2 text-white font-semibold rounded-md shadow-md shadow-slate-800 animate-in'>
+          <p>Shot Blocked</p>
+        </div>}
+      {(scenarioText && scenarioText.includes('Freekick Scored')) &&
+        <div className='bg-gradient-to-b from-slate-700 to-slate-800 w-3/4 text-center py-2 text-white font-semibold rounded-md shadow-md shadow-slate-800 animate-in'>
+          <p>Freekick Scored</p>
+        </div>}
+      {(scenarioText && scenarioText.includes('Match Started')) &&
+        <div className='bg-gradient-to-b from-slate-700 to-slate-800 w-3/4 text-center py-2 text-white font-semibold rounded-md shadow-md shadow-slate-800 animate-in'>
+          <p>Match Started</p>
+        </div>}
+      {(scenarioText && scenarioText.includes('Half-time')) &&
+        <div className='bg-gradient-to-b from-slate-700 to-slate-800 w-3/4 text-center py-2 text-white font-semibold rounded-md shadow-md shadow-slate-800 animate-in'>
+          <p>Half-time</p>
+        </div>}
+      {(scenarioText && scenarioText.includes('Full time')) &&
+        <div className='bg-gradient-to-b from-slate-700 to-slate-800 w-3/4 text-center py-2 text-white font-semibold rounded-md shadow-md shadow-slate-800 animate-in'>
+          <p>Full time</p>
+        </div>}
+      {(scenarioText && scenarioText.includes('Awaiting Extra-time')) &&
+        <div className='bg-gradient-to-b from-slate-700 to-slate-800 w-3/4 text-center py-2 text-white font-semibold rounded-md shadow-md shadow-slate-800 animate-in'>
+          <p>Awaiting Extra-time</p>
+        </div>}
+      {(scenarioText && scenarioText.includes('Awaiting Penalties')) &&
+        <div className='bg-gradient-to-b from-slate-700 to-slate-800 w-3/4 text-center py-2 text-white font-semibold rounded-md shadow-md shadow-slate-800 animate-in'>
+          <p>Awaiting Penalties</p>
+        </div>}
+      {(scenarioText && scenarioText.includes('Goalkeeper save')) &&
+        <div className='bg-gradient-to-b from-slate-700 to-slate-800 w-3/4 text-center py-2 text-white font-semibold rounded-md shadow-md shadow-slate-800 animate-in'>
+          <p>Goalkeeper save</p>
+        </div>}
+      {(scenarioText && scenarioText.includes('Goalkeeper catches the ball')) &&
+        <div className='bg-gradient-to-b from-slate-700 to-slate-800 w-3/4 text-center py-2 text-white font-semibold rounded-md shadow-md shadow-slate-800 animate-in'>
+          <p>Goalkeeper catch</p>
+        </div>}
+      {(scenarioText && scenarioText.includes('Hits woodwork')) &&
+        <div className='bg-gradient-to-b from-slate-700 to-slate-800 w-3/4 text-center py-2 text-white font-semibold rounded-md shadow-md shadow-slate-800 animate-in'>
+          <p>Hits woodwork</p>
+        </div>}
+      {(scenarioText && scenarioText.includes('Off target')) &&
+        <div className='bg-gradient-to-b from-slate-700 to-slate-800 w-3/4 text-center py-2 text-white font-semibold rounded-md shadow-md shadow-slate-800 animate-in'>
+          <p>Off target</p>
+        </div>}
+      {(scenarioText && scenarioText.includes('Fouled')) &&
+        <div className='bg-gradient-to-b from-slate-700 to-slate-800 w-3/4 text-center py-2 text-white font-semibold rounded-md shadow-md shadow-slate-800 animate-in'>
+          <p>Fouled</p>
+        </div>}
+      {(scenarioText && scenarioText.includes('Play kicks-off')) &&
+        <div className='bg-gradient-to-b from-slate-700 to-slate-800 w-3/4 text-center py-2 text-white font-semibold rounded-md shadow-md shadow-slate-800 animate-in'>
+          <p>Kick off</p>
         </div>}
     </div>
   );
@@ -575,6 +631,14 @@ const MatchStats = ({ playerStats, opponentStats }: any) => {
             <span>{opponentStats.saves}</span>
           </div>
           {createBar(playerStats.saves, playerStats.saves + opponentStats.saves)}
+        </div>
+        <div className='flex flex-col items-center gap-2 mt-2'>
+          <div className='flex flex-row items-center justify-between w-11/12'>
+            <span>{playerStats.interceptions}</span>
+            <span>Interceptions</span>
+            <span>{opponentStats.interceptions}</span>
+          </div>
+          {createBar(playerStats.interceptions, playerStats.interceptions + opponentStats.interceptions)}
         </div>
         <div className='flex flex-col items-center gap-2 mt-2'>
           <div className='flex flex-row items-center justify-between w-11/12'>

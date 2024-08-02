@@ -430,7 +430,7 @@ function calculateForward(scenario: any[], playerFormation: any, opponentFormati
 function calculateFrontLineMidfield(scenario: any[], playerFormation: any, opponentFormation: any, players1: any, players2: any) {
   const possessionChance = calculatePossessionChance(playerFormation, players1);
   const defenseInterception = calculateDefenseInterception(opponentFormation, players2);
-  const interceptionChance = (defenseInterception.averageLevel * 0.2) / (defenseInterception.averageLevel * 0.2 + possessionChance );
+  const interceptionChance = (defenseInterception.averageLevel * 0.1) / (defenseInterception.averageLevel * 0.1 + possessionChance );
 
   // Check for interception
   if (Math.random() < interceptionChance) {
@@ -468,7 +468,7 @@ function calculateFrontLineMidfield(scenario: any[], playerFormation: any, oppon
 function calculateAttackingMidfield(scenario: any[], playerFormation: any, opponentFormation: any, players1: any, players2: any) {
   const possessionChance = calculatePossessionChance(playerFormation, players1);
   const defenseInterception = calculateDefenseInterception(opponentFormation, players2);
-  const interceptionChance = (defenseInterception.averageLevel * 0.3) / (defenseInterception.averageLevel * 0.3 + possessionChance );
+  const interceptionChance = (defenseInterception.averageLevel * 0.1) / (defenseInterception.averageLevel * 0.1 + possessionChance );
 
   // Check for interception
   if (Math.random() < interceptionChance) {
@@ -502,7 +502,7 @@ function calculateAttackingMidfield(scenario: any[], playerFormation: any, oppon
 function calculateBackLineMidfield(scenario: any[], playerFormation: any, opponentFormation: any, players1: any, players2: any) {
   const possessionChance = calculatePossessionChance(playerFormation, players1);
   const defenseInterception = calculateDefenseInterception(opponentFormation, players2);
-  const interceptionChance = (defenseInterception.averageLevel * 0.3) / (defenseInterception.averageLevel * 0.3 + possessionChance + 5);
+  const interceptionChance = (defenseInterception.averageLevel * 0.1) / (defenseInterception.averageLevel * 0.1 + possessionChance);
 
   // Check for interception
   if (Math.random() < interceptionChance) {

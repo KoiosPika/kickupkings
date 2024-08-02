@@ -73,7 +73,6 @@ const UserDataSchema = new Schema({
         type: [PositionSchema], default: () => positions.map(position => ({
             position: position.symbol,
             level: 0,
-            availableTime: Date.now()
         }))
     },
     dailyQuizzes: [QuizSchema],

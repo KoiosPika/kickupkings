@@ -416,7 +416,7 @@ export async function playGame(player1ID: string, player2ID: string, type: strin
         totalMoves = 0;
 
         player = 0
-        
+
         if (score1 === score2) {
             // Extra time
             while (true) {
@@ -692,11 +692,10 @@ const calculateTeamOverall = (userPositions: any) => {
     return averageLevel;
 };
 
-const generateRandomPositions = () => {
+const generateRandomPositions = (rank: number) => {
     return positions.map(position => ({
         position: position.symbol,
-        level: Math.floor(Math.random() * 10), // Levels between 0 and 9
-        availableTime: new Date(),
+        level: Math.floor(Math.random() * (rank + 3 - (rank - 2)) + (rank - 2)), // Levels between 0 and 9
     }));
 };
 
@@ -718,33 +717,49 @@ const generateRandomTelegramID = () => {
     return telegramID;
 };
 
-export async function createFakeUsers(count: number) {
+export async function createFakeUsers(count: number, rank: number) {
     try {
         await connectToDatabase();
 
         for (let i = 0; i < count; i++) {
             const user = new User({
                 telegramID: generateRandomTelegramID(),
+                chatId: generateRandomTelegramID(),
                 username: generateRandomUsername(),
                 photo: '', // No photo
+                type: 'Bot',
             });
 
             await user.save();
 
-            const rank = Ranks[i % Ranks.length]; // Cycle through ranks
+            const currentRank = Ranks.find(r => r.rank = rank)!; // Cycle through ranks
+
+            const formations = [
+                '3-1-2-1-3', '3-1-4-2', '3-2-3-2', '3-2-4-1', '3-3-1-3', '3-4-1-2', '3-4-2-1',
+                '3-4-3', '3-5-1-1', '3-5-2', '4-1-2-1-2', '4-1-2-3', '4-1-3-2', '4-1-4-1',
+                '4-2-2-2', '4-2-3-1', '4-2-4', '4-3-1-2', '4-3-2-1', '4-3-3', '4-4-1-1', '4-4-2',
+                '4-5-1', '5-1-2-1-1', '5-1-3-1', '5-2-1-2', '5-2-2-1', '5-2-3', '5-3-2', '5-4-1'
+            ];
+
+            const flags = ['ae', 'af', 'al', 'am', 'ao', 'ar', 'at', 'au', 'az', 'ba', 'bd', 'be', 'bg', 'bh', 'bo', 'br', 'ca',
+                'cd', 'cg', 'ch', 'ci', 'cl', 'cm', 'cn', 'co', 'cr', 'cz', 'de', 'dk', 'dz', 'ec', 'eg', 'es-ct', 'es', 'eu',
+                'fr', 'gb-eng', 'gb-sct', 'gh', 'hr', 'hu', 'ie', 'in', 'iq', 'ir', 'it', 'jm', 'jp', 'ke', 'kr', 'kw', 'lb',
+                'ma', 'mx', 'my', 'ng', 'nl', 'no', 'nz', 'pe', 'ph', 'pl', 'pr', 'pt', 'qa', 'ro', 'rs', 'ru', 'sa', 'se', 'si',
+                'sk', 'sn', 'sv', 'tn', 'tr', 'ua', 'us', 'uy', 'uz', 've', 'vn', 'za', 'zw']
 
             const userData = new UserData({
                 User: user._id,
-                formation: '4-3-3',
+                formation: formations[Math.floor(Math.random() * formations.length)],
                 coins: Math.floor(Math.random() * 10001), // Coins between 0 and 10000
                 diamonds: Math.floor(Math.random() * 1001), // Diamonds between 0 and 1000
-                points: Math.floor(Math.random() * (rank.maxPoints + 1)), // Points between 0 and maxPoints
+                points: Math.floor(Math.random() * (currentRank.maxPoints + 1)), // Points between 0 and maxPoints
                 played: Math.floor(Math.random() * 101), // Played between 0 and 100
                 won: Math.floor(Math.random() * 51), // Won between 0 and 50
                 lost: Math.floor(Math.random() * 51), // Lost between 0 and 50
-                Rank: rank.rank,
+                Rank: currentRank.rank,
                 teamOverall: 0, // This will be calculated after
-                positions: generateRandomPositions(),
+                country: flags[Math.floor(Math.random() * flags.length)],
+                positions: generateRandomPositions(rank),
                 dailyQuizzes: [],
                 dailyPredictions: [],
             });

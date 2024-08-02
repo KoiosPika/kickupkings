@@ -12,7 +12,7 @@ import {
     DrawerTitle,
     DrawerTrigger,
 } from "@/components/ui/drawer"
-import { getUserForPlayPage, savePrize, upgradePosition } from '@/lib/actions/user.actions';
+import { createFakeUsers, getUserForPlayPage, savePrize, upgradePosition } from '@/lib/actions/user.actions';
 import { Prices } from '@/constants/Earnings';
 import UserDialog from '../shared/UserDialog';
 
@@ -167,6 +167,10 @@ const ShopPage = () => {
         }
     };
 
+    const createUsers = async () => {
+        await createFakeUsers(10, 11);
+    }
+
     if (!user) {
         return (<Image src={'/icons/spinner.svg'} alt='spinner' height={30} width={30} className='animate-spin' />)
     }
@@ -175,7 +179,7 @@ const ShopPage = () => {
         <section className='w-full h-screen bg-gradient-to-b from-slate-900 to-gray-700'>
             <UserDialog user={user} />
             <div className='w-full ml-auto mb-auto p-2 flex flex-row items-center gap-2'>
-                <div className='w-1/3 bg-slate-800 flex flex-row justify-around items-center rounded-lg h-[53px] sm:h-[75px]'>
+                <div className='w-1/3 bg-slate-800 flex flex-row justify-around items-center rounded-lg h-[53px] sm:h-[75px]' onClick={createUsers}>
                     <div className='flex flex-row items-center gap-2'>
                         <Image src={'/icons/coin.svg'} alt='coin' height={100} width={100} className='w-[25px] h-[25px] sm:w-[40px] sm:h-[40px]' />
                         <p className='font-bold text-white text-[16px] sm:text-[22px]'>{user && user?.coins}</p>

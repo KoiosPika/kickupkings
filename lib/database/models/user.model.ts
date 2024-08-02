@@ -11,8 +11,9 @@ const UserSchema = new Schema({
     telegramID: { type: String, required: true, unique: true },
     chatId: { type: String, required: true, unique: true },
     username: { type: String, required: true, unique: true },
-    bio: { type: String },
+    bio: { type: String, default: '' },
     photo: { type: String },
+    type: { type: String, default: 'User' },
 })
 
 const User = models.User || model('User', UserSchema);
