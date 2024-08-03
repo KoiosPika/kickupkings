@@ -153,6 +153,20 @@ const PlayPage = () => {
     setSearching(false);
   }
 
+  let requiredOverall = 0;
+
+  let canPlayRank = false;
+
+  if(user){
+    if(user.Rank == 0 || user.Rank == 1){
+      requiredOverall = user.Rank;
+      canPlayRank = user?.teamOverall > requiredOverall;
+    } else {
+      requiredOverall = user.Rank - 2;
+      canPlayRank = user?.teamOverall > requiredOverall;
+    }
+  }
+
   if (!user) {
     return (<Image src={'/icons/spinner.svg'} alt='spinner' height={30} width={30} className='animate-spin' />)
   }
@@ -216,7 +230,7 @@ const PlayPage = () => {
             <p className='text-white font-semibold bg-slate-900 px-3 py-1 inline-flex rounded-lg text-[16px] sm:text-[22px]'>History</p>
             <a href='/history/6699bfa1ba8348c3228f89ab' className='text-white font-semibold bg-slate-900 px-3 py-1 inline-flex rounded-lg text-[12px] sm:text-[22px] ml-auto mt-auto'>
               <p>View All</p>
-              <Image src={'/icons/arrow-right.svg'} alt='arrow' height={9} width={9} className='rotate-90 ml-2 mt-[1.5px]'/>
+              <Image src={'/icons/arrow-right.svg'} alt='arrow' height={9} width={9} className='rotate-90 ml-2 mt-[1.5px]' />
             </a>
           </div>
           <div className='flex flex-col gap-1 sm:gap-4 my-2'>
@@ -262,7 +276,7 @@ const PlayPage = () => {
                 {!match && <AlertDialogTitle className='text-[18px] text-white my-3'>Find Match</AlertDialogTitle>}
               </AlertDialogHeader>
               {!match &&
-                <div className='w-full flex justify-around bg-white rounded-md border-2 border-white mb-3'>
+                <div className='w-11/12 place-self-center flex justify-around bg-white rounded-md border-2 border-white mb-3'>
                   <div
                     className={`w-1/2 py-1 font-semibold text-center ${activeTab === 'Classic' ? 'bg-blue-600 text-white' : ' text-black'} rounded-md`}
                     onClick={() => setActiveTab('Classic')}
@@ -344,10 +358,23 @@ const PlayPage = () => {
                   </div>
                 </div>
               </>}
-              {!match && <div className={`py-2 px-3 ${activeTab === 'Classic' ? 'bg-blue-600' : 'bg-orange-600'} w-3/4 place-self-center text-white font-bold flex flex-row items-center justify-center gap-3 text-[18px] rounded-lg`} onClick={handleFindingMatch}>
-                <Image src={'/icons/search.svg'} alt='search' height={20} width={20} />
-                <p>{searching ? 'Searching...' : 'Search For Opponents'}</p>
-              </div>}
+              {!match && activeTab === 'Rank' && !canPlayRank && (
+                <div className='py-2 px-3 bg-slate-400 w-3/4 place-self-center text-white font-bold flex flex-row items-center justify-center gap-3 text-[18px] rounded-lg'>
+                  <p>Rank Match Unavailable</p>
+                </div>
+              )}
+              {!match && (activeTab === 'Classic' || canPlayRank) && (
+                <div className={`py-2 px-3 ${activeTab === 'Classic' ? 'bg-blue-600' : 'bg-orange-600'} w-3/4 place-self-center text-white font-bold flex flex-row items-center justify-center gap-3 text-[18px] rounded-lg`} onClick={handleFindingMatch}>
+                  <Image src={'/icons/search.svg'} alt='search' height={20} width={20} />
+                  <p>{searching ? 'Searching...' : 'Search For Opponents'}</p>
+                </div>
+              )}
+              {(!canPlayRank && activeTab === 'Rank') &&
+                <div className='flex flex-row items-center gap-2 place-self-center text-[15px] text-white font-semibold w-5/6'>
+                  <p className='text-center'>
+                    You need at least <span className='text-green-500'>{requiredOverall.toFixed(2)}</span> team overall to play rank
+                  </p>
+                </div>}
               <AlertDialogCancel className='absolute text-white right-2 top-0 bg-transparent border-0' onClick={() => setMatch(null)}>
                 <Image src={'/icons/x.svg'} alt='coin' height={100} width={100} className='w-[25px] h-[25px] sm:w-[40px] sm:h-[40px]' />
               </AlertDialogCancel>

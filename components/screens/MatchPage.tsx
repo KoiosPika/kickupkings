@@ -122,6 +122,7 @@ const MatchPage = ({ id }: { id: string }) => {
       case 'Center Defesne Interception':
       case 'Backline Defense Interception':
         statsUpdate.interceptions++;
+        statsUpdate.possession++;
         break;
       default:
         break;
@@ -275,7 +276,7 @@ const MatchPage = ({ id }: { id: string }) => {
       </div>
       <div className='flex flex-row items-center justify-evenly my-3 h-[140px]'>
         <div className='flex flex-col justify-center items-center gap-2 w-[120px] overflow-hidden'>
-          <Image src={'/PFP.jpg'} alt='user' height={50} width={50} className='bg-slate-500 h-[50px] w-[50px] rounded-md' />
+          <Image src={'/PFP.jpg'} alt='user' height={50} width={50} className='bg-slate-500 h-[70px] w-[70px] rounded-md' />
           <div className='flex flex-row items-center gap-1'>
             <p className='text-white font-semibold text-[14px]'>{match?.Player.username}</p>
             <Image src={`/flags/${match.playerCountry}.svg`} alt='flag' height={20} width={20} className='bg-white h-[18px] w-[18px] rounded-full border-[1px] border-slate-800' />
@@ -290,7 +291,7 @@ const MatchPage = ({ id }: { id: string }) => {
           <p className='text-yellow-400 font-semibold'>{currentMinute}{`'`}</p>
         </div>
         <div className='flex flex-col justify-center items-center gap-2 w-[120px] overflow-hidden'>
-          <Image src={'/PFP.jpg'} alt='user' height={50} width={50} className='bg-slate-500 h-[50px] w-[50px] rounded-md' />
+          <Image src={'/PFP.jpg'} alt='user' height={50} width={50} className='bg-slate-500 h-[70px] w-[70px] rounded-md' />
           <div className='flex flex-row items-center gap-1'>
             <p className='text-white font-semibold text-[14px] text-start'>{match?.Opponent.username}</p>
             <Image src={`/flags/${match.opponentCountry}.svg`} alt='flag' height={20} width={20} className='bg-white h-[18px] w-[18px] rounded-full border-[1px] border-slate-800' />
@@ -385,7 +386,7 @@ const Field = ({ currentLine, player, scenarioText, match }: { currentLine: numb
           position: 'absolute',
           left: shadingLeft,
           right: shadingRight,
-          transform: !isPlayer ? 'none' : 'scale(-1)'
+          transform: !isPlayer ? 'none' : 'scale(-1)',
         }}
       />
       {(scenarioText && scenarioText === 'Player Wins!') &&

@@ -168,7 +168,7 @@ const ShopPage = () => {
     };
 
     const createUsers = async () => {
-        await createFakeUsers(10, 11);
+        await createFakeUsers(200, 20);
     }
 
     if (!user) {

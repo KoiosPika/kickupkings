@@ -28,7 +28,7 @@ const BottomNavBar = ({ currentPage, setCurrentPage }: BottomNavBarProps) => {
                 className={`text-sm w-1/6 py-1 flex flex-col justify-center items-center gap-1 ${currentPage === 'play' ? 'bg-yellow-400 rounded-xl text-black' : 'text-white'}`}
                 onClick={() => setCurrentPage('play')}
             >
-                <Image src={currentPage === 'play' ? '/icons/Football-black.svg' : '/icons/Football-white.svg'} alt='play' height={100} width={100} className='h-[25px] w-[25px] sm:h-[30px] sm:w-[30px]' />
+                <Image src={currentPage === 'play' ? '/icons/Football-black.svg' : '/icons/Football-white.svg'} alt='play' height={100} width={100} className={`h-[25px] w-[25px] sm:h-[30px] sm:w-[30px] ${currentPage === 'play' ? '' : 'bg-white'} rounded-full`} />
                 <p className='text-[12px] sm:text-[16px] font-bold'>Play</p>
             </button>
             <button

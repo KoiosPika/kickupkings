@@ -695,7 +695,7 @@ const calculateTeamOverall = (userPositions: any) => {
 const generateRandomPositions = (rank: number) => {
     return positions.map(position => ({
         position: position.symbol,
-        level: Math.floor(Math.random() * (rank + 3 - (rank - 2)) + (rank - 2)), // Levels between 0 and 9
+        level: Math.floor(Math.random() * (rank + 3 - (rank - 2)) + (rank - 2)),
     }));
 };
 
