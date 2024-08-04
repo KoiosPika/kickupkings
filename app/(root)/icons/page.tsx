@@ -1,9 +1,10 @@
-import ProfilesPage from '@/components/screens/ProfilesPage'
+
+import IconsPage from '@/components/screens/IconsPage'
 import React from 'react'
 
 const page = () => {
   return (
-    <ProfilesPage />
+    <IconsPage />
   )
 }
 

@@ -17,7 +17,14 @@ export interface IUserData extends Document {
     positions: IPosition[],
     dailyQuizzes: IQuiz[],
     dailyPredictions: IPrediction[],
-    teamOverall: number
+    teamOverall: number,
+    icons: IIcon[]
+}
+
+interface IIcon {
+    name: string,
+    theme: string,
+    type: string
 }
 
 interface IQuiz {
@@ -56,6 +63,12 @@ const PositionSchema: Schema<IPosition> = new Schema({
     availableTime: { type: Date, required: true, default: Date.now }
 });
 
+const IconSchema = new Schema({
+    name: { type: String },
+    theme: { type: String },
+    type: { type: String }
+})
+
 const UserDataSchema = new Schema({
     User: { type: Schema.Types.ObjectId, ref: "User", index: true },
     formation: { type: String, default: '4-3-3' },
@@ -75,6 +88,7 @@ const UserDataSchema = new Schema({
             level: 0,
         }))
     },
+    icons: [IconSchema],
     dailyQuizzes: [QuizSchema],
     dailyPredictions: [PredictionSchema],
 })

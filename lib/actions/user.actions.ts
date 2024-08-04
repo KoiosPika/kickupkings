@@ -10,6 +10,7 @@ import Match, { IMatch } from "../database/models/match.model";
 import { Predictions, Quizzes } from "@/constants/Earnings";
 import { populateMatch } from "./match.actions";
 import { Flags } from "@/constants/Flags";
+import { Icons } from "@/constants/Icons";
 
 const populateUsers = (query: any) => {
     return query
@@ -838,16 +839,6 @@ export async function getFriendlyMatchInfo(playerId: string, opponentId: string)
     }
 }
 
-export async function addChatID() {
-    try {
-        await connectToDatabase();
-
-        await User.updateMany({}, { '$set': { chatId: '707937422' } })
-    } catch (error) {
-        console.log(error);
-    }
-}
-
 function calculateFormationOverall(userData: IUserData) {
     const userFormation = formations.find(f => f.id === userData.formation);
 
@@ -932,6 +923,37 @@ export async function editProfile(userId: string, username: string, bio: string)
             return 'Username is already taken.';
         }
 
+        console.log(error);
+    }
+}
+
+export async function buyIcon(userId: string, iconName: any) {
+    try {
+        await connectToDatabase();
+
+        const user = await populateUsers(UserData.findOne({ User: userId }))
+
+        const localIcon = Icons.find(i => i.name == iconName)!
+
+        if (user.diamonds < localIcon.price) {
+            throw new Error('Insuffient Funds')
+        }
+
+        user.diamonds -= localIcon.price;
+
+        let newIcon = {
+            name: localIcon.name,
+            theme: localIcon.theme,
+            type: localIcon.type
+        }
+
+        user.icons.push(newIcon)
+
+        await user.save();
+
+        return JSON.parse(JSON.stringify(user));
+
+    } catch (error) {
         console.log(error);
     }
 }
