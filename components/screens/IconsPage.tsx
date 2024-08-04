@@ -87,7 +87,7 @@ const IconsPage = () => {
                     {filteredIcons.map(icon => {
                         const isOwned = user.icons.some(i => i.name === icon.name);
                         return (
-                            <Drawer>
+                            <Drawer key={icon.name}>
                                 <DrawerTrigger>
                                     <div className='flex flex-col relative h-[130px]' ref={el => { drawerRefs.current[icon.name] = el; }}>
                                         <Image
