@@ -4,6 +4,8 @@ import { getMatchByID } from '@/lib/actions/match.actions';
 import Image from 'next/image';
 import { ScrollArea } from '../ui/scroll-area';
 import RollingNumber from '../shared/RollingNumber';
+import { getImageID } from '@/lib/utils';
+import PlayerDialog from '../shared/PlayerDialog';
 
 type Stats = {
   possession: number;
@@ -17,7 +19,7 @@ type Stats = {
   penalties: number;
   woodwork: number;
   offsides: number;
-  interceptions:number;
+  interceptions: number;
 };
 
 let moves = 0;
@@ -46,7 +48,7 @@ const MatchPage = ({ id }: { id: string }) => {
     penalties: 0,
     woodwork: 0,
     offsides: 0,
-    interceptions:0
+    interceptions: 0
   });
   const [opponentStats, setOpponentStats] = useState<Stats>({
     possession: 0,
@@ -60,7 +62,7 @@ const MatchPage = ({ id }: { id: string }) => {
     penalties: 0,
     woodwork: 0,
     offsides: 0,
-    interceptions:0
+    interceptions: 0
   });
 
 
@@ -207,7 +209,12 @@ const MatchPage = ({ id }: { id: string }) => {
             if ((half === 'First half' && currentMinute < 45) ||
               (half === 'Second half' && currentMinute < 90) ||
               (half === 'Extra time' && currentMinute < 120)) {
-              setCurrentMinute(prev => prev + 1);
+              setCurrentMinute(prev => {
+                const newMinute = prev + 1;
+                setProgress((newMinute / 90) * 100); // Update progress
+                return newMinute;
+              });
+
             }
           }
 
@@ -240,14 +247,6 @@ const MatchPage = ({ id }: { id: string }) => {
 
           setCurrentScenarioIndex(currentScenarioIndex + 1);
         } else {
-
-          if (currentAttack.player !== 'Match') {
-            // Assuming totalSignificantAttacks is defined elsewhere, e.g., 24
-            const processedAttacks = match.attacks.slice(0, currentAttackIndex + 1)
-              .filter((attack: any) => attack.player !== 'Match').length;
-
-            setProgress((processedAttacks / 24) * 100);
-          }
           setCurrentAttackIndex(currentAttackIndex + 1);
           setCurrentScenarioIndex(0);
         }
@@ -275,13 +274,7 @@ const MatchPage = ({ id }: { id: string }) => {
         <p className='font-bold text-white'>{match?.type} Match</p>
       </div>
       <div className='flex flex-row items-center justify-evenly my-3 h-[140px]'>
-        <div className='flex flex-col justify-center items-center gap-2 w-[120px] overflow-hidden'>
-          <Image src={'/PFP.jpg'} alt='user' height={120} width={120} className='bg-slate-500 h-[70px] w-[70px] rounded-md' />
-          <div className='flex flex-row items-center gap-1'>
-            <p className='text-white font-semibold text-[14px]'>{match?.Player.username}</p>
-            <Image src={`/flags/${match.playerCountry}.svg`} alt='flag' height={20} width={20} className='bg-white h-[18px] w-[18px] rounded-full border-[1px] border-slate-800' />
-          </div>
-        </div>
+        <PlayerDialog userPhoto={match.Player.photo} userName={match.Player.username} userId={match.Player._id} userCountry={match.playerCountry} page='Match' />
         <div className='flex flex-col justify-center items-center'>
           <div className='text-yellow-400 font-semibold h-[70px] flex flex-row items-center text-[50px]'>
             <RollingNumber number={playerScore} />
@@ -290,13 +283,7 @@ const MatchPage = ({ id }: { id: string }) => {
           </div>
           <p className='text-yellow-400 font-semibold'>{currentMinute}{`'`}</p>
         </div>
-        <div className='flex flex-col justify-center items-center gap-2 w-[120px] overflow-hidden'>
-          <Image src={'https://drive.google.com/uc?export=view&id=1J_xNo304CSSQu2qbye2JzYf1FATel8x_'} alt='user' height={120} width={120} className='bg-slate-500 h-[70px] w-[70px] rounded-md' />
-          <div className='flex flex-row items-center gap-1'>
-            <p className='text-white font-semibold text-[14px] text-start'>{match?.Opponent.username}</p>
-            <Image src={`/flags/${match.opponentCountry}.svg`} alt='flag' height={20} width={20} className='bg-white h-[18px] w-[18px] rounded-full border-[1px] border-slate-800' />
-          </div>
-        </div>
+        <PlayerDialog userPhoto={match.Opponent.photo} userName={match.Opponent.username} userId={match.Opponent._id} userCountry={match.opponentCountry} page='Match' />
       </div>
       <div className='w-full flex justify-center items-center'>
         <div className='progress-container w-11/12'>
@@ -371,10 +358,6 @@ const Field = ({ currentLine, player, scenarioText, match }: { currentLine: numb
   const shadingLeft = isPlayer ? '0' : 'auto';
   const shadingRight = isPlayer ? 'auto' : '0';
 
-  const borderRadiusStyle = isPlayer
-    ? { borderTopRightRadius: '50%', borderBottomRightRadius: '50%' }
-    : { borderTopLeftRadius: '50%', borderBottomLeftRadius: '50%' };
-
   return (
     <div className="field flex justify-center items-center" style={{ width: fieldWidth, height: fieldHeight, position: 'relative' }}>
       <div
@@ -386,13 +369,13 @@ const Field = ({ currentLine, player, scenarioText, match }: { currentLine: numb
           position: 'absolute',
           left: shadingLeft,
           right: shadingRight,
-          transform: !isPlayer ? 'none' : 'scale(-1)',
+          transform: !isPlayer ? 'none' : 'scale(-1,-1)',
         }}
       />
       {(scenarioText && scenarioText === 'Player Wins!') &&
         <div className='flex flex-col justify-center items-center gap-2 overflow-hidden animate-in'>
           <Image src={'/icons/crown.svg'} alt='user' height={70} width={70} className='h-[50px] w-[50px] rounded-md' />
-          <Image src={'/PFP.jpg'} alt='user' height={70} width={70} className='bg-slate-500 h-[70px] w-[70px] rounded-md' />
+          <Image src={`https://drive.google.com/uc?export=view&id=${getImageID(match.Player.photo)}`} alt='user' height={70} width={70} className='bg-slate-500 h-[70px] w-[70px] rounded-md' />
           <div className='flex flex-row items-center gap-1 bg-gradient-to-b from-slate-700 to-slate-800 px-2 py-1 rounded-lg'>
             <p className='text-white font-semibold text-[16px]'>{match?.Player.username}</p>
             <Image src={`/flags/${match.playerCountry}.svg`} alt='flag' height={20} width={20} className='bg-white h-[20px] w-[20px] rounded-full' />
@@ -402,7 +385,7 @@ const Field = ({ currentLine, player, scenarioText, match }: { currentLine: numb
       {(scenarioText && scenarioText === 'Opponent Wins!') &&
         <div className='flex flex-col justify-center items-center gap-2 overflow-hidden animate-in'>
           <Image src={'/icons/crown.svg'} alt='user' height={70} width={70} className='h-[50px] w-[50px] rounded-md' />
-          <Image src={'/PFP.jpg'} alt='user' height={70} width={70} className='bg-slate-500 h-[70px] w-[70px] rounded-md' />
+          <Image src={`https://drive.google.com/uc?export=view&id=${getImageID(match.Opponent.photo)}`} alt='user' height={70} width={70} className='bg-slate-500 h-[70px] w-[70px] rounded-md' />
           <div className='flex flex-row items-center gap-1 bg-gradient-to-b from-slate-700 to-slate-800 px-2 py-1 rounded-lg'>
             <p className='text-white font-semibold text-[16px]'>{match?.Opponent.username}</p>
             <Image src={`/flags/${match.opponentCountry}.svg`} alt='flag' height={20} width={20} className='bg-white h-[20px] w-[20px] rounded-full' />

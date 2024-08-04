@@ -7,8 +7,8 @@ import UserData from "../database/models/userData.model";
 
 export const populateMatch = (query: any) => {
     return query
-        .populate({ path: 'Player', model: User, select: "_id username" })
-        .populate({ path: 'Opponent', model: User, select: "_id username" })
+        .populate({ path: 'Player', model: User, select: "_id username photo" })
+        .populate({ path: 'Opponent', model: User, select: "_id username photo" })
 }
 
 export async function getMatchByID(id: string) {
@@ -24,9 +24,13 @@ export async function getMatchByID(id: string) {
             throw new Error('Player or opponent not found');
         }
 
-        let returnedMatch = { ...match._doc, playerCountry: player.country, opponentCountry: opponent.country }
-
-        console.log(returnedMatch)
+        let returnedMatch = {
+            ...match._doc,
+            playerPhoto: player.User.photo,
+            opponentPhoto: opponent.User.photo,
+            playerCountry: player.country,
+            opponentCountry: opponent.country
+        }
 
         return JSON.parse(JSON.stringify(returnedMatch))
     } catch (error) {

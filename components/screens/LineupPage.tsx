@@ -4,6 +4,7 @@ import React, { useEffect, useState } from 'react'
 import { ScrollArea, ScrollBar } from '../ui/scroll-area';
 import { getUserByUserID, saveFormation } from '@/lib/actions/user.actions';
 import { IUserData } from '@/lib/database/models/userData.model';
+import { getImageID } from '@/lib/utils';
 
 const colors = [
   { 'Forward': '#EE2E0C' },
@@ -105,17 +106,17 @@ const LineupPage = () => {
   return (
     <section className='w-full h-screen bg-gradient-to-b from-slate-900 to-slate-700'>
       <div className='w-full ml-auto mb-auto p-2 flex flex-row items-center gap-2'>
-        <Image src={'/PFP.jpg'} alt='user' height={50} width={50} className='bg-slate-500 h-[30px] w-[30px] rounded-lg' />
+        <Image src={`https://drive.google.com/uc?export=view&id=${getImageID(user.User.photo)}`} alt='user' height={50} width={50} className='bg-slate-500 h-[30px] w-[30px] rounded-lg' />
         <p className='font-semibold text-white text-[13px]'>{user?.User.username} ({user?.Rank})</p>
       </div>
       <div style={{ height: height - 210 }} className='relative'>
         <div className='h-full w-full absolute flex flex-col justify-around'>
           {currentFormation?.data.map((row, rowIndex) => (
             <div key={rowIndex} className='flex justify-around'>
-              <div className='absolute bg-[#DE1848] bottom-2 right-3 border-2 border-white text-white px-3 rounded-sm font-semibold'>
+              <div className='absolute bg-slate-800 bottom-2 right-3 border-2 border-white text-white px-3 rounded-sm font-semibold'>
                 <p className='text-center'>{currentFormation.id}</p>
               </div>
-              <div className='absolute bg-[#DE1848] bottom-2 left-3 border-2 border-white text-white px-3 rounded-sm font-semibold'>
+              <div className='absolute bg-slate-800 bottom-2 left-3 border-2 border-white text-white px-3 rounded-sm font-semibold'>
                 <p className='text-center'>{overallScore}</p>
               </div>
               {row.positions.map((position, posIndex) => (

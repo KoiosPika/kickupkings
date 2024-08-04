@@ -7,8 +7,9 @@ import { IUserData } from '@/lib/database/models/userData.model'
 import Image from 'next/image'
 import React, { useEffect, useState } from 'react'
 import { ScrollArea } from '../ui/scroll-area'
-import { timeAgo } from '@/lib/utils'
+import { getImageID, timeAgo } from '@/lib/utils'
 import { useInView } from "react-intersection-observer"
+import PlayerDialog from '../shared/PlayerDialog'
 
 let page = 0;
 
@@ -83,7 +84,7 @@ const HistoryPage = ({ id }: { id: string }) => {
                 <a href='/' className='py-2 px-3 rounded-md text-white font-bold'>
                     <Image src={'/icons/back.svg'} alt='back' height={10} width={10} />
                 </a>
-                <Image src={'/PFP.jpg'} alt='user' height={50} width={50} className='bg-slate-500 h-[30px] w-[30px] rounded-lg' />
+                <Image src={`https://drive.google.com/uc?export=view&id=${getImageID(user.User.photo)}`} alt='user' height={50} width={50} className='bg-slate-500 h-[30px] w-[30px] rounded-lg' />
                 <p className='font-semibold text-white text-[13px]'>{user?.User.username} ({user?.Rank})</p>
             </div>
             <div className='flex w-full'>
@@ -112,11 +113,10 @@ const HistoryPage = ({ id }: { id: string }) => {
                                 <p className='ml-2 text-[16px] sm:text-[30px]'>?-?</p>
                             ) : (<p className='ml-2 text-[16px] sm:text-[30px]'>{match.playerScore}-{match.opponentScore}</p>)}
                             <div className='ml-3 flex flex-row items-center px-2 py-1 rounded-lg w-[120px] overflow-hidden'>
-                                <Image src={'/PFP.jpg'} alt='user' height={50} width={50} className='bg-slate-500 h-[28px] w-[28px] sm:h-[48px] sm:w-[48px] rounded-lg' />
                                 {match.Player.toString() !== '6699bfa1ba8348c3228f89ab' ? (
-                                    <p className='text-[15px] sm:text-[30px] text-center ml-[6px] rounded-sm'>{match.Opponent.username}5ty76</p>
+                                    <PlayerDialog userPhoto={match.Opponent.photo} userName={match.Opponent.username} userId={match.Opponent._id} userCountry='' page='History' />
                                 ) : (
-                                    <p className='text-[15px] sm:text-[30px] text-center ml-[6px] rounded-sm'>{match.Player.username}</p>
+                                    <PlayerDialog userPhoto={match.Player.photo} userName={match.Player.username} userId={match.Player._id} userCountry='' page='History' />
                                 )}
                             </div>
                             <p className='text-[14px] text-slate-400 ml-2'>{timeAgo(match.createdAt)}</p>

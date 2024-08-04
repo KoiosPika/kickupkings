@@ -142,7 +142,7 @@ function handlePenalty(scenario: any, level: any): any {
   if (penaltyOutcome < saveChance) {
 
     scenario.push({ scenario: 'Penalty Missed', line: 10, wait: 1000 });
-    scenario.push({ scenario: 'Goalkeeper saves the penalty', line: 9, wait: 1000 });
+    scenario.push({ scenario: 'Goalkeeper save', line: 9, wait: 1000 });
     return handleFollowUp(scenario, level, 'save');
   } else if (penaltyOutcome < saveChance + woodworkChance) {
     scenario.push({ scenario: 'Penalty Missed', line: 10, wait: 1000 });
@@ -461,7 +461,7 @@ function calculateFrontLineMidfield(scenario: any[], playerFormation: any, oppon
         scenario.push({ scenario: 'Player shoots', line: 10, wait: 1000 });
 
         if (eventChance < saveChance) {
-          scenario.push({ scenario: 'Goalkeeper saves the shot', line: 9, wait: 1000 });
+          scenario.push({ scenario: 'Goalkeeper save', line: 9, wait: 1000 });
           scenario = handleFollowUp(scenario, 1, 'save');
         } else if (eventChance < saveChance + 0.1) {
           scenario.push({ scenario: 'Hits woodwork', line: 10, wait: 1000 });
@@ -511,7 +511,7 @@ function calculateAttackingMidfield(scenario: any[], playerFormation: any, oppon
       scenario.push({ scenario: 'Player shoots', line: 10, wait: 1000 });
 
       if (eventChance < saveChance) {
-        scenario.push({ scenario: 'Goalkeeper saves the shot', line: 9, wait: 1000 });
+        scenario.push({ scenario: 'Goalkeeper save', line: 9, wait: 1000 });
         scenario = handleFollowUp(scenario, 1, 'save');
       } else if (eventChance < saveChance + 0.1) {
         scenario.push({ scenario: 'Hits woodwork', line: 10, wait: 1000 });

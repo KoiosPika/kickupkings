@@ -252,35 +252,6 @@ function mapUserDataToPlayers(userData: IUserData, increment: number) {
     }));
 }
 
-function distributeAttacks(attacksCount: number, totalMinutes: number, splitMinute: number) {
-
-    let minutes: number[] = [];
-
-    if (totalMinutes === 90) {
-        minutes.push(1)
-        minutes.push(46)
-    } else {
-        minutes.push(1)
-    }
-
-    while (minutes.length < attacksCount) {
-        const minute = Math.floor(Math.random() * totalMinutes) + 1;
-        if (!minutes.includes(minute)) {
-            if (minute < splitMinute) {
-                if (minutes.filter(m => m < splitMinute).length < attacksCount / 2) {
-                    minutes.push(minute);
-                }
-            } else {
-                if (minutes.filter(m => m >= splitMinute).length < attacksCount / 2) {
-                    minutes.push(minute);
-                }
-            }
-        }
-    }
-
-    return minutes.sort((a, b) => a - b);
-}
-
 function simulatePenalty(player: string) {
     let scenario: any[] = [];
     scenario.push({ scenario: 'Player ready to take the penalty', line: 9, wait: 4000 });
@@ -968,6 +939,27 @@ export async function changeIcon(userId: string, iconName: string) {
         const user = await populateUsers(UserData.findOne({ User: userId }))
 
         return JSON.parse(JSON.stringify(user))
+    } catch (error) {
+        console.log(error)
+    }
+}
+
+export async function setIconPhotos() {
+    try {
+
+        console.log('Started');
+
+        await connectToDatabase();
+
+        const users = await User.find({}).limit(500).skip(7000);
+
+        for (let user of users) {
+            const randomIcon = Icons[Math.floor(Math.random() * Icons.length)].name;
+            user.photo = randomIcon;
+            await user.save();
+        }
+
+        console.log('Done')
     } catch (error) {
         console.log(error)
     }

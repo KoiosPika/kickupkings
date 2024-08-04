@@ -16,6 +16,7 @@ import {
 import { useRouter } from 'next/navigation'
 import { IMatch } from '@/lib/database/models/match.model'
 import UserDialog from '../shared/UserDialog'
+import { getImageID } from '@/lib/utils'
 
 
 const colors = [
@@ -157,8 +158,8 @@ const PlayPage = () => {
 
   let canPlayRank = false;
 
-  if(user){
-    if(user.Rank == 0 || user.Rank == 1){
+  if (user) {
+    if (user.Rank == 0 || user.Rank == 1) {
       requiredOverall = user.Rank;
       canPlayRank = user?.teamOverall > requiredOverall;
     } else {
@@ -243,11 +244,16 @@ const PlayPage = () => {
                 )}
                 <p className='ml-2 text-[16px] sm:text-[30px]'>{match.playerScore}-{match.opponentScore}</p>
                 <div className='ml-5 flex flex-row items-center bg-slate-900 px-2 py-1 rounded-lg'>
-                  <Image src={'/PFP.jpg'} alt='user' height={50} width={50} className='bg-slate-500 h-[28px] w-[28px] sm:h-[48px] sm:w-[48px] rounded-lg' />
                   {match.Player.toString() !== '6699bfa1ba8348c3228f89ab' ? (
-                    <p className='text-[14px] sm:text-[30px] text-center ml-[6px] rounded-sm'>{match.Opponent.username}</p>
+                    <>
+                      <Image src={`https://drive.google.com/uc?export=view&id=${getImageID(match.Opponent.photo)}`} alt='user' height={50} width={50} className='bg-slate-500 h-[28px] w-[28px] sm:h-[48px] sm:w-[48px] rounded-lg' />
+                      <p className='text-[14px] sm:text-[30px] text-center ml-[6px] rounded-sm'>{match.Opponent.username}</p>
+                    </>
                   ) : (
-                    <p className='text-[14px] sm:text-[30px] text-center ml-[6px] rounded-sm'>{match.Player.username}</p>
+                    <>
+                      <Image src={`https://drive.google.com/uc?export=view&id=${getImageID(match.Player.photo)}`} alt='user' height={50} width={50} className='bg-slate-500 h-[28px] w-[28px] sm:h-[48px] sm:w-[48px] rounded-lg' />
+                      <p className='text-[14px] sm:text-[30px] text-center ml-[6px] rounded-sm'>{match.Player.username}</p>
+                    </>
                   )}
                 </div>
                 {match.type === 'Rank' && <p className='bg-orange-600 px-2 text-[14px] sm:text-[24px] py-[2px] rounded-lg ml-auto shadow-md shadow-orange-500 border-b-[3px] sm:border-b-[6px] border-orange-800'>Rank</p>}
@@ -294,7 +300,7 @@ const PlayPage = () => {
                 <div className='flex flex-row items-center gap-3'>
                   <div className='w-1/2'>
                     <div className='flex flex-row justify-center items-center gap-3 my-2'>
-                      <Image src={'/icons/user.svg'} alt='user' height={50} width={50} className='bg-slate-500 p-1 h-[28px] w-[28px] sm:h-[48px] sm:w-[48px] rounded-lg' />
+                      <Image src={`https://drive.google.com/uc?export=view&id=${getImageID(match.player.User.photo)}`} alt='user' height={50} width={50} className='bg-slate-500 h-[28px] w-[28px] sm:h-[48px] sm:w-[48px] rounded-lg' />
                       <p className='font-bold text-white text-[14px]'>{match.player.User.username}</p>
                       <Image src={`/flags/${match?.player.country}.svg`} alt='flag' height={20} width={20} className='rounded-full h-[20px] w-[20px] bg-white' />
                     </div>
@@ -314,7 +320,7 @@ const PlayPage = () => {
                   </div>
                   <div className='w-1/2'>
                     <div className='flex flex-row justify-center items-center gap-3 my-2'>
-                      <Image src={'/icons/user.svg'} alt='user' height={50} width={50} className='bg-slate-500 p-1 h-[28px] w-[28px] sm:h-[48px] sm:w-[48px] rounded-lg' />
+                      <Image src={`https://drive.google.com/uc?export=view&id=${getImageID(match.opponent.User.photo)}`} alt='user' height={50} width={50} className='bg-slate-500 h-[28px] w-[28px] sm:h-[48px] sm:w-[48px] rounded-lg' />
                       <p className='font-bold text-white text-[14px]'>{match.opponent.User.username}</p>
                       <Image src={`/flags/${match?.opponent.country}.svg`} alt='flag' height={20} width={20} className='rounded-full h-[20px] w-[20px] bg-white' />
                     </div>
