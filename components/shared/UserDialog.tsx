@@ -9,6 +9,7 @@ import { changeCountry, editProfile } from '@/lib/actions/user.actions'
 import { Textarea } from '../ui/textarea'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
+import { getImageID } from '@/lib/utils'
 
 const UserDialog = ({ user }: { user: any }) => {
 
@@ -88,15 +89,16 @@ const UserDialog = ({ user }: { user: any }) => {
         <AlertDialog>
             <AlertDialogTrigger>
                 <div className='w-full ml-auto mb-auto p-2 flex flex-row items-center gap-2'>
-                    <Image src={'/PFP.jpg'} alt='user' height={50} width={50} className='bg-slate-500 h-[30px] w-[30px] rounded-lg' />
+                    <Image src={`https://drive.google.com/uc?export=view&id=${getImageID(user?.photo)}`} alt='user' height={50} width={50} className='bg-slate-500 h-[30px] w-[30px] rounded-lg' />
                     <p className='font-semibold text-white text-[13px]'>{username} ({user?.Rank})</p>
                     <Image src={'/icons/arrow-right.svg'} alt='user' height={50} width={50} className='h-[12px] w-[12px] rounded-lg mt-[2px] rotate-90' />
                 </div>
             </AlertDialogTrigger>
             <AlertDialogContent className='bg-slate-800 px-2 border-0 rounded-lg flex flex-col justify-center items-center'>
                 <div className='w-10/12 flex flex-orw items-center mt-6'>
-                    <Link href={'/icons'}>
-                        <Image src={'/PFP.jpg'} alt='user' height={50} width={50} className='bg-slate-500 h-[100px] w-[100px] rounded-lg' />
+                    <Link href={'/icons'} className='relative'>
+                        <Image src={`https://drive.google.com/uc?export=view&id=${getImageID(user?.photo)}`} alt='user' height={50} width={50} className='bg-slate-500 h-[100px] w-[100px] rounded-lg' />
+                        <div className='absolute bottom-0 w-full text-center bg-slate-600 text-[12px] rounded-b-lg text-white opacity-70'>Click to edit</div>
                     </Link>
                     <div className='flex flex-col ml-3 gap-2'>
                         {isEditMode ? (

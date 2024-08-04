@@ -14,7 +14,7 @@ import { Icons } from "@/constants/Icons";
 
 const populateUsers = (query: any) => {
     return query
-        .populate({ path: 'User', model: User, select: "_id username bio" })
+        .populate({ path: 'User', model: User, select: "_id username bio photo" })
 }
 
 export async function createUser(id: string, username: string) {
@@ -89,6 +89,7 @@ export async function getUserForPlayPage(id: string) {
             lost: user.lost,
             Rank: user.Rank,
             username: user.User.username,
+            photo: user.User.photo,
             bio: user.User.bio,
             positions: user.positions,
             teamOverall: user.teamOverall,
@@ -955,5 +956,19 @@ export async function buyIcon(userId: string, iconName: any) {
 
     } catch (error) {
         console.log(error);
+    }
+}
+
+export async function changeIcon(userId: string, iconName: string) {
+    try {
+        await connectToDatabase();
+
+        await User.findByIdAndUpdate(userId, { '$set': { photo: iconName } })
+
+        const user = await populateUsers(UserData.findOne({ User: userId }))
+
+        return JSON.parse(JSON.stringify(user))
+    } catch (error) {
+        console.log(error)
     }
 }

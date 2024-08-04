@@ -1,18 +1,20 @@
 'use client'
 
 import { Icons } from '@/constants/Icons'
-import { buyIcon, getUserByUserID } from '@/lib/actions/user.actions'
+import { buyIcon, changeIcon, getUserByUserID } from '@/lib/actions/user.actions'
 import { IUserData } from '@/lib/database/models/userData.model'
 import Image from 'next/image'
 import React, { useEffect, useRef, useState } from 'react'
 import { ScrollArea } from '../ui/scroll-area'
 import { Drawer, DrawerClose, DrawerContent, DrawerFooter, DrawerHeader, DrawerTitle, DrawerTrigger } from '../ui/drawer'
+import { getImageID } from '@/lib/utils'
 
 const IconsPage = () => {
 
     const [user, setUser] = useState<IUserData>()
-    const [selectedGender, setSelectedGender] = useState<'male' | 'female'>('female');
+    const [selectedGender, setSelectedGender] = useState<'male' | 'female'>('male');
     const [loading, setLoading] = useState(false)
+    const [changing, setChanging] = useState(false)
     const drawerRefs = useRef<{ [key: string]: HTMLDivElement | null }>({});
 
     useEffect(() => {
@@ -31,8 +33,8 @@ const IconsPage = () => {
             </section>)
     }
 
-    const handleBuyIcon = async (iconName: string) => {
-        if (loading) {
+    const handleBuyIcon = async (iconName: string, iconPrice: number) => {
+        if (loading || (user.diamonds < iconPrice)) {
             return;
         }
 
@@ -49,15 +51,35 @@ const IconsPage = () => {
         setLoading(false);
     }
 
+    const handleChangeIcon = async (iconName: string) => {
+        if (changing) {
+            return;
+        }
+
+        setChanging(true);
+
+        const updatedUser = await changeIcon('6699bfa1ba8348c3228f89ab', iconName)
+
+        setUser(updatedUser)
+
+        setTimeout(() => {
+            if (drawerRefs.current[iconName]) {
+              drawerRefs.current[iconName]!.click();
+            }
+          }, 2000);
+
+        setChanging(false);
+    }
+
     const filteredIcons = Icons.filter(icon => icon.type === selectedGender);
 
     return (
         <div className='w-full h-screen bg-gradient-to-b from-slate-900 to-gray-700'>
             <div className='w-full ml-auto mb-auto p-2 flex flex-row items-center gap-2'>
-            <a href='/' className='py-2 px-3 rounded-md text-white font-bold'>
+                <a href='/' className='py-2 px-3 rounded-md text-white font-bold'>
                     <Image src={'/icons/back.svg'} alt='back' height={10} width={10} />
                 </a>
-                <Image src={'/PFP.jpg'} alt='user' height={50} width={50} className='bg-slate-500 h-[30px] w-[30px] rounded-lg' />
+                <Image src={`https://drive.google.com/uc?export=view&id=${getImageID(user?.User.photo)}`} alt='user' height={50} width={50} className='bg-slate-500 h-[30px] w-[30px] rounded-lg' />
                 <p className='font-semibold text-white text-[13px]'>{user?.User.username} ({user?.Rank})</p>
                 <Image src={'/icons/diamond.svg'} alt='coin' height={100} width={100} className='w-[25px] h-[25px] sm:w-[40px] sm:h-[40px] ml-auto' />
                 <p className='font-bold text-white text-[16px] sm:text-[22px]'>{user?.diamonds}</p>
@@ -102,7 +124,7 @@ const IconsPage = () => {
                                             {!isOwned ? (
                                                 <>
                                                     <Image src={'/icons/diamond.svg'} alt='coin' height={100} width={100} className='w-[20px] h-[20px] sm:w-[40px] sm:h-[40px]' />
-                                                    <p className='text-white font-semibold'>{icon.price}</p>
+                                                    <p className={` ${user.diamonds < icon.price ? 'text-red-500' : 'text-white'} font-semibold`}>{icon.price}</p>
                                                 </>
                                             ) : (
                                                 <p className='text-white font-semibold'>Owned</p>
@@ -110,7 +132,7 @@ const IconsPage = () => {
                                         </div>
                                     </div>
                                 </DrawerTrigger>
-                                <DrawerContent className={`h-[65%] sm:h-[40%] border-t-8 border-blue-500 border-x-0 bg-gradient-to-b from-slate-900 to-gray-700`}>
+                                <DrawerContent className={`h-[65%] sm:h-[40%] border-t-8 ${selectedGender === 'male' ? 'border-blue-700' : 'border-red-700'} border-x-0 bg-gradient-to-b from-slate-900 to-gray-700`}>
                                     <DrawerHeader>
                                         <DrawerTitle className='text-white my-3'>Buy {icon.theme} Icon</DrawerTitle>
                                     </DrawerHeader>
@@ -128,18 +150,25 @@ const IconsPage = () => {
                                         <Image src={'/icons/x.svg'} alt='coin' height={100} width={100} className='w-[25px] h-[25px] sm:w-[40px] sm:h-[40px]' />
                                     </DrawerClose>
                                     <DrawerFooter className='mb-5'>
-                                        {!isOwned && 
-                                        <div className='w-3/4 py-2 rounded-lg text-white font-bold text-center place-self-center bg-slate-900 flex flex-row items-center justify-center' onClick={() => handleBuyIcon(icon.name)}>
-                                            <p className='text-[20px]'>Buy</p>
-                                            <div className='flex flex-row items-center gap-2 bg-slate-900 px-3 py-1 rounded-lg'>
-                                                <Image src={'/icons/diamond.svg'} alt='coin' height={100} width={100} className='w-[30px] h-[30px] sm:w-[40px] sm:h-[40px]' />
-                                                <p className='text-white font-semibold text-[20px]'>{icon.price}</p>
+                                        {!isOwned ? (
+                                            loading ? (
+                                                <div className='w-3/4 py-2 rounded-lg text-white font-bold text-center place-self-center bg-slate-900 flex flex-row items-center justify-center'>
+                                                    <p className='text-[20px]'>Processing</p>
+                                                </div>
+                                            ) : (
+                                                <div className='w-3/4 py-2 rounded-lg text-white font-bold text-center place-self-center bg-slate-900 flex flex-row items-center justify-center' onClick={() => handleBuyIcon(icon.name, icon.price)}>
+                                                    <p className='text-[20px]'>Buy</p>
+                                                    <div className='flex flex-row items-center gap-2 bg-slate-900 px-3 py-1 rounded-lg'>
+                                                        <Image src={'/icons/diamond.svg'} alt='coin' height={100} width={100} className='w-[30px] h-[30px] sm:w-[40px] sm:h-[40px]' />
+                                                        <p className={`${user.diamonds < icon.price ? 'text-red-500' : 'text-white'} font-semibold text-[20px]`}>{icon.price}</p>
+                                                    </div>
+                                                </div>
+                                            )
+                                        ) : (
+                                            <div className={`w-3/4 py-2 rounded-lg text-white font-bold text-center place-self-center ${selectedGender === 'male' ? 'bg-blue-700' : 'bg-red-700'} flex flex-row items-center justify-center`} onClick={() => handleChangeIcon(icon.name)}>
+                                                <p className='text-[20px]'>{ changing ? 'Please wait..' : 'Set as default'}</p>
                                             </div>
-                                        </div>}
-                                        {isOwned && 
-                                        <div className='w-3/4 py-2 rounded-lg text-white font-bold text-center place-self-center bg-green-700 flex flex-row items-center justify-center'>
-                                            <p className='text-[20px]'>Set as default</p>
-                                        </div>}
+                                        )}
                                         <DrawerClose className='flex justify-center items-center'>
                                             <div className='bg-white text-black font-bold py-2 rounded-lg w-3/4'>Cancel</div>
                                         </DrawerClose>
@@ -149,8 +178,8 @@ const IconsPage = () => {
                         )
                     })}
                 </div>
-            </ScrollArea>
-        </div>
+            </ScrollArea >
+        </div >
     )
 }
 

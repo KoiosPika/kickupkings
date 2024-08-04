@@ -1,3 +1,4 @@
+import { Icons } from "@/constants/Icons";
 import { type ClassValue, clsx } from "clsx"
 import { twMerge } from "tailwind-merge"
 
@@ -843,4 +844,10 @@ export function timeAgo(dateInput: Date | string): string {
   } else {
     return "1s";
   }
+}
+
+export function getImageID(iconName:string){
+  const requestedIcon = Icons.find(i => i.name === iconName)
+
+  return requestedIcon?.id
 }
