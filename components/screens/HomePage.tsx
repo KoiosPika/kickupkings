@@ -3,10 +3,13 @@ import { getUserForPlayPage } from '@/lib/actions/user.actions'
 import Image from 'next/image'
 import React, { useEffect, useState } from 'react'
 import UserDialog from '../shared/UserDialog'
+import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from '../ui/carousel'
+import { ScrollArea } from '../ui/scroll-area'
 
 const HomePage = () => {
 
     const [user, setUser] = useState<any>()
+    const [activeIndex, setActiveIndex] = useState(0);
 
     useEffect(() => {
         const getUser = async () => {
@@ -38,6 +41,10 @@ const HomePage = () => {
         return progress;
     };
 
+    const handleCarouselChange = (index: number) => {
+        setActiveIndex(index);
+    };
+
     // Usage in your component
     const maxPoints = getRankData(user?.Rank || '')?.maxPoints || 0;
     const progress = calculateProgress(user?.Rank || '', user?.points || 0);
@@ -65,20 +72,53 @@ const HomePage = () => {
                     <p className='font-bold text-green-500'>{(user?.teamOverall).toFixed(2)}</p>
                 </div>
             </div>
-            <div className='w-full flex flex-col justify-center items-center'>
-                <p className='mr-auto ml-5 text-white font-semibold my-1'>Football News</p>
-                <div className='w-11/12 bg-slate-800 h-[110px] rounded-lg flex justify-center items-center'>
-                    <p className='font-bold text-white'>AD</p>
+            <ScrollArea className='h-[70%]'>
+                <div className='w-full flex flex-col justify-center items-center'>
+                    <p className='mr-auto ml-5 text-white font-semibold my-1'>Football News</p>
+                    <div className='w-11/12 bg-slate-800 h-[110px] rounded-lg flex justify-center items-center'>
+                        <p className='font-bold text-white'>AD</p>
+                    </div>
+                    <p className='mr-auto ml-5 text-white font-semibold mt-3 mb-1'>Football Products</p>
+                    <Carousel className='w-11/12 rounded-lg flex justify-center items-center relative'>
+                        <CarouselContent>
+                            <CarouselItem className='relative flex justify-center items-center'>
+                                <Image src={'/AD-1.jpg'} alt='ad' height={100} width={1000} className='rounded-lg' />
+                                <div className='h-8/12 w-1/2 flex flex-col justify-center items-center right-3 absolute top-1 z-10 bg-white py-1 rounded-lg shadow-md shadow-gray-200 px-2'>
+                                    <p className='text-slate-700 text-[15px] text-center font-bold'>Soccer Cleats for Mens</p>
+                                    <p className='text-white bg-blue-600 w-11/12 py-1 rounded-md text-[13px] text-center font-semibold my-2 shadow-sm shadow-blue-600'>Visit XGHRIAN Store</p>
+                                    <p className='text-white bg-blue-600 w-11/12 py-1 rounded-md text-[13px] text-center font-semibold shadow-sm shadow-blue-600'>Find This Product</p>
+                                </div>
+                                <div className='flex flex-row items-center gap-2 absolute bottom-[2px] bg-white rounded-full px-2 py-[2px]'>
+                                    <div className='bg-black rounded-full h-[7px] aspect-square' />
+                                    <div className='bg-slate-500 rounded-full h-[7px] aspect-square' />
+                                    <div className='bg-slate-500 rounded-full h-[7px] aspect-square' />
+                                </div>
+                            </CarouselItem>
+                            <CarouselItem className='relative flex justify-center items-center'>
+                                <Image src={'/AD-1.jpg'} alt='ad' height={100} width={1000} className='rounded-lg' />
+                                <div className='flex flex-row items-center gap-2 absolute bottom-[2px] bg-white rounded-full px-2 py-[2px]'>
+                                    <div className='bg-slate-500 rounded-full h-[7px] aspect-square' />
+                                    <div className='bg-black rounded-full h-[7px] aspect-square' />
+                                    <div className='bg-slate-500 rounded-full h-[7px] aspect-square' />
+                                </div>
+                            </CarouselItem>
+                            <CarouselItem className='relative flex justify-center items-center'>
+                                <Image src={'/AD-1.jpg'} alt='ad' height={100} width={1000} className='rounded-lg' />
+                                <div className='flex flex-row items-center gap-2 absolute bottom-[2px] bg-white rounded-full px-2 py-[2px]'>
+                                    <div className='bg-slate-500 rounded-full h-[7px] aspect-square' />
+                                    <div className='bg-slate-500 rounded-full h-[7px] aspect-square' />
+                                    <div className='bg-black rounded-full h-[7px] aspect-square' />
+                                </div>
+                            </CarouselItem>
+                        </CarouselContent>
+
+                    </Carousel>
+                    <p className='mr-auto ml-5 text-white font-semibold mt-3 mb-1'>Merch</p>
+                    <div className='w-11/12 bg-slate-800 h-[110px] rounded-lg flex justify-center items-center'>
+                        <p className='font-bold text-white'>AD</p>
+                    </div>
                 </div>
-                <p className='mr-auto ml-5 text-white font-semibold mt-3 mb-1'>Football Products</p>
-                <div className='w-11/12 bg-slate-800 h-[110px] rounded-lg flex justify-center items-center'>
-                    <p className='font-bold text-white'>AD</p>
-                </div>
-                <p className='mr-auto ml-5 text-white font-semibold mt-3 mb-1'>Merch</p>
-                <div className='w-11/12 bg-slate-800 h-[110px] rounded-lg flex justify-center items-center'>
-                    <p className='font-bold text-white'>AD</p>
-                </div>
-            </div>
+            </ScrollArea>
         </section>
     )
 }

@@ -1,18 +1,9 @@
-export const Quizzes = [
-    {
-        id: '07-31-2024_Quiz_1',
-        answer: 'David Luiz',
-    },
-    {
-        id: '07-31-2024_Quiz_2',
-        answer: 'Henry',
-    },
-]
-
 export const Predictions = [
     {
-        id: '01-08-2024_Match_1',
-        lastTimeToPredict: new Date('2024-08-01T14:00:00Z'), // Some date type
+        id: '04-08-2024_Match_1',
+        lastTimeToPredict: new Date('2024-08-05T14:00:00Z'), // Some date type
+        team1Country:'es',
+        team2Country:'es',
         team1: 'Real Madrid',
         team2: 'Barcelona',
         team1Score: null,
@@ -20,22 +11,26 @@ export const Predictions = [
         finished: false
     },
     {
-        id: '07-23-2024_Match_2',
-        lastTimeToPredict: new Date('2024-07-24T14:00:00Z'), // Some date type
+        id: '04-08-2024_Match_2',
+        lastTimeToPredict: new Date('2024-08-05T14:00:00Z'), // Some date type
+        team1Country:'it',
+        team2Country:'gb-eng',
         team1: 'Juventus',
         team2: 'Arsenal',
-        team1Score: 2,
-        team2Score: 4,
-        finished: true
+        team1Score: null,
+        team2Score: null,
+        finished: false
     },
     {
-        id: '07-23-2024_Match_3',
-        lastTimeToPredict: new Date('2024-07-24T14:00:00Z'), // Some date type
+        id: '04-08-2024_Match_3',
+        lastTimeToPredict: new Date('2024-08-05T14:00:00Z'), // Some date type
+        team1Country:'gb-eng',
+        team2Country:'gb-eng',
         team1: 'Man City',
         team2: 'Liverpool',
-        team1Score: 1,
-        team2Score: 0,
-        finished: true
+        team1Score: null,
+        team2Score: null,
+        finished: false
     },
 ]
 
