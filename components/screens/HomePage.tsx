@@ -6,44 +6,60 @@ import UserDialog from '../shared/UserDialog'
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from '../ui/carousel'
 import { ScrollArea } from '../ui/scroll-area'
 
+const shuffleArray = (array: any[]) => {
+    let shuffledArray = array.slice();
+    for (let i = shuffledArray.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [shuffledArray[i], shuffledArray[j]] = [shuffledArray[j], shuffledArray[i]];
+    }
+    return shuffledArray;
+};
+
+const News = [
+    {
+        image: '/News-1.jpg',
+        link: 'https://youtu.be/wDuzVFCCuqo?si=ac9nZxXTyZ7Q-MGm'
+    },
+    {
+        image: '/News-2.jpg',
+        link: 'https://youtu.be/aCbFVeeIFlQ?si=Sxplspn62WRg8EK0'
+    },
+]
+
+const Products = [
+    {
+        title: 'Soccer Cleats for Mens',
+        store: 'XGHRIAN',
+        storeLink: 'https://www.amazon.com/stores/XGHRIAN/page/7174D466-D986-4D5D-B2E3-7A1DA5680512?ref_=ast_bln',
+        productLink: 'https://a.co/d/6Nd4TXS',
+        image: '/AD-1.jpg'
+    },
+    {
+        title: 'Soccer Mini Shin Guards',
+        store: 'Antoyo',
+        storeLink: 'https://www.amazon.com/stores/Antoyo/page/EF70433F-AEA0-45A2-8E38-106C5B0982DB?ref_=ast_bln&store_ref=bl_ast_dp_brandLogo_sto',
+        productLink: 'https://a.co/d/bsEObtm',
+        image: '/AD-2.jpg'
+    },
+    {
+        title: '12 PCS Soccer Balls',
+        store: 'Lenwen',
+        storeLink: 'https://www.amazon.com/stores/Lenwen/page/E2DAF345-5DC5-4792-9849-4340EB9EA8C0?ref_=ast_bln',
+        productLink: 'https://a.co/d/dPRZiWo',
+        image: '/AD-3.jpg'
+    },
+]
+
 const HomePage = () => {
 
-    const News = [
-        {
-            image: '/News-1.jpg',
-            link: 'https://youtu.be/wDuzVFCCuqo?si=ac9nZxXTyZ7Q-MGm'
-        },
-        {
-            image: '/News-2.jpg',
-            link: 'https://youtu.be/aCbFVeeIFlQ?si=Sxplspn62WRg8EK0'
-        },
-    ]
-
-    const Products = [
-        {
-            title: 'Soccer Cleats for Mens',
-            store: 'XGHRIAN',
-            storeLink: 'https://www.amazon.com/stores/XGHRIAN/page/7174D466-D986-4D5D-B2E3-7A1DA5680512?ref_=ast_bln',
-            productLink: 'https://a.co/d/6Nd4TXS',
-            image: '/AD-1.jpg'
-        },
-        {
-            title: 'Soccer Mini Shin Guards',
-            store: 'Antoyo',
-            storeLink: 'https://www.amazon.com/stores/Antoyo/page/EF70433F-AEA0-45A2-8E38-106C5B0982DB?ref_=ast_bln&store_ref=bl_ast_dp_brandLogo_sto',
-            productLink: 'https://a.co/d/bsEObtm',
-            image: '/AD-2.jpg'
-        },
-        {
-            title: '12 PCS Soccer Balls',
-            store: 'Lenwen',
-            storeLink: 'https://www.amazon.com/stores/Lenwen/page/E2DAF345-5DC5-4792-9849-4340EB9EA8C0?ref_=ast_bln',
-            productLink: 'https://a.co/d/dPRZiWo',
-            image: '/AD-3.jpg'
-        },
-    ]
-
     const [user, setUser] = useState<any>()
+    const [shuffledNews, setShuffledNews] = useState<any[]>([]);
+    const [shuffledProducts, setShuffledProducts] = useState<any[]>([]);
+
+    useEffect(() => {
+        setShuffledNews(shuffleArray(News));
+        setShuffledProducts(shuffleArray(Products));
+    }, [News, Products]);
 
     useEffect(() => {
         const getUser = async () => {
@@ -102,12 +118,12 @@ const HomePage = () => {
                     <p className='font-bold text-green-500'>{(user?.teamOverall).toFixed(2)}</p>
                 </div>
             </div>
-            <ScrollArea className='h-[70%]'>
+            <ScrollArea className='h-[71%]'>
                 <div className='w-full flex flex-col justify-center items-center'>
                     <p className='mr-auto ml-5 text-white font-semibold my-1'>Football News</p>
                     <Carousel className='w-11/12 rounded-lg flex justify-center items-center relative'>
                         <CarouselContent>
-                            {News.map((news, index) => (
+                            {shuffledNews.map((news: any, index) => (
                                 <CarouselItem key={index} className='relative flex justify-center items-center'>
                                     <a href={news.link}>
                                         <Image src={news.image} alt='ad' height={100} width={1000} className='rounded-lg' />
@@ -120,7 +136,7 @@ const HomePage = () => {
                     <p className='mr-auto ml-5 text-white font-semibold mt-3 mb-1'>Football Products</p>
                     <Carousel className='w-11/12 rounded-lg flex justify-center items-center relative'>
                         <CarouselContent>
-                            {Products.map((product, index) => (
+                            {shuffledProducts.map((product: any, index) => (
                                 <CarouselItem key={index} className='relative flex justify-center items-center'>
                                     <Image src={product.image} alt='ad' height={100} width={1000} className='rounded-lg' />
                                     <div className='h-8/12 w-1/2 flex flex-col justify-center items-center right-3 absolute z-10 bg-slate-800 py-2 rounded-lg shadow-md shadow-slate-700 px-2'>

@@ -151,7 +151,7 @@ const FriendsPage = () => {
                 <a href='/' className='py-2 px-3 rounded-md text-white font-bold'>
                     <Image src={'/icons/back.svg'} alt='back' height={10} width={10} />
                 </a>
-                <Image src={'/PFP.jpg'} alt='user' height={50} width={50} className='bg-slate-500 h-[30px] w-[30px] rounded-lg' />
+                <Image src={`https://drive.google.com/uc?export=view&id=${getImageID(user?.User.photo)}`} alt='user' height={50} width={50} className='bg-slate-500 h-[30px] w-[30px] rounded-lg' />
                 <p className='font-semibold text-white text-[13px]'>{user?.User.username} ({user?.Rank})</p>
             </div>
             <div className='w-full p-4'>
@@ -237,7 +237,7 @@ const FriendsPage = () => {
                                                         <div className='flex flex-row items-center gap-3'>
                                                             <div className='w-1/2'>
                                                                 <div className='flex flex-row justify-center items gap-3 my-2'>
-                                                                    <Image src={'/PFP.jpg'} alt='user' height={50} width={50} className='bg-slate-500 h-[28px] w-[28px] sm:h-[48px] sm:w-[48px] rounded-lg' />
+                                                                    <Image src={`https://drive.google.com/uc?export=view&id=${getImageID(match?.player.User.photo)}`} alt='user' height={50} width={50} className='bg-slate-500 h-[28px] w-[28px] sm:h-[48px] sm:w-[48px] rounded-lg' />
                                                                     <p className='font-bold text-white'>{match?.player.User.username}</p>
                                                                 </div>
                                                                 <div className='h-[250px] w-full flex flex-col justify-around rounded-md bg-slate-800 border-[1px] sm:border-4 border-white' style={{ backgroundImage: `url('/Field-dark.png')`, backgroundSize: 'cover', backgroundPosition: 'center' }}>
@@ -256,7 +256,7 @@ const FriendsPage = () => {
                                                             </div>
                                                             <div className='w-1/2'>
                                                                 <div className='flex flex-row justify-center items gap-3 my-2'>
-                                                                    <Image src={'/PFP.jpg'} alt='user' height={50} width={50} className='bg-slate-500 h-[28px] w-[28px] sm:h-[48px] sm:w-[48px] rounded-lg' />
+                                                                    <Image src={`https://drive.google.com/uc?export=view&id=${getImageID(match?.opponent.User.photo)}`} alt='user' height={50} width={50} className='bg-slate-500 h-[28px] w-[28px] sm:h-[48px] sm:w-[48px] rounded-lg' />
                                                                     <p className='font-bold text-white'>{match.opponent?.User.username}</p>
                                                                 </div>
                                                                 <div className='h-[250px] w-full flex flex-col justify-around rounded-md bg-slate-800 border-[1px] sm:border-4 border-white' style={{ backgroundImage: `url('/Field-dark.png')`, backgroundSize: 'cover', backgroundPosition: 'center' }}>

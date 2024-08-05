@@ -370,6 +370,7 @@ const Field = ({ currentLine, player, scenarioText, match }: { currentLine: numb
           left: shadingLeft,
           right: shadingRight,
           transform: !isPlayer ? 'none' : 'scale(-1,-1)',
+          boxShadow: `-8px -8px 10px -4px #149820,-8px 8px 10px -4px #149820,8px -8px 10px -4px #149820,8px 8px 10px -4px #149820`,
         }}
       />
       {(scenarioText && scenarioText === 'Player Wins!') &&
@@ -393,87 +394,108 @@ const Field = ({ currentLine, player, scenarioText, match }: { currentLine: numb
           </div>
         </div>}
       {(scenarioText && scenarioText.includes('Interception')) &&
-        <div className='bg-gradient-to-b from-slate-700 to-slate-800 w-3/4 text-center py-2 text-white font-semibold rounded-md shadow-md shadow-slate-800 animate-in'>
+        <div className='flex flex-row justify-center items-center gap-2 bg-gradient-to-b from-slate-700 to-slate-800 w-3/4 text-center py-2 text-white font-semibold rounded-md shadow-md shadow-slate-800 animate-in'>
+          <IconDisplay scenario={'Interception'} />
           <p>Interception</p>
         </div>}
+      {(scenarioText && scenarioText.includes('Clearance')) &&
+        <div className='flex flex-row justify-center items-center gap-2 bg-gradient-to-b from-slate-700 to-slate-800 w-3/4 text-center py-2 text-white font-semibold rounded-md shadow-md shadow-slate-800 animate-in'>
+          <IconDisplay scenario={'Clearance'} />
+          <p>Clearance</p>
+        </div>}
       {(scenarioText && scenarioText.includes('Penalty awarded')) &&
-        <div className='bg-gradient-to-b from-slate-700 to-slate-800 w-3/4 text-center py-2 text-white font-semibold rounded-md shadow-md shadow-slate-800 animate-in'>
+        <div className='flex flex-row justify-center items-center gap-2 bg-gradient-to-b from-slate-700 to-slate-800 w-3/4 text-center py-2 text-white font-semibold rounded-md shadow-md shadow-slate-800 animate-in'>
+          <IconDisplay scenario={'Penalty awarded'} />
           <p>Penalty Awarded</p>
         </div>}
       {(scenarioText && scenarioText.includes('Freekick awarded')) &&
-        <div className='bg-gradient-to-b from-slate-700 to-slate-800 w-3/4 text-center py-2 text-white font-semibold rounded-md shadow-md shadow-slate-800 animate-in'>
+        <div className='flex flex-row justify-center items-center gap-2 bg-gradient-to-b from-slate-700 to-slate-800 w-3/4 text-center py-2 text-white font-semibold rounded-md shadow-md shadow-slate-800 animate-in'>
+          <IconDisplay scenario={'Freekick awarded'} />
           <p>Freekick Awarded</p>
         </div>}
       {(scenarioText && scenarioText.includes('Offside')) &&
-        <div className='bg-gradient-to-b from-slate-700 to-slate-800 w-3/4 text-center py-2 text-white font-semibold rounded-md shadow-md shadow-slate-800 animate-in'>
+        <div className='flex flex-row justify-center items-center gap-2 bg-gradient-to-b from-slate-700 to-slate-800 w-3/4 text-center py-2 text-white font-semibold rounded-md shadow-md shadow-slate-800 animate-in'>
+          <IconDisplay scenario={'Offside'} />
           <p>Offside</p>
         </div>}
       {(scenarioText && scenarioText.includes('Corner awarded')) &&
-        <div className='bg-gradient-to-b from-slate-700 to-slate-800 w-3/4 text-center py-2 text-white font-semibold rounded-md shadow-md shadow-slate-800 animate-in'>
+        <div className='flex flex-row justify-center items-center gap-2 bg-gradient-to-b from-slate-700 to-slate-800 w-3/4 text-center py-2 text-white font-semibold rounded-md shadow-md shadow-slate-800 animate-in'>
+          <IconDisplay scenario={'Corner awarded'} />
           <p>Corner Kick</p>
         </div>}
       {(scenarioText && scenarioText.includes('Goal Scored')) &&
-        <div className='bg-gradient-to-b from-slate-700 to-slate-800 w-3/4 text-center py-2 text-white font-semibold rounded-md shadow-md shadow-slate-800 animate-in'>
+        <div className='flex flex-row justify-center items-center gap-2 bg-gradient-to-b from-slate-700 to-slate-800 w-3/4 text-center py-2 text-white font-semibold rounded-md shadow-md shadow-slate-800 animate-in'>
+          <IconDisplay scenario={'Goal Scored'} />
           <p>Goal Scored</p>
         </div>}
       {(scenarioText && scenarioText.includes('Penalty Scored')) &&
-        <div className='bg-gradient-to-b from-slate-700 to-slate-800 w-3/4 text-center py-2 text-white font-semibold rounded-md shadow-md shadow-slate-800 animate-in'>
+        <div className='flex flex-row justify-center items-center gap-2 bg-gradient-to-b from-slate-700 to-slate-800 w-3/4 text-center py-2 text-white font-semibold rounded-md shadow-md shadow-slate-800 animate-in'>
+          <IconDisplay scenario={'Penalty Scored'} />
           <p>Penalty Scored</p>
         </div>}
       {(scenarioText && scenarioText.includes('Penalty Missed')) &&
-        <div className='bg-gradient-to-b from-slate-700 to-slate-800 w-3/4 text-center py-2 text-white font-semibold rounded-md shadow-md shadow-slate-800 animate-in'>
+        <div className='flex flex-row justify-center items-center gap-2 bg-gradient-to-b from-slate-700 to-slate-800 w-3/4 text-center py-2 text-white font-semibold rounded-md shadow-md shadow-slate-800 animate-in'>
+          <IconDisplay scenario={'Penalty Missed'} />
           <p>Penalty Missed</p>
         </div>}
       {(scenarioText && scenarioText.includes('Handball')) &&
-        <div className='bg-gradient-to-b from-slate-700 to-slate-800 w-3/4 text-center py-2 text-white font-semibold rounded-md shadow-md shadow-slate-800 animate-in'>
+        <div className='flex flex-row justify-center items-center gap-2 bg-gradient-to-b from-slate-700 to-slate-800 w-3/4 text-center py-2 text-white font-semibold rounded-md shadow-md shadow-slate-800 animate-in'>
+          <IconDisplay scenario={'Handball'} />
           <p>Handball</p>
         </div>}
       {(scenarioText && scenarioText.includes('Shot Blocked')) &&
-        <div className='bg-gradient-to-b from-slate-700 to-slate-800 w-3/4 text-center py-2 text-white font-semibold rounded-md shadow-md shadow-slate-800 animate-in'>
+        <div className='flex flex-row justify-center items-center gap-2 bg-gradient-to-b from-slate-700 to-slate-800 w-3/4 text-center py-2 text-white font-semibold rounded-md shadow-md shadow-slate-800 animate-in'>
+          <IconDisplay scenario={'Shot Blocked'} />
           <p>Shot Blocked</p>
         </div>}
       {(scenarioText && scenarioText.includes('Freekick Scored')) &&
-        <div className='bg-gradient-to-b from-slate-700 to-slate-800 w-3/4 text-center py-2 text-white font-semibold rounded-md shadow-md shadow-slate-800 animate-in'>
+        <div className='flex flex-row justify-center items-center gap-2 bg-gradient-to-b from-slate-700 to-slate-800 w-3/4 text-center py-2 text-white font-semibold rounded-md shadow-md shadow-slate-800 animate-in'>
+          <IconDisplay scenario={'Freekick Scored'} />
           <p>Freekick Scored</p>
         </div>}
       {(scenarioText && scenarioText.includes('Match Started')) &&
-        <div className='bg-gradient-to-b from-slate-700 to-slate-800 w-3/4 text-center py-2 text-white font-semibold rounded-md shadow-md shadow-slate-800 animate-in'>
+        <div className='flex flex-row justify-center items-center gap-2 bg-gradient-to-b from-slate-700 to-slate-800 w-3/4 text-center py-2 text-white font-semibold rounded-md shadow-md shadow-slate-800 animate-in'>
           <p>Match Started</p>
         </div>}
       {(scenarioText && scenarioText.includes('Half-time')) &&
-        <div className='bg-gradient-to-b from-slate-700 to-slate-800 w-3/4 text-center py-2 text-white font-semibold rounded-md shadow-md shadow-slate-800 animate-in'>
+        <div className='flex flex-row justify-center items-center gap-2 bg-gradient-to-b from-slate-700 to-slate-800 w-3/4 text-center py-2 text-white font-semibold rounded-md shadow-md shadow-slate-800 animate-in'>
           <p>Half-time</p>
         </div>}
       {(scenarioText && scenarioText.includes('Full time')) &&
-        <div className='bg-gradient-to-b from-slate-700 to-slate-800 w-3/4 text-center py-2 text-white font-semibold rounded-md shadow-md shadow-slate-800 animate-in'>
+        <div className='flex flex-row justify-center items-center gap-2 bg-gradient-to-b from-slate-700 to-slate-800 w-3/4 text-center py-2 text-white font-semibold rounded-md shadow-md shadow-slate-800 animate-in'>
           <p>Full time</p>
         </div>}
       {(scenarioText && scenarioText.includes('Awaiting Extra-time')) &&
-        <div className='bg-gradient-to-b from-slate-700 to-slate-800 w-3/4 text-center py-2 text-white font-semibold rounded-md shadow-md shadow-slate-800 animate-in'>
+        <div className='flex flex-row justify-center items-center gap-2 bg-gradient-to-b from-slate-700 to-slate-800 w-3/4 text-center py-2 text-white font-semibold rounded-md shadow-md shadow-slate-800 animate-in'>
           <p>Awaiting Extra-time</p>
         </div>}
       {(scenarioText && scenarioText.includes('Awaiting Penalties')) &&
-        <div className='bg-gradient-to-b from-slate-700 to-slate-800 w-3/4 text-center py-2 text-white font-semibold rounded-md shadow-md shadow-slate-800 animate-in'>
+        <div className='flex flex-row justify-center items-center gap-2 bg-gradient-to-b from-slate-700 to-slate-800 w-3/4 text-center py-2 text-white font-semibold rounded-md shadow-md shadow-slate-800 animate-in'>
           <p>Awaiting Penalties</p>
         </div>}
       {(scenarioText && scenarioText.includes('Goalkeeper save')) &&
-        <div className='bg-gradient-to-b from-slate-700 to-slate-800 w-3/4 text-center py-2 text-white font-semibold rounded-md shadow-md shadow-slate-800 animate-in'>
+        <div className='flex flex-row justify-center items-center gap-2 bg-gradient-to-b from-slate-700 to-slate-800 w-3/4 text-center py-2 text-white font-semibold rounded-md shadow-md shadow-slate-800 animate-in'>
+          <IconDisplay scenario={'Goalkeeper save'} />
           <p>Goalkeeper save</p>
         </div>}
       {(scenarioText && scenarioText.includes('Goalkeeper catches the ball')) &&
-        <div className='bg-gradient-to-b from-slate-700 to-slate-800 w-3/4 text-center py-2 text-white font-semibold rounded-md shadow-md shadow-slate-800 animate-in'>
+        <div className='flex flex-row justify-center items-center gap-2 bg-gradient-to-b from-slate-700 to-slate-800 w-3/4 text-center py-2 text-white font-semibold rounded-md shadow-md shadow-slate-800 animate-in'>
+          <IconDisplay scenario={'Goalkeeper catches the ball'} />
           <p>Goalkeeper catch</p>
         </div>}
       {(scenarioText && scenarioText.includes('Hits woodwork')) &&
-        <div className='bg-gradient-to-b from-slate-700 to-slate-800 w-3/4 text-center py-2 text-white font-semibold rounded-md shadow-md shadow-slate-800 animate-in'>
+        <div className='flex flex-row justify-center items-center gap-2 bg-gradient-to-b from-slate-700 to-slate-800 w-3/4 text-center py-2 text-white font-semibold rounded-md shadow-md shadow-slate-800 animate-in'>
+          <IconDisplay scenario={'Hits woodwork'} />
           <p>Hits woodwork</p>
         </div>}
       {(scenarioText && scenarioText.includes('Off target')) &&
-        <div className='bg-gradient-to-b from-slate-700 to-slate-800 w-3/4 text-center py-2 text-white font-semibold rounded-md shadow-md shadow-slate-800 animate-in'>
+        <div className='flex flex-row justify-center items-center gap-2 bg-gradient-to-b from-slate-700 to-slate-800 w-3/4 text-center py-2 text-white font-semibold rounded-md shadow-md shadow-slate-800 animate-in'>
+          <IconDisplay scenario={'Off target'} />
           <p>Off target</p>
         </div>}
       {(scenarioText && scenarioText.includes('Fouled')) &&
-        <div className='bg-gradient-to-b from-slate-700 to-slate-800 w-3/4 text-center py-2 text-white font-semibold rounded-md shadow-md shadow-slate-800 animate-in'>
+        <div className='flex flex-row justify-center items-center gap-2 bg-gradient-to-b from-slate-700 to-slate-800 w-3/4 text-center py-2 text-white font-semibold rounded-md shadow-md shadow-slate-800 animate-in'>
+          <IconDisplay scenario={'Fouled'} />
           <p>Fouled</p>
         </div>}
       {(scenarioText && scenarioText.includes('Play kicks-off')) &&
@@ -494,71 +516,35 @@ const getIconProps = (scenario: string) => {
     case 'Play kicks-off':
       return { src: '/icons/whistle-green.svg', alt: 'whistle', size: 30 }
     case 'Goal Scored':
+    case 'Freekick Scored':
       return { src: '/icons/football-green-1.svg', alt: 'Goal Scored', size: 35 };
-    case 'Pass':
-      return { src: '/icons/pass-yellow.svg', alt: 'Has the ball', size: 30 };
-    case 'Defense loses possession':
-      return { src: '/icons/shield-broken-red.svg', alt: 'Loses the ball', size: 40 };
-    case 'Long ball to forward':
-    case 'Corner kick cross':
-    case 'Keeper plays long pass':
-      return { src: '/icons/cross-yellow.svg', alt: 'Long ball to forward', size: 50 };
-    case 'Defense plays a through pass to the front line of midfield':
-    case 'Pass to backline midfield':
-    case 'Ball passed to the forward':
-    case 'Pass to frontline midfield':
-    case 'GoalKeeper plays short pass':
-    case `Midfielder's pass`:
-      return { src: '/icons/pass-yellow.svg', alt: 'Pass to forward', size: 50 };
-    case 'Midfield is fouled':
-    case 'Defender fouls the forward':
+    case 'Fouled':
       return { src: '/icons/whistle-red.svg', alt: 'Fouled', size: 30 };
-    case 'Free kick awarded':
+    case 'Freekick awarded':
       return { src: '/icons/freekick-yellow.svg', alt: 'Free kick awarded', size: 50 };
-    case 'Player ready to take the penalty':
-    case 'Player comes forward':
-    case 'Player shoots':
-    case 'Penalty committed':
-      return { src: '/icons/penalty-yellow.svg', alt: 'Penalty preparation', size: 50 };
     case 'Penalty awarded':
       return { src: '/icons/penalty-yellow.svg', alt: 'Penalty awarded', size: 50 };
     case 'Penalty Missed':
       return { src: '/icons/penalty-red.svg', alt: 'Penalty missed', size: 50 };
-    case 'Penalty is off target':
-    case 'Shot is off target':
+    case 'Off target':
       return { src: '/icons/off-target-red.svg', alt: 'Off target', size: 50 };
-    case 'Goalkeeper saves the penalty':
-    case 'Goalkeeper saves the shot':
+    case 'Goalkeeper save':
+    case 'Goalkeeper catches the ball':
       return { src: '/icons/goalkeeper-red.svg', alt: 'Goalkeeper saves', size: 50 };
-    case 'Penalty hits the woodwork':
-    case 'Shot hits the woodwork':
-    case 'Ball hits the woodwork':
-    case 'Header hits the woodwork':
+    case 'Hits woodwork':
       return { src: '/icons/woodwork-red.svg', alt: 'Hits woodwork', size: 45 };
     case 'Penalty Scored':
       return { src: '/icons/penalty-green.svg', alt: 'Penalty scored', size: 50 };
-    case 'Goalkeeper catches the ball':
-      return { src: '/icons/catch-green.svg', alt: 'Goalkeeper catches', size: 50 };
-    case 'Defender clears the ball':
-      return { src: '/icons/shield-green.svg', alt: 'Clears ball', size: 50 };
-    case 'Defender blocks the shot':
-      return { src: '/icons/shield-green.svg', alt: 'Clears ball', size: 50 };
-    case 'Forward shoots from the rebound':
-    case 'Forward shoots':
-    case 'Midfielder takes a direct shot at goal':
-    case 'Forward heads the ball':
-      return { src: '/icons/football-shoots-yellow.svg', alt: 'Shoots', size: 40 };
-    case 'Ball goes out for a corner':
+    case 'Clearance':
+    case 'Shot Blocked':
+      return { src: '/icons/shield-green.svg', alt: 'Clears ball', size: 45 };
+    case 'Corner awarded':
       return { src: '/icons/corner-green.svg', alt: 'Out for a corner', size: 45 };
-    case 'Forward is caught offside':
+    case 'Offside':
       return { src: '/icons/offside-red.svg', alt: 'Caught offside', size: 45 };
-    case 'Defender commits a handball':
+    case 'Handball':
       return { src: '/icons/handball-red.svg', alt: 'Handball committed', size: 45 };
-    case 'Cross is too high':
-      return { src: '/icons/x-red.svg', alt: 'Out of play', size: 45 };
-    case 'Defender Intercepts the ball':
-    case 'Midfield backline interception':
-    case 'Midfield frontline interception':
+    case 'Interception':
       return { src: '/icons/shield-green.svg', alt: 'Intercepts', size: 45 };
     default:
       return { src: '/icons/football-yellow-1.svg', alt: 'Default icon', size: 35 }; // Fallback
