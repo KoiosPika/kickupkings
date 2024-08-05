@@ -58,18 +58,24 @@ const HomePage = () => {
     const [shuffledProducts, setShuffledProducts] = useState<any[]>([]);
 
     useEffect(() => {
+    const updateDimensions = () => {
+      setHeight(window.innerHeight);
+    };
+
+    // Check if window is defined (i.e., we are on the client side)
+    if (typeof window !== 'undefined') {
+      setHeight(window.innerHeight); // Set initial height
+      window.addEventListener("resize", updateDimensions);
+
+      return () => window.removeEventListener("resize", updateDimensions);
+    }
+  }, []);
+
+    useEffect(() => {
         setShuffledNews(shuffleArray(News));
         setShuffledProducts(shuffleArray(Products));
     }, [News, Products]);
 
-    const updateDimensions = () => {
-        setHeight(window.innerHeight);
-    }
-
-    useEffect(() => {
-        window.addEventListener("resize", updateDimensions);
-        return () => window.removeEventListener("resize", updateDimensions);
-    }, []);
 
     useEffect(() => {
         const getUser = async () => {
