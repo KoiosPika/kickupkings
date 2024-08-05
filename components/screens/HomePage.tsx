@@ -83,32 +83,30 @@ const HomePage = () => {
                         <CarouselContent>
                             <CarouselItem className='relative flex justify-center items-center'>
                                 <Image src={'/AD-1.jpg'} alt='ad' height={100} width={1000} className='rounded-lg' />
-                                <div className='h-8/12 w-1/2 flex flex-col justify-center items-center right-3 absolute top-1 z-10 bg-white py-1 rounded-lg shadow-md shadow-gray-200 px-2'>
-                                    <p className='text-slate-700 text-[15px] text-center font-bold'>Soccer Cleats for Mens</p>
+                                <div className='h-8/12 w-1/2 flex flex-col justify-center items-center right-3 absolute z-10 bg-slate-800 py-2 rounded-lg shadow-md shadow-slate-700 px-2'>
+                                    <p className='text-white text-[15px] text-center font-bold'>Soccer Cleats for Mens</p>
                                     <p className='text-white bg-blue-600 w-11/12 py-1 rounded-md text-[13px] text-center font-semibold my-2 shadow-sm shadow-blue-600'>Visit XGHRIAN Store</p>
                                     <p className='text-white bg-blue-600 w-11/12 py-1 rounded-md text-[13px] text-center font-semibold shadow-sm shadow-blue-600'>Find This Product</p>
                                 </div>
-                                <div className='flex flex-row items-center gap-2 absolute bottom-[2px] bg-white rounded-full px-2 py-[2px]'>
-                                    <div className='bg-black rounded-full h-[7px] aspect-square' />
-                                    <div className='bg-slate-500 rounded-full h-[7px] aspect-square' />
-                                    <div className='bg-slate-500 rounded-full h-[7px] aspect-square' />
-                                </div>
+                                <p className='bg-slate-600 text-white absolute top-1 left-5 px-2 text-[13px] rounded-lg'>1 / 3</p>
                             </CarouselItem>
                             <CarouselItem className='relative flex justify-center items-center'>
-                                <Image src={'/AD-1.jpg'} alt='ad' height={100} width={1000} className='rounded-lg' />
-                                <div className='flex flex-row items-center gap-2 absolute bottom-[2px] bg-white rounded-full px-2 py-[2px]'>
-                                    <div className='bg-slate-500 rounded-full h-[7px] aspect-square' />
-                                    <div className='bg-black rounded-full h-[7px] aspect-square' />
-                                    <div className='bg-slate-500 rounded-full h-[7px] aspect-square' />
+                                <Image src={'/AD-2.jpg'} alt='ad' height={100} width={1000} className='rounded-lg' />
+                                <div className='h-8/12 w-1/2 flex flex-col justify-center items-center right-3 absolute z-10 bg-slate-800 py-2 rounded-lg shadow-md shadow-slate-700 px-2'>
+                                    <p className='text-white text-[15px] text-center font-bold'>Soccer Mini Shin Guards</p>
+                                    <p className='text-white bg-blue-600 w-11/12 py-1 rounded-md text-[13px] text-center font-semibold my-2 shadow-sm shadow-blue-600'>Visit Antoyo Store</p>
+                                    <p className='text-white bg-blue-600 w-11/12 py-1 rounded-md text-[13px] text-center font-semibold shadow-sm shadow-blue-600'>Find This Product</p>
                                 </div>
+                                <p className='bg-slate-600 text-white absolute top-1 left-5 px-2 text-[13px] rounded-lg'>2 / 3</p>
                             </CarouselItem>
                             <CarouselItem className='relative flex justify-center items-center'>
-                                <Image src={'/AD-1.jpg'} alt='ad' height={100} width={1000} className='rounded-lg' />
-                                <div className='flex flex-row items-center gap-2 absolute bottom-[2px] bg-white rounded-full px-2 py-[2px]'>
-                                    <div className='bg-slate-500 rounded-full h-[7px] aspect-square' />
-                                    <div className='bg-slate-500 rounded-full h-[7px] aspect-square' />
-                                    <div className='bg-black rounded-full h-[7px] aspect-square' />
+                                <Image src={'/AD-3.jpg'} alt='ad' height={100} width={1000} className='rounded-lg' />
+                                <div className='h-8/12 w-1/2 flex flex-col justify-center items-center right-3 absolute z-10 bg-slate-800 py-2 rounded-lg shadow-md shadow-slate-700 px-2'>
+                                    <p className='text-white text-[15px] text-center font-bold'>12 PCS Soccer Balls</p>
+                                    <p className='text-white bg-blue-600 w-11/12 py-1 rounded-md text-[13px] text-center font-semibold my-2 shadow-sm shadow-blue-600'>Visit Lenwen Store</p>
+                                    <p className='text-white bg-blue-600 w-11/12 py-1 rounded-md text-[13px] text-center font-semibold shadow-sm shadow-blue-600'>Find This Product</p>
                                 </div>
+                                <p className='bg-slate-600 text-white absolute top-1 left-5 px-2 text-[13px] rounded-lg'>3 / 3</p>
                             </CarouselItem>
                         </CarouselContent>
 
