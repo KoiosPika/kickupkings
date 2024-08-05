@@ -4,7 +4,7 @@ import { Input } from '../ui/input'
 import { ScrollArea } from '../ui/scroll-area'
 import { Predictions } from '@/constants/Earnings';
 import { IUserData } from '@/lib/database/models/userData.model';
-import { addOrUpdatePrediction, addOrUpdateQuiz, collectCoins, getUserByUserID } from '@/lib/actions/user.actions';
+import { addOrUpdatePrediction, collectCoins, getUserByUserID } from '@/lib/actions/user.actions';
 import { Ranks } from '@/constants';
 
 const EarnPage = () => {
