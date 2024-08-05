@@ -53,6 +53,7 @@ const Products = [
 const HomePage = () => {
 
     const [user, setUser] = useState<any>()
+    const [height, setHeight] = useState<number>(window.innerHeight)
     const [shuffledNews, setShuffledNews] = useState<any[]>([]);
     const [shuffledProducts, setShuffledProducts] = useState<any[]>([]);
 
@@ -60,6 +61,15 @@ const HomePage = () => {
         setShuffledNews(shuffleArray(News));
         setShuffledProducts(shuffleArray(Products));
     }, [News, Products]);
+
+    const updateDimensions = () => {
+        setHeight(window.innerHeight);
+    }
+
+    useEffect(() => {
+        window.addEventListener("resize", updateDimensions);
+        return () => window.removeEventListener("resize", updateDimensions);
+    }, []);
 
     useEffect(() => {
         const getUser = async () => {
@@ -118,7 +128,7 @@ const HomePage = () => {
                     <p className='font-bold text-green-500'>{(user?.teamOverall).toFixed(2)}</p>
                 </div>
             </div>
-            <ScrollArea className='h-[71%]'>
+            <ScrollArea style={{ height: height - 195 }}>
                 <div className='w-full flex flex-col justify-center items-center'>
                     <p className='mr-auto ml-5 text-white font-semibold my-1'>Football News</p>
                     <Carousel className='w-11/12 rounded-lg flex justify-center items-center relative'>
