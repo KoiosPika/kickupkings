@@ -75,9 +75,33 @@ const HomePage = () => {
             <ScrollArea className='h-[70%]'>
                 <div className='w-full flex flex-col justify-center items-center'>
                     <p className='mr-auto ml-5 text-white font-semibold my-1'>Football News</p>
-                    <div className='w-11/12 bg-slate-800 h-[110px] rounded-lg flex justify-center items-center'>
-                        <p className='font-bold text-white'>AD</p>
-                    </div>
+                    <Carousel className='w-11/12 rounded-lg flex justify-center items-center relative'>
+                        <CarouselContent>
+                            <CarouselItem className='relative flex justify-center items-center'>
+                                <Image src={'/News-1.PNG'} alt='ad' height={100} width={1000} className='rounded-lg' />
+                                <p className='bg-slate-600 text-white absolute top-1 left-5 px-2 text-[13px] rounded-lg'>1 / 3</p>
+                            </CarouselItem>
+                            <CarouselItem className='relative flex justify-center items-center'>
+                                <Image src={'/AD-2.jpg'} alt='ad' height={100} width={1000} className='rounded-lg' />
+                                <div className='h-8/12 w-1/2 flex flex-col justify-center items-center right-3 absolute z-10 bg-slate-800 py-2 rounded-lg shadow-md shadow-slate-700 px-2'>
+                                    <p className='text-white text-[15px] text-center font-bold'>Soccer Mini Shin Guards</p>
+                                    <p className='text-white bg-blue-600 w-11/12 py-1 rounded-md text-[13px] text-center font-semibold my-2 shadow-sm shadow-blue-600'>Visit Antoyo Store</p>
+                                    <p className='text-white bg-blue-600 w-11/12 py-1 rounded-md text-[13px] text-center font-semibold shadow-sm shadow-blue-600'>Find This Product</p>
+                                </div>
+                                <p className='bg-slate-600 text-white absolute top-1 left-5 px-2 text-[13px] rounded-lg'>2 / 3</p>
+                            </CarouselItem>
+                            <CarouselItem className='relative flex justify-center items-center'>
+                                <Image src={'/AD-3.jpg'} alt='ad' height={100} width={1000} className='rounded-lg' />
+                                <div className='h-8/12 w-1/2 flex flex-col justify-center items-center right-3 absolute z-10 bg-slate-800 py-2 rounded-lg shadow-md shadow-slate-700 px-2'>
+                                    <p className='text-white text-[15px] text-center font-bold'>12 PCS Soccer Balls</p>
+                                    <p className='text-white bg-blue-600 w-11/12 py-1 rounded-md text-[13px] text-center font-semibold my-2 shadow-sm shadow-blue-600'>Visit Lenwen Store</p>
+                                    <p className='text-white bg-blue-600 w-11/12 py-1 rounded-md text-[13px] text-center font-semibold shadow-sm shadow-blue-600'>Find This Product</p>
+                                </div>
+                                <p className='bg-slate-600 text-white absolute top-1 left-5 px-2 text-[13px] rounded-lg'>3 / 3</p>
+                            </CarouselItem>
+                        </CarouselContent>
+
+                    </Carousel>
                     <p className='mr-auto ml-5 text-white font-semibold mt-3 mb-1'>Football Products</p>
                     <Carousel className='w-11/12 rounded-lg flex justify-center items-center relative'>
                         <CarouselContent>
@@ -112,8 +136,8 @@ const HomePage = () => {
 
                     </Carousel>
                     <p className='mr-auto ml-5 text-white font-semibold mt-3 mb-1'>Merch</p>
-                    <div className='w-11/12 bg-slate-800 h-[110px] rounded-lg flex justify-center items-center'>
-                        <p className='font-bold text-white'>AD</p>
+                    <div className='w-11/12 bg-slate-800 h-[130px] rounded-lg flex justify-center items-center'>
+                        <p className='font-bold text-white'>Coming Soon</p>
                     </div>
                 </div>
             </ScrollArea>
