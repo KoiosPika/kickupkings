@@ -113,10 +113,8 @@ const LineupPage = () => {
         <div className='h-full w-full absolute flex flex-col justify-around'>
           {currentFormation?.data.map((row, rowIndex) => (
             <div key={rowIndex} className='flex justify-around'>
-              <div className='absolute bg-slate-800 bottom-2 right-3 border-2 border-white text-white px-3 rounded-sm font-semibold'>
-                <p className='text-center'>{currentFormation.id}</p>
-              </div>
-              <div className='absolute bg-slate-800 bottom-2 left-3 border-2 border-white text-white px-3 rounded-sm font-semibold'>
+              
+              <div className='absolute bg-slate-900 bottom-2 left-3 border-b-[5px] border-[2px] border-white text-white px-3 rounded-sm font-semibold'>
                 <p className='text-center'>{overallScore}</p>
               </div>
               {row.positions.map((position, posIndex) => (

@@ -4,7 +4,7 @@ export const Predictions = [
         lastTimeToPredict: new Date('2024-08-05T14:00:00Z'), // Some date type
         team1Country:'es',
         team2Country:'es',
-        team1: 'Real Madrid',
+        team1: 'R Madrid',
         team2: 'Barcelona',
         team1Score: null,
         team2Score: null,
@@ -28,6 +28,17 @@ export const Predictions = [
         team2Country:'gb-eng',
         team1: 'Man City',
         team2: 'Liverpool',
+        team1Score: null,
+        team2Score: null,
+        finished: false
+    },
+    {
+        id: '04-08-2024_Match_4',
+        lastTimeToPredict: new Date('2024-08-05T14:00:00Z'), // Some date type
+        team1Country:'fr',
+        team2Country:'pt',
+        team1: 'PSG',
+        team2: 'S Lisbon',
         team1Score: null,
         team2Score: null,
         finished: false

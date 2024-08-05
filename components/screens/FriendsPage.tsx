@@ -11,6 +11,7 @@ import { IUser } from '@/lib/database/models/user.model'
 import { ScrollArea } from '../ui/scroll-area'
 import { formations } from '@/constants/Formations'
 import { useRouter } from 'next/navigation'
+import { getImageID } from '@/lib/utils'
 
 const colors = [
     { 'Forward': '#EE2E0C' },
@@ -55,6 +56,8 @@ const FriendsPage = () => {
     const fetchFriendsList = async () => {
         const friends = await getFriends('6699bfa1ba8348c3228f89ab'); // Pass user ID
         setFriendsList(friends);
+
+        console.log(friends)
     };
 
     const fetchFriendRequests = async () => {
@@ -188,17 +191,18 @@ const FriendsPage = () => {
                             <ScrollArea className='w-11/12 flex flex-col justify-center items-center overflow-y-auto place-self-center h-[250px]'>
                                 {searchResults.length > 0 ? (
                                     searchResults.map((user) => (
-                                        <div key={user.id} className='w-full max-w-md bg-gray-800 rounded-md p-3 mb-2 text-white flex justify-between items-center'>
+                                        <div key={user.id} className='w-full max-w-md bg-gray-800 rounded-md px-3 py-2 mb-2 text-white flex justify-start items-center gap-2'>
+                                            <Image src={`https://drive.google.com/uc?export=view&id=${getImageID(user.photo)}`} alt='friend' height={60} width={60} className='h-[40px] w-[40px] rounded-md' />
                                             <p className='text-[15px] font-medium'>{user.username}</p>
                                             {!user.hasRequest ? (
                                                 <div
-                                                    className='bg-blue-500 text-white font-semibold text-[13px] px-3 py-1 rounded-md'
+                                                    className='bg-blue-500 text-white font-semibold text-[13px] px-3 py-1 rounded-md ml-auto'
                                                     onClick={() => sendRequest(user.id)}
                                                 >
                                                     {loadingRequests[user.id] ? 'Sending...' : 'Request'}
                                                 </div>
                                             ) : (
-                                                <p className='text-gray-400 text-[13px]'>Request Sent</p>
+                                                <p className='text-gray-400 text-[13px] ml-auto'>Request Sent</p>
                                             )}
                                         </div>
                                     ))
@@ -218,15 +222,15 @@ const FriendsPage = () => {
                             {friendsList.length > 0 ? (
                                 friendsList.map(friend => (
                                     <div key={friend._id} className='w-full max-w-md bg-gradient-to-b from-slate-900 to-slate-800 rounded-md p-3 mb-1 text-white flex items-center'>
-                                        <Image src={'/PFP.jpg'} alt='friend' height={20} width={20} className='h-[35px] w-[35px] rounded-md' />
-                                        <p className='text-[16px] font-medium ml-3'>{friend.username}</p>
+                                        <Image src={`https://drive.google.com/uc?export=view&id=${getImageID(friend.photo)}`} alt='friend' height={60} width={60} className='h-[40px] w-[40px] rounded-md' />
+                                        <p className='text-[14px] font-medium ml-3'>{friend.username}</p>
                                         <AlertDialog>
                                             <AlertDialogTrigger className='ml-auto'>
                                                 <div className='ml-auto mr-2 shadow-purple-500 border-b-[3px] border-purple-800 bg-purple-600 px-2 text-[14px] sm:text-[24px] py-[2px] rounded-lg shadow-md font-semibold' onClick={() => handleOpenDialog(friend._id)}>Play Friendly</div>
                                             </AlertDialogTrigger>
                                             <AlertDialogContent className='bg-slate-800 px-2 border-0 rounded-lg'>
                                                 <AlertDialogHeader>
-                                                <AlertDialogTitle className='w-1/2 place-self-center bg-purple-700 px-2 text-[14px] sm:text-[24px] py-[2px] rounded-lg shadow-md shadow-purple-500 border-b-[3px] sm:border-b-[6px] border-purple-800 text-white mt-3'>Friendly Match</AlertDialogTitle>
+                                                    <AlertDialogTitle className='w-1/2 place-self-center bg-purple-700 px-2 text-[14px] sm:text-[24px] py-[2px] rounded-lg shadow-md shadow-purple-500 border-b-[3px] sm:border-b-[6px] border-purple-800 text-white mt-3'>Friendly Match</AlertDialogTitle>
                                                     {loadingUserData ? (
                                                         <Image src={'/icons/spinner.svg'} alt='spinner' height={30} width={30} className='animate-spin place-self-center' />
                                                     ) : match && <>
@@ -292,7 +296,7 @@ const FriendsPage = () => {
                             {friendRequests.length > 0 ? (
                                 friendRequests.map(request => (
                                     <div key={request._id} className='w-full max-w-md bg-gradient-to-b from-slate-900 to-slate-800 rounded-md p-3 mb-2 text-white flex flex-row gap-3 items-center'>
-                                        <Image src={'/PFP.jpg'} alt='user' height={20} width={20} />
+                                        <Image src={`https://drive.google.com/uc?export=view&id=${getImageID(request.photo)}`} alt='user' height={20} width={20} />
                                         <p className='text-[16px] font-medium'>{request.Requester.username}</p>
                                         <div className='flex flex-row items-center gap-2 ml-auto'>
                                             <div className='bg-green-500 text-white py-[5.5px] px-[9px] rounded-md font-semibold' onClick={() => handleAcceptRequest(request._id)}>

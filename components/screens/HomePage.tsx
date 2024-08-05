@@ -8,8 +8,42 @@ import { ScrollArea } from '../ui/scroll-area'
 
 const HomePage = () => {
 
+    const News = [
+        {
+            image: '/News-1.jpg',
+            link: 'https://youtu.be/wDuzVFCCuqo?si=ac9nZxXTyZ7Q-MGm'
+        },
+        {
+            image: '/News-2.jpg',
+            link: 'https://youtu.be/aCbFVeeIFlQ?si=Sxplspn62WRg8EK0'
+        },
+    ]
+
+    const Products = [
+        {
+            title: 'Soccer Cleats for Mens',
+            store: 'XGHRIAN',
+            storeLink: 'https://www.amazon.com/stores/XGHRIAN/page/7174D466-D986-4D5D-B2E3-7A1DA5680512?ref_=ast_bln',
+            productLink: 'https://a.co/d/6Nd4TXS',
+            image: '/AD-1.jpg'
+        },
+        {
+            title: 'Soccer Mini Shin Guards',
+            store: 'Antoyo',
+            storeLink: 'https://www.amazon.com/stores/Antoyo/page/EF70433F-AEA0-45A2-8E38-106C5B0982DB?ref_=ast_bln&store_ref=bl_ast_dp_brandLogo_sto',
+            productLink: 'https://a.co/d/bsEObtm',
+            image: '/AD-2.jpg'
+        },
+        {
+            title: '12 PCS Soccer Balls',
+            store: 'Lenwen',
+            storeLink: 'https://www.amazon.com/stores/Lenwen/page/E2DAF345-5DC5-4792-9849-4340EB9EA8C0?ref_=ast_bln',
+            productLink: 'https://a.co/d/dPRZiWo',
+            image: '/AD-3.jpg'
+        },
+    ]
+
     const [user, setUser] = useState<any>()
-    const [activeIndex, setActiveIndex] = useState(0);
 
     useEffect(() => {
         const getUser = async () => {
@@ -39,10 +73,6 @@ const HomePage = () => {
         const progress = (pointsInCurrentRank / rangeInCurrentRank) * 100;
 
         return progress;
-    };
-
-    const handleCarouselChange = (index: number) => {
-        setActiveIndex(index);
     };
 
     // Usage in your component
@@ -77,63 +107,31 @@ const HomePage = () => {
                     <p className='mr-auto ml-5 text-white font-semibold my-1'>Football News</p>
                     <Carousel className='w-11/12 rounded-lg flex justify-center items-center relative'>
                         <CarouselContent>
-                            <CarouselItem className='relative flex justify-center items-center'>
-                                <Image src={'/News-1.PNG'} alt='ad' height={100} width={1000} className='rounded-lg' />
-                                <p className='bg-slate-600 text-white absolute top-1 left-5 px-2 text-[13px] rounded-lg'>1 / 3</p>
-                            </CarouselItem>
-                            <CarouselItem className='relative flex justify-center items-center'>
-                                <Image src={'/AD-2.jpg'} alt='ad' height={100} width={1000} className='rounded-lg' />
-                                <div className='h-8/12 w-1/2 flex flex-col justify-center items-center right-3 absolute z-10 bg-slate-800 py-2 rounded-lg shadow-md shadow-slate-700 px-2'>
-                                    <p className='text-white text-[15px] text-center font-bold'>Soccer Mini Shin Guards</p>
-                                    <p className='text-white bg-blue-600 w-11/12 py-1 rounded-md text-[13px] text-center font-semibold my-2 shadow-sm shadow-blue-600'>Visit Antoyo Store</p>
-                                    <p className='text-white bg-blue-600 w-11/12 py-1 rounded-md text-[13px] text-center font-semibold shadow-sm shadow-blue-600'>Find This Product</p>
-                                </div>
-                                <p className='bg-slate-600 text-white absolute top-1 left-5 px-2 text-[13px] rounded-lg'>2 / 3</p>
-                            </CarouselItem>
-                            <CarouselItem className='relative flex justify-center items-center'>
-                                <Image src={'/AD-3.jpg'} alt='ad' height={100} width={1000} className='rounded-lg' />
-                                <div className='h-8/12 w-1/2 flex flex-col justify-center items-center right-3 absolute z-10 bg-slate-800 py-2 rounded-lg shadow-md shadow-slate-700 px-2'>
-                                    <p className='text-white text-[15px] text-center font-bold'>12 PCS Soccer Balls</p>
-                                    <p className='text-white bg-blue-600 w-11/12 py-1 rounded-md text-[13px] text-center font-semibold my-2 shadow-sm shadow-blue-600'>Visit Lenwen Store</p>
-                                    <p className='text-white bg-blue-600 w-11/12 py-1 rounded-md text-[13px] text-center font-semibold shadow-sm shadow-blue-600'>Find This Product</p>
-                                </div>
-                                <p className='bg-slate-600 text-white absolute top-1 left-5 px-2 text-[13px] rounded-lg'>3 / 3</p>
-                            </CarouselItem>
+                            {News.map((news, index) => (
+                                <CarouselItem key={index} className='relative flex justify-center items-center'>
+                                    <a href={news.link}>
+                                        <Image src={news.image} alt='ad' height={100} width={1000} className='rounded-lg' />
+                                    </a>
+                                    <p className='bg-slate-600 text-white absolute top-1 left-5 px-2 text-[13px] rounded-lg'>{index + 1} / {News.length}</p>
+                                </CarouselItem>
+                            ))}
                         </CarouselContent>
-
                     </Carousel>
                     <p className='mr-auto ml-5 text-white font-semibold mt-3 mb-1'>Football Products</p>
                     <Carousel className='w-11/12 rounded-lg flex justify-center items-center relative'>
                         <CarouselContent>
-                            <CarouselItem className='relative flex justify-center items-center'>
-                                <Image src={'/AD-1.jpg'} alt='ad' height={100} width={1000} className='rounded-lg' />
-                                <div className='h-8/12 w-1/2 flex flex-col justify-center items-center right-3 absolute z-10 bg-slate-800 py-2 rounded-lg shadow-md shadow-slate-700 px-2'>
-                                    <p className='text-white text-[15px] text-center font-bold'>Soccer Cleats for Mens</p>
-                                    <p className='text-white bg-blue-600 w-11/12 py-1 rounded-md text-[13px] text-center font-semibold my-2 shadow-sm shadow-blue-600'>Visit XGHRIAN Store</p>
-                                    <p className='text-white bg-blue-600 w-11/12 py-1 rounded-md text-[13px] text-center font-semibold shadow-sm shadow-blue-600'>Find This Product</p>
-                                </div>
-                                <p className='bg-slate-600 text-white absolute top-1 left-5 px-2 text-[13px] rounded-lg'>1 / 3</p>
-                            </CarouselItem>
-                            <CarouselItem className='relative flex justify-center items-center'>
-                                <Image src={'/AD-2.jpg'} alt='ad' height={100} width={1000} className='rounded-lg' />
-                                <div className='h-8/12 w-1/2 flex flex-col justify-center items-center right-3 absolute z-10 bg-slate-800 py-2 rounded-lg shadow-md shadow-slate-700 px-2'>
-                                    <p className='text-white text-[15px] text-center font-bold'>Soccer Mini Shin Guards</p>
-                                    <p className='text-white bg-blue-600 w-11/12 py-1 rounded-md text-[13px] text-center font-semibold my-2 shadow-sm shadow-blue-600'>Visit Antoyo Store</p>
-                                    <p className='text-white bg-blue-600 w-11/12 py-1 rounded-md text-[13px] text-center font-semibold shadow-sm shadow-blue-600'>Find This Product</p>
-                                </div>
-                                <p className='bg-slate-600 text-white absolute top-1 left-5 px-2 text-[13px] rounded-lg'>2 / 3</p>
-                            </CarouselItem>
-                            <CarouselItem className='relative flex justify-center items-center'>
-                                <Image src={'/AD-3.jpg'} alt='ad' height={100} width={1000} className='rounded-lg' />
-                                <div className='h-8/12 w-1/2 flex flex-col justify-center items-center right-3 absolute z-10 bg-slate-800 py-2 rounded-lg shadow-md shadow-slate-700 px-2'>
-                                    <p className='text-white text-[15px] text-center font-bold'>12 PCS Soccer Balls</p>
-                                    <p className='text-white bg-blue-600 w-11/12 py-1 rounded-md text-[13px] text-center font-semibold my-2 shadow-sm shadow-blue-600'>Visit Lenwen Store</p>
-                                    <p className='text-white bg-blue-600 w-11/12 py-1 rounded-md text-[13px] text-center font-semibold shadow-sm shadow-blue-600'>Find This Product</p>
-                                </div>
-                                <p className='bg-slate-600 text-white absolute top-1 left-5 px-2 text-[13px] rounded-lg'>3 / 3</p>
-                            </CarouselItem>
+                            {Products.map((product, index) => (
+                                <CarouselItem key={index} className='relative flex justify-center items-center'>
+                                    <Image src={product.image} alt='ad' height={100} width={1000} className='rounded-lg' />
+                                    <div className='h-8/12 w-1/2 flex flex-col justify-center items-center right-3 absolute z-10 bg-slate-800 py-2 rounded-lg shadow-md shadow-slate-700 px-2'>
+                                        <p className='text-white text-[15px] text-center font-bold'>{product.title}</p>
+                                        <a href={product.storeLink} className='text-white bg-blue-600 w-11/12 py-1 rounded-md text-[13px] text-center font-semibold my-2 shadow-sm shadow-blue-600'>Visit {product.store} Store</a>
+                                        <a href={product.storeLink} className='text-white bg-blue-600 w-11/12 py-1 rounded-md text-[13px] text-center font-semibold shadow-sm shadow-blue-600'>Find This Product</a>
+                                    </div>
+                                    <p className='bg-slate-600 text-white absolute top-1 left-5 px-2 text-[13px] rounded-lg'>{index + 1} / {Products.length}</p>
+                                </CarouselItem>
+                            ))}
                         </CarouselContent>
-
                     </Carousel>
                     <p className='mr-auto ml-5 text-white font-semibold mt-3 mb-1'>Merch</p>
                     <div className='w-11/12 bg-slate-800 h-[130px] rounded-lg flex justify-center items-center'>

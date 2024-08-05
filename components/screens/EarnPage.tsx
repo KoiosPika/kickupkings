@@ -97,7 +97,7 @@ const EarnPage = () => {
             return (
               <div key={prediction.id} className='w-10/12 flex flex-col gap-1 items-center justify-around relative'>
                 <div className='w-full flex flex-row gap-2 items-center justify-around my-4 relative bg-slate-600 px-2 py-4 rounded-lg text-white'>
-                  <div className='flex flex-col justify-center items-center gap-2 font-semibold'>
+                  <div className='flex flex-col justify-center items-center gap-2 font-semibold w-1/3'>
                     <Image src={`/flags/${prediction.team1Country}.svg`} alt='es' height={40} width={40} className='rounded-full border-2 border-white' />
                     <p>{prediction.team1}</p>
                   </div>
@@ -134,7 +134,7 @@ const EarnPage = () => {
                       </div>
                     )}
                   </div>
-                  <div className='flex flex-col justify-center items-center gap-2 font-semibold'>
+                  <div className='flex flex-col justify-center items-center gap-2 font-semibold w-1/3'>
                     <Image src={`/flags/${prediction.team2Country}.svg`} alt='es' height={40} width={40} className='rounded-full  border-2 border-white' />
                     <p>{prediction.team2}</p>
                   </div>

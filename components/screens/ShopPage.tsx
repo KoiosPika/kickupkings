@@ -303,7 +303,7 @@ const ShopPage = () => {
                         </p>
                     ))}
                 </div>
-                <ScrollArea className='w-11/12' style={{ height: height - 245 }}>
+                <ScrollArea className='w-11/12' style={{ height: height - 253 }}>
                     <div className='grid grid-cols-2 w-full gap-2 sm:gap-3'>
                         {positions.filter((position) => position.type === selectedType).map((position: any, index: number) => {
                             const userPosition = user?.positions.find((userPos: any) => userPos.position === position.symbol);

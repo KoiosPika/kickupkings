@@ -6,8 +6,8 @@ import User from "../database/models/user.model";
 
 const populateRequests = (query: any) => {
     return query
-        .populate({ path: 'Requester', model: User, select: "_id username" })
-        .populate({ path: 'Receiver', model: User, select: "_id username" })
+        .populate({ path: 'Requester', model: User, select: "_id username photo" })
+        .populate({ path: 'Receiver', model: User, select: "_id username photo" })
 }
 
 export async function findUsersByUsernames(query: string) {
@@ -27,6 +27,7 @@ export async function findUsersByUsernames(query: string) {
             return {
                 id: user._id,
                 username: user.username,
+                photo: user.photo,
                 hasRequest: !!existingRequest
             };
         }));
