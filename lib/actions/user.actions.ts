@@ -7,7 +7,7 @@ import UserData, { IUserData } from "../database/models/userData.model";
 import { formations } from "@/constants/Formations";
 import { calculateGoalkeeperChance, simulateAttack } from "../utils";
 import Match, { IMatch } from "../database/models/match.model";
-import { Predictions, Quizzes } from "@/constants/Earnings";
+import { Predictions } from "@/constants/Earnings";
 import { populateMatch } from "./match.actions";
 import { Flags } from "@/constants/Flags";
 import { Icons } from "@/constants/Icons";
@@ -541,38 +541,6 @@ export async function playGame(player1ID: string, player2ID: string, type: strin
     } catch (error) {
         console.log(error)
     }
-}
-
-export async function addOrUpdateQuiz(userId: string, quizId: string, userAnswer: string) {
-    const quiz = Quizzes.find(q => q.id === quizId);
-    if (!quiz) {
-        throw new Error('Quiz not found');
-    }
-
-    if (quiz.answer.toLowerCase() !== userAnswer.toLowerCase()) {
-        throw new Error('Incorrect answer');
-    }
-
-    await connectToDatabase();
-
-    const user = await UserData.findOne({ User: userId });
-
-    const quizIndex = user.dailyQuizzes.findIndex((q: any) => q.quizId === quizId);
-
-    if (quizIndex !== -1) {
-        if (user.dailyQuizzes[quizIndex].answered) {
-            throw new Error('Quiz already answered');
-        } else {
-            // Update existing quiz
-            user.dailyQuizzes[quizIndex].answered = true;
-        }
-    } else {
-        // Add new quiz
-        user.dailyQuizzes.push({ quizId, answered: true });
-    }
-
-    user.coins += 100; // Add points instantly
-    await user.save();
 }
 
 export async function addOrUpdatePrediction(userId: string, matchId: string, predictedTeam1Score: number, predictedTeam2Score: number) {
