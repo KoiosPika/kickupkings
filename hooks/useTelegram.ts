@@ -29,8 +29,8 @@ const useTelegram = () => {
                     console.log('User:', user);
                     console.log('Chat:', chat);
 
-                } 
-                
+                }
+
                 if (window.location.hostname === 'localhost') {
                     // Fallback for local development
                     user = { id: '707937422' };
@@ -57,6 +57,14 @@ const useTelegram = () => {
                         console.log('User found and set:', userFound);
                         return; // Exit early to avoid setting loading to false again
                     }
+                } else {
+                    setState({
+                        isLoggedIn: false,
+                        loading: false,
+                        telegramId: user.id,
+                        chatId: chat?.id,
+                        currentUser: null
+                    })
                 }
             } catch (error) {
                 console.error('Error initializing Telegram:', error);
