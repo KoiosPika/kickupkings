@@ -13,27 +13,31 @@ const useTelegram = () => {
 
     useEffect(() => {
         const initTelegram = async () => {
-            if ((window as any).Telegram?.WebApp) {
-                const tg = (window as any).Telegram.WebApp;
-                tg.ready();
+            try {
+                if (typeof window !== 'undefined' && (window as any).Telegram?.WebApp) {
+                    const tg = (window as any).Telegram.WebApp;
+                    tg.ready();
 
-                const user = tg.initDataUnsafe?.user;
-                const chat = tg.initDataUnsafe?.chat;
+                    const user = tg.initDataUnsafe?.user;
+                    const chat = tg.initDataUnsafe?.chat;
 
-                if (user) {
-                    setTelegramId(user.id);
+                    if (user) {
+                        setTelegramId(user.id);
 
-                    const userFound = await findUserForLogin(user.id)
+                        const userFound = await findUserForLogin(user.id)
 
-                    if (userFound) {
-                        setIsLoggedIn(true);
-                        setChatId(chat.id);
-                        setCurrentUser(userFound)
+                        if (userFound) {
+                            setIsLoggedIn(true);
+                            setChatId(chat.id);
+                            setCurrentUser(userFound)
+                        }
                     }
                 }
+            } catch (error) {
+                console.error('Error initializing Telegram:', error);
+            } finally {
+                setLoading(false);
             }
-
-            setLoading(false);
         };
 
         initTelegram();
