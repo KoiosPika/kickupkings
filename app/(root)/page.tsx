@@ -15,14 +15,14 @@ import React, { useEffect, useState } from 'react'
 const Page = () => {
   const [currentPage, setCurrentPage] = useState('home');
   const { state } = useTelegram();
-  const { loading, isLoggedIn, telegramId, chatId, currentUser } = state
+  const { loading, isLoggedIn, currentUser } = state
   const router = useRouter();
 
   useEffect(() => {
-    if (!loading && !isLoggedIn && telegramId && chatId) {
-      router.push(`/create-account/${telegramId}-${chatId}`);
+    if (!loading && !isLoggedIn) {
+      router.push(`/create-account`);
     }
-  }, [loading, isLoggedIn, telegramId, chatId, router]);
+  }, [loading, isLoggedIn, router]);
 
   if (loading) {
     return (

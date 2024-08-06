@@ -4,11 +4,14 @@ import React, { useState } from 'react'
 import { Checkbox } from "@/components/ui/checkbox"
 import { createUser } from '@/lib/actions/user.actions'
 import { useRouter } from 'next/navigation'
+import useTelegram from '@/hooks/useTelegram'
 
-const Page = ({ params: { id } }: any) => {
+const Page = () => {
 
   const [loading, setLoading] = useState(false)
   const router = useRouter();
+  const { state } = useTelegram()
+  const { telegramId, chatId } = state
 
 
   const createNewAccount = async () => {
@@ -18,8 +21,7 @@ const Page = ({ params: { id } }: any) => {
 
     setLoading(true);
 
-    const [telegramId, chatId] = id.split(' - ');
-    const newUser = await createUser(telegramId, chatId)
+    const newUser = await createUser(telegramId!, chatId!)
 
     router.push('/')
 
