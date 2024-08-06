@@ -10,11 +10,10 @@ if (!botToken) {
 const bot = new Bot(botToken);
 
 export async function POST(request: NextRequest) {
-  const { diamonds, amount } = await request.json();
+  const { diamonds, amount, chatId } = await request.json();
 
   try {
     // Here you would typically look up the chat_id associated with the user's session or ID
-    const chatId = '707937422'; // Replace with actual logic to get the user's chat ID
 
     await bot.api.sendInvoice(
       chatId,

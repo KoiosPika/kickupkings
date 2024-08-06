@@ -28,12 +28,12 @@ const PlayerDialog = ({ userPhoto, userName, userId, page, userCountry }: { user
             <AlertDialogTrigger>
                 {page === 'History' && <div className='flex flex-row items-center' onClick={getUser}>
                     <Image src={`https://drive.google.com/uc?export=view&id=${getImageID(userPhoto)}`} alt='user' height={50} width={50} className='bg-slate-500 h-[45px] w-[45px] sm:h-[48px] sm:w-[48px] rounded-lg' />
-                    <p className='text-[13px] sm:text-[30px] text-center ml-[6px] rounded-sm'>{userName}</p>
+                    <p className='text-[13px] sm:text-[30px] text-center ml-[6px] rounded-sm line-clamp-1'>{userName}</p>
                 </div>}
                 {page === 'Match' && <div className='flex flex-col justify-center items-center gap-2 w-[120px] overflow-hidden' onClick={getUser}>
                     <Image src={`https://drive.google.com/uc?export=view&id=${getImageID(userPhoto)}`} alt='user' height={120} width={120} className='bg-slate-500 h-[70px] w-[70px] rounded-md' />
                     <div className='flex flex-row items-center gap-1'>
-                        <p className='text-white font-semibold text-[14px]'>{userName}</p>
+                        <p className='text-white font-semibold text-[14px] line-clamp-1'>{userName}</p>
                         <Image src={`/flags/${userCountry}.svg`} alt='flag' height={20} width={20} className='bg-white h-[18px] w-[18px] rounded-full border-[1px] border-slate-800' />
                     </div>
                 </div>}

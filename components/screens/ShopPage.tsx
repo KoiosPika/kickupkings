@@ -159,7 +159,7 @@ const ShopPage = ({ userId }: { userId: string }) => {
                 headers: {
                     'Content-Type': 'application/json',
                 },
-                body: JSON.stringify({ diamonds: price.diamonds, amount: price.price }),
+                body: JSON.stringify({ diamonds: price.diamonds, amount: price.price, chatId: user.chatId }),
             });
 
         } catch (error) {

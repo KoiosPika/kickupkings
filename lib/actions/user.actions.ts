@@ -14,7 +14,7 @@ import { Icons } from "@/constants/Icons";
 
 const populateUsers = (query: any) => {
     return query
-        .populate({ path: 'User', model: User, select: "_id username bio photo" })
+        .populate({ path: 'User', model: User, select: "_id username bio photo chatId" })
 }
 
 export async function createUser(id: string, chatId: string) {
@@ -103,6 +103,7 @@ export async function getUserForPlayPage(id: string) {
 
         const returnObject = {
             id: user.User._id,
+            chatId:user.User.chatId,
             formation: user.formation,
             coins: user.coins,
             diamonds: user.diamonds,

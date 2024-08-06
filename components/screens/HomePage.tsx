@@ -87,6 +87,7 @@ const HomePage = ({ userId }: { userId: string }) => {
     }, [])
 
     const getRankData = (rank: any) => Ranks.find(r => r.rank === rank);
+    
     const getPreviousRankData = (currentRank: any) => {
         const index = Ranks.findIndex(r => r.rank === currentRank);
         return index > 0 ? Ranks[index - 1] : null;
