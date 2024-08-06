@@ -17,20 +17,23 @@ const populateUsers = (query: any) => {
         .populate({ path: 'User', model: User, select: "_id username bio photo" })
 }
 
-export async function createUser(id: string, username: string) {
+export async function createUser(id: string, chatId: string) {
     try {
         await connectToDatabase();
 
+        const username = generateRandomUsername();
+
         const user = await User.create({
             telegramID: id,
-            username: username,
+            chatId,
+            username,
         })
 
         const userData = await UserData.create({
             User: user._id,
         })
 
-        return userData;
+        return JSON.parse(JSON.stringify(userData));
     } catch (error) {
         console.log(error)
     }
