@@ -20,7 +20,7 @@ const Page = () => {
 
   useEffect(() => {
     if (!loading && !isLoggedIn && telegramId && chatId) {
-      router.push(`/create-account/${telegramId} - ${chatId}`);
+      router.push(`/create-account/${telegramId}-${chatId}`);
     }
   }, [loading, isLoggedIn, telegramId, chatId, router]);
 
