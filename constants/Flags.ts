@@ -207,7 +207,7 @@ export const Flags = [
     { name: `Turkmenistan`, src: 'tm' },
     { name: `Tunisia`, src: 'tn' },
     { name: `Tonga`, src: 'to' },
-    { name: `Türkiye`, src: 'tr' },
+    { name: `Turkiye`, src: 'tr' },
     { name: `Trinidad and Tobago`, src: 'tt' },
     { name: `Tuvalu`, src: 'tv' },
     { name: `Taiwan`, src: 'tw' },

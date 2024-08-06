@@ -36,6 +36,19 @@ export async function createUser(id: string, username: string) {
     }
 }
 
+export async function findUserForLogin(telegramId: string) {
+    try {
+        await connectToDatabase();
+
+        const user = User.findOne({ telegramId: telegramId })
+
+        return JSON.parse(JSON.stringify(user))
+        
+    } catch (error) {
+        console.log(error)
+    }
+}
+
 export async function getUserByUserID(id: string) {
     try {
         await connectToDatabase();

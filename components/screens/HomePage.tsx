@@ -50,7 +50,7 @@ const Products = [
     },
 ]
 
-const HomePage = () => {
+const HomePage = ({ userId }: { userId: string }) => {
 
     const [user, setUser] = useState<any>()
     const [height, setHeight] = useState<number>(0)
@@ -59,17 +59,17 @@ const HomePage = () => {
 
     useEffect(() => {
         if (typeof window !== 'undefined') {
-          setHeight(window.innerHeight);
-    
-          const updateDimensions = () => {
             setHeight(window.innerHeight);
-          };
-    
-          window.addEventListener("resize", updateDimensions);
-    
-          return () => window.removeEventListener("resize", updateDimensions);
+
+            const updateDimensions = () => {
+                setHeight(window.innerHeight);
+            };
+
+            window.addEventListener("resize", updateDimensions);
+
+            return () => window.removeEventListener("resize", updateDimensions);
         }
-      }, []);
+    }, []);
 
     useEffect(() => {
         setShuffledNews(shuffleArray(News));

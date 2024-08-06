@@ -16,7 +16,7 @@ import { createFakeUsers, getUserForPlayPage, savePrize, setIconPhotos, upgradeP
 import { Prices } from '@/constants/Earnings';
 import UserDialog from '../shared/UserDialog';
 
-const ShopPage = () => {
+const ShopPage = ({ userId }: { userId: string }) => {
 
     const [selectedType, setSelectedType] = useState('Defense')
     const [height, setHeight] = useState<number>(window.innerHeight)

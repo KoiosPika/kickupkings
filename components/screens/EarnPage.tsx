@@ -7,7 +7,7 @@ import { IUserData } from '@/lib/database/models/userData.model';
 import { addOrUpdatePrediction, collectCoins, getUserByUserID } from '@/lib/actions/user.actions';
 import { Ranks } from '@/constants';
 
-const EarnPage = () => {
+const EarnPage = ({ userId }: { userId: string }) => {
 
   const [user, setUser] = useState<IUserData>()
   const [predictions, setPredictions] = useState<any>({});

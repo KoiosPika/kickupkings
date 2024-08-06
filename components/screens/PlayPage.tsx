@@ -26,7 +26,7 @@ const colors = [
   { 'Goalkeeper': '#41B815' },
 ]
 
-const PlayPage = () => {
+const PlayPage = ({ userId }: { userId: string }) => {
 
   const [height, setHeight] = useState<number>(window.innerHeight)
   const [user, setUser] = useState<any>()

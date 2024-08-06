@@ -6,34 +6,56 @@ import LineupPage from '@/components/screens/LineupPage';
 import PlayPage from '@/components/screens/PlayPage';
 import ShopPage from '@/components/screens/ShopPage';
 import BottomNavBar from '@/components/shared/BottomNavBar';
-import React, { useState } from 'react'
+import useTelegram from '@/hooks/useTelegram';
+import { IUser } from '@/lib/database/models/user.model';
+import Image from 'next/image';
+import { useRouter } from 'next/navigation';
+import React, { useEffect, useState } from 'react'
 
 const Page = () => {
   const [currentPage, setCurrentPage] = useState('home');
+  const { isLoggedIn, loading, telegramId, chatId, currentUser } = useTelegram();
+  const router = useRouter();
 
-  const renderPage = () => {
+  useEffect(() => {
+    if (!loading && !isLoggedIn) {
+      router.push('/create-account');
+    }
+  }, [loading, isLoggedIn, router]);
+
+  if (loading) {
+    return (
+      <section className='w-full h-screen flex flex-col justify-center items-center bg-gradient-to-b from-slate-800 to-gray-600'>
+        <Image src={'/icons/spinner.svg'} alt='spinner' height={30} width={30} className='animate-spin' />
+      </section>
+    );
+  }
+
+  const renderPage = (currentUser: IUser) => {
     switch (currentPage) {
       case 'home':
-        return <HomePage />;
+        return <HomePage userId={currentUser._id} />;
       case 'shop':
-        return <ShopPage />;
+        return <ShopPage userId={currentUser._id} />;
       case 'play':
-        return <PlayPage />;
+        return <PlayPage userId={currentUser._id} />;
       case 'earn':
-        return <EarnPage />;
+        return <EarnPage userId={currentUser._id} />;
       case 'lineup':
-        return <LineupPage />;
+        return <LineupPage userId={currentUser._id} />;
       default:
-        return <HomePage />;
+        return <HomePage userId={currentUser._id} />;
     }
   };
 
-  return (
-    <div className='h-screen w-screen max-w-[700px] flex justify-center items-center bg-gradient-to-b from-slate-900 to-gray-600'>
-      {renderPage()}
-      <BottomNavBar currentPage={currentPage} setCurrentPage={setCurrentPage} />
-    </div>
-  )
+  if (isLoggedIn) {
+    return (
+      <div className='h-screen w-screen max-w-[700px] flex justify-center items-center bg-gradient-to-b from-slate-900 to-gray-600'>
+        {renderPage(currentUser!)}
+        <BottomNavBar currentPage={currentPage} setCurrentPage={setCurrentPage} />
+      </div>
+    )
+  }
 }
 
 export default Page

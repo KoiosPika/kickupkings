@@ -13,7 +13,7 @@ const colors = [
   { 'Goalkeeper': '#41B815' },
 ]
 
-const LineupPage = () => {
+const LineupPage = ({ userId }: { userId: string }) => {
   const [height, setHeight] = useState<number>(window.innerHeight)
   const [selectedFormation, setSelectedFormation] = useState('4-3-3');
   const [saving, setSaving] = useState(false)
