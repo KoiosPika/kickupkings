@@ -27,9 +27,9 @@ const useTelegram = () => {
                         const userFound = await findUserForLogin(user.id)
 
                         if (userFound) {
-                            setIsLoggedIn(true);
                             setChatId(chat.id);
                             setCurrentUser(userFound)
+                            setIsLoggedIn(true);
                         }
                     }
                 }
