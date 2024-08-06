@@ -32,7 +32,7 @@ const LineupPage = ({ userId }: { userId: string }) => {
 
   useEffect(() => {
     const getUser = async () => {
-      const userData = await getUserByUserID('6699bfa1ba8348c3228f89ab')
+      const userData = await getUserByUserID(userId)
       setUser(userData)
       setSelectedFormation(userData.formation)
     }
@@ -63,7 +63,7 @@ const LineupPage = ({ userId }: { userId: string }) => {
     }
 
     setSaving(true);
-    await saveFormation('6699bfa1ba8348c3228f89ab', selectedFormation);
+    await saveFormation(userId, selectedFormation);
     setSaving(false);
   }
 

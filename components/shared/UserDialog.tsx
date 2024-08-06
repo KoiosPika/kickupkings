@@ -37,7 +37,7 @@ const UserDialog = ({ user }: { user: any }) => {
             return;
         }
 
-        const result: any = await editProfile('6699bfa1ba8348c3228f89ab', username, bio)
+        const result: any = await editProfile(user.id, username, bio)
 
         if (result === 'Username is already taken.') {
             setError('Username is taken');
@@ -58,7 +58,7 @@ const UserDialog = ({ user }: { user: any }) => {
     };
 
     const handleChangeCountry = async () => {
-        await changeCountry('6699bfa1ba8348c3228f89ab', selectedCountry.src)
+        await changeCountry(user.id, selectedCountry.src)
         setCountry(selectedCountry.src)
         if (drawerRef.current) {
             drawerRef.current.click(); // Assuming `close` is the method to close the drawer

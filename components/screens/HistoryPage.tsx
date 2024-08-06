@@ -23,7 +23,7 @@ const HistoryPage = ({ id }: { id: string }) => {
 
     useEffect(() => {
         const getUser = async () => {
-            const userData = await getUserByUserID('6699bfa1ba8348c3228f89ab')
+            const userData = await getUserByUserID(id)
             setUser(userData)
         }
 
@@ -99,11 +99,11 @@ const HistoryPage = ({ id }: { id: string }) => {
                     const isAvailableToWatch = now < new Date(match.availableToWatch);
                     return (
                         <div key={index} className='text-white font-semibold p-2 rounded-lg flex flex-row items-center gap-1 sm:gap-5'>
-                            {match.Player._id === '6699bfa1ba8348c3228f89ab' ? (<p className='text-green-500 text-[18px]'>↑</p>) : (<p className='text-red-500 text-[18px]'>↓</p>)}
+                            {match.Player._id === id ? (<p className='text-green-500 text-[18px]'>↑</p>) : (<p className='text-red-500 text-[18px]'>↓</p>)}
                             {isAvailableToWatch ? (
                                 <p className='h-[25px] w-[30px] sm:h-[45px] sm:w-[50px] text-[16px] sm:text-[30px] text-center bg-gray-600 rounded-sm'>-</p>
                             ) : (
-                                match.winner.toString() !== '6699bfa1ba8348c3228f89ab' ? (
+                                match.winner.toString() !== id ? (
                                     <p className='h-[25px] w-[30px] sm:h-[45px] sm:w-[50px] text-[16px] sm:text-[30px] text-center bg-red-600 rounded-sm'>L</p>
                                 ) : (
                                     <p className='h-[25px] w-[30px] sm:h-[45px] sm:w-[50px] text-[16px] sm:text-[30px] text-center bg-green-600 rounded-sm'>W</p>
@@ -113,7 +113,7 @@ const HistoryPage = ({ id }: { id: string }) => {
                                 <p className='ml-2 text-[16px] sm:text-[30px]'>?-?</p>
                             ) : (<p className='ml-2 text-[16px] sm:text-[30px]'>{match.playerScore}-{match.opponentScore}</p>)}
                             <div className='ml-3 flex flex-row items-center px-2 py-1 rounded-lg w-[120px] overflow-hidden'>
-                                {match.Player.toString() !== '6699bfa1ba8348c3228f89ab' ? (
+                                {match.Player.toString() !== id ? (
                                     <PlayerDialog userPhoto={match.Opponent.photo} userName={match.Opponent.username} userId={match.Opponent._id} userCountry='' page='History' />
                                 ) : (
                                     <PlayerDialog userPhoto={match.Player.photo} userName={match.Player.username} userId={match.Player._id} userCountry='' page='History' />

@@ -51,7 +51,7 @@ const PlayPage = ({ userId }: { userId: string }) => {
 
   useEffect(() => {
     const getUser = async () => {
-      const userData = await getUserForPlayPage('6699bfa1ba8348c3228f89ab')
+      const userData = await getUserForPlayPage(userId)
 
       console.log(userData)
       setUser(userData)
@@ -120,7 +120,7 @@ const PlayPage = ({ userId }: { userId: string }) => {
     let diamonds = activeTab === 'Classic' ? 0 : match.prizes.diamonds;
     let points = activeTab === 'Classic' ? 0 : match.prizes.points;
 
-    const newMatch = await playGame('6699bfa1ba8348c3228f89ab', opponentId, matchType, coins, diamonds, points)
+    const newMatch = await playGame(userId, opponentId, matchType, coins, diamonds, points)
 
     router.push(`/play/${newMatch._id}`);
   }
@@ -132,7 +132,7 @@ const PlayPage = ({ userId }: { userId: string }) => {
 
     setSearching(true);
 
-    const matchFound = await findMatch('6699bfa1ba8348c3228f89ab');
+    const matchFound = await findMatch(userId);
 
     console.log(matchFound)
 
@@ -147,7 +147,7 @@ const PlayPage = ({ userId }: { userId: string }) => {
 
     setMatch(null)
 
-    const matchFound = await findMatch('6699bfa1ba8348c3228f89ab');
+    const matchFound = await findMatch(userId);
 
     setMatch(matchFound);
 
@@ -229,7 +229,7 @@ const PlayPage = ({ userId }: { userId: string }) => {
         <div className='w-11/12'>
           <div className='flex flex-row items-center w-full'>
             <p className='text-white font-semibold bg-slate-900 px-3 py-1 inline-flex rounded-lg text-[16px] sm:text-[22px]'>History</p>
-            <a href='/history/6699bfa1ba8348c3228f89ab' className='text-white font-semibold bg-slate-900 px-3 py-1 inline-flex rounded-lg text-[12px] sm:text-[22px] ml-auto mt-auto'>
+            <a href={`/history/${userId}`} className='text-white font-semibold bg-slate-900 px-3 py-1 inline-flex rounded-lg text-[12px] sm:text-[22px] ml-auto mt-auto'>
               <p>View All</p>
               <Image src={'/icons/arrow-right.svg'} alt='arrow' height={9} width={9} className='rotate-90 ml-2 mt-[1.5px]' />
             </a>
@@ -237,14 +237,14 @@ const PlayPage = ({ userId }: { userId: string }) => {
           <div className='flex flex-col gap-1 sm:gap-4 my-2'>
             {user && user.matches.map((match: IMatch, index: number) => (
               <div key={index} className='text-white font-semibold bg-slate-900 p-2 rounded-lg flex flex-row items-center gap-1 sm:gap-5'>
-                {match.winner.toString() !== '6699bfa1ba8348c3228f89ab' ? (
+                {match.winner.toString() !== userId ? (
                   <p className='h-[25px] w-[30px] sm:h-[45px] sm:w-[50px] text-[16px] sm:text-[30px] text-center bg-red-600 rounded-sm'>L</p>
                 ) : (
                   <p className='h-[25px] w-[30px] sm:h-[45px] sm:w-[50px] text-[16px] sm:text-[30px] text-center bg-green-600 rounded-sm'>W</p>
                 )}
                 <p className='ml-2 text-[16px] sm:text-[30px]'>{match.playerScore}-{match.opponentScore}</p>
                 <div className='ml-5 flex flex-row items-center bg-slate-900 px-2 py-1 rounded-lg'>
-                  {match.Player.toString() !== '6699bfa1ba8348c3228f89ab' ? (
+                  {match.Player.toString() !== userId ? (
                     <>
                       <Image src={`https://drive.google.com/uc?export=view&id=${getImageID(match.Opponent.photo)}`} alt='user' height={50} width={50} className='bg-slate-500 h-[28px] w-[28px] sm:h-[48px] sm:w-[48px] rounded-lg' />
                       <p className='text-[14px] sm:text-[30px] text-center ml-[6px] rounded-sm'>{match.Opponent.username}</p>

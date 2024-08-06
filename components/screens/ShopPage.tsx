@@ -43,7 +43,7 @@ const ShopPage = ({ userId }: { userId: string }) => {
 
     useEffect(() => {
         const getUser = async () => {
-            const userData = await getUserForPlayPage('6699bfa1ba8348c3228f89ab')
+            const userData = await getUserForPlayPage(userId)
             setUser(userData)
         }
 
@@ -61,7 +61,7 @@ const ShopPage = ({ userId }: { userId: string }) => {
         }
 
         setUpgrading(true);
-        const newUser = await upgradePosition('6699bfa1ba8348c3228f89ab', position);
+        const newUser = await upgradePosition(userId, position);
         setUser(newUser)
         if (drawerRefs.current[position]) {
             drawerRefs.current[position]!.click(); // Close the drawer
@@ -136,10 +136,10 @@ const ShopPage = ({ userId }: { userId: string }) => {
                 setIsSpinning(false);
 
                 if (prize.type === 'coins') {
-                    const newUser = await savePrize('6699bfa1ba8348c3228f89ab', `coins : coins + ${prize.amount}`);
+                    const newUser = await savePrize(userId, `coins : coins + ${prize.amount}`);
                     setUser(newUser)
                 } else {
-                    const newUser = await savePrize('6699bfa1ba8348c3228f89ab', `upgrade : ${prize.symbol} + ${prize.increment}`);
+                    const newUser = await savePrize(userId, `upgrade : ${prize.symbol} + ${prize.increment}`);
                     setUser(newUser)
                 }
 

@@ -102,6 +102,7 @@ export async function getUserForPlayPage(id: string) {
         const recentMatches = userMatches.reverse().slice(0, 2)
 
         const returnObject = {
+            id: user.User._id,
             formation: user.formation,
             coins: user.coins,
             diamonds: user.diamonds,

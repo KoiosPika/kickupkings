@@ -14,7 +14,7 @@ const EarnPage = ({ userId }: { userId: string }) => {
 
   useEffect(() => {
     const getUser = async () => {
-      const userData = await getUserByUserID('6699bfa1ba8348c3228f89ab')
+      const userData = await getUserByUserID(userId)
       setUser(userData)
 
       const initialPredictions: any = {};
@@ -44,7 +44,7 @@ const EarnPage = ({ userId }: { userId: string }) => {
       return;
     }
     try {
-      await addOrUpdatePrediction('6699bfa1ba8348c3228f89ab', matchId, parseInt(predictedTeam1Score), parseInt(predictedTeam2Score));
+      await addOrUpdatePrediction(userId, matchId, parseInt(predictedTeam1Score), parseInt(predictedTeam2Score));
     } catch (error) {
 
     }
@@ -63,10 +63,10 @@ const EarnPage = ({ userId }: { userId: string }) => {
 
   const handleCollectCoins = async (matchId: string) => {
     try {
-      await collectCoins('6699bfa1ba8348c3228f89ab', matchId);
+      await collectCoins(userId, matchId);
       alert('Coins collected!');
       // Fetch user data again to update the state
-      const updatedUser = await getUserByUserID('6699bfa1ba8348c3228f89ab');
+      const updatedUser = await getUserByUserID(userId);
       setUser(updatedUser);
     } catch (error) {
       alert('Error collecting coins');

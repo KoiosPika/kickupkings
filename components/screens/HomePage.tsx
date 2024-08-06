@@ -79,7 +79,7 @@ const HomePage = ({ userId }: { userId: string }) => {
 
     useEffect(() => {
         const getUser = async () => {
-            const userData = await getUserForPlayPage('6699bfa1ba8348c3228f89ab')
+            const userData = await getUserForPlayPage(userId)
             setUser(userData)
         }
 
