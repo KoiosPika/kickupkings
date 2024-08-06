@@ -22,7 +22,7 @@ const Page = () => {
     if (!loading && !isLoggedIn) {
       router.push(`/create-account/${telegramId} - ${chatId}`);
     }
-  }, [loading, isLoggedIn, router]);
+  }, [state]);
 
   if (loading) {
     return (
