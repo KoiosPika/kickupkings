@@ -40,10 +40,10 @@ export async function findUserForLogin(telegramId: string) {
     try {
         await connectToDatabase();
 
-        const user = User.findOne({ telegramId: telegramId })
+        const user = User.findOne({ telegramID: telegramId })
 
         return JSON.parse(JSON.stringify(user))
-        
+
     } catch (error) {
         console.log(error)
     }
