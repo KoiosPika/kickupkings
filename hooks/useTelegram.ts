@@ -55,16 +55,16 @@ const useTelegram = () => {
                             currentUser: userFound,
                         });
                         console.log('User found and set:', userFound);
-                        return; // Exit early to avoid setting loading to false again
+                        return;
+                    } else {
+                        setState({
+                            isLoggedIn: false,
+                            loading: false,
+                            telegramId: user.id,
+                            chatId: chat?.id,
+                            currentUser: null,
+                        });
                     }
-                } else {
-                    setState({
-                        isLoggedIn: false,
-                        loading: false,
-                        telegramId: user.id,
-                        chatId: chat?.id,
-                        currentUser: null
-                    })
                 }
             } catch (error) {
                 console.error('Error initializing Telegram:', error);
