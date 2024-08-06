@@ -41,7 +41,7 @@ const PlayerDialog = ({ userPhoto, userName, userId, page, userCountry }: { user
             <AlertDialogContent className='bg-slate-800 px-2 border-0 rounded-lg flex flex-col justify-center items-center'>
                 {user && <>
                     <div className='w-10/12 flex flex-orw items-center mt-6'>
-                        <Image src={`https://drive.google.com/uc?export=view&id=${getImageID(userPhoto)}`} alt='user' height={50} width={50} className='bg-slate-500 h-[100px] w-[100px] rounded-lg' />
+                        <Image src={`https://drive.google.com/uc?export=view&id=${getImageID(userPhoto)}`} alt='user' height={100} width={100} className='bg-slate-500 h-[100px] w-[100px] rounded-lg' />
                         <div className='flex flex-col ml-3 gap-2'>
                             <div className='flex flex-row items-center gap-2'>
                                 <p className='font-semibold text-white text-[15px]'>{user.username}</p>
