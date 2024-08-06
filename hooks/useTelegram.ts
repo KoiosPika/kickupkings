@@ -16,26 +16,46 @@ const useTelegram = () => {
     useEffect(() => {
         const initTelegram = async () => {
             try {
+                let user = null;
+                let chat = null;
+
                 if (typeof window !== 'undefined' && (window as any).Telegram?.WebApp) {
                     const tg = (window as any).Telegram.WebApp;
                     tg.ready();
 
-                    const user = tg.initDataUnsafe?.user;
-                    const chat = tg.initDataUnsafe?.chat;
+                    user = tg.initDataUnsafe?.user;
+                    chat = tg.initDataUnsafe?.chat;
 
-                    if (user) {
+                    console.log('User:', user);
+                    console.log('Chat:', chat);
 
-                        const userFound = await findUserForLogin(user.id)
+                } 
+                
+                if (window.location.hostname === 'localhost') {
+                    // Fallback for local development
+                    user = { id: '707937422' };
+                    chat = { id: '707937422' };
+                }
 
-                        if (userFound) {
-                            setState({
-                                isLoggedIn: true,
-                                loading: false,
-                                telegramId: user.id,
-                                chatId: chat?.id ?? null,
-                                currentUser: userFound,
-                            });
-                        }
+                if (user) {
+                    let userFound;
+
+                    if (window.location.hostname === 'localhost') {
+                        userFound = await findUserForLogin('707937422');
+                    } else {
+                        userFound = await findUserForLogin(user.id);
+                    }
+
+                    if (userFound) {
+                        setState({
+                            isLoggedIn: true,
+                            loading: false,
+                            telegramId: user.id,
+                            chatId: chat?.id ?? null,
+                            currentUser: userFound,
+                        });
+                        console.log('User found and set:', userFound);
+                        return; // Exit early to avoid setting loading to false again
                     }
                 }
             } catch (error) {
