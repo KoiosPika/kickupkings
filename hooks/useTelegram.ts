@@ -5,11 +5,13 @@ import { IUser } from '@/lib/database/models/user.model';
 import { useState, useEffect } from 'react';
 
 const useTelegram = () => {
-    const [isLoggedIn, setIsLoggedIn] = useState(false);
-    const [loading, setLoading] = useState(true);
-    const [telegramId, setTelegramId] = useState(null);
-    const [chatId, setChatId] = useState(null);
-    const [currentUser, setCurrentUser] = useState<IUser | null>(null)
+    const [state, setState] = useState({
+        isLoggedIn: false,
+        loading: true,
+        telegramId: null,
+        chatId: null,
+        currentUser: null,
+    });
 
     useEffect(() => {
         const initTelegram = async () => {
@@ -22,28 +24,34 @@ const useTelegram = () => {
                     const chat = tg.initDataUnsafe?.chat;
 
                     if (user) {
-                        setTelegramId(user.id);
 
                         const userFound = await findUserForLogin(user.id)
 
                         if (userFound) {
-                            setChatId(chat.id);
-                            setCurrentUser(userFound)
-                            setIsLoggedIn(true);
+                            setState({
+                                isLoggedIn: true,
+                                loading: false,
+                                telegramId: user.id,
+                                chatId: chat?.id ?? null,
+                                currentUser: userFound,
+                            });
                         }
                     }
                 }
             } catch (error) {
                 console.error('Error initializing Telegram:', error);
             } finally {
-                setLoading(false);
+                setState((prevState) => ({
+                    ...prevState,
+                    loading: false,
+                }));
             }
         };
 
         initTelegram();
     }, []);
 
-    return { isLoggedIn, loading, telegramId, chatId, currentUser };
+    return { state };
 };
 
 export default useTelegram;

@@ -14,7 +14,8 @@ import React, { useEffect, useState } from 'react'
 
 const Page = () => {
   const [currentPage, setCurrentPage] = useState('home');
-  const { isLoggedIn, loading, telegramId, chatId, currentUser } = useTelegram();
+  const { state } = useTelegram();
+  const { loading, isLoggedIn, telegramId, chatId, currentUser } = state
   const router = useRouter();
 
   useEffect(() => {
