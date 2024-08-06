@@ -1,9 +1,9 @@
 import FriendsPage from '@/components/screens/FriendsPage'
 import React from 'react'
 
-const page = () => {
+const page = ({ params: { id } }: any) => {
   return (
-    <FriendsPage />
+    <FriendsPage userId={id} />
   )
 }
 

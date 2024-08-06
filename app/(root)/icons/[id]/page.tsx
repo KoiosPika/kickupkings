@@ -2,9 +2,9 @@
 import IconsPage from '@/components/screens/IconsPage'
 import React from 'react'
 
-const page = () => {
+const page = ({ params: { id } }: any) => {
   return (
-    <IconsPage />
+    <IconsPage userId={id} />
   )
 }
 

@@ -96,7 +96,7 @@ const UserDialog = ({ user }: { user: any }) => {
             </AlertDialogTrigger>
             <AlertDialogContent className='bg-slate-800 px-2 border-0 rounded-lg flex flex-col justify-center items-center'>
                 <div className='w-10/12 flex flex-orw items-center mt-6'>
-                    <Link href={'/icons'} className='relative'>
+                    <Link href={`/icons/${user.id}`} className='relative'>
                         <Image src={`https://drive.google.com/uc?export=view&id=${getImageID(user?.photo)}`} alt='user' height={50} width={50} className='bg-slate-500 h-[100px] w-[100px] rounded-lg' />
                         <div className='absolute bottom-0 w-full text-center bg-slate-600 text-[12px] rounded-b-lg text-white opacity-70'>Click to edit</div>
                     </Link>

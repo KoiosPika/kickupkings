@@ -9,7 +9,7 @@ import { ScrollArea } from '../ui/scroll-area'
 import { Drawer, DrawerClose, DrawerContent, DrawerFooter, DrawerHeader, DrawerTitle, DrawerTrigger } from '../ui/drawer'
 import { getImageID } from '@/lib/utils'
 
-const IconsPage = () => {
+const IconsPage = ({ userId }: { userId: string }) => {
 
     const [user, setUser] = useState<IUserData>()
     const [selectedGender, setSelectedGender] = useState<'male' | 'female'>('male');
@@ -19,7 +19,7 @@ const IconsPage = () => {
 
     useEffect(() => {
         const getUser = async () => {
-            const userData = await getUserByUserID('6699bfa1ba8348c3228f89ab')
+            const userData = await getUserByUserID(userId)
             setUser(userData)
         }
 
@@ -40,7 +40,7 @@ const IconsPage = () => {
 
         setLoading(true);
 
-        const updatedUser = await buyIcon('6699bfa1ba8348c3228f89ab', iconName)
+        const updatedUser = await buyIcon(userId, iconName)
 
         setUser(updatedUser);
 
@@ -58,15 +58,15 @@ const IconsPage = () => {
 
         setChanging(true);
 
-        const updatedUser = await changeIcon('6699bfa1ba8348c3228f89ab', iconName)
+        const updatedUser = await changeIcon(userId, iconName)
 
         setUser(updatedUser)
 
         setTimeout(() => {
             if (drawerRefs.current[iconName]) {
-              drawerRefs.current[iconName]!.click();
+                drawerRefs.current[iconName]!.click();
             }
-          }, 2000);
+        }, 2000);
 
         setChanging(false);
     }
@@ -166,7 +166,7 @@ const IconsPage = () => {
                                             )
                                         ) : (
                                             <div className={`w-3/4 py-2 rounded-lg text-white font-bold text-center place-self-center ${selectedGender === 'male' ? 'bg-blue-700' : 'bg-red-700'} flex flex-row items-center justify-center`} onClick={() => handleChangeIcon(icon.name)}>
-                                                <p className='text-[20px]'>{ changing ? 'Please wait..' : 'Set as default'}</p>
+                                                <p className='text-[20px]'>{changing ? 'Please wait..' : 'Set as default'}</p>
                                             </div>
                                         )}
                                         <DrawerClose className='flex justify-center items-center'>

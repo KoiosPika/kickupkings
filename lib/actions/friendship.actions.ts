@@ -10,7 +10,7 @@ const populateRequests = (query: any) => {
         .populate({ path: 'Receiver', model: User, select: "_id username photo" })
 }
 
-export async function findUsersByUsernames(query: string) {
+export async function findUsersByUsernames(query: string, userId:string) {
     await connectToDatabase();
 
     try {
@@ -19,8 +19,8 @@ export async function findUsersByUsernames(query: string) {
         const usersWithFriendshipStatus = await Promise.all(users.map(async (user) => {
             const existingRequest = await Friendship.findOne({
                 $or: [
-                    { Requester: '6699bfa1ba8348c3228f89ab', Receiver: user._id },
-                    { Requester: user._id, Receiver: '6699bfa1ba8348c3228f89ab' }
+                    { Requester: userId, Receiver: user._id },
+                    { Requester: user._id, Receiver: userId }
                 ],
             });
 

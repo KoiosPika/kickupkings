@@ -387,7 +387,7 @@ const PlayPage = ({ userId }: { userId: string }) => {
             </AlertDialogContent>
           </AlertDialog>
           <div className='bg-green-700 py-2 font-semibold text-white rounded-xl shadow-green-600 shadow-lg border-b-[4px] sm:border-b-[8px] border-green-900 flex flex-row justify-center items-center gap-1'>
-            <a href='/friends' className='text-[16px] sm:text-[34px]'>Play with friends</a>
+            <a href={`/friends/${user.id}`} className='text-[16px] sm:text-[34px]'>Play with friends</a>
           </div>
         </div>
       </div>

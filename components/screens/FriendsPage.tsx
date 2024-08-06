@@ -20,7 +20,7 @@ const colors = [
     { 'Goalkeeper': '#41B815' },
 ]
 
-const FriendsPage = () => {
+const FriendsPage = ({ userId }: { userId: string }) => {
 
     const [user, setUser] = useState<IUserData>()
     const [activeTab, setActiveTab] = useState('friends');
@@ -37,7 +37,7 @@ const FriendsPage = () => {
     useEffect(() => {
 
         const getUser = async () => {
-            const userData = await getUserByUserID('6699bfa1ba8348c3228f89ab')
+            const userData = await getUserByUserID(userId)
             setUser(userData)
         }
 
@@ -54,14 +54,14 @@ const FriendsPage = () => {
     }, [activeTab]);
 
     const fetchFriendsList = async () => {
-        const friends = await getFriends('6699bfa1ba8348c3228f89ab'); // Pass user ID
+        const friends = await getFriends(userId); // Pass user ID
         setFriendsList(friends);
 
         console.log(friends)
     };
 
     const fetchFriendRequests = async () => {
-        const requests = await getFriendRequests('6699bfa1ba8348c3228f89ab'); // Assume user ID is passed here
+        const requests = await getFriendRequests(userId); // Assume user ID is passed here
         setFriendRequests(requests);
     };
 
@@ -78,20 +78,20 @@ const FriendsPage = () => {
     }, [searchQuery]);
 
     const findUsers = async (query: string) => {
-        const users = await findUsersByUsernames(query)
+        const users = await findUsersByUsernames(query, userId)
         setSearchResults(users);
     };
 
-    const sendRequest = async (userId: string) => {
-        setLoadingRequests((prev: any) => ({ ...prev, [userId]: true }));
+    const sendRequest = async (id: string) => {
+        setLoadingRequests((prev: any) => ({ ...prev, [id]: true }));
 
-        await sendFriendRequest('6699bfa1ba8348c3228f89ab', userId);
+        await sendFriendRequest(userId, id);
 
-        setLoadingRequests((prev: any) => ({ ...prev, [userId]: false }));
+        setLoadingRequests((prev: any) => ({ ...prev, [id]: false }));
 
         setSearchResults((prev) =>
             prev.map(user =>
-                user.id === userId ? { ...user, hasRequest: true } : user
+                user.id === id ? { ...user, hasRequest: true } : user
             )
         );
     }
@@ -125,7 +125,7 @@ const FriendsPage = () => {
         }
 
         setWaiting(true);
-        const match = await playGame('6699bfa1ba8348c3228f89ab', opponentId, 'Friendly', 0, 0, 0)
+        const match = await playGame(userId, opponentId, 'Friendly', 0, 0, 0)
 
         router.push(`/play/${match._id}`);
     }
@@ -133,7 +133,7 @@ const FriendsPage = () => {
 
     const handleOpenDialog = async (friendId: string) => {
         setLoadingUserData(true);
-        const friendlyMatch = await getFriendlyMatchInfo('6699bfa1ba8348c3228f89ab', friendId);
+        const friendlyMatch = await getFriendlyMatchInfo(userId, friendId);
         setMatch(friendlyMatch);
         setLoadingUserData(false);
     };
