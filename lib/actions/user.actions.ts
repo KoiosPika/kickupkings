@@ -40,7 +40,7 @@ export async function findUserForLogin(telegramId: string) {
     try {
         await connectToDatabase();
 
-        const user = User.findOne({ telegramID: telegramId })
+        const user = await User.findOne({ telegramID: telegramId })
 
         return JSON.parse(JSON.stringify(user))
 
