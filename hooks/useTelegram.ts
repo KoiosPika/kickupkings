@@ -51,7 +51,7 @@ const useTelegram = () => {
                             isLoggedIn: true,
                             loading: false,
                             telegramId: user.id,
-                            chatId: chat?.id ?? null,
+                            chatId: user?.id,
                             currentUser: userFound,
                         });
                         console.log('User found and set:', userFound);
@@ -61,7 +61,7 @@ const useTelegram = () => {
                             isLoggedIn: false,
                             loading: false,
                             telegramId: user.id,
-                            chatId: chat?.id,
+                            chatId: user?.id,
                             currentUser: null,
                         });
                     }
