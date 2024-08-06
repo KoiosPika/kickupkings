@@ -27,10 +27,17 @@ export async function createUser(id: string, chatId: string) {
             telegramID: id,
             chatId,
             username,
+            photo: 'galaxy_male_1'
         })
 
         const userData = await UserData.create({
             User: user._id,
+            icons: [
+                { name: 'galaxy_male_1', theme: 'galaxy', type: 'male' },
+                { name: 'galaxy_male_2', theme: 'galaxy', type: 'male' },
+                { name: 'galaxy_female_1', theme: 'galaxy', type: 'female' },
+                { name: 'galaxy_female_2', theme: 'galaxy', type: 'female' }
+            ]
         })
 
         return JSON.parse(JSON.stringify(userData));

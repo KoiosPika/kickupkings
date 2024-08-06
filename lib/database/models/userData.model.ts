@@ -73,7 +73,7 @@ const UserDataSchema = new Schema({
     User: { type: Schema.Types.ObjectId, ref: "User", index: true },
     formation: { type: String, default: '4-3-3' },
     coins: { type: Number, default: 0 },
-    diamonds: { type: Number, default: 0 },
+    diamonds: { type: Number, default: 50 },
     points: { type: Number, default: 0 },
     draws: { type: Number, default: 0 },
     played: { type: Number, default: 0 },
