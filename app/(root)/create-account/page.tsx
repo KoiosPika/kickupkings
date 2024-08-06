@@ -28,7 +28,7 @@ const Page = () => {
   }
 
   return (
-    <section className='w-full h-screen flex flex-col justify-center items-center bg-gradient-to-b from-slate-900 to-gray-700'>
+    <section className='w-full h-screen flex flex-col justify-center items-center bg-gradient-to-b from-slate-900 to-gray-700 text-white'>
       <div className="items-top flex space-x-2 w-3/4 justify-center items-center text-white">
         <Checkbox id="terms1" className='border-white' />
         <div className="grid gap-1.5 leading-none">
@@ -41,6 +41,8 @@ const Page = () => {
         </div>
       </div>
       <div className='bg-slate-900 text-white font-semibold px-3 py-2 rounded-lg mt-4' onClick={createNewAccount}>{loading ? 'Please wait...' : 'Create Account'}</div>
+      <p>{telegramId}</p>
+      <p>{chatId}</p>
     </section>
   )
 }
