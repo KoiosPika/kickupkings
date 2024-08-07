@@ -151,7 +151,7 @@ const UserDialog = ({ user }: { user: any }) => {
                     )}
                 </div>
                 {bioLimitError && <p className='text-red-500 font-semibold text-[14px]'>Bio must be 100 characters or less</p>}
-                <div className='w-full px-3'>
+                <div className='w-11/12'>
                     <ScrollArea>
                         <div className='flex items-center gap-1 w-full'>
                             <div className='w-[140px] flex flex-col h-[60px] sm:h-[80px] gap-[3px]'>

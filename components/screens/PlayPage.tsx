@@ -1,6 +1,6 @@
 import Image from 'next/image'
 import React, { useEffect, useState } from 'react'
-import { ScrollArea } from '../ui/scroll-area'
+import { ScrollArea, ScrollBar } from '../ui/scroll-area'
 import { formations } from '@/constants/Formations'
 import { positions } from '@/constants'
 import { createFakeUsers, createUser, findMatch, getUserByUserID, getUserForPlayPage, playGame } from '@/lib/actions/user.actions'
@@ -183,7 +183,7 @@ const PlayPage = ({ userId }: { userId: string }) => {
         </div>
       </div>
       <div className='w-full flex justify-center items-center'>
-        <div className='w-11/12 flex items-center gap-1'>
+        {/* <div className='w-11/12 flex items-center gap-1'>
           <div className='w-2/5 flex flex-col h-[60px] sm:h-[80px] gap-[3px]'>
             <div className='w-full bg-slate-900 text-white text-center font-semibold rounded-tl-lg h-1/2 flex justify-center items-center'>
               <p className='text-[16px] sm:text-[20px]'>Form</p>
@@ -223,6 +223,68 @@ const PlayPage = ({ userId }: { userId: string }) => {
               <p className='text-[16px] sm:text-[20px]'>{user && user.played > 0 ? ((user.won / user.played) * 100).toFixed(1) : '0.00'}%</p>
             </div>
           </div>
+        </div> */}
+        <div className='w-11/12'>
+          <ScrollArea>
+            <div className='flex items-center gap-1 w-full'>
+              <div className='w-[140px] flex flex-col h-[60px] sm:h-[80px] gap-[3px]'>
+                <div className='w-full bg-slate-900 text-white text-center font-semibold rounded-tl-lg h-1/2 flex justify-center items-center'>
+                  <p className='text-[16px] sm:text-[20px]'>Form</p>
+                </div>
+                <div className='w-full bg-slate-900 text-white text-center font-semibold rounded-bl-lg flex flex-row items-center justify-center gap-1 h-1/2'>
+                  {user.form.split('').map((result: any, index: number) => (
+                    <p
+                      key={index}
+                      className={`rounded-sm w-1/6 text-[13px] sm:text-[18px] ${result === 'W' ? 'bg-green-600' : 'bg-red-600'}`}
+                    >
+                      {result}
+                    </p>
+                  ))}
+                </div>
+              </div>
+              <div className='w-[70px] flex flex-col h-[60px] sm:h-[80px] gap-[3px]'>
+                <div className='w-full bg-slate-900 text-white text-center font-semibold h-1/2 flex justify-center items-center'>
+                  <p className='text-[16px] sm:text-[20px]'>Played</p>
+                </div>
+                <div className='w-full bg-slate-900 text-white text-center font-semibold h-1/2 flex justify-center items-center'>
+                  <p className='text-[16px] sm:text-[20px]'>{user && user?.played}</p>
+                </div>
+              </div>
+              <div className='w-[70px] flex flex-col h-[60px] sm:h-[80px] gap-[3px]'>
+                <div className='w-full bg-slate-900 text-white text-center font-semibold h-1/2 flex justify-center items-center'>
+                  <p className='text-[16px] sm:text-[20px]'>Won</p>
+                </div>
+                <div className='w-full bg-slate-900 text-white text-center font-semibold h-1/2 flex justify-center items-center'>
+                  <p className='text-[16px] sm:text-[20px]'>{user && user?.won}</p>
+                </div>
+              </div>
+              <div className='w-[70px] flex flex-col h-[60px] sm:h-[80px] gap-[3px]'>
+                <div className='w-full bg-slate-900 text-white text-center font-semibold h-1/2 flex justify-center items-center'>
+                  <p className='text-[16px] sm:text-[20px]'>Rate</p>
+                </div>
+                <div className='w-full bg-slate-900 text-green-500 text-center font-semibold h-1/2 flex justify-center items-center'>
+                  <p className='text-[16px] sm:text-[20px]'>%{user && ((user?.won / user?.played) * 100).toFixed(1)}</p>
+                </div>
+              </div>
+              <div className='w-[70px] flex flex-col h-[60px] sm:h-[80px] gap-[3px]'>
+                <div className='w-full bg-slate-900 text-white text-center font-semibold h-1/2 flex justify-center items-center'>
+                  <p className='text-[16px] sm:text-[20px]'>Scored</p>
+                </div>
+                <div className='w-full bg-slate-900 text-green-500 text-center font-semibold h-1/2 flex justify-center items-center'>
+                  <p className='text-[16px] sm:text-[20px]'>230</p>
+                </div>
+              </div>
+              <div className='w-[90px] flex flex-col h-[60px] sm:h-[80px] gap-[3px]'>
+                <div className='w-full bg-slate-900 text-white text-center font-semibold rounded-tr-lg h-1/2 flex justify-center items-center'>
+                  <p className='text-[16px] sm:text-[20px]'>Conceded</p>
+                </div>
+                <div className='w-full bg-slate-900 text-red-500 text-center font-semibold rounded-br-lg h-1/2 flex justify-center items-center'>
+                  <p className='text-[16px] sm:text-[20px]'>340</p>
+                </div>
+              </div>
+            </div>
+            <ScrollBar orientation="horizontal" className='hidden' />
+          </ScrollArea>
         </div>
       </div>
       <div className='w-full flex flex-col justify-center items-center mt-2'>
@@ -393,8 +455,8 @@ const PlayPage = ({ userId }: { userId: string }) => {
       </div>
       <div className='w-full flex flex-col h-full justify-center items-center flex-grow mt-3'>
         <div className='w-11/12 flex flex-row items-center h-full gap-2'>
-          <div className='h-full w-3/5 flex flex-col justify-around rounded-md bg-slate-900 relative'>
-            <Image src={'/Field-dark-9.PNG'} alt='field' height={1000} width={1000} className='absolute h-full w-full rounded-lg border-2 border-white'/>
+          <div className='h-full w-1/2 flex flex-col justify-around rounded-md bg-slate-900 relative'>
+            <Image src={'/Field-dark-9.PNG'} alt='field' height={1000} width={1000} className='absolute h-full w-full rounded-lg border-2 border-white' />
             {formation?.data.map((row: any, rowIndex: number) => (
               <div key={rowIndex} className='flex justify-around z-10'>
                 {row.positions.map((position: any, posIndex: number) => (
@@ -405,7 +467,7 @@ const PlayPage = ({ userId }: { userId: string }) => {
               </div>
             ))}
           </div>
-          <div className='w-2/5 flex flex-col justify-around rounded-md scroll-area'>
+          <div className='w-1/2 flex flex-col justify-around rounded-md scroll-area'>
             <ScrollArea>
               <div className='flex flex-col gap-1 w-full'>
                 <div className='bg-slate-900 p-2 sm:p-4 rounded-lg'>
