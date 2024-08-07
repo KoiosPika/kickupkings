@@ -394,7 +394,7 @@ const PlayPage = ({ userId }: { userId: string }) => {
       <div className='w-full flex flex-col h-full justify-center items-center flex-grow mt-3'>
         <div className='w-11/12 flex flex-row items-center h-full gap-2'>
           <div className='h-full w-3/5 flex flex-col justify-around rounded-md bg-slate-900 relative'>
-            <Image src={'/Field-dark-9.PNG'} alt='field' height={100} width={100} className='absolute h-full w-full rounded-lg border-2 border-white'/>
+            <Image src={'/Field-dark-try.png'} alt='field' height={1000} width={1000} className='absolute h-full w-full rounded-lg'/>
             {formation?.data.map((row: any, rowIndex: number) => (
               <div key={rowIndex} className='flex justify-around z-10'>
                 {row.positions.map((position: any, posIndex: number) => (
