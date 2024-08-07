@@ -104,7 +104,7 @@ const LineupPage = ({ userId }: { userId: string }) => {
   }
 
   return (
-    <section className='w-full h-screen bg-gradient-to-b from-slate-900 to-slate-700'>
+    <section className='w-full h-screen bg-gradient-to-b from-slate-900 to-slate-900'>
       <div className='w-full ml-auto mb-auto p-2 flex flex-row items-center gap-2'>
         <Image src={`https://drive.google.com/uc?export=view&id=${getImageID(user.User.photo)}`} alt='user' height={50} width={50} className='bg-slate-500 h-[30px] w-[30px] rounded-lg' />
         <p className='font-semibold text-white text-[13px]'>{user?.User.username} ({user?.Rank})</p>
@@ -126,7 +126,7 @@ const LineupPage = ({ userId }: { userId: string }) => {
             </div>
           ))}
         </div>
-        <Image src={'/Field-d-try.png'} alt='field' height={2000} width={2000} style={{ height: height - 210 }} className='w-full max-w-[700px]' />
+        <Image src={'/Field-dark-9.PNG'} alt='field' height={2000} width={2000} style={{ height: height - 210 }} className='w-full max-w-[700px] border-y-2 border-white' />
       </div>
       <ScrollArea className='py-2 px-2 h-[50px]'>
         <div className='flex gap-2'>

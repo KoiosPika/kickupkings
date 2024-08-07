@@ -79,7 +79,7 @@ const HistoryPage = ({ id }: { id: string }) => {
     }
 
     return (
-        <section className='w-full h-screen flex flex-col bg-gradient-to-b from-slate-900 to-gray-600'>
+        <section className='w-full h-screen flex flex-col bg-gradient-to-b from-slate-900 to-gray-700'>
             <div className='w-full ml-auto mb-auto p-2 flex flex-row items-center gap-2'>
                 <a href='/' className='py-2 px-3 rounded-md text-white font-bold'>
                     <Image src={'/icons/back.svg'} alt='back' height={10} width={10} />
