@@ -422,7 +422,7 @@ const PlayPage = ({ userId }: { userId: string }) => {
       </div>
       <div className='w-full flex flex-col h-full justify-center items-center flex-grow mt-3'>
         <div className='w-11/12 flex flex-row items-center h-full gap-2'>
-          <div className='h-full w-1/2 flex flex-col justify-around rounded-md bg-slate-900 relative'>
+          <div className='h-full w-3/5 flex flex-col justify-around rounded-md bg-slate-900 relative'>
             <Image src={'/Field-dark-9.PNG'} alt='field' height={1000} width={1000} className='absolute h-full w-full rounded-lg border-2 border-white' />
             {formation?.data.map((row: any, rowIndex: number) => (
               <div key={rowIndex} className='flex justify-around z-10'>
@@ -434,7 +434,7 @@ const PlayPage = ({ userId }: { userId: string }) => {
               </div>
             ))}
           </div>
-          <div className='w-1/2 flex flex-col justify-around rounded-md scroll-area'>
+          <div className='w-2/5 flex flex-col justify-around rounded-md scroll-area'>
             <ScrollArea>
               <div className='flex flex-col gap-1 w-full'>
                 <div className='bg-slate-900 p-2 sm:p-4 rounded-lg'>
