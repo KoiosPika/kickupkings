@@ -39,7 +39,7 @@ const PlayPage = ({ userId }: { userId: string }) => {
   useEffect(() => {
     const updateHeights = () => {
       setHeight(window.innerHeight);
-      document.documentElement.style.setProperty('--dynamic-height', `calc(${window.innerHeight}px - 420px)`);
+      document.documentElement.style.setProperty('--dynamic-height', `calc(${window.innerHeight}px - 365px)`);
       document.documentElement.style.setProperty('--dynamic-height-sm', `calc(${window.innerHeight}px - 630px)`);
     };
 
@@ -393,7 +393,7 @@ const PlayPage = ({ userId }: { userId: string }) => {
       </div>
       <div className='w-full flex flex-col h-full justify-center items-center flex-grow mt-3'>
         <div className='w-11/12 flex flex-row items-center h-full gap-2'>
-          <div className='h-full w-1/2 flex flex-col justify-around rounded-md bg-slate-900 border-[1px] sm:border-4 border-white' style={{ backgroundImage: `url('/Field-dark-9.PNG')`, backgroundSize: 'cover', backgroundPosition: 'center' }}>
+          <div className='h-full w-3/5 flex flex-col justify-around rounded-md bg-slate-900 border-[1px] sm:border-4 border-white' style={{ backgroundImage: `url('/Field-dark-9.PNG')`, backgroundSize: 'cover', backgroundPosition: 'center' }}>
             {formation?.data.map((row: any, rowIndex: number) => (
               <div key={rowIndex} className='flex justify-around'>
                 {row.positions.map((position: any, posIndex: number) => (
@@ -404,7 +404,7 @@ const PlayPage = ({ userId }: { userId: string }) => {
               </div>
             ))}
           </div>
-          <div className='w-1/2 flex flex-col justify-around rounded-md scroll-area'>
+          <div className='w-2/5 flex flex-col justify-around rounded-md scroll-area'>
             <ScrollArea>
               <div className='flex flex-col gap-1 w-full'>
                 <div className='bg-slate-900 p-2 sm:p-4 rounded-lg'>
@@ -444,7 +444,7 @@ const PlayPage = ({ userId }: { userId: string }) => {
           </div>
         </div>
       </div>
-      <div className='h-[260px]' />
+      <div className='h-[190px]' />
     </section>
   )
 }

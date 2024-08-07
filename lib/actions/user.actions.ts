@@ -99,7 +99,7 @@ export async function getUserForPlayPage(id: string) {
 
         console.log(userMatches)
 
-        const recentMatches = userMatches.reverse().slice(0, 2)
+        const recentMatches = userMatches.reverse().slice(0, 1)
 
         const returnObject = {
             id: user.User._id,
