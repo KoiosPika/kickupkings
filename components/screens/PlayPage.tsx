@@ -39,7 +39,7 @@ const PlayPage = ({ userId }: { userId: string }) => {
   useEffect(() => {
     const updateHeights = () => {
       setHeight(window.innerHeight);
-      document.documentElement.style.setProperty('--dynamic-height', `calc(${window.innerHeight}px - 365px)`);
+      document.documentElement.style.setProperty('--dynamic-height', `calc(${window.innerHeight}px - 425px)`);
       document.documentElement.style.setProperty('--dynamic-height-sm', `calc(${window.innerHeight}px - 630px)`);
     };
 
@@ -445,7 +445,7 @@ const PlayPage = ({ userId }: { userId: string }) => {
           </div>
         </div>
       </div>
-      <div className='h-[190px]' />
+      <div className='h-[220px]' />
     </section>
   )
 }
