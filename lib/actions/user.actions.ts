@@ -103,7 +103,7 @@ export async function getUserForPlayPage(id: string) {
 
         const returnObject = {
             id: user.User._id,
-            chatId:user.User.chatId,
+            chatId: user.User.chatId,
             formation: user.formation,
             coins: user.coins,
             diamonds: user.diamonds,
@@ -112,6 +112,8 @@ export async function getUserForPlayPage(id: string) {
             played: user.played,
             won: user.won,
             lost: user.lost,
+            scored: user.scored,
+            conceded: user.conceded,
             Rank: user.Rank,
             username: user.User.username,
             photo: user.User.photo,
@@ -511,7 +513,7 @@ export async function playGame(player1ID: string, player2ID: string, type: strin
         if (type == 'Rank') {
             const rankData = Ranks.find(rank => rank.rank === player1.Rank);
             if (finalOutcome === 'Player Wins!') {
-                const updatedPlayer1 = await UserData.findOneAndUpdate({ User: player1ID }, { '$inc': { played: 1, won: 1, points, coins, diamonds } }, { new: true })
+                const updatedPlayer1 = await UserData.findOneAndUpdate({ User: player1ID }, { '$inc': { played: 1, won: 1, points, coins, diamonds, scored: score1, conceded: score2 } }, { new: true })
 
                 const newRank = Ranks.find(rank => updatedPlayer1.points <= rank.maxPoints) || Ranks[Ranks.length - 1];
 
@@ -522,9 +524,9 @@ export async function playGame(player1ID: string, player2ID: string, type: strin
                     );
                 }
 
-                await UserData.findOneAndUpdate({ User: player2ID }, { '$inc': { played: 1, lost: 1 } })
+                await UserData.findOneAndUpdate({ User: player2ID }, { '$inc': { played: 1, lost: 1, scored: score2, conceded: score1 } })
             } else if (finalOutcome === 'Opponent Wins!') {
-                const updatedPlayer1 = await UserData.findOneAndUpdate({ User: player1ID }, { '$inc': { played: 1, lost: 1, points: (rankData?.basePoints || 0) * -1 } }, { new: true })
+                const updatedPlayer1 = await UserData.findOneAndUpdate({ User: player1ID }, { '$inc': { played: 1, lost: 1, points: (rankData?.basePoints || 0) * -1, scored: score1, conceded: score2 } }, { new: true })
                 const newRank = Ranks.find(rank => updatedPlayer1.points <= rank.maxPoints) || Ranks[Ranks.length - 1];
 
                 if (newRank.rank !== updatedPlayer1.Rank) {
@@ -533,18 +535,18 @@ export async function playGame(player1ID: string, player2ID: string, type: strin
                         { Rank: newRank.rank }
                     );
                 }
-                await UserData.findOneAndUpdate({ User: player2ID }, { '$inc': { played: 1, won: 1 } })
+                await UserData.findOneAndUpdate({ User: player2ID }, { '$inc': { played: 1, won: 1, scored: score2, conceded: score1 } })
             }
         } else if (type === 'Classic') {
             if (finalOutcome === 'Player Wins!') {
-                await UserData.findOneAndUpdate({ User: player1ID }, { '$inc': { played: 1, won: 1, coins } })
+                await UserData.findOneAndUpdate({ User: player1ID }, { '$inc': { played: 1, won: 1, coins, scored: score1, conceded: score2 } })
 
-                await UserData.findOneAndUpdate({ User: player2ID }, { '$inc': { played: 1, lost: 1 } })
+                await UserData.findOneAndUpdate({ User: player2ID }, { '$inc': { played: 1, lost: 1, scored: score2, conceded: score1 } })
 
             } else if (finalOutcome === 'Opponent Wins!') {
-                await UserData.findOneAndUpdate({ User: player1ID }, { '$inc': { played: 1, lost: 1, coins: coins / 3 } })
+                await UserData.findOneAndUpdate({ User: player1ID }, { '$inc': { played: 1, lost: 1, coins: coins / 3, scored: score1, conceded: score2 } })
 
-                await UserData.findOneAndUpdate({ User: player2ID }, { '$inc': { played: 1, won: 1 } })
+                await UserData.findOneAndUpdate({ User: player2ID }, { '$inc': { played: 1, won: 1, scored: score2, conceded: score1 } })
             }
         }
 
@@ -951,6 +953,21 @@ export async function setIconPhotos() {
             user.photo = randomIcon;
             await user.save();
         }
+
+        console.log('Done')
+    } catch (error) {
+        console.log(error)
+    }
+}
+
+export async function setGoals() {
+    try {
+
+        console.log('Started');
+
+        await connectToDatabase();
+
+        await UserData.updateMany({}, { '$set': { scored: 0, conceded: 0 } })
 
         console.log('Done')
     } catch (error) {

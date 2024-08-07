@@ -14,6 +14,8 @@ export interface IUserData extends Document {
     played: number,
     won: number,
     lost: number,
+    scored: number,
+    conceded: number,
     positions: IPosition[],
     dailyQuizzes: IQuiz[],
     dailyPredictions: IPrediction[],
@@ -80,6 +82,8 @@ const UserDataSchema = new Schema({
     won: { type: Number, default: 0 },
     lost: { type: Number, default: 0 },
     Rank: { type: Number, default: 0 },
+    scored: { type: Number, default: 0 },
+    conceded: { type: Number, default: 0 },
     country: { type: String, default: 'unknown' },
     teamOverall: { type: Number, default: 0 },
     positions: {

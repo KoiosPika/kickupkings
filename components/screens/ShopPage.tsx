@@ -12,7 +12,7 @@ import {
     DrawerTitle,
     DrawerTrigger,
 } from "@/components/ui/drawer"
-import { createFakeUsers, getUserForPlayPage, savePrize, setIconPhotos, upgradePosition } from '@/lib/actions/user.actions';
+import { createFakeUsers, getUserForPlayPage, savePrize, setGoals, setIconPhotos, upgradePosition } from '@/lib/actions/user.actions';
 import { Prices } from '@/constants/Earnings';
 import UserDialog from '../shared/UserDialog';
 
@@ -171,8 +171,8 @@ const ShopPage = ({ userId }: { userId: string }) => {
     //     await createFakeUsers(200, 20);
     // }
 
-    const changeIcons = async () => {
-        await setIconPhotos();
+    const addGoals = async () => {
+        await setGoals();
     }
 
     if (!user) {

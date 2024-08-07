@@ -183,47 +183,6 @@ const PlayPage = ({ userId }: { userId: string }) => {
         </div>
       </div>
       <div className='w-full flex justify-center items-center'>
-        {/* <div className='w-11/12 flex items-center gap-1'>
-          <div className='w-2/5 flex flex-col h-[60px] sm:h-[80px] gap-[3px]'>
-            <div className='w-full bg-slate-900 text-white text-center font-semibold rounded-tl-lg h-1/2 flex justify-center items-center'>
-              <p className='text-[16px] sm:text-[20px]'>Form</p>
-            </div>
-            <div className='w-full bg-slate-900 text-white text-center font-semibold rounded-bl-lg flex flex-row items-center justify-center gap-1 h-1/2'>
-              {user && user.form.split('').map((result: any, index: number) => (
-                <p
-                  key={index}
-                  className={`rounded-sm w-1/6 text-[13px] sm:text-[18px] ${result === 'W' ? 'bg-green-600' : 'bg-red-600'}`}
-                >
-                  {result}
-                </p>
-              ))}
-            </div>
-          </div>
-          <div className='w-1/5 flex flex-col h-[60px] sm:h-[80px] gap-[3px]'>
-            <div className='w-full bg-slate-900 text-white text-center font-semibold h-1/2 flex justify-center items-center'>
-              <p className='text-[16px] sm:text-[20px]'>Played</p>
-            </div>
-            <div className='w-full bg-slate-900 text-white text-center font-semibold h-1/2 flex justify-center items-center'>
-              <p className='text-[16px] sm:text-[20px]'>{user && user?.played}</p>
-            </div>
-          </div>
-          <div className='w-1/5 flex flex-col h-[60px] sm:h-[80px] gap-[3px]'>
-            <div className='w-full bg-slate-900 text-white text-center font-semibold h-1/2 flex justify-center items-center'>
-              <p className='text-[16px] sm:text-[20px]'>Won</p>
-            </div>
-            <div className='w-full bg-slate-900 text-white text-center font-semibold h-1/2 flex justify-center items-center'>
-              <p className='text-[16px] sm:text-[20px]'>{user && user?.won}</p>
-            </div>
-          </div>
-          <div className='w-1/5 flex flex-col h-[60px] sm:h-[80px] gap-[3px]'>
-            <div className='w-full bg-slate-900 text-white text-center font-semibold rounded-tr-lg h-1/2 flex justify-center items-center'>
-              <p className='text-[16px] sm:text-[20px]'>Rate</p>
-            </div>
-            <div className='w-full bg-slate-900 text-green-500 text-center font-semibold rounded-br-lg h-1/2 flex justify-center items-center'>
-              <p className='text-[16px] sm:text-[20px]'>{user && user.played > 0 ? ((user.won / user.played) * 100).toFixed(1) : '0.00'}%</p>
-            </div>
-          </div>
-        </div> */}
         <div className='w-11/12'>
           <ScrollArea>
             <div className='flex items-center gap-1 w-full'>
@@ -263,23 +222,31 @@ const PlayPage = ({ userId }: { userId: string }) => {
                   <p className='text-[16px] sm:text-[20px]'>Rate</p>
                 </div>
                 <div className='w-full bg-slate-900 text-green-500 text-center font-semibold h-1/2 flex justify-center items-center'>
-                  <p className='text-[16px] sm:text-[20px]'>%{user && ((user?.won / user?.played) * 100).toFixed(1)}</p>
+                  <p className='text-[16px] sm:text-[20px]'>{user && user.played > 0 ? ((user.won / user.played) * 100).toFixed(1) : '0.00'}%</p>
                 </div>
               </div>
-              <div className='w-[70px] flex flex-col h-[60px] sm:h-[80px] gap-[3px]'>
+              <div className='w-[90px] flex flex-col h-[60px] sm:h-[80px] gap-[3px]'>
                 <div className='w-full bg-slate-900 text-white text-center font-semibold h-1/2 flex justify-center items-center'>
                   <p className='text-[16px] sm:text-[20px]'>Scored</p>
                 </div>
                 <div className='w-full bg-slate-900 text-green-500 text-center font-semibold h-1/2 flex justify-center items-center'>
-                  <p className='text-[16px] sm:text-[20px]'>230</p>
+                  <p className='text-[16px] sm:text-[20px]'>{user.scored}</p>
                 </div>
               </div>
               <div className='w-[90px] flex flex-col h-[60px] sm:h-[80px] gap-[3px]'>
-                <div className='w-full bg-slate-900 text-white text-center font-semibold rounded-tr-lg h-1/2 flex justify-center items-center'>
+                <div className='w-full bg-slate-900 text-white text-center font-semibold h-1/2 flex justify-center items-center'>
                   <p className='text-[16px] sm:text-[20px]'>Conceded</p>
                 </div>
-                <div className='w-full bg-slate-900 text-red-500 text-center font-semibold rounded-br-lg h-1/2 flex justify-center items-center'>
-                  <p className='text-[16px] sm:text-[20px]'>340</p>
+                <div className='w-full bg-slate-900 text-red-500 text-center font-semibold h-1/2 flex justify-center items-center'>
+                  <p className='text-[16px] sm:text-[20px]'>{user.conceded}</p>
+                </div>
+              </div>
+              <div className='w-[70px] flex flex-col h-[60px] sm:h-[80px] gap-[3px]'>
+                <div className='w-full bg-slate-900 text-white text-center font-semibold rounded-tr-lg h-1/2 flex justify-center items-center'>
+                  <p className='text-[16px] sm:text-[20px]'>Ratio</p>
+                </div>
+                <div className='w-full bg-slate-900 text-yellow-500 text-center font-semibold rounded-br-lg h-1/2 flex justify-center items-center'>
+                  <p className='text-[16px] sm:text-[20px]'>{user && user.played > 0 ? ((user.scored / user.played) * 100).toFixed(1) : '0.00'}%</p>
                 </div>
               </div>
             </div>
@@ -366,7 +333,7 @@ const PlayPage = ({ userId }: { userId: string }) => {
                       <p className='font-bold text-white text-[14px]'>{match.player.User.username}</p>
                       <Image src={`/flags/${match?.player.country}.svg`} alt='flag' height={20} width={20} className='rounded-full h-[20px] w-[20px] bg-white' />
                     </div>
-                    <div className='h-[250px] w-full flex flex-col justify-around rounded-md bg-slate-800 border-[1px] sm:border-4 border-white' style={{ backgroundImage: `url('/Field-dark.png')`, backgroundSize: 'cover', backgroundPosition: 'center' }}>
+                    <div className='h-[250px] w-full flex flex-col justify-around rounded-md bg-slate-800 border-[1px] sm:border-4 border-white' style={{ backgroundImage: `url('/Field-dark-9.PNG')`, backgroundSize: 'cover', backgroundPosition: 'center' }}>
                       {formations.find(f => f.id === match.player?.formation)?.data.map((row: any, rowIndex: number) => (
                         <div key={rowIndex} className='flex justify-around'>
                           {row.positions.map((position: any, posIndex: number) => (
@@ -386,7 +353,7 @@ const PlayPage = ({ userId }: { userId: string }) => {
                       <p className='font-bold text-white text-[14px]'>{match.opponent.User.username}</p>
                       <Image src={`/flags/${match?.opponent.country}.svg`} alt='flag' height={20} width={20} className='rounded-full h-[20px] w-[20px] bg-white' />
                     </div>
-                    <div className='h-[250px] w-full flex flex-col justify-around rounded-md bg-slate-800 border-[1px] sm:border-4 border-white' style={{ backgroundImage: `url('/Field-dark.png')`, backgroundSize: 'cover', backgroundPosition: 'center' }}>
+                    <div className='h-[250px] w-full flex flex-col justify-around rounded-md bg-slate-800 border-[1px] sm:border-4 border-white' style={{ backgroundImage: `url('/Field-dark-9.PNG')`, backgroundSize: 'cover', backgroundPosition: 'center' }}>
                       {formations.find(f => f.id === match.opponent?.formation)?.data.map((row: any, rowIndex: number) => (
                         <div key={rowIndex} className='flex justify-around'>
                           {row.positions.map((position: any, posIndex: number) => (
