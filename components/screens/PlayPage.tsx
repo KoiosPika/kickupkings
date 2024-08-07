@@ -398,7 +398,7 @@ const PlayPage = ({ userId }: { userId: string }) => {
               <div key={rowIndex} className='flex justify-around'>
                 {row.positions.map((position: any, posIndex: number) => (
                   <div key={posIndex} className='p-1 sm:px-3 sm:py-1 rounded-sm text-white font-semibold border-white' style={{ backgroundColor: getColor(row.type, row.positions[posIndex]), borderWidth: row.positions[posIndex] ? 2 : 0, boxShadow: position ? `-8px -8px 10px -4px ${getColor(row.type, row.positions[posIndex])},-8px 8px 10px -4px ${getColor(row.type, row.positions[posIndex])},8px -8px 10px -4px ${getColor(row.type, row.positions[posIndex])},8px 8px 10px -4px ${getColor(row.type, row.positions[posIndex])}` : '' }}>
-                    <p className='text-[10px] sm:text-[20px]'>{position}</p>
+                    <p className='text-[13.5px] sm:text-[20px]'>{position}</p>
                   </div>
                 ))}
               </div>
