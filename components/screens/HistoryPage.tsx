@@ -113,10 +113,10 @@ const HistoryPage = ({ id }: { id: string }) => {
                                 <p className='ml-2 text-[16px] sm:text-[30px]'>?-?</p>
                             ) : (<p className='ml-2 text-[16px] sm:text-[30px]'>{match.playerScore}-{match.opponentScore}</p>)}
                             <div className='ml-3 flex flex-row items-center px-2 py-1 rounded-lg w-[120px] overflow-hidden'>
-                                {match.Player.toString() !== id ? (
-                                    <PlayerDialog userPhoto={match.Opponent.photo} userName={match.Opponent.username} userId={match.Opponent._id} userCountry='' page='History' />
-                                ) : (
+                                {match.Player._id.toString() !== id ? (
                                     <PlayerDialog userPhoto={match.Player.photo} userName={match.Player.username} userId={match.Player._id} userCountry='' page='History' />
+                                ) : (
+                                    <PlayerDialog userPhoto={match.Opponent.photo} userName={match.Opponent.username} userId={match.Opponent._id} userCountry='' page='History' />
                                 )}
                             </div>
                             <p className='text-[14px] text-slate-400 ml-2'>{timeAgo(match.createdAt)}</p>

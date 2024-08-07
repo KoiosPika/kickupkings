@@ -126,7 +126,7 @@ const LineupPage = ({ userId }: { userId: string }) => {
             </div>
           ))}
         </div>
-        <Image src={'/icons/Field-dark.png'} alt='field' height={2000} width={2000} style={{ height: height - 210 }} className='w-full max-w-[700px]' />
+        <Image src={'/Field-d-try.png'} alt='field' height={2000} width={2000} style={{ height: height - 210 }} className='w-full max-w-[700px]' />
       </div>
       <ScrollArea className='py-2 px-2 h-[50px]'>
         <div className='flex gap-2'>

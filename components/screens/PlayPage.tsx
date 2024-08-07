@@ -244,15 +244,15 @@ const PlayPage = ({ userId }: { userId: string }) => {
                 )}
                 <p className='ml-2 text-[16px] sm:text-[30px]'>{match.playerScore}-{match.opponentScore}</p>
                 <div className='ml-5 flex flex-row items-center bg-slate-900 px-2 py-1 rounded-lg'>
-                  {match.Player.toString() !== userId ? (
-                    <>
-                      <Image src={`https://drive.google.com/uc?export=view&id=${getImageID(match.Opponent.photo)}`} alt='user' height={50} width={50} className='bg-slate-500 h-[28px] w-[28px] sm:h-[48px] sm:w-[48px] rounded-lg' />
-                      <p className='text-[14px] sm:text-[30px] text-center ml-[6px] rounded-sm'>{match.Opponent.username}</p>
-                    </>
-                  ) : (
+                  {match.Player._id.toString() !== userId ? (
                     <>
                       <Image src={`https://drive.google.com/uc?export=view&id=${getImageID(match.Player.photo)}`} alt='user' height={50} width={50} className='bg-slate-500 h-[28px] w-[28px] sm:h-[48px] sm:w-[48px] rounded-lg' />
                       <p className='text-[14px] sm:text-[30px] text-center ml-[6px] rounded-sm'>{match.Player.username}</p>
+                    </>
+                  ) : (
+                    <>
+                      <Image src={`https://drive.google.com/uc?export=view&id=${getImageID(match.Opponent.photo)}`} alt='user' height={50} width={50} className='bg-slate-500 h-[28px] w-[28px] sm:h-[48px] sm:w-[48px] rounded-lg' />
+                      <p className='text-[14px] sm:text-[30px] text-center ml-[6px] rounded-sm'>{match.Opponent.username}</p>
                     </>
                   )}
                 </div>

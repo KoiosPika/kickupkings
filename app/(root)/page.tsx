@@ -26,7 +26,7 @@ const Page = () => {
 
   if (loading) {
     return (
-      <section className='w-full h-screen flex flex-col justify-center items-center bg-gradient-to-b from-slate-800 to-gray-600'>
+      <section className='w-full h-screen flex flex-col justify-center items-center bg-gradient-to-b from-slate-900 to-gray-600'>
         <Image src={'/icons/spinner.svg'} alt='spinner' height={30} width={30} className='animate-spin' />
       </section>
     );

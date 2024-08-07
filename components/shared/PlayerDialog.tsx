@@ -96,7 +96,7 @@ const PlayerDialog = ({ userPhoto, userName, userId, page, userCountry }: { user
                                 <p className='text-[16px] sm:text-[20px]'>Rate</p>
                             </div>
                             <div className='w-full bg-slate-900 text-green-500 text-center font-semibold rounded-br-lg h-1/2 flex justify-center items-center'>
-                                <p className='text-[16px] sm:text-[20px]'>%{user && ((user?.won / user?.played) * 100).toFixed(1)}</p>
+                                <p className='text-[16px] sm:text-[20px]'>{user && user.played > 0 ? ((user.won / user.played) * 100).toFixed(1) : '0.0'}%</p>
                             </div>
                         </div>
                     </div>
