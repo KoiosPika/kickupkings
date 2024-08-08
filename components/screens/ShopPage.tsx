@@ -167,12 +167,12 @@ const ShopPage = ({ userId }: { userId: string }) => {
         }
     };
 
-    // const createUsers = async () => {
-    //     await createFakeUsers(200, 20);
-    // }
+    const createUsers = async () => {
+        await createFakeUsers(200, 1);
+    }
 
     const addGoals = async () => {
-        await setGoals();
+        await setIconPhotos();
     }
 
     if (!user) {
@@ -183,7 +183,7 @@ const ShopPage = ({ userId }: { userId: string }) => {
         <section className='w-full h-screen bg-gradient-to-b from-slate-900 to-gray-700'>
             <UserDialog user={user} />
             <div className='w-full ml-auto mb-auto p-2 flex flex-row items-center gap-2'>
-                <div className='w-1/3 bg-slate-800 flex flex-row justify-around items-center rounded-lg h-[53px] sm:h-[75px]'>
+                <div className='w-1/3 bg-slate-800 flex flex-row justify-around items-center rounded-lg h-[53px] sm:h-[75px]' onClick={addGoals}>
                     <div className='flex flex-row items-center gap-2'>
                         <Image src={'/icons/coin.svg'} alt='coin' height={100} width={100} className='w-[25px] h-[25px] sm:w-[40px] sm:h-[40px]' />
                         <p className='font-bold text-white text-[16px] sm:text-[22px]'>{user && user?.coins}</p>

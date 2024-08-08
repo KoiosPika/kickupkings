@@ -663,7 +663,7 @@ const calculateTeamOverall = (userPositions: any) => {
 const generateRandomPositions = (rank: number) => {
     return positions.map(position => ({
         position: position.symbol,
-        level: Math.floor(Math.random() * (rank + 3 - (rank - 2)) + (rank - 2)),
+        level: Math.floor(Math.random() * 3),
     }));
 };
 
@@ -700,7 +700,7 @@ export async function createFakeUsers(count: number, rank: number) {
 
             await user.save();
 
-            const currentRank = Ranks.find(r => r.rank = rank)!; // Cycle through ranks
+            const currentRank = Ranks.find(r => r.rank == rank)!; // Cycle through ranks
 
             const formations = [
                 '3-1-2-1-3', '3-1-4-2', '3-2-3-2', '3-2-4-1', '3-3-1-3', '3-4-1-2', '3-4-2-1',
@@ -946,7 +946,7 @@ export async function setIconPhotos() {
 
         await connectToDatabase();
 
-        const users = await User.find({}).limit(500).skip(7000);
+        const users = await User.find({}).limit(500).skip(7500);
 
         for (let user of users) {
             const randomIcon = Icons[Math.floor(Math.random() * Icons.length)].name;

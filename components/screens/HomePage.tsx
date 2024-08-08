@@ -109,7 +109,7 @@ const HomePage = ({ userId }: { userId: string }) => {
     };
 
     // Usage in your component
-    const maxPoints = getRankData(user?.Rank || '')?.maxPoints || 0;
+    const maxPoints = getRankData(user?.Rank)?.maxPoints || 0;
     const progress = calculateProgress(user?.Rank || '', user?.points || 0);
 
     if (!user) {
