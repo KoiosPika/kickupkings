@@ -6,6 +6,7 @@ import { ScrollArea } from '../ui/scroll-area';
 import RollingNumber from '../shared/RollingNumber';
 import { getImageID } from '@/lib/utils';
 import PlayerDialog from '../shared/PlayerDialog';
+import { useRouter } from 'next/navigation';
 
 type Stats = {
   possession: number;
@@ -36,6 +37,7 @@ const MatchPage = ({ id }: { id: string }) => {
   const [progress, setProgress] = useState<number>(0);
   const [half, setHalf] = useState<string>('First half');
   const [currentMinute, setCurrentMinute] = useState<number>(1);
+  const [finished, setFinished] = useState(false)
   const [playerStats, setPlayerStats] = useState<Stats>({
     possession: 0,
     shots: 0,
@@ -64,6 +66,8 @@ const MatchPage = ({ id }: { id: string }) => {
     offsides: 0,
     interceptions: 0
   });
+
+  const router = useRouter();
 
 
   const updateStats = (scenario: string, player: string) => {
@@ -108,6 +112,7 @@ const MatchPage = ({ id }: { id: string }) => {
       case 'Player shoots':
       case 'Forward shoots':
       case 'Midfielder shoots':
+      case 'Header':
         statsUpdate.shots++;
         break;
       case 'Corner awarded':
@@ -235,8 +240,12 @@ const MatchPage = ({ id }: { id: string }) => {
 
           updateStats(scenarioText, currentAttack.player);
 
-          const highlightEvents = ['Match Started', 'Half-time', 'Awaiting Extra-time', 'Awaiting Penalties', 'Goal Scored', 'Penalty Scored', 'Penalty Missed', 'Freekick Scored', 'Hits woodwork', 'Offside']
+          const highlightEvents = ['Match Started', 'Half-time', 'Awaiting Extra-time', 'Awaiting Penalties', 'Goal Scored', 'Penalty Scored', 'Penalty Missed', 'Freekick Scored', 'Hits woodwork', 'Offside','Full time']
 
+          if(currentAttack.scenario[currentScenarioIndex].scenario === 'Full time'){
+            setFinished(true);
+          }
+          
           if (highlightEvents.includes(currentAttack.scenario[currentScenarioIndex].scenario)) {
             setDisplayedScenarios(prev => [
               { minute: currentMinute, player: currentAttack.player, scenario: currentAttack.scenario[currentScenarioIndex] },
@@ -258,6 +267,14 @@ const MatchPage = ({ id }: { id: string }) => {
     return () => clearInterval(interval);
   }, [match, currentAttackIndex, currentScenarioIndex]);
 
+  const goBack = () => {
+    if(!finished){
+      return;
+    }
+
+    router.push('/')
+  }
+
   if (!match) {
     return (
       <section className='w-full h-screen flex flex-col justify-center items-center bg-gradient-to-b from-slate-800 to-gray-600'>
@@ -268,13 +285,19 @@ const MatchPage = ({ id }: { id: string }) => {
   return (
     <section className='w-full h-screen flex flex-col bg-gradient-to-b from-slate-900 to-gray-600'>
       <div className='flex flex-row items-center ml-3 mt-2 gap-2'>
-        <a href='/' className=' py-2 px-3 rounded-md text-white font-bold'>
-          <Image src={'/icons/back.svg'} alt='back' height={10} width={10} />
-        </a>
+        <div className=' py-2 px-3 rounded-md text-white font-bold' onClick={goBack}>
+          <Image src={finished ? '/icons/back.svg' : '/icons/back-grey.svg'} alt='back' height={10} width={10} />
+        </div>
         <p className='font-bold text-white'>{match?.type} Match</p>
       </div>
       <div className='flex flex-row items-center justify-evenly my-3 h-[140px]'>
-        <PlayerDialog userPhoto={match.Player.photo} userName={match.Player.username} userId={match.Player._id} userCountry={match.playerCountry} page='Match' />
+        <div className='flex flex-col justify-center items-center gap-2 w-[120px] overflow-hidden'>
+          <Image src={`https://drive.google.com/uc?export=view&id=${getImageID(match.Player.photo)}`} alt='user' height={120} width={120} className='bg-slate-500 h-[70px] w-[70px] rounded-md' />
+          <div className='flex flex-row items-center gap-1'>
+            <p className='text-white font-semibold text-[14px] line-clamp-1'>{match.Player.username}</p>
+            <Image src={`/flags/${match.playerCountry}.svg`} alt='flag' height={20} width={20} className='bg-white h-[18px] w-[18px] rounded-full border-[1px] border-slate-800' />
+          </div>
+        </div>
         <div className='flex flex-col justify-center items-center'>
           <div className='text-yellow-400 font-semibold h-[70px] flex flex-row items-center text-[50px]'>
             <RollingNumber number={playerScore} />
@@ -283,7 +306,14 @@ const MatchPage = ({ id }: { id: string }) => {
           </div>
           <p className='text-yellow-400 font-semibold'>{currentMinute}{`'`}</p>
         </div>
-        <PlayerDialog userPhoto={match.Opponent.photo} userName={match.Opponent.username} userId={match.Opponent._id} userCountry={match.opponentCountry} page='Match' />
+        {/* <PlayerDialog userPhoto={match.Opponent.photo} userName={match.Opponent.username} userId={match.Opponent._id} userCountry={match.opponentCountry} page='Match' /> */}
+        <div className='flex flex-col justify-center items-center gap-2 w-[120px] overflow-hidden'>
+          <Image src={`https://drive.google.com/uc?export=view&id=${getImageID(match.Opponent.photo)}`} alt='user' height={120} width={120} className='bg-slate-500 h-[70px] w-[70px] rounded-md' />
+          <div className='flex flex-row items-center gap-1'>
+            <p className='text-white font-semibold text-[14px] line-clamp-1'>{match.Opponent.username}</p>
+            <Image src={`/flags/${match.opponentCountry}.svg`} alt='flag' height={20} width={20} className='bg-white h-[18px] w-[18px] rounded-full border-[1px] border-slate-800' />
+          </div>
+        </div>
       </div>
       <div className='w-full flex justify-center items-center'>
         <div className='progress-container w-11/12'>

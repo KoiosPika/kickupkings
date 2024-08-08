@@ -246,7 +246,7 @@ const PlayPage = ({ userId }: { userId: string }) => {
                   <p className='text-[16px] sm:text-[20px]'>Ratio</p>
                 </div>
                 <div className='w-full bg-slate-900 text-yellow-500 text-center font-semibold rounded-br-lg h-1/2 flex justify-center items-center'>
-                  <p className='text-[16px] sm:text-[20px]'>{user && user.played > 0 ? ((user.scored / user.played) * 100).toFixed(1) : '0.00'}%</p>
+                  <p className='text-[16px] sm:text-[20px]'>{user && user.played > 0 ? ((user.scored / user.conceded)).toFixed(2) : '0.00'}</p>
                 </div>
               </div>
             </div>
@@ -444,9 +444,9 @@ const PlayPage = ({ userId }: { userId: string }) => {
                 </div>
                 <div className='bg-slate-900 p-2 sm:p-4 rounded-lg'>
                   <div className='flex flex-row items-center'>
-                    <p className='inline-flex py-1 px-2 text-white font-semibold rounded-md text-[16px] sm:text-[25px]'>Overall</p>
+                    <p className='inline-flex py-1 px-2 text-white font-semibold rounded-md text-[15px] sm:text-[25px]'>Overall</p>
                     {/* <p className='ml-auto mr-2 text-green-500 font-bold'>Ready</p> */}
-                    <p className='ml-auto mr-2 text-green-500 font-bold text-[18px] sm:text-[22px]'>{overallAverageLevel.toFixed(2)}</p>
+                    <p className='ml-auto mr-2 text-green-500 font-bold text-[15px] sm:text-[22px]'>{overallAverageLevel.toFixed(2)}</p>
                   </div>
                 </div>
                 {positions
@@ -459,11 +459,11 @@ const PlayPage = ({ userId }: { userId: string }) => {
                     return (
                       <div key={position.symbol} className='bg-slate-900 p-2 sm:p-4 rounded-lg'>
                         <div className='flex flex-row items-center'>
-                          <p style={{ backgroundColor: position.color }} className='inline-flex py-1 px-2 text-white font-semibold rounded-md text-[15px] sm:text-[25px]'>
+                          <p style={{ backgroundColor: position.color }} className='inline-flex py-1 px-2 text-white font-semibold rounded-md text-[13px] sm:text-[25px]'>
                             {position.symbol}
                           </p>
                           <div className='ml-auto mr-2 font-bold flex flex-col'>
-                            <p className='text-[20px] sm:text-[22px]' style={{ color: position.color }}>{level}</p>
+                            <p className='text-[18px] sm:text-[22px]' style={{ color: position.color }}>{level}</p>
                           </div>
                         </div>
                       </div>

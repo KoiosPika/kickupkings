@@ -176,7 +176,7 @@ export async function upgradePosition(id: string, position: string) {
         console.log(initialPrice)
 
 
-        const price = Math.round(initialPrice * (1.3 ** userPosition.level));
+        const price = Math.round(initialPrice * (1.1 ** userPosition.level));
 
         console.log(price)
 
