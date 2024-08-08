@@ -611,7 +611,7 @@ const MatchStats = ({ playerStats, opponentStats }: any) => {
         <div className='flex flex-col items-center gap-2 mt-2'>
           <div className='flex flex-row items-center justify-between w-11/12'>
             <span>{playerStats.passes}</span>
-            <span>passes</span>
+            <span>Passes</span>
             <span>{opponentStats.passes}</span>
           </div>
           {createBar(playerStats.passes, playerStats.passes + opponentStats.passes)}
