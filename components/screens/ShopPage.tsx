@@ -88,7 +88,7 @@ const ShopPage = ({ userId }: { userId: string }) => {
         let prizes: any[] = [];
 
         const minCoins = userRank!.baseCoins * 5;
-        const maxCoins = userRank!.baseCoins * 25;
+        const maxCoins = userRank!.baseCoins * 15;
 
         const filteredPositions = positions.filter(pos => pos.type !== 'Staff');
 
@@ -114,7 +114,7 @@ const ShopPage = ({ userId }: { userId: string }) => {
 
 
     const handleSpinClick = async () => {
-        if (isSpinning) return; // Prevent multiple spins at the same time
+        if (isSpinning || user.diamonds < 5) return; // Prevent multiple spins at the same time
 
         setIsSpinning(true);
         setFinalPrize(null);

@@ -10,8 +10,6 @@ const TweetEmbed = ({ tweetUrls }: any) => {
         async function getTweets() {
             const res = await axios.get('https://docs.google.com/spreadsheets/d/e/2PACX-1vRfoFqWBHtHmkTZRlUoCAF7KmrVufoeBKoVETuwNNF31jKkDeGObr_sn2_VtPhPYEbBAbNv80NnV6xS/pub?output=csv');
 
-            console.log(res.data)
-
             const embedData = res.data
                 .split('\n')       // Split by newlines
                 .map((row: any) => {
