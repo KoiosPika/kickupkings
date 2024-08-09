@@ -9,56 +9,10 @@ import { XEmbed, YouTubeEmbed } from 'react-social-media-embed';
 import TweetEmbed from '../shared/TweetEmbed'
 import axios from 'axios'
 
-const shuffleArray = (array: any[]) => {
-    let shuffledArray = array.slice();
-    for (let i = shuffledArray.length - 1; i > 0; i--) {
-        const j = Math.floor(Math.random() * (i + 1));
-        [shuffledArray[i], shuffledArray[j]] = [shuffledArray[j], shuffledArray[i]];
-    }
-    return shuffledArray;
-};
-
-const News = [
-    {
-        image: '/News-1.jpg',
-        link: 'https://youtu.be/wDuzVFCCuqo?si=ac9nZxXTyZ7Q-MGm'
-    },
-    {
-        image: '/News-2.jpg',
-        link: 'https://youtu.be/aCbFVeeIFlQ?si=Sxplspn62WRg8EK0'
-    },
-]
-
-const Products = [
-    {
-        title: 'Soccer Cleats for Mens',
-        store: 'XGHRIAN',
-        storeLink: 'https://www.amazon.com/stores/XGHRIAN/page/7174D466-D986-4D5D-B2E3-7A1DA5680512?ref_=ast_bln',
-        productLink: 'https://a.co/d/6Nd4TXS',
-        image: '/AD-1.jpg'
-    },
-    {
-        title: 'Soccer Mini Shin Guards',
-        store: 'Antoyo',
-        storeLink: 'https://www.amazon.com/stores/Antoyo/page/EF70433F-AEA0-45A2-8E38-106C5B0982DB?ref_=ast_bln&store_ref=bl_ast_dp_brandLogo_sto',
-        productLink: 'https://a.co/d/bsEObtm',
-        image: '/AD-2.jpg'
-    },
-    {
-        title: '12 PCS Soccer Balls',
-        store: 'Lenwen',
-        storeLink: 'https://www.amazon.com/stores/Lenwen/page/E2DAF345-5DC5-4792-9849-4340EB9EA8C0?ref_=ast_bln',
-        productLink: 'https://a.co/d/dPRZiWo',
-        image: '/AD-3.jpg'
-    },
-]
-
 const HomePage = ({ userId }: { userId: string }) => {
 
     const [user, setUser] = useState<any>()
     const [height, setHeight] = useState<number>(0)
-    const [shuffledNews, setShuffledNews] = useState<any[]>([]);
-    const [shuffledProducts, setShuffledProducts] = useState<any[]>([]);
 
     useEffect(() => {
         if (typeof window !== 'undefined') {
@@ -73,11 +27,6 @@ const HomePage = ({ userId }: { userId: string }) => {
             return () => window.removeEventListener("resize", updateDimensions);
         }
     }, []);
-
-    useEffect(() => {
-        setShuffledNews(shuffleArray(News));
-        setShuffledProducts(shuffleArray(Products));
-    }, [News, Products]);
 
 
     useEffect(() => {
