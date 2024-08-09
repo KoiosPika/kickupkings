@@ -5,6 +5,9 @@ import React, { useEffect, useState } from 'react'
 import UserDialog from '../shared/UserDialog'
 import { Carousel, CarouselContent, CarouselItem, CarouselNext, CarouselPrevious } from '../ui/carousel'
 import { ScrollArea } from '../ui/scroll-area'
+import { XEmbed, YouTubeEmbed } from 'react-social-media-embed';
+import TweetEmbed from '../shared/TweetEmbed'
+import axios from 'axios'
 
 const shuffleArray = (array: any[]) => {
     let shuffledArray = array.slice();
@@ -87,7 +90,7 @@ const HomePage = ({ userId }: { userId: string }) => {
     }, [])
 
     const getRankData = (rank: any) => Ranks.find(r => r.rank === rank);
-    
+
     const getPreviousRankData = (currentRank: any) => {
         const index = Ranks.findIndex(r => r.rank === currentRank);
         return index > 0 ? Ranks[index - 1] : null;
@@ -131,45 +134,13 @@ const HomePage = ({ userId }: { userId: string }) => {
                     </div>}
                 </div>
                 <div className='w-1/2 bg-slate-800 flex flex-row gap-2 justify-center items-center rounded-lg h-[53px] sm:h-[75px]'>
-                    <p className='font-bold text-white text-[16px] sm:text-[22px]'>Team Overall:</p>
-                    <p className='font-bold text-green-500'>{(user?.teamOverall).toFixed(2)}</p>
+                    <p className='font-bold text-white text-[15px] sm:text-[22px]'>Team Overall:</p>
+                    <p className='font-bold text-green-500 text-[15px]'>{(user?.teamOverall).toFixed(2)}</p>
                 </div>
             </div>
             <ScrollArea style={{ height: height - 195 }}>
                 <div className='w-full flex flex-col justify-center items-center'>
-                    <p className='mr-auto ml-5 text-white font-semibold my-1'>Football News</p>
-                    <Carousel className='w-11/12 rounded-lg flex justify-center items-center relative'>
-                        <CarouselContent>
-                            {shuffledNews.map((news: any, index) => (
-                                <CarouselItem key={index} className='relative flex justify-center items-center'>
-                                    <a href={news.link}>
-                                        <Image src={news.image} alt='ad' height={100} width={1000} className='rounded-lg' />
-                                    </a>
-                                    <p className='bg-slate-600 text-white absolute top-1 left-5 px-2 text-[13px] rounded-lg'>{index + 1} / {News.length}</p>
-                                </CarouselItem>
-                            ))}
-                        </CarouselContent>
-                    </Carousel>
-                    <p className='mr-auto ml-5 text-white font-semibold mt-3 mb-1'>Football Products</p>
-                    <Carousel className='w-11/12 rounded-lg flex justify-center items-center relative'>
-                        <CarouselContent>
-                            {shuffledProducts.map((product: any, index) => (
-                                <CarouselItem key={index} className='relative flex justify-center items-center'>
-                                    <Image src={product.image} alt='ad' height={100} width={1000} className='rounded-lg' />
-                                    <div className='h-8/12 w-1/2 flex flex-col justify-center items-center right-3 absolute z-10 bg-slate-800 py-2 rounded-lg shadow-md shadow-slate-700 px-2'>
-                                        <p className='text-white text-[15px] text-center font-bold'>{product.title}</p>
-                                        <a href={product.storeLink} className='text-white bg-blue-600 w-11/12 py-1 rounded-md text-[13px] text-center font-semibold my-2 shadow-sm shadow-blue-600'>Visit {product.store} Store</a>
-                                        <a href={product.storeLink} className='text-white bg-blue-600 w-11/12 py-1 rounded-md text-[13px] text-center font-semibold shadow-sm shadow-blue-600'>Find This Product</a>
-                                    </div>
-                                    <p className='bg-slate-600 text-white absolute top-1 left-5 px-2 text-[13px] rounded-lg'>{index + 1} / {Products.length}</p>
-                                </CarouselItem>
-                            ))}
-                        </CarouselContent>
-                    </Carousel>
-                    <p className='mr-auto ml-5 text-white font-semibold mt-3 mb-1'>Merch</p>
-                    <div className='w-11/12 bg-slate-800 h-[130px] rounded-lg flex justify-center items-center'>
-                        <p className='font-bold text-white'>Coming Soon</p>
-                    </div>
+                    <TweetEmbed />
                 </div>
             </ScrollArea>
         </section>
