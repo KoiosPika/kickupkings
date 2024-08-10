@@ -173,7 +173,7 @@ const EarnPage = ({ userId }: { userId: string }) => {
               </div>
             )
           })}
-          <div className='w-full flex justify-center items-center'>
+          <div className='w-full flex justify-center items-center mt-3'>
             <div
               className='bg-green-700 flex flex-row items-center gap-2 px-4 py-1 rounded-full'
               onClick={saveAllPredictions}

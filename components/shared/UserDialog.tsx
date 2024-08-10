@@ -198,7 +198,7 @@ const UserDialog = ({ user }: { user: any }) => {
                                     <p className='text-[16px] sm:text-[20px]'>Scored</p>
                                 </div>
                                 <div className='w-full bg-slate-900 text-green-500 text-center font-semibold h-1/2 flex justify-center items-center'>
-                                    <p className='text-[16px] sm:text-[20px]'>230</p>
+                                    <p className='text-[16px] sm:text-[20px]'>{user && user?.scored}</p>
                                 </div>
                             </div>
                             <div className='w-[90px] flex flex-col h-[60px] sm:h-[80px] gap-[3px]'>
@@ -206,7 +206,7 @@ const UserDialog = ({ user }: { user: any }) => {
                                     <p className='text-[16px] sm:text-[20px]'>Conceded</p>
                                 </div>
                                 <div className='w-full bg-slate-900 text-red-500 text-center font-semibold rounded-br-lg h-1/2 flex justify-center items-center'>
-                                    <p className='text-[16px] sm:text-[20px]'>340</p>
+                                    <p className='text-[16px] sm:text-[20px]'>{user && user?.conceded}</p>
                                 </div>
                             </div>
                         </div>

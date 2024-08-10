@@ -114,8 +114,8 @@ const LineupPage = ({ userId }: { userId: string }) => {
           {currentFormation?.data.map((row, rowIndex) => (
             <div key={rowIndex} className='flex justify-around'>
               
-              <div className='absolute bg-slate-900 bottom-2 left-3 border-b-[5px] border-[2px] border-white text-white px-3 rounded-sm font-semibold'>
-                <p className='text-center'>{overallScore}</p>
+              <div className='absolute bg-slate-900 bottom-2 left-3 border-b-[7px] border-[3px] border-white text-white px-3 rounded-sm font-semibold'>
+                <p className='text-center text-[25px]'>{overallScore}</p>
               </div>
               {row.positions.map((position, posIndex) => (
                 <div key={posIndex} className='px-2 py-[5px] rounded-lg text-white font-semibold border-white w-[50px] sm:w-[70px] sm:py-[10px]' style={{ backgroundColor: getColor(row.type, row.positions[posIndex]), borderWidth: row.positions[posIndex] ? 2 : 0, boxShadow: position ? `-8px -8px 10px -4px ${getColor(row.type, row.positions[posIndex])},-8px 8px 10px -4px ${getColor(row.type, row.positions[posIndex])},8px -8px 10px -4px ${getColor(row.type, row.positions[posIndex])},8px 8px 10px -4px ${getColor(row.type, row.positions[posIndex])}` : '' }}>
