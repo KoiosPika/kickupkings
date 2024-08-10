@@ -616,20 +616,6 @@ export async function collectCoins(userId: string, matchId: string) {
         throw new Error('Prediction not found');
     }
 
-    // Check if the prediction is correct
-    const match = Predictions.find(m => m.id === matchId);
-    if (!match) {
-        throw new Error('Match not found');
-    }
-
-    const isCorrectPrediction = prediction.predictedTeam1Score === match.team1Score &&
-        prediction.predictedTeam2Score === match.team2Score;
-
-    if (!isCorrectPrediction) {
-        throw new Error('Prediction is not correct');
-    }
-
-    // Check if the prize has already been collected
     if (prediction.collected) {
         throw new Error('Prize already collected');
     }

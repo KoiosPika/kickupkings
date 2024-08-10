@@ -2,16 +2,17 @@ import Image from 'next/image'
 import React, { useEffect, useState } from 'react'
 import { Input } from '../ui/input'
 import { ScrollArea } from '../ui/scroll-area'
-import { Predictions } from '@/constants/Earnings';
 import { IUserData } from '@/lib/database/models/userData.model';
 import { addOrUpdatePrediction, collectCoins, getUserByUserID } from '@/lib/actions/user.actions';
 import { Ranks } from '@/constants';
 import { getImageID } from '@/lib/utils';
+import axios from 'axios';
 
 const EarnPage = ({ userId }: { userId: string }) => {
 
   const [user, setUser] = useState<IUserData>()
   const [predictions, setPredictions] = useState<any>({});
+  const [predictionData, setPredictionData] = useState<any>([]);
 
   useEffect(() => {
     const getUser = async () => {
@@ -28,7 +29,37 @@ const EarnPage = ({ userId }: { userId: string }) => {
       setPredictions(initialPredictions);
     }
 
+    const fetchPredictionData = async () => {
+      try {
+        const res = await axios.get('https://docs.google.com/spreadsheets/d/e/2PACX-1vQKBI-Q_xoyrftx-gcjxlt6SQ5WPDZerYkSHLzyfpwjIAvN3XbafJGjl3ojm6kKnNbyzCxDAFeuERKG/pub?gid=0&single=true&output=csv');
+        const data = res.data.split('\n').slice(1).map((row: any) => {
+          const [
+            id, lastTimeToPredict, team1Country, team2Country, team1, team2, team1Score, team2Score, finished
+          ] = row.split(',').map((cell: any) => cell.trim());
+
+          return {
+            id,
+            lastTimeToPredict: new Date(lastTimeToPredict),
+            team1Country,
+            team2Country,
+            team1,
+            team2,
+            team1Score: team1Score ? Number(team1Score) : null,
+            team2Score: team2Score ? Number(team2Score) : null,
+            finished: finished.toLowerCase() === 'true'
+          };
+        });
+
+        setPredictionData(data);
+      } catch (error) {
+        console.error("Error fetching predictions from Google Sheets:", error);
+      }
+    };
+
+    
     getUser()
+
+    fetchPredictionData();
   }, [])
 
 
@@ -65,16 +96,15 @@ const EarnPage = ({ userId }: { userId: string }) => {
   const handleCollectCoins = async (matchId: string) => {
     try {
       await collectCoins(userId, matchId);
-      alert('Coins collected!');
       // Fetch user data again to update the state
       const updatedUser = await getUserByUserID(userId);
       setUser(updatedUser);
     } catch (error) {
-      alert('Error collecting coins');
+      console.error(error);
     }
   };
 
-  if (!user) {
+  if (!user || !predictionData) {
     return (<Image src={'/icons/spinner.svg'} alt='spinner' height={30} width={30} className='animate-spin' />)
   }
 
@@ -87,7 +117,7 @@ const EarnPage = ({ userId }: { userId: string }) => {
       <ScrollArea style={{ height: 'calc(100vh - 130px)' }}>
         <div className='w-full flex flex-col justify-center items-center my-3'>
           <p className='font-semibold text-white text-[20px] mt-2 bg-slate-800 border-b-[5px] border-white px-2 py-1 rounded-md'>Daily Predictions</p>
-          {Predictions.map((prediction: any) => {
+          {predictionData.map((prediction: any) => {
             const isPredictionTimePassed = new Date() > new Date(prediction.lastTimeToPredict);
             const userPrediction = user && user.dailyPredictions.find((p: any) => p.matchId === prediction.id);
             const isCorrectPrediction = userPrediction &&
