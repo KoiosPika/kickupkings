@@ -159,12 +159,12 @@ const PlayPage = ({ userId }: { userId: string }) => {
   let canPlayRank = false;
 
   if (user) {
-    if (user.Rank == 0 || user.Rank == 1) {
+    if (user.Rank == 0 || user.Rank == 1 || user.Rank == 2) {
       requiredOverall = user.Rank;
-      canPlayRank = user?.teamOverall > requiredOverall;
+      canPlayRank = user?.teamOverall >= requiredOverall;
     } else {
-      requiredOverall = user.Rank - 2;
-      canPlayRank = user?.teamOverall > requiredOverall;
+      requiredOverall = user.Rank - 3;
+      canPlayRank = user?.teamOverall >= requiredOverall;
     }
   }
 
