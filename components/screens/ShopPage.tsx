@@ -365,7 +365,7 @@ const ShopPage = ({ userId }: { userId: string }) => {
                                                 </div>
                                             ) : (
                                                 <div className='w-3/4 py-2 rounded-lg text-white font-bold text-center place-self-center bg-slate-600'>
-                                                    Reach Rank {user.Rank + 2} to upgrade!
+                                                    Reach Rank {user.Rank + 1} to upgrade!
                                                 </div>
                                             )}
                                             <DrawerClose className='flex justify-center items-center'>
