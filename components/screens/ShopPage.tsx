@@ -359,7 +359,15 @@ const ShopPage = ({ userId }: { userId: string }) => {
                                             {user && <p className='font-semibold text-white text-[25px]' style={{ color: user?.coins >= price ? 'white' : 'red' }}>{price}</p>}
                                         </div>
                                         <DrawerFooter className='mb-5'>
-                                            <div style={{ backgroundColor: position.color }} className='w-3/4 py-2 rounded-lg text-white font-bold text-center place-self-center' onClick={() => handleUpgrade(position.symbol)}>{upgrading ? 'Upgrading...' : 'Upgrade now'}</div>
+                                            {(userPosition.level < user.Rank) ? (
+                                                <div style={{ backgroundColor: position.color }} className='w-3/4 py-2 rounded-lg text-white font-bold text-center place-self-center' onClick={() => handleUpgrade(position.symbol)}>
+                                                    {upgrading ? 'Upgrading...' : 'Upgrade now'}
+                                                </div>
+                                            ) : (
+                                                <div className='w-3/4 py-2 rounded-lg text-white font-bold text-center place-self-center bg-slate-600'>
+                                                    Reach Rank {user.Rank + 1} to upgrade!
+                                                </div>
+                                            )}
                                             <DrawerClose className='flex justify-center items-center'>
                                                 <div className='bg-white text-black font-bold py-2 rounded-lg w-3/4'>Cancel</div>
                                             </DrawerClose>
