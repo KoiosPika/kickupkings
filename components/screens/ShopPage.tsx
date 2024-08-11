@@ -171,7 +171,6 @@ const ShopPage = ({ userId }: { userId: string }) => {
                     <div className='w-full flex flex-col gap-2'>
                         <p>An invoice has been sent to your bot chat.</p>
                         <p> complete your transaction there.</p>
-                        <a href={`https://t.me/football_titans_bot?start=${user.chatId}`} className="text-black bg-white ml-auto px-2 py-1 rounded-md font-semibold mt-1" target="_blank" rel="noopener noreferrer">Open Chat</a>
                     </div>
 
                 ),

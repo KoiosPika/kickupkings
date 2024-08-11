@@ -17,8 +17,8 @@ export async function POST(request: NextRequest) {
 
     await bot.api.sendInvoice(
       chatId,
-      'Purchase Diamonds', // Title
-      `Purchase ${diamonds} diamonds`, // Description
+      '💎 Purchase Diamonds', // Title
+      `Get ${diamonds} diamonds to use them on the lucky spin for a chance to upgrade a position on your team, or use them to unlock new icons.`, // Description
       `unique-payload-id-${Date.now()}`, // Payload
       'XTR', // Currency
       [{ label: `${diamonds} Diamonds`, amount }], // Price breakdown
