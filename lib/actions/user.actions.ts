@@ -526,7 +526,13 @@ export async function playGame(player1ID: string, player2ID: string, type: strin
 
                 await UserData.findOneAndUpdate({ User: player2ID }, { '$inc': { played: 1, lost: 1, scored: score2, conceded: score1 } })
             } else if (finalOutcome === 'Opponent Wins!') {
-                const updatedPlayer1 = await UserData.findOneAndUpdate({ User: player1ID }, { '$inc': { played: 1, lost: 1, points: (rankData?.basePoints || 0) * -1, scored: score1, conceded: score2 } }, { new: true })
+
+                const deduction = rankData?.basePoints || 0;
+                const currentPlayer1 = await UserData.findOne({ User: player1ID });
+
+                const newPoints = Math.max(0, currentPlayer1.points - deduction);
+
+                const updatedPlayer1 = await UserData.findOneAndUpdate({ User: player1ID }, { '$inc': { played: 1, lost: 1, scored: score1, conceded: score2 }, '$set': { points: newPoints } }, { new: true })
                 const newRank = Ranks.find(rank => updatedPlayer1.points <= rank.maxPoints) || Ranks[Ranks.length - 1];
 
                 if (newRank.rank !== updatedPlayer1.Rank) {
