@@ -56,7 +56,7 @@ const EarnPage = ({ userId }: { userId: string }) => {
       }
     };
 
-    
+
     getUser()
 
     fetchPredictionData();
@@ -114,9 +114,11 @@ const EarnPage = ({ userId }: { userId: string }) => {
         <Image src={`https://drive.google.com/uc?export=view&id=${getImageID(user.User.photo)}`} alt='user' height={50} width={50} className='bg-slate-500 h-[30px] w-[30px] rounded-lg' />
         <p className='font-semibold text-white text-[13px]'>{user?.User.username} ({user?.Rank})</p>
       </div>
-      <ScrollArea style={{ height: 'calc(100vh - 130px)' }}>
+      <div className='w-full flex justify-center items-center'>
+        <p className='font-semibold text-white text-[20px] mt-2 bg-slate-800 border-b-[5px] border-[3px] border-white w-1/2 text-center py-1 rounded-md'>Predictions</p>
+      </div>
+      {predictionData.length > 0 && <ScrollArea style={{ height: 'calc(100vh - 130px)' }}>
         <div className='w-full flex flex-col justify-center items-center my-3'>
-          <p className='font-semibold text-white text-[20px] mt-2 bg-slate-800 border-b-[5px] border-white px-2 py-1 rounded-md'>Daily Predictions</p>
           {predictionData.map((prediction: any) => {
             const isPredictionTimePassed = new Date() > new Date(prediction.lastTimeToPredict);
             const userPrediction = user && user.dailyPredictions.find((p: any) => p.matchId === prediction.id);
@@ -183,7 +185,10 @@ const EarnPage = ({ userId }: { userId: string }) => {
             </div>
           </div>
         </div>
-      </ScrollArea>
+      </ScrollArea>}
+      {predictionData.length === 0 && <div style={{ height: 'calc(100vh - 130px)' }} className='flex justify-center items-center'>
+        <p className='text-white font-semibold'>No Matches Available</p>
+      </div>}
       <div className='h-[80px] mt-auto' />
     </div>
   );
