@@ -805,6 +805,7 @@ export function simulateAttack(playerFormation: any, opponentFormation: any, pla
 
       case 'Goal Scored':
       case 'Penalty Scored':
+      case 'Freekick Scored':
       case 'Match Started':
       case 'Half-time':
       case 'Awaiting Extra-time':
