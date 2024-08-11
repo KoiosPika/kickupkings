@@ -15,6 +15,8 @@ import {
 import { createFakeUsers, getUserForPlayPage, savePrize, setGoals, setIconPhotos, upgradePosition } from '@/lib/actions/user.actions';
 import { Prices } from '@/constants/Earnings';
 import UserDialog from '../shared/UserDialog';
+import { useToast } from '../ui/use-toast';
+import { ToastAction } from "@/components/ui/toast"
 
 const ShopPage = ({ userId }: { userId: string }) => {
 
@@ -26,6 +28,7 @@ const ShopPage = ({ userId }: { userId: string }) => {
     const [isSpinning, setIsSpinning] = useState(false);
     const [currentPrize, setCurrentPrize] = useState<any>(null);
     const [finalPrize, setFinalPrize] = useState<any>(null);
+    const { toast } = useToast()
 
     const updateDimensions = () => {
         setHeight(window.innerHeight);
@@ -162,6 +165,20 @@ const ShopPage = ({ userId }: { userId: string }) => {
                 body: JSON.stringify({ diamonds: price.diamonds, amount: price.price, chatId: user.chatId }),
             });
 
+            toast({
+                title: "💳 Invoice sent",
+                description: (
+                    <div className='w-full flex flex-col gap-2'>
+                        <p>An invoice has been sent to your bot chat.</p>
+                        <p> complete your transaction there.</p>
+                        <a href={`https://t.me/football_titans_bot?start=${user.chatId}`} className="text-black bg-white ml-auto px-2 py-1 rounded-md font-semibold mt-1" target="_blank" rel="noopener noreferrer">Open Chat</a>
+                    </div>
+
+                ),
+                variant: "default"
+            });
+
+
         } catch (error) {
             console.error('Error:', error);
         }
@@ -169,6 +186,7 @@ const ShopPage = ({ userId }: { userId: string }) => {
 
     const createUsers = async () => {
         await createFakeUsers(200, 1);
+
     }
 
     const addGoals = async () => {
@@ -183,7 +201,7 @@ const ShopPage = ({ userId }: { userId: string }) => {
         <section className='w-full h-screen bg-gradient-to-b from-slate-900 to-gray-700'>
             <UserDialog user={user} />
             <div className='w-full ml-auto mb-auto p-2 flex flex-row items-center gap-2'>
-                <div className='w-1/3 bg-slate-800 flex flex-row justify-around items-center rounded-lg h-[53px] sm:h-[75px]' onClick={addGoals}>
+                <div className='w-1/3 bg-slate-800 flex flex-row justify-around items-center rounded-lg h-[53px] sm:h-[75px]'>
                     <div className='flex flex-row items-center gap-2'>
                         <Image src={'/icons/coin.svg'} alt='coin' height={100} width={100} className='w-[25px] h-[25px] sm:w-[40px] sm:h-[40px]' />
                         <p className='font-bold text-white text-[16px] sm:text-[22px]'>{user && user?.coins}</p>
@@ -210,7 +228,8 @@ const ShopPage = ({ userId }: { userId: string }) => {
                                     <Image src={'/icons/telegram-star.png'} alt='diamond' height={100} width={100} className='h-[20px] w-[20px]' />
                                     <p className='text-white text-[20px] font-semibold'>{price.price}</p>
                                 </div>
-                            </div>))}
+                            </div>))
+                        }
                         <DrawerClose className='absolute text-white right-4 top-4'>
                             <Image src={'/icons/x.svg'} alt='coin' height={100} width={100} className='w-[25px] h-[25px] sm:w-[40px] sm:h-[40px]' />
                         </DrawerClose>
