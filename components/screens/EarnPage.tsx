@@ -13,6 +13,7 @@ const EarnPage = ({ userId }: { userId: string }) => {
   const [user, setUser] = useState<IUserData>()
   const [predictions, setPredictions] = useState<any>({});
   const [predictionData, setPredictionData] = useState<any>([]);
+  const [saving, setSaving] = useState(false)
 
   useEffect(() => {
     const getUser = async () => {
@@ -76,13 +77,19 @@ const EarnPage = ({ userId }: { userId: string }) => {
       return;
     }
     try {
+      setSaving(true);
       await addOrUpdatePrediction(userId, matchId, parseInt(predictedTeam1Score), parseInt(predictedTeam2Score));
+      setSaving(false);
     } catch (error) {
 
     }
   };
 
   const saveAllPredictions = async () => {
+    if (saving) {
+      return;
+    }
+
     try {
       for (const matchId in predictions) {
         await handlePredictionSubmit(matchId);
@@ -181,7 +188,7 @@ const EarnPage = ({ userId }: { userId: string }) => {
               onClick={saveAllPredictions}
             >
               <Image src={'/icons/save.svg'} alt='save' height={20} width={20} />
-              <p className='font-bold text-white'>Save All Predictions</p>
+              <p className='font-bold text-white'>{saving ? `Saving...` : 'Save All Predictions'}</p>
             </div>
           </div>
         </div>

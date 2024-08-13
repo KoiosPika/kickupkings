@@ -577,15 +577,6 @@ export async function playGame(player1ID: string, player2ID: string, type: strin
 }
 
 export async function addOrUpdatePrediction(userId: string, matchId: string, predictedTeam1Score: number, predictedTeam2Score: number) {
-    const match = Predictions.find(m => m.id === matchId);
-    if (!match) {
-        throw new Error('Match not found');
-    }
-
-    const now = new Date();
-    if (now > new Date(match.lastTimeToPredict)) {
-        throw new Error('Prediction time has passed');
-    }
 
     if (predictedTeam1Score === undefined || predictedTeam2Score === undefined) {
         throw new Error('Predicted scores are required');

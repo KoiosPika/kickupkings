@@ -185,6 +185,7 @@ const ShopPage = ({ userId }: { userId: string }) => {
 
     const createUsers = async () => {
         await createFakeUsers(200, 1);
+        // needs fixing
 
     }
 
