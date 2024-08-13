@@ -31,7 +31,7 @@ const useTelegram = () => {
 
                 }
 
-                if (window.location.hostname === 'localhost') {
+                if (window.location.hostname === 'localhost' || window.location.hostname === '192.168.1.198') {
                     // Fallback for local development
                     user = { id: '707937422' };
                     chat = { id: '707937422' };
@@ -40,7 +40,11 @@ const useTelegram = () => {
                 if (user) {
                     let userFound;
 
-                    if (window.location.hostname === 'localhost') {
+                    const hostname = window.location.hostname;
+
+                    console.log(hostname)
+
+                    if (hostname === 'localhost' || hostname.startsWith('192.168.') ) {
                         userFound = await findUserForLogin('707937422');
                     } else {
                         userFound = await findUserForLogin(user.id);

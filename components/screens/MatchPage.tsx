@@ -36,7 +36,7 @@ const MatchPage = ({ id }: { id: string }) => {
   const [opponentScore, setOpponentScore] = useState<number>(0);
   const [progress, setProgress] = useState<number>(0);
   const [half, setHalf] = useState<string>('First half');
-  const [currentMinute, setCurrentMinute] = useState<number>(1);
+  const [currentMinute, setCurrentMinute] = useState<number>(0);
   const [finished, setFinished] = useState(false)
   const [playerStats, setPlayerStats] = useState<Stats>({
     possession: 0,
@@ -201,14 +201,15 @@ const MatchPage = ({ id }: { id: string }) => {
 
           if (scenarioText === 'Half-time') {
             setHalf('Second half');
-            setCurrentMinute(46);
+            setCurrentMinute(45);
           } else if (scenarioText === 'Awaiting Extra-time') {
             setHalf('Extra time');
-            setCurrentMinute(91);
+            setCurrentMinute(90);
           }
 
-
-          moves++;
+          if (currentAttack.player != 'Match') {
+            moves++;
+          }
 
           if (moves % 2 === 0) {
             if ((half === 'First half' && currentMinute < 45) ||
@@ -240,12 +241,12 @@ const MatchPage = ({ id }: { id: string }) => {
 
           updateStats(scenarioText, currentAttack.player);
 
-          const highlightEvents = ['Match Started', 'Half-time', 'Awaiting Extra-time', 'Awaiting Penalties', 'Goal Scored', 'Penalty Scored', 'Penalty Missed', 'Freekick Scored', 'Hits woodwork', 'Offside','Full time']
+          const highlightEvents = ['Match Started', 'Half-time', 'Awaiting Extra-time', 'Awaiting Penalties', 'Goal Scored', 'Penalty Scored', 'Penalty Missed', 'Freekick Scored', 'Hits woodwork', 'Offside', 'Full time']
 
-          if(currentAttack.scenario[currentScenarioIndex].scenario === 'Full time'){
+          if (currentAttack.scenario[currentScenarioIndex].scenario === 'Full time') {
             setFinished(true);
           }
-          
+
           if (highlightEvents.includes(currentAttack.scenario[currentScenarioIndex].scenario)) {
             setDisplayedScenarios(prev => [
               { minute: currentMinute, player: currentAttack.player, scenario: currentAttack.scenario[currentScenarioIndex] },
@@ -268,7 +269,7 @@ const MatchPage = ({ id }: { id: string }) => {
   }, [match, currentAttackIndex, currentScenarioIndex]);
 
   const goBack = () => {
-    if(!finished){
+    if (!finished) {
       return;
     }
 
