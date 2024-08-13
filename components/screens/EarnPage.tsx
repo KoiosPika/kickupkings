@@ -119,7 +119,7 @@ const EarnPage = ({ userId }: { userId: string }) => {
     <div className='w-full h-screen bg-gradient-to-b from-slate-900 to-gray-600'>
       <div className='w-full ml-auto mb-auto p-2 flex flex-row items-center gap-2'>
         <Image src={`https://drive.google.com/uc?export=view&id=${getImageID(user.User.photo)}`} alt='user' height={50} width={50} className='bg-slate-500 h-[30px] w-[30px] rounded-lg' />
-        <p className='font-semibold text-white text-[13px]'>{user?.User.username} ({user?.Rank})</p>
+        <p className='font-semibold text-white text-[13px]'>{user?.User.username} (Lvl {user?.Rank})</p>
       </div>
       <div className='w-full flex justify-center items-center'>
         <p className='font-semibold text-white text-[20px] mt-2 bg-slate-800 border-b-[5px] border-[3px] border-white w-1/2 text-center py-1 rounded-md'>Predictions</p>
