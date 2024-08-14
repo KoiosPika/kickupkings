@@ -12,7 +12,7 @@ import Image from 'next/image'
 const InviteDialog = ({ userId, total, weekly }: { userId: string, total: number, weekly: number }) => {
     
     const copyLink = () => {
-        const link = `https://t.me/football_titans_bot/start?startapp=referral=${userId}`
+        const link = `https://t.me/football_titans_bot?start=${userId}`
         navigator.clipboard.writeText(link)
     }
 
