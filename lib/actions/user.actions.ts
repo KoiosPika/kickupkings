@@ -619,8 +619,10 @@ export async function collectCoins(userId: string, matchId: string) {
         throw new Error('Prize already collected');
     }
 
+    const prize = Ranks.find(r => r.rank === user.Rank)
+
     // Add coins to user's balance
-    user.coins += 1200;
+    user.coins += prize?.predictionPrize;
 
     // Mark the prediction as collected
     prediction.collected = true;
@@ -751,7 +753,9 @@ export async function findMatch(id: string) {
         const userOverall = calculateFormationOverall(user);
         const opponentOverall = calculateFormationOverall(opponent);
 
-        const prizes = calculatePrizes(userOverall, opponentOverall, user.Rank);
+        let increment = user.weeklyReferrals * 0.1
+
+        const prizes = calculatePrizes(userOverall, opponentOverall, user.Rank, increment);
 
         const matchDetails = {
             player: { ...user },
@@ -815,7 +819,7 @@ function calculateFormationOverall(userData: IUserData) {
     return averageLevel;
 }
 
-function calculatePrizes(userOverall: number, opponentOverall: number, userRank: number) {
+function calculatePrizes(userOverall: number, opponentOverall: number, userRank: number, increment:number) {
     const rankData = Ranks.find(rank => rank.rank === userRank);
 
     if (!rankData) {
@@ -838,6 +842,10 @@ function calculatePrizes(userOverall: number, opponentOverall: number, userRank:
         coins = Math.floor(coins / 2);
         points = Math.floor(points / 2);
     }
+
+    coins = coins + (coins * increment)
+
+    coins = Math.round(coins)
 
     return { coins, points, diamonds };
 }
