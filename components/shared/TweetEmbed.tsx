@@ -25,6 +25,8 @@ const TweetEmbed = ({ tweetUrls }: any) => {
             }
 
             setData(embedData)
+
+            console.log(embedData)
         }
 
         getTweets();
