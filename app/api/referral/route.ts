@@ -33,8 +33,8 @@ export async function POST(request: any) {
         }
 
         let existingReferral = await Referral.findOne({
-            referrerId: referrerId,
-            referredUserId: telegramId
+            referrerTelegramId: referrerId,
+            referredTelegramId: telegramId
         });
 
         if (!existingReferral) {
