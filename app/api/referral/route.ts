@@ -1,4 +1,5 @@
 import { connectToDatabase } from '@/lib/database';
+import Referral from '@/lib/database/models/referral.model';
 import User from '@/lib/database/models/user.model';
 import UserData from '@/lib/database/models/userData.model';
 import { NextResponse } from 'next/server';
@@ -16,20 +17,45 @@ export async function POST(request: any) {
 
         await connectToDatabase()
 
-        // Find the user by their Telegram ID
-        let user = await User.findOne({ telegramID: referrerId });
+        let referredUser = await User.findOne({ telegramID: telegramId });
 
-        if (!user) {
+        if (referredUser) {
+            // If the referred user already has an account, do not count the referral
+            console.log('Referred user already has an account. Referral not counted.');
+            return;
+        }
+
+        // Find the user by their Telegram ID
+        let referrerUser = await User.findOne({ telegramID: referrerId });
+
+        if (!referrerUser) {
             throw new Error('User not found');
         }
 
-        let userData = await UserData.findOneAndUpdate({ User: user._id }, { '$inc': { totalReferrals: 1, weeklyReferrals: 1 } })
+        let existingReferral = await Referral.findOne({
+            referrerId: referrerId,
+            referredUserId: telegramId
+        });
 
-        if (!userData) {
-            throw new Error('User data not found');
+        if (!existingReferral) {
+            // Create a new referral record
+            await Referral.create({
+                referrerTelegramId: referrerId,
+                referredTelegramId: telegramId
+            });
+
+            // Update referral counts for the referrer
+            await UserData.findOneAndUpdate(
+                { User: referrerUser._id },
+                { '$inc': { totalReferrals: 1, weeklyReferrals: 1 } }
+            );
+
+            // Notify the referrer about the successful referral
+            console.log('Referral recorded and referrer rewarded.');
+        } else {
+            console.log('Referral already exists, not incrementing.');
         }
 
-        return NextResponse.json({ status: 'success', diamonds: user.diamonds });
     } catch (error) {
         console.error('Error updating diamonds:', error);
         return NextResponse.json({ status: 'error', message: 'Failed to update diamonds' }, { status: 500 });
