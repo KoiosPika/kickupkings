@@ -90,8 +90,8 @@ const ShopPage = ({ userId }: { userId: string }) => {
 
         let prizes: any[] = [];
 
-        const minCoins = userRank!.baseCoins * 5;
-        const maxCoins = userRank!.baseCoins * 15;
+        const minCoins = userRank!.baseCoins * 2;
+        const maxCoins = userRank!.baseCoins * 5;
 
         const filteredPositions = positions.filter(pos => pos.type !== 'Staff');
 

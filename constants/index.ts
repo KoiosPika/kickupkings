@@ -342,7 +342,7 @@ export const Ranks = [
         baseCoins: 7,
         basePoints: 25,
         quizPrize: 70,
-        predictionPrize: 700
+        predictionPrize: 70
     },
     {
         rank: 1,
@@ -350,7 +350,7 @@ export const Ranks = [
         baseCoins: 8,
         basePoints: 26,
         quizPrize: 77,
-        predictionPrize: 770
+        predictionPrize: 80
     },
     {
         rank: 2,
@@ -358,7 +358,7 @@ export const Ranks = [
         baseCoins: 8,
         basePoints: 53,
         quizPrize: 77,
-        predictionPrize: 770
+        predictionPrize: 80
     },
     {
         rank: 3,
@@ -366,7 +366,7 @@ export const Ranks = [
         baseCoins: 8,
         basePoints: 79,
         quizPrize: 77,
-        predictionPrize: 770
+        predictionPrize: 80
     },
     {
         rank: 4,
@@ -374,7 +374,7 @@ export const Ranks = [
         baseCoins: 8,
         basePoints: 105,
         quizPrize: 77,
-        predictionPrize: 770
+        predictionPrize: 80
     },
     {
         rank: 5,
@@ -382,7 +382,7 @@ export const Ranks = [
         baseCoins: 8,
         basePoints: 131,
         quizPrize: 85,
-        predictionPrize: 847
+        predictionPrize: 80
     },
     {
         rank: 6,
@@ -390,7 +390,7 @@ export const Ranks = [
         baseCoins: 8,
         basePoints: 158,
         quizPrize: 85,
-        predictionPrize: 847
+        predictionPrize: 80
     },
     {
         rank: 7,
@@ -398,7 +398,7 @@ export const Ranks = [
         baseCoins: 8,
         basePoints: 184,
         quizPrize: 85,
-        predictionPrize: 847
+        predictionPrize: 80
     },
     {
         rank: 8,
@@ -406,7 +406,7 @@ export const Ranks = [
         baseCoins: 8,
         basePoints: 210,
         quizPrize: 85,
-        predictionPrize: 847
+        predictionPrize: 80
     },
     {
         rank: 9,
@@ -414,7 +414,7 @@ export const Ranks = [
         baseCoins: 9,
         basePoints: 236,
         quizPrize: 93,
-        predictionPrize: 932
+        predictionPrize: 90
     },
     {
         rank: 10,
@@ -422,7 +422,7 @@ export const Ranks = [
         baseCoins: 9,
         basePoints: 263,
         quizPrize: 93,
-        predictionPrize: 932
+        predictionPrize: 90
     },
     {
         rank: 11,
@@ -430,7 +430,7 @@ export const Ranks = [
         baseCoins: 9,
         basePoints: 289,
         quizPrize: 93,
-        predictionPrize: 932
+        predictionPrize: 90
     },
     {
         rank: 12,
@@ -438,7 +438,7 @@ export const Ranks = [
         baseCoins: 9,
         basePoints: 315,
         quizPrize: 93,
-        predictionPrize: 932
+        predictionPrize: 90
     },
     {
         rank: 13,
@@ -446,7 +446,7 @@ export const Ranks = [
         baseCoins: 10,
         basePoints: 341,
         quizPrize: 102,
-        predictionPrize: 1025
+        predictionPrize: 100
     },
     {
         rank: 14,
@@ -454,7 +454,7 @@ export const Ranks = [
         baseCoins: 10,
         basePoints: 368,
         quizPrize: 102,
-        predictionPrize: 1025
+        predictionPrize: 100
     },
     {
         rank: 15,
@@ -462,7 +462,7 @@ export const Ranks = [
         baseCoins: 10,
         basePoints: 394,
         quizPrize: 102,
-        predictionPrize: 1025
+        predictionPrize: 100
     },
     {
         rank: 16,
@@ -470,7 +470,7 @@ export const Ranks = [
         baseCoins: 10,
         basePoints: 420,
         quizPrize: 102,
-        predictionPrize: 1025
+        predictionPrize: 100
     },
     {
         rank: 17,
@@ -478,7 +478,7 @@ export const Ranks = [
         baseCoins: 11,
         basePoints: 446,
         quizPrize: 113,
-        predictionPrize: 1127
+        predictionPrize: 110
     },
     {
         rank: 18,
@@ -486,7 +486,7 @@ export const Ranks = [
         baseCoins: 11,
         basePoints: 473,
         quizPrize: 113,
-        predictionPrize: 1127
+        predictionPrize: 110
     },
     {
         rank: 19,
@@ -494,7 +494,7 @@ export const Ranks = [
         baseCoins: 11,
         basePoints: 499,
         quizPrize: 113,
-        predictionPrize: 1127
+        predictionPrize: 110
     },
     {
         rank: 20,
@@ -502,7 +502,7 @@ export const Ranks = [
         baseCoins: 11,
         basePoints: 525,
         quizPrize: 113,
-        predictionPrize: 1127
+        predictionPrize: 110
     },
     {
         rank: 21,
@@ -510,7 +510,7 @@ export const Ranks = [
         baseCoins: 12,
         basePoints: 551,
         quizPrize: 124,
-        predictionPrize: 1240
+        predictionPrize: 120
     },
     {
         rank: 22,
@@ -518,7 +518,7 @@ export const Ranks = [
         baseCoins: 12,
         basePoints: 578,
         quizPrize: 124,
-        predictionPrize: 1240
+        predictionPrize: 120
     },
     {
         rank: 23,
@@ -526,7 +526,7 @@ export const Ranks = [
         baseCoins: 12,
         basePoints: 604,
         quizPrize: 124,
-        predictionPrize: 1240
+        predictionPrize: 120
     },
     {
         rank: 24,
@@ -534,7 +534,7 @@ export const Ranks = [
         baseCoins: 12,
         basePoints: 630,
         quizPrize: 124,
-        predictionPrize: 1240
+        predictionPrize: 120
     },
     {
         rank: 25,
@@ -542,7 +542,7 @@ export const Ranks = [
         baseCoins: 14,
         basePoints: 656,
         quizPrize: 136,
-        predictionPrize: 1364
+        predictionPrize: 140
     },
     {
         rank: 26,
@@ -550,7 +550,7 @@ export const Ranks = [
         baseCoins: 14,
         basePoints: 683,
         quizPrize: 136,
-        predictionPrize: 1364
+        predictionPrize: 140
     },
     {
         rank: 27,
@@ -558,7 +558,7 @@ export const Ranks = [
         baseCoins: 14,
         basePoints: 709,
         quizPrize: 136,
-        predictionPrize: 1364
+        predictionPrize: 140
     },
     {
         rank: 28,
@@ -566,7 +566,7 @@ export const Ranks = [
         baseCoins: 14,
         basePoints: 735,
         quizPrize: 136,
-        predictionPrize: 1364
+        predictionPrize: 140
     },
     {
         rank: 29,
@@ -574,7 +574,7 @@ export const Ranks = [
         baseCoins: 15,
         basePoints: 761,
         quizPrize: 150,
-        predictionPrize: 1501
+        predictionPrize: 150
     },
     {
         rank: 30,
@@ -582,7 +582,7 @@ export const Ranks = [
         baseCoins: 17,
         basePoints: 788,
         quizPrize: 165,
-        predictionPrize: 1651
+        predictionPrize: 170
     },
     {
         rank: 31,
@@ -590,7 +590,7 @@ export const Ranks = [
         baseCoins: 17,
         basePoints: 814,
         quizPrize: 165,
-        predictionPrize: 1651
+        predictionPrize: 170
     },
     {
         rank: 32,
@@ -598,7 +598,7 @@ export const Ranks = [
         baseCoins: 18,
         basePoints: 840,
         quizPrize: 182,
-        predictionPrize: 1816
+        predictionPrize: 180
     },
     {
         rank: 33,
@@ -606,7 +606,7 @@ export const Ranks = [
         baseCoins: 18,
         basePoints: 866,
         quizPrize: 182,
-        predictionPrize: 1816
+        predictionPrize: 180
     },
     {
         rank: 34,
@@ -614,7 +614,7 @@ export const Ranks = [
         baseCoins: 18,
         basePoints: 893,
         quizPrize: 182,
-        predictionPrize: 1816
+        predictionPrize: 180
     },
     {
         rank: 35,
@@ -622,7 +622,7 @@ export const Ranks = [
         baseCoins: 18,
         basePoints: 919,
         quizPrize: 182,
-        predictionPrize: 1816
+        predictionPrize: 180
     },
     {
         rank: 36,
@@ -630,7 +630,7 @@ export const Ranks = [
         baseCoins: 20,
         basePoints: 945,
         quizPrize: 200,
-        predictionPrize: 1997
+        predictionPrize: 200
     },
     {
         rank: 37,
@@ -638,7 +638,7 @@ export const Ranks = [
         baseCoins: 20,
         basePoints: 971,
         quizPrize: 200,
-        predictionPrize: 1997
+        predictionPrize: 200
     },
     {
         rank: 38,
@@ -646,7 +646,7 @@ export const Ranks = [
         baseCoins: 20,
         basePoints: 998,
         quizPrize: 200,
-        predictionPrize: 1997
+        predictionPrize: 200
     },
     {
         rank: 39,
@@ -654,7 +654,7 @@ export const Ranks = [
         baseCoins: 22,
         basePoints: 1024,
         quizPrize: 220,
-        predictionPrize: 2197
+        predictionPrize: 220
     },
     {
         rank: 40,
@@ -662,7 +662,7 @@ export const Ranks = [
         baseCoins: 22,
         basePoints: 1050,
         quizPrize: 220,
-        predictionPrize: 2197
+        predictionPrize: 220
     },
     {
         rank: 41,
@@ -670,7 +670,7 @@ export const Ranks = [
         baseCoins: 22,
         basePoints: 1076,
         quizPrize: 220,
-        predictionPrize: 2197
+        predictionPrize: 220
     },
     {
         rank: 42,
@@ -678,7 +678,7 @@ export const Ranks = [
         baseCoins: 22,
         basePoints: 1103,
         quizPrize: 220,
-        predictionPrize: 2197
+        predictionPrize: 220
     },
     {
         rank: 43,
@@ -686,7 +686,7 @@ export const Ranks = [
         baseCoins: 24,
         basePoints: 1129,
         quizPrize: 242,
-        predictionPrize: 2417
+        predictionPrize: 240
     },
     {
         rank: 44,
@@ -694,7 +694,7 @@ export const Ranks = [
         baseCoins: 24,
         basePoints: 1155,
         quizPrize: 242,
-        predictionPrize: 2417
+        predictionPrize: 240
     },
     {
         rank: 45,
@@ -702,7 +702,7 @@ export const Ranks = [
         baseCoins: 24,
         basePoints: 1181,
         quizPrize: 242,
-        predictionPrize: 2417
+        predictionPrize: 240
     },
     {
         rank: 46,
@@ -710,7 +710,7 @@ export const Ranks = [
         baseCoins: 27,
         basePoints: 1208,
         quizPrize: 266,
-        predictionPrize: 2658
+        predictionPrize: 270
     },
     {
         rank: 47,
@@ -718,7 +718,7 @@ export const Ranks = [
         baseCoins: 27,
         basePoints: 1234,
         quizPrize: 266,
-        predictionPrize: 2658
+        predictionPrize: 270
     },
     {
         rank: 48,
@@ -726,7 +726,7 @@ export const Ranks = [
         baseCoins: 27,
         basePoints: 1260,
         quizPrize: 266,
-        predictionPrize: 2658
+        predictionPrize: 270
     },
     {
         rank: 49,
@@ -734,7 +734,7 @@ export const Ranks = [
         baseCoins: 27,
         basePoints: 1286,
         quizPrize: 266,
-        predictionPrize: 2658
+        predictionPrize: 270
     },
     {
         rank: 50,
@@ -742,7 +742,7 @@ export const Ranks = [
         baseCoins: 29,
         basePoints: 1313,
         quizPrize: 292,
-        predictionPrize: 2924
+        predictionPrize: 290
     },
     {
         rank: 51,
@@ -750,7 +750,7 @@ export const Ranks = [
         baseCoins: 29,
         basePoints: 1339,
         quizPrize: 292,
-        predictionPrize: 2924
+        predictionPrize: 290
     },
     {
         rank: 52,
@@ -758,7 +758,7 @@ export const Ranks = [
         baseCoins: 29,
         basePoints: 1365,
         quizPrize: 292,
-        predictionPrize: 2924
+        predictionPrize: 290
     },
     {
         rank: 53,
@@ -766,7 +766,7 @@ export const Ranks = [
         baseCoins: 32,
         basePoints: 1391,
         quizPrize: 322,
-        predictionPrize: 3216
+        predictionPrize: 320
     },
     {
         rank: 54,
@@ -774,7 +774,7 @@ export const Ranks = [
         baseCoins: 32,
         basePoints: 1418,
         quizPrize: 322,
-        predictionPrize: 3216
+        predictionPrize: 320
     },
     {
         rank: 55,
@@ -782,7 +782,7 @@ export const Ranks = [
         baseCoins: 43,
         basePoints: 1444,
         quizPrize: 428,
-        predictionPrize: 4281
+        predictionPrize: 430
     },
     {
         rank: 56,
@@ -790,7 +790,7 @@ export const Ranks = [
         baseCoins: 43,
         basePoints: 1470,
         quizPrize: 428,
-        predictionPrize: 4281
+        predictionPrize: 430
     },
     {
         rank: 57,
@@ -798,7 +798,7 @@ export const Ranks = [
         baseCoins: 43,
         basePoints: 1496,
         quizPrize: 428,
-        predictionPrize: 4281
+        predictionPrize: 430
     },
     {
         rank: 58,
@@ -806,7 +806,7 @@ export const Ranks = [
         baseCoins: 47,
         basePoints: 1523,
         quizPrize: 471,
-        predictionPrize: 4709
+        predictionPrize: 470
     },
     {
         rank: 59,
@@ -814,7 +814,7 @@ export const Ranks = [
         baseCoins: 47,
         basePoints: 1549,
         quizPrize: 471,
-        predictionPrize: 4709
+        predictionPrize: 470
     },
     {
         rank: 60,
@@ -822,7 +822,7 @@ export const Ranks = [
         baseCoins: 47,
         basePoints: 1575,
         quizPrize: 471,
-        predictionPrize: 4709
+        predictionPrize: 470
     },
     {
         rank: 61,
@@ -830,7 +830,7 @@ export const Ranks = [
         baseCoins: 52,
         basePoints: 1601,
         quizPrize: 518,
-        predictionPrize: 5180
+        predictionPrize: 520
     },
     {
         rank: 62,
@@ -838,7 +838,7 @@ export const Ranks = [
         baseCoins: 52,
         basePoints: 1628,
         quizPrize: 518,
-        predictionPrize: 5180
+        predictionPrize: 520
     },
     {
         rank: 63,
@@ -846,7 +846,7 @@ export const Ranks = [
         baseCoins: 52,
         basePoints: 1654,
         quizPrize: 518,
-        predictionPrize: 5180
+        predictionPrize: 520
     },
     {
         rank: 64,
@@ -854,7 +854,7 @@ export const Ranks = [
         baseCoins: 57,
         basePoints: 1680,
         quizPrize: 570,
-        predictionPrize: 5698
+        predictionPrize: 570
     },
     {
         rank: 65,
@@ -862,7 +862,7 @@ export const Ranks = [
         baseCoins: 57,
         basePoints: 1706,
         quizPrize: 570,
-        predictionPrize: 5698
+        predictionPrize: 570
     },
     {
         rank: 66,
@@ -870,7 +870,7 @@ export const Ranks = [
         baseCoins: 57,
         basePoints: 1733,
         quizPrize: 570,
-        predictionPrize: 5698
+        predictionPrize: 570
     },
     {
         rank: 67,
@@ -878,7 +878,7 @@ export const Ranks = [
         baseCoins: 63,
         basePoints: 1759,
         quizPrize: 627,
-        predictionPrize: 6268
+        predictionPrize: 630
     },
     {
         rank: 68,
@@ -886,7 +886,7 @@ export const Ranks = [
         baseCoins: 63,
         basePoints: 1785,
         quizPrize: 627,
-        predictionPrize: 6268
+        predictionPrize: 630
     },
     {
         rank: 69,
@@ -894,7 +894,7 @@ export const Ranks = [
         baseCoins: 63,
         basePoints: 1811,
         quizPrize: 627,
-        predictionPrize: 6268
+        predictionPrize: 630
     },
     {
         rank: 70,
@@ -902,7 +902,7 @@ export const Ranks = [
         baseCoins: 69,
         basePoints: 1838,
         quizPrize: 689,
-        predictionPrize: 6895
+        predictionPrize: 690
     },
     {
         rank: 71,
@@ -910,7 +910,7 @@ export const Ranks = [
         baseCoins: 69,
         basePoints: 1864,
         quizPrize: 689,
-        predictionPrize: 6895
+        predictionPrize: 690
     },
     {
         rank: 72,
@@ -918,7 +918,7 @@ export const Ranks = [
         baseCoins: 69,
         basePoints: 1890,
         quizPrize: 689,
-        predictionPrize: 6895
+        predictionPrize: 690
     },
     {
         rank: 73,
@@ -926,7 +926,7 @@ export const Ranks = [
         baseCoins: 76,
         basePoints: 1916,
         quizPrize: 758,
-        predictionPrize: 7584
+        predictionPrize: 760
     },
     {
         rank: 74,
@@ -934,7 +934,7 @@ export const Ranks = [
         baseCoins: 76,
         basePoints: 1943,
         quizPrize: 758,
-        predictionPrize: 7584
+        predictionPrize: 760
     },
     {
         rank: 75,
@@ -942,7 +942,7 @@ export const Ranks = [
         baseCoins: 76,
         basePoints: 1969,
         quizPrize: 758,
-        predictionPrize: 7584
+        predictionPrize: 760
     },
     {
         rank: 76,
@@ -950,7 +950,7 @@ export const Ranks = [
         baseCoins: 83,
         basePoints: 1995,
         quizPrize: 834,
-        predictionPrize: 8343
+        predictionPrize: 830
     },
     {
         rank: 77,
@@ -958,7 +958,7 @@ export const Ranks = [
         baseCoins: 83,
         basePoints: 2021,
         quizPrize: 834,
-        predictionPrize: 8343
+        predictionPrize: 830
     },
     {
         rank: 78,
@@ -966,7 +966,7 @@ export const Ranks = [
         baseCoins: 83,
         basePoints: 2048,
         quizPrize: 834,
-        predictionPrize: 8343
+        predictionPrize: 830
     },
     {
         rank: 79,
@@ -974,7 +974,7 @@ export const Ranks = [
         baseCoins: 92,
         basePoints: 2074,
         quizPrize: 918,
-        predictionPrize: 9177
+        predictionPrize: 920
     },
     {
         rank: 80,
@@ -982,7 +982,7 @@ export const Ranks = [
         baseCoins: 148,
         basePoints: 2100,
         quizPrize: 1478,
-        predictionPrize: 14780
+        predictionPrize: 1480
     },
     {
         rank: 81,
@@ -990,7 +990,7 @@ export const Ranks = [
         baseCoins: 163,
         basePoints: 2126,
         quizPrize: 1626,
-        predictionPrize: 16258
+        predictionPrize: 1630
     },
     {
         rank: 82,
@@ -998,7 +998,7 @@ export const Ranks = [
         baseCoins: 163,
         basePoints: 2153,
         quizPrize: 1626,
-        predictionPrize: 16258
+        predictionPrize: 1630
     },
     {
         rank: 83,
@@ -1006,7 +1006,7 @@ export const Ranks = [
         baseCoins: 179,
         basePoints: 2179,
         quizPrize: 1788,
-        predictionPrize: 17883
+        predictionPrize: 1790
     },
     {
         rank: 84,
@@ -1014,7 +1014,7 @@ export const Ranks = [
         baseCoins: 179,
         basePoints: 2205,
         quizPrize: 1788,
-        predictionPrize: 17883
+        predictionPrize: 1790
     },
     {
         rank: 85,
@@ -1022,7 +1022,7 @@ export const Ranks = [
         baseCoins: 179,
         basePoints: 2231,
         quizPrize: 1788,
-        predictionPrize: 17883
+        predictionPrize: 1790
     },
     {
         rank: 86,
@@ -1030,7 +1030,7 @@ export const Ranks = [
         baseCoins: 197,
         basePoints: 2258,
         quizPrize: 1967,
-        predictionPrize: 19672
+        predictionPrize: 1970
     },
     {
         rank: 87,
@@ -1038,7 +1038,7 @@ export const Ranks = [
         baseCoins: 197,
         basePoints: 2284,
         quizPrize: 1967,
-        predictionPrize: 19672
+        predictionPrize: 1970
     },
     {
         rank: 88,
@@ -1046,7 +1046,7 @@ export const Ranks = [
         baseCoins: 216,
         basePoints: 2310,
         quizPrize: 2164,
-        predictionPrize: 21639
+        predictionPrize: 2160
     },
     {
         rank: 89,
@@ -1054,7 +1054,7 @@ export const Ranks = [
         baseCoins: 216,
         basePoints: 2336,
         quizPrize: 2164,
-        predictionPrize: 21639
+        predictionPrize: 2160
     },
     {
         rank: 90,
@@ -1062,7 +1062,7 @@ export const Ranks = [
         baseCoins: 216,
         basePoints: 2363,
         quizPrize: 2164,
-        predictionPrize: 21639
+        predictionPrize: 2160
     },
     {
         rank: 91,
@@ -1070,7 +1070,7 @@ export const Ranks = [
         baseCoins: 238,
         basePoints: 2389,
         quizPrize: 2380,
-        predictionPrize: 23803
+        predictionPrize: 2380
     },
     {
         rank: 92,
@@ -1078,7 +1078,7 @@ export const Ranks = [
         baseCoins: 238,
         basePoints: 2415,
         quizPrize: 2380,
-        predictionPrize: 23803
+        predictionPrize: 2380
     },
     {
         rank: 93,
@@ -1086,7 +1086,7 @@ export const Ranks = [
         baseCoins: 262,
         basePoints: 2441,
         quizPrize: 2618,
-        predictionPrize: 26183
+        predictionPrize: 2620
     },
     {
         rank: 94,
@@ -1094,7 +1094,7 @@ export const Ranks = [
         baseCoins: 262,
         basePoints: 2468,
         quizPrize: 2618,
-        predictionPrize: 26183
+        predictionPrize: 2620
     },
     {
         rank: 95,
@@ -1102,7 +1102,7 @@ export const Ranks = [
         baseCoins: 262,
         basePoints: 2494,
         quizPrize: 2618,
-        predictionPrize: 26183
+        predictionPrize: 2620
     },
     {
         rank: 96,
@@ -1110,7 +1110,7 @@ export const Ranks = [
         baseCoins: 288,
         basePoints: 2520,
         quizPrize: 2880,
-        predictionPrize: 28801
+        predictionPrize: 2880
     },
     {
         rank: 97,
@@ -1118,7 +1118,7 @@ export const Ranks = [
         baseCoins: 288,
         basePoints: 2546,
         quizPrize: 2880,
-        predictionPrize: 28801
+        predictionPrize: 2880
     },
     {
         rank: 98,
@@ -1126,7 +1126,7 @@ export const Ranks = [
         baseCoins: 317,
         basePoints: 2573,
         quizPrize: 3168,
-        predictionPrize: 31681
+        predictionPrize: 3170
     },
     {
         rank: 99,
@@ -1134,7 +1134,7 @@ export const Ranks = [
         baseCoins: 317,
         basePoints: 2599,
         quizPrize: 3168,
-        predictionPrize: 31681
+        predictionPrize: 3170
     },
     {
         rank: 100,
@@ -1142,7 +1142,7 @@ export const Ranks = [
         baseCoins: 317,
         basePoints: 2625,
         quizPrize: 3168,
-        predictionPrize: 31681
+        predictionPrize: 3170
     },
     {
         rank: 101,
@@ -1150,7 +1150,7 @@ export const Ranks = [
         baseCoins: 348,
         basePoints: 2651,
         quizPrize: 3485,
-        predictionPrize: 34850
+        predictionPrize: 3480
     },
     {
         rank: 102,
@@ -1158,7 +1158,7 @@ export const Ranks = [
         baseCoins: 348,
         basePoints: 2678,
         quizPrize: 3485,
-        predictionPrize: 34850
+        predictionPrize: 3480
     },
     {
         rank: 103,
@@ -1166,7 +1166,7 @@ export const Ranks = [
         baseCoins: 383,
         basePoints: 2704,
         quizPrize: 3833,
-        predictionPrize: 38335
+        predictionPrize: 3830
     },
     {
         rank: 104,
@@ -1174,7 +1174,7 @@ export const Ranks = [
         baseCoins: 383,
         basePoints: 2730,
         quizPrize: 3833,
-        predictionPrize: 38335
+        predictionPrize: 3830
     },
     {
         rank: 105,
@@ -1182,7 +1182,7 @@ export const Ranks = [
         baseCoins: 383,
         basePoints: 2756,
         quizPrize: 3833,
-        predictionPrize: 38335
+        predictionPrize: 3830
     },
     {
         rank: 106,
@@ -1190,7 +1190,7 @@ export const Ranks = [
         baseCoins: 422,
         basePoints: 2783,
         quizPrize: 4217,
-        predictionPrize: 42168
+        predictionPrize: 4220
     },
     {
         rank: 107,
@@ -1198,7 +1198,7 @@ export const Ranks = [
         baseCoins: 422,
         basePoints: 2809,
         quizPrize: 4217,
-        predictionPrize: 42168
+        predictionPrize: 4220
     },
     {
         rank: 108,
@@ -1206,7 +1206,7 @@ export const Ranks = [
         baseCoins: 464,
         basePoints: 2835,
         quizPrize: 4638,
-        predictionPrize: 46385
+        predictionPrize: 4640
     },
     {
         rank: 109,
@@ -1214,7 +1214,7 @@ export const Ranks = [
         baseCoins: 464,
         basePoints: 2861,
         quizPrize: 4638,
-        predictionPrize: 46385
+        predictionPrize: 4640
     },
     {
         rank: 110,
@@ -1222,7 +1222,7 @@ export const Ranks = [
         baseCoins: 464,
         basePoints: 2888,
         quizPrize: 4638,
-        predictionPrize: 46385
+        predictionPrize: 4640
     },
     {
         rank: 111,
@@ -1230,7 +1230,7 @@ export const Ranks = [
         baseCoins: 510,
         basePoints: 2914,
         quizPrize: 5102,
-        predictionPrize: 51023
+        predictionPrize: 5100
     },
     {
         rank: 112,
@@ -1238,7 +1238,7 @@ export const Ranks = [
         baseCoins: 510,
         basePoints: 2940,
         quizPrize: 5102,
-        predictionPrize: 51023
+        predictionPrize: 5100
     },
     {
         rank: 113,
@@ -1246,7 +1246,7 @@ export const Ranks = [
         baseCoins: 561,
         basePoints: 2966,
         quizPrize: 5613,
-        predictionPrize: 56126
+        predictionPrize: 5610
     },
     {
         rank: 114,
@@ -1254,7 +1254,7 @@ export const Ranks = [
         baseCoins: 561,
         basePoints: 2993,
         quizPrize: 5613,
-        predictionPrize: 56126
+        predictionPrize: 5610
     },
     {
         rank: 115,
@@ -1262,7 +1262,7 @@ export const Ranks = [
         baseCoins: 1761,
         basePoints: 3019,
         quizPrize: 17615,
-        predictionPrize: 176146
+        predictionPrize: 17610
     },
     {
         rank: 116,
@@ -1270,7 +1270,7 @@ export const Ranks = [
         baseCoins: 1761,
         basePoints: 3045,
         quizPrize: 17615,
-        predictionPrize: 176146
+        predictionPrize: 17610
     },
     {
         rank: 117,
@@ -1278,7 +1278,7 @@ export const Ranks = [
         baseCoins: 1938,
         basePoints: 3071,
         quizPrize: 19376,
-        predictionPrize: 193761
+        predictionPrize: 19380
     },
     {
         rank: 118,
@@ -1286,7 +1286,7 @@ export const Ranks = [
         baseCoins: 1938,
         basePoints: 3098,
         quizPrize: 19376,
-        predictionPrize: 193761
+        predictionPrize: 19380
     },
     {
         rank: 119,
@@ -1294,7 +1294,7 @@ export const Ranks = [
         baseCoins: 2131,
         basePoints: 3124,
         quizPrize: 21314,
-        predictionPrize: 213137
+        predictionPrize: 21310
     },
     {
         rank: 120,
@@ -1302,7 +1302,7 @@ export const Ranks = [
         baseCoins: 2131,
         basePoints: 3150,
         quizPrize: 21314,
-        predictionPrize: 213137
+        predictionPrize: 21310
     },
     {
         rank: 121,
@@ -1310,7 +1310,7 @@ export const Ranks = [
         baseCoins: 2345,
         basePoints: 3176,
         quizPrize: 23445,
-        predictionPrize: 234451
+        predictionPrize: 23450
     },
     {
         rank: 122,
@@ -1318,7 +1318,7 @@ export const Ranks = [
         baseCoins: 2345,
         basePoints: 3203,
         quizPrize: 23445,
-        predictionPrize: 234451
+        predictionPrize: 23450
     },
     {
         rank: 123,
@@ -1326,7 +1326,7 @@ export const Ranks = [
         baseCoins: 2579,
         basePoints: 3229,
         quizPrize: 25790,
-        predictionPrize: 257896
+        predictionPrize: 25790
     },
     {
         rank: 124,
@@ -1334,7 +1334,7 @@ export const Ranks = [
         baseCoins: 2579,
         basePoints: 3255,
         quizPrize: 25790,
-        predictionPrize: 257896
+        predictionPrize: 25790
     },
     {
         rank: 125,
@@ -1342,7 +1342,7 @@ export const Ranks = [
         baseCoins: 2837,
         basePoints: 3281,
         quizPrize: 28369,
-        predictionPrize: 283686
+        predictionPrize: 28370
     },
     {
         rank: 126,
@@ -1350,7 +1350,7 @@ export const Ranks = [
         baseCoins: 2837,
         basePoints: 3308,
         quizPrize: 28369,
-        predictionPrize: 283686
+        predictionPrize: 28370
     },
     {
         rank: 127,
@@ -1358,7 +1358,7 @@ export const Ranks = [
         baseCoins: 3121,
         basePoints: 3334,
         quizPrize: 31205,
-        predictionPrize: 312054
+        predictionPrize: 31210
     },
     {
         rank: 128,
@@ -1366,7 +1366,7 @@ export const Ranks = [
         baseCoins: 3121,
         basePoints: 3360,
         quizPrize: 31205,
-        predictionPrize: 312054
+        predictionPrize: 31210
     },
     {
         rank: 129,
@@ -1374,7 +1374,7 @@ export const Ranks = [
         baseCoins: 3433,
         basePoints: 3386,
         quizPrize: 34326,
-        predictionPrize: 343260
+        predictionPrize: 34330
     },
     {
         rank: 130,
@@ -1382,7 +1382,7 @@ export const Ranks = [
         baseCoins: 3433,
         basePoints: 3413,
         quizPrize: 34326,
-        predictionPrize: 343260
+        predictionPrize: 34330
     },
     {
         rank: 131,
@@ -1390,7 +1390,7 @@ export const Ranks = [
         baseCoins: 3776,
         basePoints: 3439,
         quizPrize: 37759,
-        predictionPrize: 377585
+        predictionPrize: 37760
     },
     {
         rank: 132,
@@ -1398,7 +1398,7 @@ export const Ranks = [
         baseCoins: 3776,
         basePoints: 3465,
         quizPrize: 37759,
-        predictionPrize: 377585
+        predictionPrize: 37760
     },
     {
         rank: 133,
@@ -1406,7 +1406,7 @@ export const Ranks = [
         baseCoins: 4153,
         basePoints: 3491,
         quizPrize: 41534,
-        predictionPrize: 415344
+        predictionPrize: 41530
     },
     {
         rank: 134,
@@ -1414,7 +1414,7 @@ export const Ranks = [
         baseCoins: 4153,
         basePoints: 3518,
         quizPrize: 41534,
-        predictionPrize: 415344
+        predictionPrize: 41530
     },
     {
         rank: 135,
@@ -1422,7 +1422,7 @@ export const Ranks = [
         baseCoins: 4569,
         basePoints: 3544,
         quizPrize: 45688,
-        predictionPrize: 456878
+        predictionPrize: 45690
     },
     {
         rank: 136,
@@ -1430,7 +1430,7 @@ export const Ranks = [
         baseCoins: 4569,
         basePoints: 3570,
         quizPrize: 45688,
-        predictionPrize: 456878
+        predictionPrize: 45690
     },
     {
         rank: 137,
@@ -1438,7 +1438,7 @@ export const Ranks = [
         baseCoins: 5026,
         basePoints: 3596,
         quizPrize: 50257,
-        predictionPrize: 502566
+        predictionPrize: 50260
     },
     {
         rank: 138,
@@ -1446,7 +1446,7 @@ export const Ranks = [
         baseCoins: 5026,
         basePoints: 3623,
         quizPrize: 50257,
-        predictionPrize: 502566
+        predictionPrize: 50260
     },
     {
         rank: 139,
@@ -1454,7 +1454,7 @@ export const Ranks = [
         baseCoins: 5528,
         basePoints: 3649,
         quizPrize: 55282,
-        predictionPrize: 552823
+        predictionPrize: 55280
     },
     {
         rank: 140,
@@ -1462,7 +1462,7 @@ export const Ranks = [
         baseCoins: 5528,
         basePoints: 3675,
         quizPrize: 55282,
-        predictionPrize: 552823
+        predictionPrize: 55280
     },
     {
         rank: 141,
@@ -1470,7 +1470,7 @@ export const Ranks = [
         baseCoins: 6081,
         basePoints: 3701,
         quizPrize: 60811,
-        predictionPrize: 608105
+        predictionPrize: 60810
     },
     {
         rank: 142,
@@ -1478,7 +1478,7 @@ export const Ranks = [
         baseCoins: 6081,
         basePoints: 3728,
         quizPrize: 60811,
-        predictionPrize: 608105
+        predictionPrize: 60810
     },
     {
         rank: 143,
@@ -1486,7 +1486,7 @@ export const Ranks = [
         baseCoins: 6689,
         basePoints: 3754,
         quizPrize: 66892,
-        predictionPrize: 668916
+        predictionPrize: 66890
     },
     {
         rank: 144,
@@ -1494,7 +1494,7 @@ export const Ranks = [
         baseCoins: 6689,
         basePoints: 3780,
         quizPrize: 66892,
-        predictionPrize: 668916
+        predictionPrize: 66890
     },
     {
         rank: 145,
@@ -1502,7 +1502,7 @@ export const Ranks = [
         baseCoins: 7358,
         basePoints: 3806,
         quizPrize: 73581,
-        predictionPrize: 735807
+        predictionPrize: 73580
     },
     {
         rank: 146,
@@ -1510,7 +1510,7 @@ export const Ranks = [
         baseCoins: 7358,
         basePoints: 3833,
         quizPrize: 73581,
-        predictionPrize: 735807
+        predictionPrize: 73580
     },
     {
         rank: 147,
@@ -1518,7 +1518,7 @@ export const Ranks = [
         baseCoins: 8094,
         basePoints: 3859,
         quizPrize: 80939,
-        predictionPrize: 809388
+        predictionPrize: 80940
     },
     {
         rank: 148,
@@ -1526,7 +1526,7 @@ export const Ranks = [
         baseCoins: 8094,
         basePoints: 3885,
         quizPrize: 80939,
-        predictionPrize: 809388
+        predictionPrize: 80940
     },
     {
         rank: 149,
@@ -1534,7 +1534,7 @@ export const Ranks = [
         baseCoins: 8903,
         basePoints: 3911,
         quizPrize: 89033,
-        predictionPrize: 890327
+        predictionPrize: 89030
     },
     {
         rank: 150,
@@ -1542,7 +1542,7 @@ export const Ranks = [
         baseCoins: 8903,
         basePoints: 3938,
         quizPrize: 89033,
-        predictionPrize: 890327
+        predictionPrize: 89030
     },
     {
         rank: 151,
@@ -1550,7 +1550,7 @@ export const Ranks = [
         baseCoins: 9794,
         basePoints: 3964,
         quizPrize: 97936,
-        predictionPrize: 979359
+        predictionPrize: 97940
     },
     {
         rank: 152,
@@ -1558,7 +1558,7 @@ export const Ranks = [
         baseCoins: 9794,
         basePoints: 3990,
         quizPrize: 97936,
-        predictionPrize: 979359
+        predictionPrize: 97940
     },
     {
         rank: 153,
@@ -1566,7 +1566,7 @@ export const Ranks = [
         baseCoins: 10773,
         basePoints: 4016,
         quizPrize: 107730,
-        predictionPrize: 1077295
+        predictionPrize: 107730
     },
     {
         rank: 154,
@@ -1574,6 +1574,6 @@ export const Ranks = [
         baseCoins: 10773,
         basePoints: 4043,
         quizPrize: 107730,
-        predictionPrize: 1077295
+        predictionPrize: 107730
     }
 ]
