@@ -8,6 +8,7 @@ import { ScrollArea } from '../ui/scroll-area'
 import { XEmbed, YouTubeEmbed } from 'react-social-media-embed';
 import TweetEmbed from '../shared/TweetEmbed'
 import axios from 'axios'
+import InviteDialog from '../shared/InviteDialog'
 
 const HomePage = ({ userId }: { userId: string }) => {
 
@@ -70,7 +71,10 @@ const HomePage = ({ userId }: { userId: string }) => {
 
     return (
         <section className='w-full h-screen bg-gradient-to-b from-slate-900 to-gray-600'>
-            <UserDialog user={user} />
+            <div className='flex flex-row justify-between'>
+                <UserDialog user={user} />
+                <InviteDialog userId={user.chatId} weekly={user.weeklyReferrals} total={user.totalReferrals} />
+            </div>
             <div className='w-full ml-auto mb-auto p-2 flex flex-row items-center gap-2'>
                 <div className='w-1/2 bg-slate-800 flex flex-col justify-center items-center rounded-lg h-[53px] sm:h-[75px] gap-[3px]'>
                     <div className='flex flex-row items-center gap-2'>

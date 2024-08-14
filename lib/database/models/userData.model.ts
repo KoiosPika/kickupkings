@@ -20,6 +20,8 @@ export interface IUserData extends Document {
     dailyQuizzes: IQuiz[],
     dailyPredictions: IPrediction[],
     teamOverall: number,
+    weeklyReferrals:number,
+    totalReferrals:number,
     icons: IIcon[]
 }
 
@@ -86,6 +88,8 @@ const UserDataSchema = new Schema({
     conceded: { type: Number, default: 0 },
     country: { type: String, default: 'unknown' },
     teamOverall: { type: Number, default: 0 },
+    weeklyReferrals: { type: Number, default: 0 },
+    totalReferrals: { type: Number, default: 0 },
     positions: {
         type: [PositionSchema], default: () => positions.map(position => ({
             position: position.symbol,

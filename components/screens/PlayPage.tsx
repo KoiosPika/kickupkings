@@ -17,6 +17,7 @@ import { useRouter } from 'next/navigation'
 import { IMatch } from '@/lib/database/models/match.model'
 import UserDialog from '../shared/UserDialog'
 import { getImageID } from '@/lib/utils'
+import InviteDialog from '../shared/InviteDialog'
 
 
 const colors = [
@@ -177,10 +178,7 @@ const PlayPage = ({ userId }: { userId: string }) => {
     <section className='w-full h-screen flex flex-col bg-gradient-to-b from-slate-800 to-gray-600'>
       <div className='flex flex-row justify-between'>
         <UserDialog user={user} />
-        <div className='flex flex-row items-center gap-2 bg-slate-800 px-2 py-[2px] sm:py-[5px] rounded-md ml-auto mr-2'>
-          <Image src={'/icons/coin.svg'} alt='coin' height={100} width={100} className='w-[20px] h-[20px] sm:w-[35px] sm:h-[35px]' />
-          <p className='font-semibold text-white text-[16px] sm:text-[25px]'>{user && user?.coins}</p>
-        </div>
+        <InviteDialog userId={user.chatId} weekly={user.weeklyReferrals} total={user.totalReferrals} />
       </div>
       <div className='w-full flex justify-center items-center'>
         <div className='w-11/12'>

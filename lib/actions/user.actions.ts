@@ -122,7 +122,9 @@ export async function getUserForPlayPage(id: string) {
             teamOverall: user.teamOverall,
             country: user.country,
             form,
-            matches: recentMatches
+            matches: recentMatches,
+            weeklyReferrals:user.weeklyReferrals,
+            totalReferrals:user.totalReferrals,
         }
 
         return JSON.parse(JSON.stringify(returnObject))
@@ -943,17 +945,17 @@ export async function setIconPhotos() {
     }
 }
 
-export async function setGoals() {
+export async function setReferrals() {
     try {
 
-        console.log('Started');
+        await connectToDatabase()
 
-        await connectToDatabase();
+        await UserData.updateMany(
+            {},
+            { '$set': { weeklyReferrals: 0, totalReferrals: 0 } }
+        )
 
-        await UserData.updateMany({}, { '$set': { scored: 0, conceded: 0 } })
-
-        console.log('Done')
     } catch (error) {
-        console.log(error)
+        console.log(error);
     }
 }

@@ -12,11 +12,12 @@ import {
     DrawerTitle,
     DrawerTrigger,
 } from "@/components/ui/drawer"
-import { createFakeUsers, getUserForPlayPage, savePrize, setGoals, setIconPhotos, upgradePosition } from '@/lib/actions/user.actions';
+import { createFakeUsers, getUserForPlayPage, savePrize, setIconPhotos, setReferrals, upgradePosition } from '@/lib/actions/user.actions';
 import { Prices } from '@/constants/Earnings';
 import UserDialog from '../shared/UserDialog';
 import { useToast } from '../ui/use-toast';
 import { ToastAction } from "@/components/ui/toast"
+import InviteDialog from '../shared/InviteDialog';
 
 const ShopPage = ({ userId }: { userId: string }) => {
 
@@ -189,8 +190,8 @@ const ShopPage = ({ userId }: { userId: string }) => {
 
     }
 
-    const addGoals = async () => {
-        await setIconPhotos();
+    const addReferrals = async () => {
+        await setReferrals()
     }
 
     if (!user) {
@@ -199,7 +200,10 @@ const ShopPage = ({ userId }: { userId: string }) => {
 
     return (
         <section className='w-full h-screen bg-gradient-to-b from-slate-900 to-gray-700'>
-            <UserDialog user={user} />
+            <div className='flex flex-row justify-between'>
+                <UserDialog user={user} />
+                <InviteDialog userId={user.chatId} weekly={user.weeklyReferrals} total={user.totalReferrals} />
+            </div>
             <div className='w-full ml-auto mb-auto p-2 flex flex-row items-center gap-2'>
                 <div className='w-1/3 bg-slate-800 flex flex-row justify-around items-center rounded-lg h-[53px] sm:h-[75px]'>
                     <div className='flex flex-row items-center gap-2'>
