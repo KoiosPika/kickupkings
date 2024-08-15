@@ -123,8 +123,8 @@ export async function getUserForPlayPage(id: string) {
             country: user.country,
             form,
             matches: recentMatches,
-            weeklyReferrals:user.weeklyReferrals,
-            totalReferrals:user.totalReferrals,
+            weeklyReferrals: user.weeklyReferrals,
+            totalReferrals: user.totalReferrals,
         }
 
         return JSON.parse(JSON.stringify(returnObject))
@@ -738,12 +738,15 @@ export async function findMatch(id: string) {
 
         if (!user) throw new Error('User not found');
 
-        const count = await UserData.countDocuments({ Rank: user.Rank, User: { $ne: id } });
+        const count = await UserData.countDocuments({ Rank: { $in: [user.Rank, user.Rank + 1, user.Rank + 2, user.Rank + 3, user.Rank - 1] }, User: { $ne: id } });
 
         const randomIndex = Math.floor(Math.random() * count);
 
         const opponent = await populateUsers(
-            UserData.findOne({ Rank: user.Rank, User: { $ne: id } })
+            UserData.findOne({
+                Rank: { $in: [user.Rank, user.Rank + 1, user.Rank + 2, user.Rank + 3, user.Rank - 1] },
+                User: { $ne: id }
+            })
                 .skip(randomIndex)
                 .lean()
         );
@@ -819,7 +822,7 @@ function calculateFormationOverall(userData: IUserData) {
     return averageLevel;
 }
 
-function calculatePrizes(userOverall: number, opponentOverall: number, userRank: number, increment:number) {
+function calculatePrizes(userOverall: number, opponentOverall: number, userRank: number, increment: number) {
     const rankData = Ranks.find(rank => rank.rank === userRank);
 
     if (!rankData) {
@@ -836,7 +839,7 @@ function calculatePrizes(userOverall: number, opponentOverall: number, userRank:
 
         coins *= 2;
         points *= 2;
-        diamonds = 3;
+        diamonds = 2;
     } else if (difference <= -2) {
 
         coins = Math.floor(coins / 2);
@@ -845,7 +848,15 @@ function calculatePrizes(userOverall: number, opponentOverall: number, userRank:
 
     coins = coins + (coins * increment)
 
-    coins = Math.round(coins)
+    diamonds = diamonds + (diamonds * increment)
+
+    points = points + (points * increment)
+
+    coins = Math.ceil(coins)
+
+    diamonds = Math.ceil(diamonds)
+
+    points = Math.ceil(points)
 
     return { coins, points, diamonds };
 }
