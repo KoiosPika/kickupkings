@@ -26,7 +26,7 @@ const TopPage = ({ userId }: { userId: string }) => {
     }
 
     return (
-        <div className='w-full h-screen bg-gradient-to-b from-slate-900 to-gray-600'>
+        <div className='w-full flex flex-col h-screen bg-gradient-to-b from-slate-900 to-gray-600'>
             <div className='w-full ml-auto mb-auto p-2 flex flex-row items-center gap-2'>
                 <Image src={`https://drive.google.com/uc?export=view&id=${getImageID(user.User.photo)}`} alt='user' height={50} width={50} className='bg-slate-500 h-[30px] w-[30px] rounded-lg' />
                 <p className='font-semibold text-white text-[13px]'>{user?.User.username} (Rank {user?.Rank})</p>
@@ -35,11 +35,11 @@ const TopPage = ({ userId }: { userId: string }) => {
                 <div className='w-1/2 text-center bg-gradient-to-b from-slate-800 to-slate-600 py-1 text-yellow-500 rounded-lg font-semibold'>All Time</div>
                 <div className='w-1/2 text-center bg-gradient-to-b from-slate-800 to-slate-600 py-1 text-white rounded-lg font-semibold'>This Round</div>
             </div>
-            <ScrollArea className='py-2 px-2 h-[50px]'>
+            <ScrollArea className='py-2 px-2 h-[65px]'>
                 <div className='flex gap-2'>
                     <>
                         <div className='flex flex-col h-full justify-center items-center rounded-lg' style={{ height: '100%', width: 120 }}>
-                            <div className=' text-center w-full rounded-md font-semibold bg-gradient-to-b from-slate-800 to-slate-600 py-1 text-white' >Most Games</div>
+                            <div className=' text-center w-full rounded-md font-semibold bg-gradient-to-b from-slate-800 to-slate-600 py-1 text-yellow-500' >Most Games</div>
                         </div>
                         <div className='flex flex-col h-full justify-center items-center rounded-lg' style={{ height: '100%', width: 120 }}>
                             <div className=' text-center w-full rounded-md font-semibold bg-gradient-to-b from-slate-800 to-slate-600 py-1 text-white' >Most Wins</div>
@@ -59,12 +59,14 @@ const TopPage = ({ userId }: { userId: string }) => {
                         <div className='flex flex-col h-full justify-center items-center rounded-lg' style={{ height: '100%', width: 150 }}>
                             <div className=' text-center w-full rounded-md font-semibold bg-gradient-to-b from-slate-800 to-slate-600 py-1 text-white' >Highest Overall</div>
                         </div>
-                        
                     </>
                 </div>
                 <ScrollBar orientation="horizontal" className='hidden' />
             </ScrollArea>
-            <div className='h-[80px] mt-auto' />
+            <div className='flex flex-col h-full justify-center items-center flex-grow text-white text-[20px] font-semibold'>
+                Available Soon...
+            </div>
+            <div className='h-[120px] mt-auto' />
         </div>
     );
 };

@@ -122,7 +122,7 @@ const EarnPage = ({ userId }: { userId: string }) => {
         <p className='font-semibold text-white text-[13px]'>{user?.User.username} (Rank {user?.Rank})</p>
       </div>
       <div className='w-full flex justify-center items-center'>
-        <p className='font-semibold text-white text-[20px] mt-2 bg-slate-800 border-b-[5px] border-[3px] border-white w-1/2 text-center py-1 rounded-md'>Predictions</p>
+        <p className='font-semibold text-white text-[20px] mt-2 bg-gradient-to-b from-slate-800 to-slate-600 border-b-[5px] border-[3px] border-white w-1/2 text-center py-1 rounded-md'>Predictions</p>
       </div>
       {predictionData.length > 0 && <ScrollArea style={{ height: 'calc(100vh - 130px)' }}>
         <div className='w-full flex flex-col justify-center items-center my-3'>
@@ -136,7 +136,7 @@ const EarnPage = ({ userId }: { userId: string }) => {
             const rankData = Ranks.find(rank => rank.rank === user.Rank);
             return (
               <div key={prediction.id} className='w-10/12 flex flex-col gap-1 items-center justify-around relative'>
-                <div className='w-full flex flex-row gap-2 items-center justify-around my-4 relative bg-slate-600 px-2 py-4 rounded-lg text-white'>
+                <div className='w-full flex flex-row gap-2 items-center justify-around my-4 relative bg-gradient-to-b from-slate-900 to-slate-600 px-2 py-4 rounded-lg text-white'>
                   <div className='flex flex-col justify-center items-center gap-2 font-semibold w-1/3'>
                     <Image src={`/flags/${prediction.team1Country}.svg`} alt='es' height={40} width={40} className='rounded-full border-2 border-white' />
                     <p>{prediction.team1}</p>
