@@ -152,7 +152,7 @@ const FriendsPage = ({ userId }: { userId: string }) => {
                     <Image src={'/icons/back.svg'} alt='back' height={10} width={10} />
                 </a>
                 <Image src={`https://drive.google.com/uc?export=view&id=${getImageID(user?.User.photo)}`} alt='user' height={50} width={50} className='bg-slate-500 h-[30px] w-[30px] rounded-lg' />
-                <p className='font-semibold text-white text-[13px]'>{user?.User.username} ({user?.Rank})</p>
+                <p className='font-semibold text-white text-[13px]'>{user?.User.username} (Rank {user?.Rank})</p>
             </div>
             <div className='w-full p-4'>
                 <div className='w-full flex flex-row items-center gap-2'>
