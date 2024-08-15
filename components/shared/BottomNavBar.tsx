@@ -45,6 +45,13 @@ const BottomNavBar = ({ currentPage, setCurrentPage }: BottomNavBarProps) => {
                 <Image src={currentPage === 'lineup' ? '/icons/Lineup-black.svg' : '/icons/Lineup-white.svg'} alt='lineup' height={100} width={100} className='h-[20px] w-[20px] sm:h-[30px] sm:w-[30px]'/>
                 <p className='text-[12px] sm:text-[16px] font-bold'>Lineup</p>
             </button>
+            <button
+                className={`text-sm w-1/6 py-1 flex flex-col justify-center items-center gap-1 text-black ${currentPage === 'top' ? 'bg-yellow-400 rounded-xl text-black' : 'text-white'}`}
+                onClick={() => setCurrentPage('top')}
+            >
+                <Image src={currentPage === 'top' ? '/icons/trophy-black.svg' : '/icons/trophy-white.svg'} alt='lineup' height={100} width={100} className='h-[20px] w-[20px] sm:h-[30px] sm:w-[30px]'/>
+                <p className='text-[12px] sm:text-[16px] font-bold'>Top</p>
+            </button>
         </nav>
     );
 };

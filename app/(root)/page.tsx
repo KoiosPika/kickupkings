@@ -5,6 +5,7 @@ import HomePage from '@/components/screens/HomePage';
 import LineupPage from '@/components/screens/LineupPage';
 import PlayPage from '@/components/screens/PlayPage';
 import ShopPage from '@/components/screens/ShopPage';
+import TopPage from '@/components/screens/TopPage';
 import BottomNavBar from '@/components/shared/BottomNavBar';
 import useTelegram from '@/hooks/useTelegram';
 import { IUser } from '@/lib/database/models/user.model';
@@ -44,6 +45,8 @@ const Page = () => {
         return <EarnPage userId={currentUser._id} />;
       case 'lineup':
         return <LineupPage userId={currentUser._id} />;
+      case 'top':
+        return <TopPage userId={currentUser._id} />;
       default:
         return <HomePage userId={currentUser._id} />;
     }

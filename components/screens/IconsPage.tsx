@@ -80,7 +80,7 @@ const IconsPage = ({ userId }: { userId: string }) => {
                     <Image src={'/icons/back.svg'} alt='back' height={10} width={10} />
                 </a>
                 <Image src={`https://drive.google.com/uc?export=view&id=${getImageID(user?.User.photo)}`} alt='user' height={50} width={50} className='bg-slate-500 h-[30px] w-[30px] rounded-lg' />
-                <p className='font-semibold text-white text-[13px]'>{user?.User.username} ({user?.Rank})</p>
+                <p className='font-semibold text-white text-[13px]'>{user?.User.username} (Rank {user?.Rank})</p>
                 <Image src={'/icons/diamond.svg'} alt='coin' height={100} width={100} className='w-[25px] h-[25px] sm:w-[40px] sm:h-[40px] ml-auto' />
                 <p className='font-bold text-white text-[16px] sm:text-[22px]'>{user?.diamonds}</p>
             </div>
