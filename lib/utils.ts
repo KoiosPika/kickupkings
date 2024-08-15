@@ -72,6 +72,9 @@ function calculateOffensivePower(formation: any, players: any) {
     }
   });
 
+  forwards = forwards * 0.7
+  totalLevel = totalLevel * 0.3
+
   return { forwards, totalLevel };
 }
 

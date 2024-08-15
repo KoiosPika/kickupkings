@@ -41,7 +41,7 @@ const InviteDialog = ({ userId, total, weekly }: { userId: string, total: number
                         <div className='w-1/2 text-center bg-gradient-to-b from-slate-600 to-slate-700 rounded-br-lg py-1'>{total}</div>
                     </div>
                 </div>
-                <p className='w-5/6 text-center text-white bg-gradient-to-b from-slate-600 to-slate-700 rounded-lg py-2 font-semibold'>For every weekly referral, you get 10% Prize Increment up to 30 referrals</p>
+                <p className='w-5/6 text-center text-white bg-gradient-to-b from-slate-600 to-slate-700 rounded-lg py-2 px-[2px] font-semibold'>For every weekly referral, you get 10% Prize Increment up to 30 referrals</p>
                 <div className='flex flex-row items-center gap-2'>
                     <Image src={'/icons/coin.svg'} alt='coin' height={20} width={20} />
                     <p className='text-white font-semibold'>Current Prizes Increment</p>
