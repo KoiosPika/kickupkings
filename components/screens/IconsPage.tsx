@@ -9,10 +9,13 @@ import { ScrollArea } from '../ui/scroll-area'
 import { Drawer, DrawerClose, DrawerContent, DrawerFooter, DrawerHeader, DrawerTitle, DrawerTrigger } from '../ui/drawer'
 import { getImageID } from '@/lib/utils'
 
+const Themes = [{ name: 'galaxy', Banner: 'GalaxyBanner' }, { name: 'cyberknight', Banner: 'CyberKnightBanner' }]
+
 const IconsPage = ({ userId }: { userId: string }) => {
 
     const [user, setUser] = useState<IUserData>()
     const [selectedGender, setSelectedGender] = useState<'male' | 'female'>('male');
+    const [selectedTheme, setSelectedTheme] = useState<string>('galaxy');
     const [loading, setLoading] = useState(false)
     const [changing, setChanging] = useState(false)
     const drawerRefs = useRef<{ [key: string]: HTMLDivElement | null }>({});
@@ -71,7 +74,7 @@ const IconsPage = ({ userId }: { userId: string }) => {
         setChanging(false);
     }
 
-    const filteredIcons = Icons.filter(icon => icon.type === selectedGender);
+    const filteredIcons = Icons.filter(icon => icon.type === selectedGender && icon.theme === selectedTheme);
 
     return (
         <div className='w-full h-screen bg-gradient-to-b from-slate-900 to-gray-700'>
@@ -85,26 +88,31 @@ const IconsPage = ({ userId }: { userId: string }) => {
                 <p className='font-bold text-white text-[16px] sm:text-[22px]'>{user?.diamonds}</p>
             </div>
 
-            <div className="flex flex-row justify-center items-center mt-4 w-full">
-                <div className='w-4/5 flex flex-row bg-white rounded-md font-semibold border-[1px] border-white'>
-                    <button
-                        className={`w-1/2 gap-2 flex justify-center items-center px-3 py-1 bg-gradient-to-b ${selectedGender === 'male' ? 'from-blue-800 to-blue-600' : 'bg-white'} text-white rounded-l-md`}
-                        onClick={() => setSelectedGender('male')}
-                    >
-                        <Image src={'/icons/male.svg'} alt='male' height={18} width={18} />
-                        <p>Male</p>
-                    </button>
-                    <button
-                        className={`w-1/2 gap-2 flex justify-center items-center px-3 py-1 bg-gradient-to-b ${selectedGender === 'female' ? 'from-red-800 to-red-600' : 'bg-white'} text-white rounded-r-md`}
-                        onClick={() => setSelectedGender('female')}
-                    >
-                        <Image src={'/icons/female.svg'} alt='male' height={16} width={16} />
-                        <p>Female</p>
-                    </button>
-                </div>
+            <div className="flex flex-row justify-center items-center gap-2 my-2 w-full">
+                {Themes.map((theme, index) => (
+                    <Image key={index} src={`/banners/${theme.Banner}.jpg`} alt='banner' height={200} width={200} className={`h-[40px] w-[120px] rounded-md border-2 ${selectedTheme === theme.name ? 'border-yellow-500' : 'border-slate-900'}`} onClick={() => setSelectedTheme(theme.name)} />
+                ))}
             </div>
 
-            <ScrollArea className='h-[85%]'>
+            <ScrollArea className='h-[83%]'>
+                <div className="flex flex-row justify-center items-center mt-4 w-full">
+                    <div className='w-4/5 flex flex-row bg-white rounded-md font-semibold border-[1px] border-white'>
+                        <button
+                            className={`w-1/2 gap-2 flex justify-center items-center px-3 py-1 bg-gradient-to-b ${selectedGender === 'male' ? 'from-blue-800 to-blue-600' : 'bg-white'} text-white rounded-l-md`}
+                            onClick={() => setSelectedGender('male')}
+                        >
+                            <Image src={'/icons/male.svg'} alt='male' height={18} width={18} />
+                            <p>Male</p>
+                        </button>
+                        <button
+                            className={`w-1/2 gap-2 flex justify-center items-center px-3 py-1 bg-gradient-to-b ${selectedGender === 'female' ? 'from-red-800 to-red-600' : 'bg-white'} text-white rounded-r-md`}
+                            onClick={() => setSelectedGender('female')}
+                        >
+                            <Image src={'/icons/female.svg'} alt='male' height={16} width={16} />
+                            <p>Female</p>
+                        </button>
+                    </div>
+                </div>
                 <div className="mt-4 grid grid-cols-3 px-5 gap-4">
                     {filteredIcons.map(icon => {
                         const isOwned = user.icons.some(i => i.name === icon.name);
