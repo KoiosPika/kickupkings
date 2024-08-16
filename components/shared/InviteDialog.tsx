@@ -10,7 +10,7 @@ import Image from 'next/image'
 const InviteDialog = ({ userId, total, weekly }: { userId: string, total: number, weekly: number }) => {
 
     const calculateTimeLeft = () => {
-        const difference = +new Date('2024-08-21T12:00:00Z') - +new Date();
+        const difference = +new Date('2024-08-31T12:00:00Z') - +new Date();
         let timeLeft = {};
 
         if (difference > 0) {

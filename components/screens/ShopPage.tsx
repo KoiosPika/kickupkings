@@ -16,7 +16,6 @@ import { createFakeUsers, getUserForPlayPage, savePrize, setIconPhotos, setRefer
 import { Prices } from '@/constants/Earnings';
 import UserDialog from '../shared/UserDialog';
 import { useToast } from '../ui/use-toast';
-import { ToastAction } from "@/components/ui/toast"
 import InviteDialog from '../shared/InviteDialog';
 
 const ShopPage = ({ userId }: { userId: string }) => {

@@ -971,7 +971,8 @@ export async function setReferrals() {
 
         await UserData.updateMany(
             {},
-            { '$set': { weeklyReferrals: 0, totalReferrals: 0 } }
+            [{ "$unset": "weeklyReferrals" }
+            ]
         )
 
     } catch (error) {

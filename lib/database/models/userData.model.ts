@@ -17,7 +17,6 @@ export interface IUserData extends Document {
     scored: number,
     conceded: number,
     positions: IPosition[],
-    dailyQuizzes: IQuiz[],
     dailyPredictions: IPrediction[],
     teamOverall: number,
     weeklyReferrals:number,
@@ -29,11 +28,6 @@ interface IIcon {
     name: string,
     theme: string,
     type: string
-}
-
-interface IQuiz {
-    quizId: string;
-    answered: number;
 }
 
 interface IPrediction {
@@ -48,11 +42,6 @@ interface IPosition {
     level: number;
     availableTime: Date;
 }
-
-const QuizSchema = new Schema({
-    quizId: { type: String, required: true },
-    answered: { type: Boolean, default: false }
-});
 
 const PredictionSchema = new Schema({
     matchId: { type: String, required: true },
@@ -88,7 +77,7 @@ const UserDataSchema = new Schema({
     conceded: { type: Number, default: 0 },
     country: { type: String, default: 'unknown' },
     teamOverall: { type: Number, default: 0 },
-    weeklyReferrals: { type: Number, default: 0 },
+    roundReferrals: { type: Number, default: 0 },
     totalReferrals: { type: Number, default: 0 },
     positions: {
         type: [PositionSchema], default: () => positions.map(position => ({
@@ -97,7 +86,6 @@ const UserDataSchema = new Schema({
         }))
     },
     icons: [IconSchema],
-    dailyQuizzes: [QuizSchema],
     dailyPredictions: [PredictionSchema],
 })
 
