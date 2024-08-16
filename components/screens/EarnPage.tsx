@@ -124,7 +124,7 @@ const EarnPage = ({ userId }: { userId: string }) => {
       <div className='w-full flex justify-center items-center'>
         <p className='font-semibold text-white text-[20px] mt-2 bg-gradient-to-b from-slate-800 to-slate-600 border-b-[5px] border-[3px] border-white w-1/2 text-center py-1 rounded-md'>Predictions</p>
       </div>
-      {predictionData.length > 0 && <ScrollArea style={{ height: 'calc(100vh - 130px)' }}>
+      {predictionData.length > 0 && <ScrollArea style={{ height: 'calc(100vh - 180px)' }}>
         <div className='w-full flex flex-col justify-center items-center my-3'>
           {predictionData.map((prediction: any) => {
             const isPredictionTimePassed = new Date() > new Date(prediction.lastTimeToPredict);
