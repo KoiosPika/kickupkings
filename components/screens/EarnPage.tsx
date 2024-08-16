@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react'
 import { Input } from '../ui/input'
 import { ScrollArea } from '../ui/scroll-area'
 import { IUserData } from '@/lib/database/models/userData.model';
-import { addOrUpdatePrediction, collectCoins, getUserByUserID } from '@/lib/actions/user.actions';
+import { collectCoins, getUserByUserID, savePredictions } from '@/lib/actions/user.actions';
 import { Ranks } from '@/constants';
 import { getImageID } from '@/lib/utils';
 import axios from 'axios';
@@ -65,24 +65,13 @@ const EarnPage = ({ userId }: { userId: string }) => {
 
 
   const handlePredictionChange = (matchId: string, score: string, team: string) => {
-    setPredictions({
-      ...predictions,
-      [matchId]: { ...predictions[matchId], [team]: score }
-    });
-  };
-
-  const handlePredictionSubmit = async (matchId: string) => {
-    const { team1: predictedTeam1Score, team2: predictedTeam2Score } = predictions[matchId];
-    if (predictedTeam1Score === undefined || predictedTeam2Score === undefined) {
-      return;
-    }
-    try {
-      setSaving(true);
-      await addOrUpdatePrediction(userId, matchId, parseInt(predictedTeam1Score), parseInt(predictedTeam2Score));
-      setSaving(false);
-    } catch (error) {
-
-    }
+    setPredictions((prevPredictions: any) => ({
+      ...prevPredictions,
+      [matchId]: {
+        ...prevPredictions[matchId],
+        [team]: score === '' ? '' : parseInt(score) // Allow the input to be empty
+      }
+    }));
   };
 
   const saveAllPredictions = async () => {
@@ -91,14 +80,29 @@ const EarnPage = ({ userId }: { userId: string }) => {
     }
 
     try {
-      for (const matchId in predictions) {
-        await handlePredictionSubmit(matchId);
-      }
+      setSaving(true);
 
+      const validPredictions = Object.keys(predictions).reduce((acc: any, matchId) => {
+        const { team1, team2 } = predictions[matchId];
+        if (team1 !== undefined && team2 !== undefined) {
+          acc[matchId] = {
+            matchId,
+            predictedTeam1Score: parseInt(team1),
+            predictedTeam2Score: parseInt(team2),
+          };
+        }
+        return acc;
+      }, {});
+
+      await savePredictions(userId, validPredictions)
+
+      setSaving(false);
     } catch (error) {
-
+      console.error("Error saving predictions:", error);
+      setSaving(false);
     }
   };
+
 
   const handleCollectCoins = async (matchId: string) => {
     try {
@@ -146,17 +150,17 @@ const EarnPage = ({ userId }: { userId: string }) => {
                       <Input
                         type='number'
                         className='text-[16px] w-[40px] font-bold text-center text-black'
-                        value={predictions[prediction.id]?.team1 || (userPrediction ? userPrediction.predictedTeam1Score : '')}
+                        value={predictions[prediction.id]?.team1 !== undefined ? predictions[prediction.id]?.team1 : (userPrediction ? userPrediction.predictedTeam1Score : '')}
                         onChange={(e) => handlePredictionChange(prediction.id, e.target.value, 'team1')}
-                        disabled={isPredictionTimePassed}
+                        disabled={isPredictionTimePassed || isCollected}
                       />
                       <p className='text-white font-bold'>-</p>
                       <Input
                         type='number'
                         className='text-[16px] w-[40px] font-bold text-center text-black'
-                        value={predictions[prediction.id]?.team2 || (userPrediction ? userPrediction.predictedTeam2Score : '')}
+                        value={predictions[prediction.id]?.team2 !== undefined ? predictions[prediction.id]?.team2 : (userPrediction ? userPrediction.predictedTeam2Score : '')}
                         onChange={(e) => handlePredictionChange(prediction.id, e.target.value, 'team2')}
-                        disabled={isPredictionTimePassed}
+                        disabled={isPredictionTimePassed || isCollected}
                       />
                     </div>
                     {prediction.finished && isCorrectPrediction && !isCollected ? (

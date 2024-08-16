@@ -578,26 +578,16 @@ export async function playGame(player1ID: string, player2ID: string, type: strin
     }
 }
 
-export async function addOrUpdatePrediction(userId: string, matchId: string, predictedTeam1Score: number, predictedTeam2Score: number) {
+export async function savePredictions(userId: string, predictions: any) {
 
-    if (predictedTeam1Score === undefined || predictedTeam2Score === undefined) {
-        throw new Error('Predicted scores are required');
-    }
+    const predictionsArray = Object.keys(predictions).map(matchId => ({
+        matchId,
+        predictedTeam1Score: predictions[matchId].predictedTeam1Score,
+        predictedTeam2Score: predictions[matchId].predictedTeam2Score,
+        collected: false  // Assuming a new prediction is not collected yet
+    }));
 
-    const user = await UserData.findOne({ User: userId });
-
-    const predictionIndex = user.dailyPredictions.findIndex((p: any) => p.matchId === matchId);
-
-    if (predictionIndex !== -1) {
-        // Update existing prediction
-        user.dailyPredictions[predictionIndex].predictedTeam1Score = predictedTeam1Score;
-        user.dailyPredictions[predictionIndex].predictedTeam2Score = predictedTeam2Score;
-    } else {
-        // Add new prediction
-        user.dailyPredictions.push({ matchId, predictedTeam1Score, predictedTeam2Score });
-    }
-
-    await user.save();
+    const user = await UserData.findOneAndUpdate({ User: userId }, { '$set': { dailyPredictions: predictionsArray } });
 }
 
 export async function collectCoins(userId: string, matchId: string) {
