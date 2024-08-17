@@ -236,11 +236,12 @@ const FriendsPage = ({ userId }: { userId: string }) => {
                                                     ) : match && <>
                                                         <div className='flex flex-row items-center gap-3'>
                                                             <div className='w-1/2'>
-                                                                <div className='flex flex-row justify-center items gap-3 my-2'>
-                                                                    <Image src={`https://drive.google.com/uc?export=view&id=${getImageID(match?.player.User.photo)}`} alt='user' height={50} width={50} className='bg-slate-500 h-[28px] w-[28px] sm:h-[48px] sm:w-[48px] rounded-lg' />
-                                                                    <p className='font-bold text-white'>{match?.player.User.username}</p>
+                                                                <div className='flex flex-row justify-center items-center gap-3 my-2'>
+                                                                    <Image src={`https://drive.google.com/uc?export=view&id=${getImageID(match.player.User.photo)}`} alt='user' height={50} width={50} className='bg-slate-500 h-[28px] w-[28px] sm:h-[48px] sm:w-[48px] rounded-lg' />
+                                                                    <p className='font-bold text-white text-[14px]'>{match.player.User.username}</p>
+                                                                    <Image src={`/flags/${match?.player.country}.svg`} alt='flag' height={20} width={20} className='rounded-full h-[20px] w-[20px] bg-white' />
                                                                 </div>
-                                                                <div className='h-[250px] w-full flex flex-col justify-around rounded-md bg-slate-800 border-[1px] sm:border-4 border-white' style={{ backgroundImage: `url('/Field-dark.png')`, backgroundSize: 'cover', backgroundPosition: 'center' }}>
+                                                                <div className='h-[250px] w-full flex flex-col justify-around rounded-md bg-slate-800 border-[1px] sm:border-4 border-white' style={{ backgroundImage: `url('/Field-dark-9.PNG')`, backgroundSize: 'cover', backgroundPosition: 'center' }}>
                                                                     {formations.find(f => f.id === match?.player.formation)?.data.map((row: any, rowIndex: number) => (
                                                                         <div key={rowIndex} className='flex justify-around'>
                                                                             {row.positions.map((position: any, posIndex: number) => (
@@ -255,11 +256,12 @@ const FriendsPage = ({ userId }: { userId: string }) => {
                                                                 <p className='bg-slate-900 text-white font-semibold my-1 rounded-full'>Overall: {(match?.playerOverall).toFixed(2)}</p>
                                                             </div>
                                                             <div className='w-1/2'>
-                                                                <div className='flex flex-row justify-center items gap-3 my-2'>
-                                                                    <Image src={`https://drive.google.com/uc?export=view&id=${getImageID(match?.opponent.User.photo)}`} alt='user' height={50} width={50} className='bg-slate-500 h-[28px] w-[28px] sm:h-[48px] sm:w-[48px] rounded-lg' />
-                                                                    <p className='font-bold text-white'>{match.opponent?.User.username}</p>
+                                                                <div className='flex flex-row justify-center items-center gap-3 my-2'>
+                                                                    <Image src={`https://drive.google.com/uc?export=view&id=${getImageID(match.opponent.User.photo)}`} alt='user' height={50} width={50} className='bg-slate-500 h-[28px] w-[28px] sm:h-[48px] sm:w-[48px] rounded-lg' />
+                                                                    <p className='font-bold text-white text-[14px]'>{match.opponent.User.username}</p>
+                                                                    <Image src={`/flags/${match?.opponent.country}.svg`} alt='flag' height={20} width={20} className='rounded-full h-[20px] w-[20px] bg-white' />
                                                                 </div>
-                                                                <div className='h-[250px] w-full flex flex-col justify-around rounded-md bg-slate-800 border-[1px] sm:border-4 border-white' style={{ backgroundImage: `url('/Field-dark.png')`, backgroundSize: 'cover', backgroundPosition: 'center' }}>
+                                                                <div className='h-[250px] w-full flex flex-col justify-around rounded-md bg-slate-800 border-[1px] sm:border-4 border-white' style={{ backgroundImage: `url('/Field-dark-9.PNG')`, backgroundSize: 'cover', backgroundPosition: 'center' }}>
                                                                     {formations.find(f => f.id === match.opponent?.formation)?.data.map((row: any, rowIndex: number) => (
                                                                         <div key={rowIndex} className='flex justify-around'>
                                                                             {row.positions.map((position: any, posIndex: number) => (

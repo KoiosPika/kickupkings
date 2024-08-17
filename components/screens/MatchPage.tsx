@@ -284,7 +284,7 @@ const MatchPage = ({ id }: { id: string }) => {
       } else {
         clearInterval(interval);
       }
-    }, (currentMinute < currentInGameMinute ? 50 : (match && match.attacks[currentAttackIndex]?.scenario[currentScenarioIndex]?.wait) || 2200));
+    }, (currentMinute < currentInGameMinute ? 1 : (match && match.attacks[currentAttackIndex]?.scenario[currentScenarioIndex]?.wait) || 2200));
 
     return () => clearInterval(interval);
   }, [match, currentAttackIndex, currentScenarioIndex]);

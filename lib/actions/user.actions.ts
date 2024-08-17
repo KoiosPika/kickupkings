@@ -91,7 +91,7 @@ export async function getUserForPlayPage(id: string) {
             { $set: { attacks: [] } }
         );
 
-        const latestMatch = await Match.findOne({ Player: id })
+        const latestMatch = await Match.findOne({ Player: id, type: { $in: ['Rank', 'Classic'] } })
             .sort({ createdAt: -1 })
             .limit(1);
 
@@ -665,6 +665,8 @@ export async function collectCoins(userId: string, matchId: string) {
 
     // Save user data
     await user.save();
+
+    await RoundData.findOneAndUpdate({ User: userId }, { '$inc': { predictions: 1 } })
 }
 
 const calculateTeamOverall = (userPositions: any) => {
