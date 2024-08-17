@@ -201,7 +201,7 @@ const ShopPage = ({ userId }: { userId: string }) => {
         <section className='w-full h-screen bg-gradient-to-b from-slate-900 to-gray-700'>
             <div className='flex flex-row justify-between'>
                 <UserDialog user={user} />
-                <InviteDialog userId={user.chatId} weekly={user.weeklyReferrals} total={user.totalReferrals} />
+                <InviteDialog userId={user.chatId} round={user.roundReferrals} total={user.totalReferrals} />
             </div>
             <div className='w-full ml-auto mb-auto p-2 flex flex-row items-center gap-2'>
                 <div className='w-1/3 bg-slate-800 flex flex-row justify-around items-center rounded-lg h-[53px] sm:h-[75px]'>

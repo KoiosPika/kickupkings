@@ -7,7 +7,7 @@ import {
 } from "@/components/ui/alert-dialog"
 import Image from 'next/image'
 
-const InviteDialog = ({ userId, total, weekly }: { userId: string, total: number, weekly: number }) => {
+const InviteDialog = ({ userId, total, round }: { userId: string, total: number, round: number }) => {
 
     const calculateTimeLeft = () => {
         const difference = +new Date('2024-08-31T12:00:00Z') - +new Date();
@@ -64,26 +64,26 @@ const InviteDialog = ({ userId, total, weekly }: { userId: string, total: number
                 </div>
                 <div className='w-5/6 flex flex-col gap-1 items-center font-semibold text-white text-[14px]'>
                     <div className='flex flex-row w-full justify-center items-center gap-1'>
-                        <div className='w-1/2 text-center bg-gradient-to-b from-slate-600 to-slate-700 rounded-tl-lg py-1'>Weekly Referrals</div>
+                        <div className='w-1/2 text-center bg-gradient-to-b from-slate-600 to-slate-700 rounded-tl-lg py-1'>Round Referrals</div>
                         <div className='w-1/2 text-center bg-gradient-to-b from-slate-600 to-slate-700 rounded-tr-lg py-1'>Total Referrals</div>
                     </div>
                     <div className='flex flex-row w-full justify-center items-center gap-1'>
-                        <div className='w-1/2 text-center bg-gradient-to-b from-slate-600 to-slate-700 rounded-bl-lg py-1'>{weekly}</div>
+                        <div className='w-1/2 text-center bg-gradient-to-b from-slate-600 to-slate-700 rounded-bl-lg py-1'>{round}</div>
                         <div className='w-1/2 text-center bg-gradient-to-b from-slate-600 to-slate-700 rounded-br-lg py-1'>{total}</div>
                     </div>
                 </div>
-                <p className='w-5/6 text-center text-white bg-gradient-to-b from-slate-600 to-slate-700 rounded-lg py-2 px-[2px] font-semibold text-[14px]'>For every weekly referral, you get 10% Prize Increment up to 30 referrals</p>
+                <p className='w-5/6 text-center text-white bg-gradient-to-b from-slate-600 to-slate-700 rounded-lg py-2 px-[2px] font-semibold text-[14px]'>For every round referral, you get 10% Prize Increment up to 30 referrals</p>
                 <div className='flex flex-row items-center gap-2'>
                     <Image src={'/icons/coin.svg'} alt='coin' height={20} width={20} />
                     <p className='text-white font-semibold text-[14px]'>Current Prizes Increment</p>
                     <Image src={'/icons/diamond.svg'} alt='coin' height={20} width={20} />
                 </div>
-                <p className='text-white font-semibold text-center bg-gradient-to-b from-slate-600 to-slate-700 px-4 py-1 rounded-lg text-[14px]'>10% x {weekly} Weekly Referrals = {10 * weekly}%</p>
-                <p className='text-white text-[14px]'>Weekly referrals resets every 2 weeks</p>
+                <p className='text-white font-semibold text-center bg-gradient-to-b from-slate-600 to-slate-700 px-4 py-1 rounded-lg text-[14px]'>10% x {round} Round Referrals = {10 * round}%</p>
+                <p className='text-white text-[14px]'>Round referrals resets every 2 weeks</p>
                 <div className="text-white text-[14px]">
                     {timeLeft.days || timeLeft.hours || timeLeft.minutes || timeLeft.seconds ? (
                         <>
-                            <p>Time until weekly referrals resets:</p>
+                            <p>Time until round referrals resets:</p>
                             <p className='text-center mt-1 bg-slate-800 py-1 rounded-lg font-semibold'>{timeLeft.days}d {timeLeft.hours}h {timeLeft.minutes}m {timeLeft.seconds}s</p>
                         </>
                     ) : (

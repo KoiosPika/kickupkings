@@ -178,7 +178,7 @@ const PlayPage = ({ userId }: { userId: string }) => {
     <section className='w-full h-screen flex flex-col bg-gradient-to-b from-slate-800 to-gray-600'>
       <div className='flex flex-row justify-between'>
         <UserDialog user={user} />
-        <InviteDialog userId={user.chatId} weekly={user.weeklyReferrals} total={user.totalReferrals} />
+        <InviteDialog userId={user.chatId} round={user.roundReferrals} total={user.totalReferrals} />
       </div>
       <div className='w-full flex justify-center items-center'>
         <div className='w-11/12'>
@@ -296,7 +296,7 @@ const PlayPage = ({ userId }: { userId: string }) => {
       </div>
       <div className='w-full flex justify-center items-center mt-2'>
         <div className='grid grid-cols-2 gap-2 w-11/12'>
-          <AlertDialog>
+          {!user.nextAvailableMatch && <AlertDialog>
             <AlertDialogTrigger>
               <div className='bg-blue-500 px-3 py-2 font-semibold text-white rounded-xl shadow-blue-600 shadow-lg border-b-[4px] sm:border-b-[8px] border-blue-800 flex flex-row items-center justify-center gap-1'>
                 <p className='text-[16px] sm:text-[34px] ml-1'>Find Match</p>
@@ -412,7 +412,12 @@ const PlayPage = ({ userId }: { userId: string }) => {
                 <Image src={'/icons/x.svg'} alt='coin' height={100} width={100} className='w-[25px] h-[25px] sm:w-[40px] sm:h-[40px]' />
               </AlertDialogCancel>
             </AlertDialogContent>
-          </AlertDialog>
+          </AlertDialog>}
+          {user.nextAvailableMatch &&
+            <div className='bg-blue-500 px-3 py-2 font-semibold text-white rounded-xl shadow-blue-600 shadow-lg border-b-[4px] sm:border-b-[8px] border-blue-800 flex flex-row items-center justify-center gap-1'>
+              <p className='text-[16px] sm:text-[34px] ml-1'>Available in {user.nextAvailableMatch}</p>
+            </div>
+          }
           <div className='bg-green-700 py-2 font-semibold text-white rounded-xl shadow-green-600 shadow-lg border-b-[4px] sm:border-b-[8px] border-green-900 flex flex-row justify-center items-center gap-1'>
             <a href={`/friends/${user.id}`} className='text-[16px] sm:text-[34px]'>Play with friends</a>
           </div>

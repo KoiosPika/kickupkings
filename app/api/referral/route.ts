@@ -47,7 +47,7 @@ export async function POST(request: any) {
             // Update referral counts for the referrer
             await UserData.findOneAndUpdate(
                 { User: referrerUser._id },
-                { '$inc': { totalReferrals: 1, weeklyReferrals: 1 } }
+                { '$inc': { totalReferrals: 1, roundReferrals: 1 } }
             );
 
             // Notify the referrer about the successful referral

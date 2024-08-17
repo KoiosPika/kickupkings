@@ -1,12 +1,9 @@
 import Image from 'next/image'
 import React, { useEffect, useState } from 'react'
-import { Input } from '../ui/input'
 import { ScrollArea, ScrollBar } from '../ui/scroll-area'
 import { IUserData } from '@/lib/database/models/userData.model';
-import { collectCoins, getUserByUserID } from '@/lib/actions/user.actions';
-import { Ranks } from '@/constants';
+import { getUserByUserID } from '@/lib/actions/user.actions';
 import { getImageID } from '@/lib/utils';
-import axios from 'axios';
 
 const TopPage = ({ userId }: { userId: string }) => {
 

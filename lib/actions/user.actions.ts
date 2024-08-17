@@ -11,6 +11,7 @@ import { Predictions } from "@/constants/Earnings";
 import { populateMatch } from "./match.actions";
 import { Flags } from "@/constants/Flags";
 import { Icons } from "@/constants/Icons";
+import RoundData from "../database/models/roundData.model";
 
 const populateUsers = (query: any) => {
     return query
@@ -78,6 +79,8 @@ export async function getUserForPlayPage(id: string) {
 
         const user = await populateUsers(UserData.findOne({ User: id }))
 
+        let nextAvailableMatch;
+
         await Match.updateMany(
             {
                 $and: [
@@ -88,6 +91,31 @@ export async function getUserForPlayPage(id: string) {
             { $set: { attacks: [] } }
         );
 
+        const latestMatch = await Match.findOne({ Player: id })
+            .sort({ createdAt: -1 })
+            .limit(1);
+
+        if (latestMatch) {
+
+            const now = new Date();
+            const availableToWatchDate = new Date(latestMatch.availableToWatch);
+
+            if (new Date(latestMatch.availableToWatch) > new Date()) {
+
+                const timeDifferenceInMilliseconds = availableToWatchDate.getTime() - now.getTime();
+
+                const timeDifferenceInMinutes = Math.ceil(timeDifferenceInMilliseconds / (1000 * 60));
+
+                nextAvailableMatch = `${timeDifferenceInMinutes}m`;
+            } else {
+
+                nextAvailableMatch = null;
+            }
+        } else {
+
+            nextAvailableMatch = null;
+        }
+
         const userMatches = await populateMatch(Match.find({
             $or: [{ Player: id }, { Opponent: id }],
             availableToWatch: { $lte: new Date() }
@@ -96,8 +124,6 @@ export async function getUserForPlayPage(id: string) {
             .limit(5))
 
         const form = userMatches.reverse().map((match: IMatch) => match.winner.toString() === id ? 'W' : 'L').join('');
-
-        console.log(userMatches)
 
         const recentMatches = userMatches.reverse().slice(0, 2)
 
@@ -123,8 +149,9 @@ export async function getUserForPlayPage(id: string) {
             country: user.country,
             form,
             matches: recentMatches,
-            weeklyReferrals: user.weeklyReferrals,
+            roundReferrals: user.roundReferrals,
             totalReferrals: user.totalReferrals,
+            nextAvailableMatch,
         }
 
         return JSON.parse(JSON.stringify(returnObject))
@@ -517,6 +544,8 @@ export async function playGame(player1ID: string, player2ID: string, type: strin
             if (finalOutcome === 'Player Wins!') {
                 const updatedPlayer1 = await UserData.findOneAndUpdate({ User: player1ID }, { '$inc': { played: 1, won: 1, points, coins, diamonds, scored: score1, conceded: score2 } }, { new: true })
 
+                await RoundData.findOneAndUpdate({ User: player1ID }, { '$inc': { played: 1, won: 1, points, scored: score1 } })
+
                 const newRank = Ranks.find(rank => updatedPlayer1.points <= rank.maxPoints) || Ranks[Ranks.length - 1];
 
                 if (newRank.rank !== updatedPlayer1.Rank) {
@@ -527,14 +556,20 @@ export async function playGame(player1ID: string, player2ID: string, type: strin
                 }
 
                 await UserData.findOneAndUpdate({ User: player2ID }, { '$inc': { played: 1, lost: 1, scored: score2, conceded: score1 } })
+                await RoundData.findOneAndUpdate({ User: player2ID }, { '$inc': { played: 1, scored: score2 } })
+
             } else if (finalOutcome === 'Opponent Wins!') {
 
                 const deduction = rankData?.basePoints || 0;
                 const currentPlayer1 = await UserData.findOne({ User: player1ID });
+                const currentPlayerRound = await RoundData.findOne({ User: player1ID });
 
                 const newPoints = Math.max(0, currentPlayer1.points - deduction);
+                const roundPoints = Math.max(0, currentPlayerRound.points - deduction);
 
                 const updatedPlayer1 = await UserData.findOneAndUpdate({ User: player1ID }, { '$inc': { played: 1, lost: 1, scored: score1, conceded: score2 }, '$set': { points: newPoints } }, { new: true })
+                await RoundData.findOneAndUpdate({ User: player1ID }, { '$inc': { played: 1, scored: score1 }, '$set': { points: roundPoints } })
+
                 const newRank = Ranks.find(rank => updatedPlayer1.points <= rank.maxPoints) || Ranks[Ranks.length - 1];
 
                 if (newRank.rank !== updatedPlayer1.Rank) {
@@ -544,17 +579,28 @@ export async function playGame(player1ID: string, player2ID: string, type: strin
                     );
                 }
                 await UserData.findOneAndUpdate({ User: player2ID }, { '$inc': { played: 1, won: 1, scored: score2, conceded: score1 } })
+                await RoundData.findOneAndUpdate({ User: player2ID }, { '$inc': { played: 1, won: 1, scored: score2 } })
             }
         } else if (type === 'Classic') {
             if (finalOutcome === 'Player Wins!') {
+
                 await UserData.findOneAndUpdate({ User: player1ID }, { '$inc': { played: 1, won: 1, coins, scored: score1, conceded: score2 } })
 
+                await RoundData.findOneAndUpdate({ User: player1ID }, { '$inc': { played: 1, won: 1, scored: score1 } })
+
                 await UserData.findOneAndUpdate({ User: player2ID }, { '$inc': { played: 1, lost: 1, scored: score2, conceded: score1 } })
+
+                await RoundData.findOneAndUpdate({ User: player2ID }, { '$inc': { played: 1, scored: score2 } })
 
             } else if (finalOutcome === 'Opponent Wins!') {
                 await UserData.findOneAndUpdate({ User: player1ID }, { '$inc': { played: 1, lost: 1, coins: coins / 3, scored: score1, conceded: score2 } })
 
+                await RoundData.findOneAndUpdate({ User: player1ID }, { '$inc': { played: 1, scored: score1 } })
+
                 await UserData.findOneAndUpdate({ User: player2ID }, { '$inc': { played: 1, won: 1, scored: score2, conceded: score1 } })
+
+                await RoundData.findOneAndUpdate({ User: player2ID }, { '$inc': { played: 1, won: 1, scored: score1 } })
+
             }
         }
 
@@ -584,7 +630,7 @@ export async function savePredictions(userId: string, predictions: any) {
         matchId,
         predictedTeam1Score: predictions[matchId].predictedTeam1Score,
         predictedTeam2Score: predictions[matchId].predictedTeam2Score,
-        collected: false  // Assuming a new prediction is not collected yet
+        collected: false
     }));
 
     const user = await UserData.findOneAndUpdate({ User: userId }, { '$set': { dailyPredictions: predictionsArray } });
@@ -746,7 +792,7 @@ export async function findMatch(id: string) {
         const userOverall = calculateFormationOverall(user);
         const opponentOverall = calculateFormationOverall(opponent);
 
-        let increment = user.weeklyReferrals * 0.1
+        let increment = user.roundReferrals * 0.1
 
         const prizes = calculatePrizes(userOverall, opponentOverall, user.Rank, increment);
 
@@ -757,6 +803,8 @@ export async function findMatch(id: string) {
             opponentOverall: opponentOverall,
             prizes
         }
+
+        console.log(matchDetails)
 
         return JSON.parse(JSON.stringify(matchDetails))
     } catch (error) {
@@ -959,13 +1007,8 @@ export async function setReferrals() {
 
         await connectToDatabase()
 
-        await UserData.updateMany(
-            {},
-            [{ "$unset": "weeklyReferrals" }
-            ]
-        )
-
+        console.log('RoundData documents created for all users.');
     } catch (error) {
-        console.log(error);
+        console.error('Error creating RoundData documents:', error);
     }
 }

@@ -19,7 +19,7 @@ export interface IUserData extends Document {
     positions: IPosition[],
     dailyPredictions: IPrediction[],
     teamOverall: number,
-    weeklyReferrals:number,
+    roundReferrals:number,
     totalReferrals:number,
     icons: IIcon[]
 }
