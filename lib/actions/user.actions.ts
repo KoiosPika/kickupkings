@@ -41,6 +41,10 @@ export async function createUser(id: string, chatId: string) {
             ]
         })
 
+        const roundData = await RoundData.create({
+            User: user._id
+        })
+
         return JSON.parse(JSON.stringify(userData));
     } catch (error) {
         console.log(error)
@@ -1009,7 +1013,6 @@ export async function setReferrals() {
 
         await connectToDatabase()
 
-        console.log('RoundData documents created for all users.');
     } catch (error) {
         console.error('Error creating RoundData documents:', error);
     }

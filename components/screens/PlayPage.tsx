@@ -117,7 +117,7 @@ const PlayPage = ({ userId }: { userId: string }) => {
 
     setWaiting(true);
     let matchType = activeTab
-    let coins = activeTab === 'Classic' ? match.prizes.coins * 3 : match.prizes.coins;
+    let coins = activeTab === 'Classic' ? match.prizes.coins * 2 : match.prizes.coins;
     let diamonds = activeTab === 'Classic' ? 0 : match.prizes.diamonds;
     let points = activeTab === 'Classic' ? 0 : match.prizes.points;
 
@@ -370,7 +370,7 @@ const PlayPage = ({ userId }: { userId: string }) => {
                   <div className='w-11/12 bg-slate-700 flex flex-row justify-center items-center py-2 rounded-full gap-6'>
                     <div className='flex flex-row items-center gap-2'>
                       <Image src={'/icons/coin.svg'} alt='coin' height={100} width={100} className='w-[30px] h-[30px] sm:w-[35px] sm:h-[35px]' />
-                      <p className='font-semibold text-white'>{activeTab === 'Classic' ? match.prizes.coins * 3 : match.prizes.coins}</p>
+                      <p className='font-semibold text-white'>{activeTab === 'Classic' ? match.prizes.coins * 2 : match.prizes.coins}</p>
                     </div>
                     <div className='flex flex-row items-center gap-2'>
                       <Image src={'/icons/diamond.svg'} alt='coin' height={100} width={100} className='w-[30px] h-[30px] sm:w-[35px] sm:h-[35px]' />
