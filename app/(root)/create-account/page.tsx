@@ -31,11 +31,11 @@ const Page = () => {
   }
 
   return (
-    <section className='w-full h-screen flex flex-col justify-center items-center bg-gradient-to-b from-slate-900 to-slate-700 text-white'>
+    <section className='w-full h-screen flex flex-col justify-center items-center bg-gradient-to-b from-slate-900 to-slate-600 text-white'>
       <ScrollArea className='h-[80%]'>
         <div className='flex justify-center items-center'>
           <div className="items-top flex flex-col gap-3 w-11/12 justify-center items-center text-white px-3 font-semibold">
-            <Image src={'/logo.jpg'} alt="logo" height={200} width={200} className='rounded-full' />
+            <Image src={'/Logoo.jpg'} alt="logo" height={200} width={200} className='rounded-full' />
             <p>In this exciting football simulation game, you take control of teams and determine match outcomes based on the formations and player levels. The game emphasizes strategic planning, allowing you to improve your players by purchasing upgrades with coins earned from winning both Rank and Classic games. Each victory brings you closer to building the ultimate team.</p>
             <p>The game adds an extra layer of excitement by rewarding you with diamonds when you beat stronger teams. These diamonds are a valuable currency in the game and can be used in two main ways. First, you can buy special tokens to display during matches, adding a unique flair to your gameplay. Second, diamonds can be used to participate in a lucky spin, offering a chance to upgrade player positions. The spin system is designed to keep the game engaging: the first four spins favor coin rewards, but persistence is rewarded on the fifth spin with a guaranteed level upgrade card. This ensures that players always have a path to improve their teams, even if luck {`isn't`} on their side initially.</p>
             <p>The combination of strategic gameplay, the thrill of upgrading players, and the anticipation of the lucky spin creates a dynamic and enjoyable experience. As you progress, {`you'll`} need to make smart decisions about when to use your coins and diamonds, and how to best enhance your {`team's`}abilities. With each upgrade, your team becomes stronger, and your chances of winning increase. Play smart, invest wisely, and lead your team to victory in this immersive and rewarding football simulation game!</p>
