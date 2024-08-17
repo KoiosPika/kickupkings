@@ -38,6 +38,7 @@ const MatchPage = ({ id }: { id: string }) => {
   const [half, setHalf] = useState<string>('First half');
   const [currentMinute, setCurrentMinute] = useState<number>(0);
   const [finished, setFinished] = useState(false)
+  const [currentInGameMinute, setCurrentInGameMinute] = useState(0);
   const [playerStats, setPlayerStats] = useState<Stats>({
     possession: 0,
     shots: 0,
@@ -191,6 +192,26 @@ const MatchPage = ({ id }: { id: string }) => {
   }, [id]);
 
   useEffect(() => {
+    if (!match || !match.availableToWatch) return;
+
+    const now = new Date();
+    const availableToWatchDate = new Date(match.availableToWatch);
+    const matchDurationInMinutes = 90; // Total in-game minutes
+    const realWorldMatchDurationInMs = 4 * 60 * 1000; // 4 minutes in milliseconds (total match watch time)
+    const timeElapsedSinceAvailable = now.getTime() - availableToWatchDate.getTime(); // Time elapsed since match became available
+
+    // Calculate the current in-game minute based on how much real time has passed
+    const calculatedInGameMinute = Math.floor((timeElapsedSinceAvailable / realWorldMatchDurationInMs) * matchDurationInMinutes);
+
+    setCurrentInGameMinute(90 + calculatedInGameMinute);
+
+    console.log(currentInGameMinute)
+
+  }, [match]);
+
+  useEffect(() => {
+    if (!match || !match.attacks) return;
+
     const interval = setInterval(() => {
       if (match && currentAttackIndex < match.attacks.length) {
         const currentAttack = match.attacks[currentAttackIndex];
@@ -263,7 +284,7 @@ const MatchPage = ({ id }: { id: string }) => {
       } else {
         clearInterval(interval);
       }
-    }, (match && match.attacks[currentAttackIndex]?.scenario[currentScenarioIndex]?.wait) || 2200);
+    }, (currentMinute < currentInGameMinute ? 50 : (match && match.attacks[currentAttackIndex]?.scenario[currentScenarioIndex]?.wait) || 2200));
 
     return () => clearInterval(interval);
   }, [match, currentAttackIndex, currentScenarioIndex]);
