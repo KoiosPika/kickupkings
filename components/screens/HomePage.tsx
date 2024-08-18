@@ -94,7 +94,7 @@ const HomePage = ({ userId }: { userId: string }) => {
             </div>
             <ScrollArea style={{ height: height - 195 }}>
                 <div className='w-full flex flex-col justify-center items-center'>
-                    <Link href={'https://www.x.com/'} target='blank' className='w-11/12 flex flex-row justify-center items-center gap-2 py-2 bg-gradient-to-b from-slate-800 to-slate-600 rounded-lg my-2 border-2 border-slate-600'>
+                    <Link href={'https://x.com/KoiosPika'} target='blank' className='w-11/12 flex flex-row justify-center items-center gap-2 py-2 bg-gradient-to-b from-slate-800 to-slate-600 rounded-lg my-2 border-2 border-slate-600'>
                         <p className='text-white font-semibold'>Follow us on</p>
                         <Image src={'/icons/x-twitter.svg'} alt='x' height={30} width={30}/>
                         <p className='text-white font-semibold'>for more {`->`}</p>
