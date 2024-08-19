@@ -335,7 +335,7 @@ const ShopPage = ({ userId }: { userId: string }) => {
                                     <DrawerTrigger>
                                         <div ref={el => { drawerRefs.current[position.symbol] = el; }} className='flex flex-col justify-center items-center w-full bg-slate-800 rounded-xl h-[100px] sm:h-[150px] shadow-slate-200 shadow-sm border-[1px] border-slate-300'>
                                             <div className='flex flex-row items-center w-full p-2 gap-1'>
-                                                <div className={`p-2 rounded-md font-bold w-1/4 sm:w-1/3 text-center text-white h-full flex justify-center items-center text-[13px] sm:text-[25px] border-2 border-white`} style={{ backgroundColor: position.color, boxShadow: `-8px -8px 10px -6px ${position.color},-8px 8px 10px -6px ${position.color},8px -8px 10px -6px ${position.color},8px 8px 10px -6px ${position.color}` }}>
+                                                <div className={`p-2 rounded-md font-bold w-1/4 sm:w-1/3 text-center text-white flex justify-center items-center text-[13px] sm:text-[25px] border-2 border-white`} style={{ backgroundColor: position.color, boxShadow: `-8px -8px 10px -6px ${position.color},-8px 8px 10px -6px ${position.color},8px -8px 10px -6px ${position.color},8px 8px 10px -6px ${position.color}` }}>
                                                     <p>{position.symbol}</p>
                                                 </div>
                                                 <div className='flex flex-col justify-center items-center w-3/4 sm:w-2/3 gap-1'>
@@ -354,7 +354,7 @@ const ShopPage = ({ userId }: { userId: string }) => {
                                     <DrawerContent style={{ borderColor: position.color }} className={` h-[55%] sm:h-[40%] border-t-8 border-x-0 bg-slate-800`}>
                                         <DrawerHeader>
                                             <DrawerTitle className='text-white my-3'>Upgrade {position.label} to Level {userPosition && userPosition?.level + 1}?</DrawerTitle>
-                                            <div className={`p-2 rounded-md font-bold w-1/5 place-self-center text-center text-white h-[70px] flex justify-center items-center text-[23px] border-2 border-white`} style={{ backgroundColor: position.color, boxShadow: `-8px -8px 10px -6px ${position.color},-8px 8px 10px -6px ${position.color},8px -8px 10px -6px ${position.color},8px 8px 10px -6px ${position.color}` }}>
+                                            <div className={`p-2 rounded-md font-bold w-1/5 aspect-square place-self-center text-center text-white flex justify-center items-center text-[23px] border-2 border-white`} style={{ backgroundColor: position.color, boxShadow: `-8px -8px 10px -6px ${position.color},-8px 8px 10px -6px ${position.color},8px -8px 10px -6px ${position.color},8px 8px 10px -6px ${position.color}` }}>
                                                 <p>{position.symbol}</p>
                                             </div>
                                         </DrawerHeader>
