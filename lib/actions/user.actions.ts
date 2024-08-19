@@ -81,6 +81,12 @@ export async function getUserForPlayPage(id: string) {
     try {
         await connectToDatabase();
 
+        const count = await User.countDocuments({
+            type: 'User'
+        });
+
+        console.log(count)
+
         const user = await populateUsers(UserData.findOne({ User: id }))
 
         let nextAvailableMatch;

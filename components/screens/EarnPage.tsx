@@ -195,6 +195,7 @@ const EarnPage = ({ userId }: { userId: string }) => {
               <p className='font-bold text-white'>{saving ? `Saving...` : 'Save All Predictions'}</p>
             </div>
           </div>
+          <div className='w-full flex justify-center items-center mt-3 h-[200px]'/>
         </div>
       </ScrollArea>}
       {predictionData.length === 0 && <div style={{ height: 'calc(100vh - 130px)' }} className='flex justify-center items-center'>
