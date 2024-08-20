@@ -10,7 +10,7 @@ import Image from 'next/image'
 const InviteDialog = ({ userId, total, round }: { userId: string, total: number, round: number }) => {
 
     const calculateTimeLeft = () => {
-        const difference = +new Date('2024-08-31T12:00:00Z') - +new Date();
+        const difference = +new Date('2024-09-31T12:00:00Z') - +new Date();
         let timeLeft = {};
 
         if (difference > 0) {
@@ -44,7 +44,24 @@ const InviteDialog = ({ userId, total, round }: { userId: string, total: number,
 
     const copyLink = () => {
         const link = `https://t.me/football_titans_bot?start=${userId}`
-        navigator.clipboard.writeText(link)
+
+        const message = `
+🌟 𝗣𝗹𝗮𝘆 𝗙𝗼𝗼𝘁𝗯𝗮𝗹𝗹 𝗧𝗶𝘁𝗮𝗻𝘀! 🌟
+🏆 𝗪𝗶𝗻 𝗪𝗲𝗲𝗸𝗹𝘆 𝗮𝗻𝗱 𝗠𝗼𝗻𝘁𝗵𝗹𝘆 𝗣𝗿𝗶𝘇𝗲𝘀! 🏆
+Compete in games and predictions to win amazing prizes every week and month.
+💎 𝗘𝗮𝗿𝗻 𝟮𝟱𝟬 𝗗𝗶𝗮𝗺𝗼𝗻𝗱𝘀 𝗼𝗻 𝗦𝗶𝗴𝗻 𝗨𝗽! 💎
+For a limited time, get 250 Diamonds just for signing up! Use them to boost your team and unlock special icons!
+📊 𝗠𝗮𝗸𝗲 𝗣𝗿𝗲𝗱𝗶𝗰𝘁𝗶𝗼𝗻𝘀, 𝗘𝗮𝗿𝗻 𝗥𝗲𝘄𝗮𝗿𝗱𝘀! 📊
+Think you know how the match will play out? Make predictions and earn coins and points to move up the leaderboard!
+🚀 𝗗𝗼𝗻’𝘁 𝗠𝗶𝘀𝘀 𝗢𝘂𝘁! 🚀
+This is your chance to become a Football Titan! Take advantage of our special sign-up offer and start your journey to the top.
+
+
+**Join now: ${link}**
+`;
+
+
+        navigator.clipboard.writeText(message)
     }
 
     return (

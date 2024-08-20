@@ -61,7 +61,7 @@ const TopPage = ({ userId }: { userId: string }) => {
                 <ScrollBar orientation="horizontal" className='hidden' />
             </ScrollArea>
             <div className='flex flex-col h-full justify-center items-center flex-grow text-white text-[20px] font-semibold'>
-                Available Soon...
+                Rewards Coming Soon...
             </div>
             <div className='h-[120px] mt-auto' />
         </div>
