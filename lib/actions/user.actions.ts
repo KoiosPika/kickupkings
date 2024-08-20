@@ -603,7 +603,7 @@ export async function playGame(player1ID: string, player2ID: string, type: strin
                 await RoundData.findOneAndUpdate({ User: player2ID }, { '$inc': { played: 1, scored: score2 } })
 
             } else if (finalOutcome === 'Opponent Wins!') {
-                await UserData.findOneAndUpdate({ User: player1ID }, { '$inc': { played: 1, lost: 1, coins: coins / 3, scored: score1, conceded: score2 } })
+                await UserData.findOneAndUpdate({ User: player1ID }, { '$inc': { played: 1, lost: 1, coins: coins / 2, scored: score1, conceded: score2 } })
 
                 await RoundData.findOneAndUpdate({ User: player1ID }, { '$inc': { played: 1, scored: score1 } })
 
